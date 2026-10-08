@@ -93,6 +93,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** **T5 (handler 500): NOT charged.** Next: T6 (throw).
 - **2026-10-08:** **T4 (handler 400): NOT charged** (balances unchanged; 485 ms vs 1–3 s for paid 200s). This contradicts Bankr's agent and matches the docs. Lag re-check at T5. Next: T5.
 - **2026-10-08:** **T3 failed: blank 500, NOT charged** (2 charges for 3 calls since T1). Likely cause: the bundle's export form. Claude rebuilt the lib with a literal `export default async function handler` (build.sh rev 2, verified locally) and wrote BANKR-HANDOFF rev 3 (logs plus redeploy). Spent so far: $0.003 (T1, T2×2). The owner continues with the T4+ probe cases while the lib is redeployed.
 - **2026-10-08:** T2 re-run passed: Bun 1.3.14 on arm64, about 60 MB RSS, outbound fetch OK. **`x-402-payer` header present** (good for paying-wallet metrics). `x-forwarded-for` present (never log it). 3 paid calls used. Next: T3.

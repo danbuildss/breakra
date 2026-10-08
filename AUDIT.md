@@ -386,3 +386,5 @@ No decision is made until there's evidence.
 - **Implication for Phase 1, whatever the cause:** the production build must emit the same export form the working probe uses. A post-deploy smoke test is mandatory.
 
 **§16 update, T4 (2026-10-08): KEY RESULT.** A handler-returned **400 was not charged** (both balances unchanged). The fast 485 ms response, versus 1.1–3.4 s for settled 200s, is consistent with **settlement only after a successful response**. **This contradicts Bankr's agent ("all errors charged, no refund") and matches Bankr's docs.** Lag re-check pending at T5. If it holds, Breakra can reject invalid input with 4xx **at no cost to the caller**, which meets the brief's "don't charge for known-invalid requests" rule.
+
+**§16 update, T5:** a handler-returned **500 was also not charged** (balances unchanged; the T4 result was re-confirmed about 50 s later). A positive control (T7, which expects 2 charges) will rule out indexer lag.
