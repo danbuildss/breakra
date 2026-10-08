@@ -30,7 +30,9 @@
     {
       "includes": [
         "tests/**",
-        "scripts/bench.ts"
+        "scripts/bench.ts",
+        "scripts/lib/**",
+        "scripts/verify-live.ts"
       ],
       "linter": {
         "rules": {
