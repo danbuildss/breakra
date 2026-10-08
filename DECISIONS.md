@@ -128,5 +128,12 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - T-001 endpoints ship with **no npm dependencies**. The library test uses a pre-bundled single file (the D-015 model).
 - **D-016 is confirmed:** free discovery can't be a $0 Bankr route.
 
+## D-023 to D-026 — Proposed from T-001 evidence (AUDIT §17)
+**Status:** Proposed. They'll be approved together with Phase 1. **Date:** 2026-10-08.
+- **D-023, error semantics:** return **4xx for every invalid input** (free for the caller, verified). **Return 2xx only when the analysis is complete**, because 2xx is what triggers the charge. Never return 2xx with an error payload.
+- **D-024, limits:** request body **≤ 2 MB** (before + after combined), returning Breakra's own 413 JSON above that. Handler time budget **≤ 20 s** worst case. Nesting-depth and complexity caps are to be set by benchmark.
+- **D-025, packaging and deploy:** ship **one pre-bundled file** with **no npm dependencies**, ending in a literal `export default async function handler(req: Request)`. Deploy with the **Bankr CLI** (`bankr x402 deploy`), never by passing the file to Bankr's agent by URL. Run a paid post-deploy smoke test.
+- **D-026, metrics and privacy:** count unique and repeat paying wallets via the `x-402-payer` header. **Never log `x-forwarded-for`** or request bodies. Docs must not promise a payment receipt (Bankr sends none).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

@@ -442,3 +442,34 @@ All intra-session reads (07:59–08:08) showed failures uncharged. **T-001 concl
 - **v2 (redeployed by Bankr's agent) is also not byte-identical to our file.** It reports the file ends with `export default handler;`, whereas ours ends with `export default async function handler(req: Request) {…}`. Its fetch tool appears to transform large files.
 - **Conclusion:** large handler files must **not** be passed through Bankr's agent by URL. **Deploy with the Bankr CLI (`bankr x402 deploy <name>`)**, which uploads the local file verbatim (verified in CLI source: it reads `index.ts` and sends the raw text). Phase 3 must use the CLI path.
 - Next: test T3 against v2. If it fails, the owner redeploys the lib via the CLI and re-tests. Deletion (Message B) waits until then.
+
+---
+
+## 17. T-001 conclusion (2026-10-08)
+
+**Status: COMPLETE** (pending deletion of the two test endpoints, which the owner approved).
+**Total cost:** **0.016 USDC**: 16 on-chain charges of 0.001 (15 earlier plus T3 on v2), against the $0.05 authorization.
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Does payment reach the owner? | Yes, per call, within about 1 min, via `BankrFeeRouterV2` (`0x8AEE…01a0`) | Basescan `Settle And Split` list + balance reads |
+| **Are failed calls charged?** | **No. Only 2xx is charged.** 400, 500, an unhandled throw and a module load failure were all free | On-chain: no transfer for T3 v1, T4, T5, T6 or the T3 retest |
+| Retry / duplicate | Each new authorization is charged; no dedup | T7 |
+| Replay of a used payment | Rejected: `402 Payment already used` | T12 |
+| Fee | 0% so far (documented: free first 1,000 calls/month, then 5%) | Payout +1000 per charge (T1) |
+| Receipt to buyer | None. No `PAYMENT-RESPONSE` header | All paid calls |
+| Handler time | 25 s OK; platform overhead about 1–2.5 s; 30 s cap (not tested) | T8 |
+| Request body | ≤ 4 MB OK; 6 MB → 413 before payment (free) | T9 |
+| Memory | 128 MB allocation OK (RSS about 193 MB) | T10 |
+| Runtime | Bun 1.3.14, linux/arm64, outbound fetch allowed, `x-402-payer` header present | T2 |
+| Minimum price | $0.000001; $0 rejected | Deploy error |
+| npm deps installed by Bankr | Build failed | Probe rev 1 |
+| **Pre-bundled single file with api-smart-diff** | **Works** (98 ms handler time for a small diff) | T3 on v2 |
+| Deploying large files via Bankr's agent | **Unreliable**: the agent truncated or rewrote the file twice | Bankr's own admission + `getErrorMessage` ReferenceError |
+
+**Architecture decisions this evidence supports:** proposed as D-023 to D-026 and approved together with Phase 1.
+
+**Still open (not blocking Phase 1):**
+- Domain and trademark clearance for Breakra (owner).
+- Real-world diff speed on Bankr's arm64 for large specs (measured in Phase 1 or 3).
+- The origin of one unlogged successful call at about 08:23 UTC (harmless).
