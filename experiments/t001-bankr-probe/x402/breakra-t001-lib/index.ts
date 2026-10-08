@@ -1397,7 +1397,7 @@ var Sn = (e) => c(e) ? "openapi" in e && f(e.openapi) && /3.+/.test(e.openapi) ?
 var _n = (e, t, r = {}) => Sn(e)(e, t, r);
 
 // index.ts
-async function handler(_req) {
+async function __t001LibHandler(_req) {
   const started = Date.now();
   const spec = (extra) => ({
     openapi: "3.0.3",
@@ -1407,6 +1407,7 @@ async function handler(_req) {
   const r = _n(spec({}), spec({ "/b": { get: { responses: { "200": { description: "ok" } } } } }));
   return Response.json({ case: "lib", diffs: r.diffs.length, elapsed_ms: Date.now() - started });
 }
-export {
-  handler as default
-};
+
+export default async function handler(req: Request): Promise<Response> {
+  return __t001LibHandler(req);
+}

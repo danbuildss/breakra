@@ -378,3 +378,9 @@ No decision is made until there's evidence.
 - **Outbound fetch is allowed.** V0 still won't use it (D-014).
 - **`x-402-payer` is forwarded to the handler** (Bankr says it's router-set). That enables the "unique and repeat paying wallets" metrics in brief §14 without storing request bodies.
 - **`x-forwarded-for` (the caller's IP) is forwarded.** Breakra must not log it (privacy rule).
+
+**§16 update, T3 (2026-10-08):**
+- `breakra-t001-lib` returned a **blank 500** (no body, no content-type), the same as BankrBot issue #5. Our handler can't produce that: it always returns JSON. So the module most likely **failed to load or wasn't recognised**.
+- **It was not charged.** Balances show 2 charges for 3 calls (T2, T2 re-run, T3). This supports the docs and issue #5 ("settles only if the endpoint returns successfully"), at least for **platform-level** failures. **Handler-returned 4xx/5xx is still untested (T4–T5).**
+- **Leading hypothesis:** Bankr's wrapper needs the literal `export default async function handler` form, but the bundle ended in `export { handler as default }`. `build.sh` rev 2 emits the literal form. Logs and a redeploy have been requested (`BANKR-HANDOFF.md` rev 3).
+- **Implication for Phase 1, whatever the cause:** the production build must emit the same export form the working probe uses. A post-deploy smoke test is mandatory.
