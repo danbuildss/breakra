@@ -8,7 +8,9 @@
 
 ## Current status
 
-- **Repo:** `danbuildss/specshift` (owner-confirmed).
+- **Repo:** `danbuildss/specshift` (owner-confirmed; the owner's personal GitHub account).
+- **Company:** Somehow Internet is the owner's company and the product owner. It is not a GitHub org for this project.
+- **Name:** Specshift. "API Change Intelligence" was the original working name, dropped because it isn't brandable. The product is the same.
 
 - **Phase:** 0, the feasibility audit (per PLAN.md). **Not started. No production code exists.**
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
@@ -72,7 +74,7 @@
 ## Open questions / things to confirm later
 
 - ~~**Repository location.**~~ **Resolved 2026-10-08:** the canonical repo is **`danbuildss/specshift`**. This replaces `somehow-internet/specshift` from the brief and `somehow-internet/api-change-intelligence` from the earlier draft.
-- **Name and repo conflict between drafts.** The earlier draft in input #2 uses the name "API Change Intelligence" and the repo `somehow-internet/api-change-intelligence`. **Assumption:** the master brief supersedes it (Specshift, `specshift` repo). The earlier draft's file layout (e.g. `public/skill.md`, `core/diff.ts`) is also superseded by the master brief's tree.
+- ~~**Name and repo conflict between drafts.**~~ **Resolved 2026-10-08 by the owner:** "API Change Intelligence" was the original name, renamed to **Specshift** for brandability. The product definition is unchanged. The earlier draft's file layout (e.g. `public/skill.md`, `core/diff.ts`) is also superseded by the master brief's tree.
 - **License.** The earlier draft says "MIT licensed for original code", but the master brief says MIT is a candidate only. Going with the master brief: decide after the dependency review.
 - **Receiving wallet.** Use a dedicated wallet or an approved treasury wallet. Address not yet provided.
 - **Hosting choice.** Pending the audit. Bankr x402 Cloud is the owner's leaning, if it's technically compatible. Other candidates are Vercel, Cloudflare Workers or a small container. Not the Luca/Cori VPS. Verify the host's actual SDK and payment interface; don't design around assumptions.
@@ -83,6 +85,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner clarified three things. "API Change Intelligence" was renamed to Specshift for brandability, with the same product. Somehow Internet is the owner's company. The repo lives on the owner's personal account (`danbuildss`).
 - **2026-10-08:** Received input #3, the project workspace zip. Installed the 9 docs in the repo root unchanged (commit `588f7d2`). Then made minimal reconciliation edits:
   - CLAUDE.md startup step 0 now says read `notes.md` first.
   - README navigation lists `notes.md`.

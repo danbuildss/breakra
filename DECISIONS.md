@@ -38,5 +38,11 @@ Decisions are append-only. If superseded, add a new decision referencing the old
 **Decision:** The owner confirmed that the canonical repository is `danbuildss/specshift`. It already exists, so no repository needs creating.
 **Consequences:** Supersedes D-002. Project docs live in the repo root (not `docs/` as the master brief's tree suggested).
 
+## D-009 — Name origin and company/repo relationship
+**Status:** Accepted. **Date:** 2026-10-08.
+**Context:** An earlier draft called the product "API Change Intelligence".
+**Decision:** The owner renamed it to Specshift because the old name isn't brandable. The product scope is unchanged. Somehow Internet is the owner's company and owns the product. The code lives on the owner's personal GitHub account (`danbuildss/specshift`, see D-008).
+**Consequences:** Name-conflict clearance (D-001) still applies before public branding.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
