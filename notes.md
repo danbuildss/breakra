@@ -16,6 +16,7 @@
 | # | Date | What | Where |
 |---|------|------|-------|
 | 1 | 2026-10-08 | Specshift Master Product & Engineering Brief v1.0 | [Appendix A](#appendix-a--specshift-master-product--engineering-brief-v10) |
+| 2 | 2026-10-08 | Owner's cover document. It wraps the same master brief and adds: product decisions table, pre-start findings, owner checklist, build order, and an earlier "API Change Intelligence" draft with rules for Claude | [Appendix B](#appendix-b--owners-cover-document-input-2) |
 
 ## Key takeaways (summary of input #1)
 
@@ -30,17 +31,52 @@
 - **First real assignment (not started):** A feasibility audit (Brief §25). It needs to cover the diff engine, support matrix, API contract, classification rules, URL security, hosting, x402 integration, retry behaviour, licensing, cost per request, testing, repo setup, milestones, risks and the name conflict check.
 - **Success test:** A 14-day validation period after launch. Outcome is continue, revise or stop, based on real external paying wallets and repeat usage.
 
+## Key takeaways (new in input #2)
+
+- **Same master brief.** The brief inside input #2 matches Appendix A, so I didn't save it twice.
+- **Name is a working name.** The owner found a Python package named `specshift` on PyPI (published Sept 2026, linked to an existing GitHub repo). Use "Specshift" as the working name. Before any public branding, check conflicts, trademarks, domains and GitHub. *(Claude has not verified the PyPI finding yet.)*
+- **Diff engine:** Don't write one from scratch. OpenAPITools/openapi-diff is **Java**, so compare it against TypeScript alternatives before choosing.
+- **x402:** The official x402 Foundation SDK has TypeScript packages, including a Hono integration. Use the official implementation, not a custom payment protocol.
+- **Architecture:** Keep the comparison engine independent of payments, so the engine can be tested fully before x402 is wired in.
+- **Hard decisions already made:** separate GitHub repo (yes), backend before frontend (yes), dedicated VPS (no), database (not in V0), AI model (not in V0), one paid operation. No separate company or token for this, and it must not grow into another Luca, CORTX or MuseCourt.
+- **Agreed build order:**
+  1. Technical audit and specification.
+  2. GitHub repo and core backend, tested with real OpenAPI examples.
+  3. Payments and production deployment, with a real-money transaction and failure handling verified.
+  4. Agent docs and distribution: skill.md, openapi.json, examples, then recruit real callers.
+  5. Measure and decide.
+- **Detailed phase exit conditions (from the earlier draft):**
+  - Core: local tests pass on representative specs, no payments yet.
+  - Security: malicious inputs are rejected and failures return predictable errors.
+  - Payments: a real agent pays and gets a correct response.
+  - Agent integration: an unfamiliar agent can discover, pay for and use the endpoint without help.
+  - Distribution: track paying users, repeat calls, revenue, cost and support issues.
+- **Extra item for the audit:** identify the existing free alternatives and explain why an agent would pay for Specshift instead of running them locally.
+- **Biggest commercial weakness:** a deterministic OpenAPI diff is easy for an agent to reproduce locally. Treat V0 as a small paid-distribution experiment, not assumed recurring income. Repeat usage likely depends on CI or deployment workflows and agents that monitor many dependencies, so measure **repeat paying integrations**, not raw request counts.
+- **Frontend:** none until the endpoint works, agents can call it, and paid usage has been recorded. The V0 public surface is the README, `/skill.md`, `/openapi.json`, a working API URL and one example.
+- **Billing rule:** don't charge for requests already known to be invalid when the platform allows checking before payment. Document any settlement limitations that can't be avoided.
+
+## Owner checklist (from input #2, 0 of 5 done)
+
+- [ ] Confirm the GitHub organization and authorize creating the Specshift repository.
+- [ ] Choose or approve a dedicated Base USDC receiving wallet address.
+- [ ] Confirm whether Bankr x402 hosting is the preferred deployment platform.
+- [ ] Approve the $0.02 experimental price.
+- [ ] Approve the technical specification before implementation.
+
 ## Open questions / things to confirm later
 
 - **Repository location.** The brief proposes `somehow-internet/specshift`, but the actual working repo is `danbuildss/specshift`. Confirm which one is canonical.
-- **License.** MIT is a candidate only. Decide after the dependency review and the owner's preference.
+- **Name and repo conflict between drafts.** The earlier draft in input #2 uses the name "API Change Intelligence" and the repo `somehow-internet/api-change-intelligence`. **Assumption:** the master brief supersedes it (Specshift, `specshift` repo). The earlier draft's file layout (e.g. `public/skill.md`, `core/diff.ts`) is also superseded by the master brief's tree.
+- **License.** The earlier draft says "MIT licensed for original code", but the master brief says MIT is a candidate only. Going with the master brief: decide after the dependency review.
 - **Receiving wallet.** Use a dedicated wallet or an approved treasury wallet. Address not yet provided.
-- **Hosting choice.** Pending the audit. Candidates are Bankr x402, Vercel, Cloudflare Workers or a small container. Not the Luca/Cori VPS.
-- **Name conflicts.** Specshift name, package, domain and trademark checks have not been done yet.
+- **Hosting choice.** Pending the audit. Bankr x402 Cloud is the owner's leaning, if it's technically compatible. Other candidates are Vercel, Cloudflare Workers or a small container. Not the Luca/Cori VPS. Verify the host's actual SDK and payment interface; don't design around assumptions.
+- **Name conflicts.** Owner reports an existing PyPI `specshift` package. Claude still needs to verify that, plus npm, domains, trademarks and GitHub.
 
 ## Log
 
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
+- **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 
 ---
 
@@ -611,3 +647,174 @@ Check whether the name Specshift conflicts with existing projects, package names
 Present findings and recommended decisions for approval.
 
 **The goal is a working, reliable paid endpoint—not a large application.**
+
+---
+
+## Appendix B — Owner's cover document (input #2)
+
+*(Received 2026-10-08. This saves only the parts that are new. The master brief embedded in this document is identical to Appendix A and is not repeated.)*
+
+### B.1 Product decisions
+
+> We're locking in Specshift as a small, agent-native, pay-per-use API utility. Its job is to compare API specifications, identify contract changes, and tell coding agents what they need to review. The intention is not to build another full SaaS product. It's to ship one reliable capability that other agents can pay to invoke through x402.
+
+| Decision          | Direction                                                 |
+| ----------------- | --------------------------------------------------------- |
+| Name              | Specshift                                                 |
+| Category          | API contract change intelligence                          |
+| Primary customer  | Coding agents and developers maintaining API integrations |
+| Business model    | Pay per analysis via x402                                 |
+| Initial price     | $0.02 USDC, experimental                                  |
+| Blockchain        | Base initially                                            |
+| Backend           | TypeScript / Node.js                                      |
+| Primary operation | `POST /v1/analyze`                                        |
+| Frontend          | None in V0                                                |
+| Database          | None in V0                                                |
+| LLM               | None in V0                                                |
+| Hosting           | Lightweight serverless or x402-compatible host            |
+| GitHub            | Separate public repository                                |
+| Parent            | Somehow Internet                                          |
+| Launch strategy   | Backend → payments → agent documentation → distribution   |
+
+Key promise: *"Give Specshift two API contracts. It returns what changed, which changes may break integrations, and the evidence behind each finding."*
+
+Specshift V0 compares two supplied versions. It does not continuously monitor APIs or automatically discover old versions, because that would require storage, scheduling and a larger service.
+
+### B.2 Findings before starting (owner-reported, not yet verified by Claude)
+
+- **Name:** A Python package named `specshift` was published on PyPI in September 2026 and links to an existing GitHub repository. That doesn't automatically prevent us from using the name, but we shouldn't assume we own it exclusively. Check naming conflicts, trademarks, domains and GitHub availability before public branding. Use Specshift as the working name meanwhile.
+- **Diff engine:** Don't write our own from scratch. OpenAPITools/openapi-diff already compares OpenAPI specs and reports compatibility changes (parameters, responses, operations). It's Java-based, so compare it against suitable TypeScript alternatives before selecting.
+- **Payments:** The official x402 Foundation SDK has TypeScript packages, including a Hono integration, and the protocol supports accountless HTTP micropayments. Use the official implementation where practical.
+- **Architecture recommendation:** Keep the comparison engine independent of payment infrastructure, so the actual utility can be tested thoroughly before x402 is connected.
+
+### B.3 Owner setup checklist
+
+Owner-level details Claude can't safely decide:
+
+1. Confirm the GitHub organization and authorize creation of the Specshift repository.
+2. Choose or approve a dedicated Base USDC receiving wallet address.
+3. Confirm whether Bankr x402 hosting is the preferred deployment platform.
+4. Approve the $0.02 experimental price.
+5. Approve the technical specification before implementation.
+
+### B.4 Order to follow
+
+1. **Technical audit and specification (first).** Confirm the diff engine, x402 integration, hosting and security approach before committing to an architecture.
+2. **GitHub and core backend.** Create the repository, implement contract comparison and test with real OpenAPI examples.
+3. **Payments and production deployment.** Verify a complete real-money transaction, including failure handling.
+4. **Agent documentation and distribution.** Publish the skill, API specification and examples, then recruit real callers.
+5. **Measure and decide.** Determine whether anyone pays repeatedly before expanding the scope.
+
+> Commercial warning: The most difficult part of Specshift is not writing the backend. It's convincing agents to pay for OpenAPI comparisons when free tools already exist. That's why we're keeping the implementation small and making the launch experiment measurable.
+
+> Have Claude return the technical audit and proposed architecture before it writes production code.
+
+> Backend first, frontend later. Don't build a frontend until the endpoint works, agents can call it, and we've recorded actual paid usage. Give it its own GitHub repository, but not its own company, token, or complicated product identity. We're building one small paid utility, not another Luca, CORTX, or MuseCourt.
+
+### B.5 Earlier draft: "API Change Intelligence" (superseded naming, kept for context)
+
+**Concept:** One API endpoint that tells coding agents what changed in API documentation and whether they need to update their integrations. Backend-first, TypeScript, x402 payments. `POST /v1/analyze`, $0.02 per successful analysis.
+
+The agent submits a spec or documentation snapshot and gets back: what changed, which endpoints or parameters were affected, whether the change is potentially breaking, what evidence supports that, and what to review. This is not a general website scraper.
+
+**Repo in this draft:** `somehow-internet/api-change-intelligence`, public, "MIT licensed for original code". It must not live inside the CORTX repository, because the two have different purposes, release cycles and security boundaries.
+
+**Design choice:** V1 accepts two OpenAPI specs or structured snapshots rather than scraping arbitrary documentation pages, because comparing structured contracts is far more reliable than guessing meaning from HTML. URL fetching can be added once the core comparison is proven.
+
+**Example response from the draft** (illustrative only; a removed parameter isn't automatically breaking in every context, and the classifier must apply explicit rules):
+
+```json
+{
+  "status": "success",
+  "summary": { "added": 2, "removed": 1, "modified": 3, "potentially_breaking": 2 },
+  "changes": [
+    {
+      "type": "removed_parameter",
+      "method": "POST",
+      "path": "/v1/payments",
+      "parameter": "wallet_address",
+      "severity": "breaking",
+      "evidence": { "before": "required", "after": "removed" }
+    }
+  ],
+  "recommended_action": "review_integration"
+}
+```
+
+**Stack table from the draft:**
+
+| Layer | Choice | Reason |
+|---|---|---|
+| Language | TypeScript | Simple, familiar agent tooling |
+| Runtime | Node.js LTS | Good library ecosystem |
+| Framework | Hono or lightweight HTTP handler | Minimal API overhead |
+| Contract parsing | OpenAPI parser | Structured input validation |
+| Comparison | OpenAPI-aware diff engine | Avoid reinventing compatibility rules |
+| Payments | x402 via chosen host | Pay-per-call |
+| Hosting | Bankr x402 Cloud, if supported | Avoid managing another VPS |
+| Database | None initially | Stateless comparisons |
+| Tests | Vitest | Unit and integration testing |
+| CI | GitHub Actions | Automated checks |
+| Monitoring | Structured logs + basic usage metrics | Cost and failure visibility |
+
+First verify the exact deployment and payment interface the chosen host supports. Don't design around assumptions about its SDK.
+
+**Draft file layout** (superseded by the Appendix A tree): `src/{index.ts, routes/{analyze,health}.ts, core/{parser,normalize,diff,classify,response}.ts, security/url-policy.ts, types/analysis.ts}`, `tests/{parser,diff,classify,security}.test.ts`, `examples/{before,after}.json`, `public/{skill.md,openapi.json}`, `README.md`, `PLAN.md`, `package.json`, `tsconfig.json`, `.env.example`, `.github/workflows/ci.yml`. Keep it deliberately small, with no multi-service architecture.
+
+**Development phases and exit conditions:**
+
+1. **Core backend.** A deterministic OpenAPI comparison covering added and removed endpoints, changed request and response schemas, auth changes and parameter changes. *Exit:* local tests pass against representative OpenAPI examples. No payments yet.
+2. **Security and reliability.** URL validation, SSRF protection, timeouts, size limits, request validation, concurrency limits and clear errors. *Exit:* malicious inputs are rejected and ordinary failures return predictable errors.
+3. **x402 payments.** Connect to the selected payment host. Confirm settlement, replay handling and how failed analyses are billed. *Exit:* a real agent can pay and receive a correct response.
+4. **Agent integration.** Publish `/skill.md`, `/openapi.json`, docs and examples. Test an agent calling from a clean environment. *Exit:* an unfamiliar agent can discover, pay for and use the API without manual guidance.
+5. **Distribution and measurement.** Publish real before/after examples, list in directories and approach developers who maintain integrations. *Exit:* track independent paying users, repeat calls, gross revenue, operating cost and support issues.
+
+**How it earns:** Monthly profit = (paid calls × net revenue per call) − fixed operating costs. For example, 1,000 paid calls/day at $0.02 is $600 gross over 30 days, but reaching that traffic is the hard part. A two-spec comparison may only be called when an integration is updated, so repeat usage depends on agents monitoring many dependencies or running comparisons in CI and deployment. **Measure repeat paying integrations, not just request counts.**
+
+**Frontend:** no dashboard, landing page, login, account system or visual diff UI in V0. The public experience is the GitHub README, `/skill.md`, `/openapi.json`, a working API URL and one example request and response. A frontend is worthwhile only if developers repeatedly ask to try it visually or a demo page materially improves adoption.
+
+### B.6 Engineering instructions for Claude/Codex (from the earlier draft)
+
+Objective: Given two OpenAPI specifications, return a deterministic, structured report describing contract changes and potential compatibility risks. Small, secure, reliable, easy for agents to invoke.
+
+**Permanent rules:**
+
+1. Backend first. No frontend until the paid endpoint is working and external usage justifies one.
+2. One primary paid operation: `POST /v1/analyze`.
+3. No database unless a demonstrated requirement emerges.
+4. No LLM in V0. Use deterministic OpenAPI parsing and compatibility rules.
+5. Reuse mature open-source libraries where licensing and technical fit permit.
+6. Avoid implementing a general-purpose web crawler.
+7. All remote URL fetching must enforce SSRF protection, DNS/IP validation, redirect checks, timeouts and response-size limits.
+8. Every compatibility classification must be explainable and backed by before/after evidence.
+9. Do not invent breaking changes or claim certainty where compatibility cannot be determined.
+10. Invalid inputs and internal failures must produce explicit error responses.
+11. Do not charge users for known-invalid requests where the payment platform allows preflight validation. Document unavoidable settlement limitations.
+12. Keep payment logic separate from the core analysis engine.
+13. Never commit private keys or secrets.
+14. Preserve a clear distinction between free metadata endpoints and the paid analysis endpoint.
+15. Track external paid usage and operating costs without unnecessarily retaining sensitive request content.
+
+**Build sequence:**
+
+1. Audit OpenAPI diff libraries and choose an engine.
+2. Implement parsing, normalization, comparison, classification and JSON response generation.
+3. Add tests, input security and failure handling.
+4. Integrate the x402 host and test the real payment flow.
+5. Publish agent discovery docs and a working example.
+6. Run a limited distribution experiment and measure paid usage.
+
+**First task:** Don't write production code. Prepare a concise technical specification covering the recommended diff library, licensing, input and output contracts, compatibility rules, hosting and payment integration, security model, tests, deployment and realistic cost per request. **Identify existing free alternatives and explain why an agent would pay for this endpoint instead of running them locally.** Wait for approval before implementation.
+
+### B.7 Decisions stated now
+
+| Question | Decision |
+|---|---|
+| Separate GitHub repository | Yes |
+| Backend before frontend | Yes |
+| Dedicated VPS | No |
+| Database | Not for V0 |
+| AI model | Not necessary initially |
+| Initial paid operations | One |
+
+> A deterministic OpenAPI diff is easy for coding agents to reproduce locally. That's the biggest commercial weakness. Treat V0 as a small paid-distribution experiment, not assumed recurring income. If buyers repeatedly use it, consider managed historical snapshots or higher-value semantic analysis, but only as responses to observed demand. The first action is to approve the backend specification, not build a website.
