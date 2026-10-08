@@ -1,0 +1,190 @@
+{
+ "openapi": "3.0.3",
+ "info": {
+  "title": "Bake",
+  "version": "2.0.0"
+ },
+ "components": {
+  "securitySchemes": {
+   "bearer": {
+    "type": "http",
+    "scheme": "bearer"
+   }
+  },
+  "schemas": {
+   "User": {
+    "type": "object",
+    "required": [
+     "id"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "nickname": {
+      "type": "string"
+     }
+    }
+   },
+   "Order": {
+    "type": "object",
+    "properties": {
+     "qty": {
+      "type": "string"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "a",
+       "b"
+      ]
+     },
+     "note": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "note"
+    ]
+   },
+   "OrderOut": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "enum": [
+       "a",
+       "b",
+       "c",
+       "d"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "paths": {
+  "/users": {
+   "get": {
+    "description": "List all users",
+    "parameters": [
+     {
+      "name": "region",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/users/{id}": {
+   "get": {
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/User"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/orders": {
+   "post": {
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Order"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "c"
+     }
+    }
+   }
+  },
+  "/orders/{id}": {
+   "get": {
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/OrderOut"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/reports": {
+   "get": {
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    },
+    "security": [
+     {
+      "bearer": []
+     }
+    ]
+   }
+  },
+  "/status": {
+   "get": {
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  }
+ }
+}
