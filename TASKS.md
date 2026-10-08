@@ -20,7 +20,7 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-None. First task: feasibility audit, **no production code**.
+**T-000 — Phase 0 feasibility audit** (approved 2026-10-08, D-012). Research and documentation only; **no production code**.
 
 ## Task record template
 ID | Phase | Goal | Acceptance criteria | Owner approval | Branch/PR | Tests/evidence | Status | Follow-up.

@@ -12,10 +12,10 @@
 - **Company:** Somehow Internet is the owner's company and the product owner. It is not a GitHub org for this project.
 - **Name:** Specshift. "API Change Intelligence" was the original working name, dropped because it isn't brandable. The product is the same.
 
-- **Phase:** 0, the feasibility audit (per PLAN.md). **Not started. No production code exists.**
+- **Phase:** 0, the feasibility audit (per PLAN.md). **Approved and in progress (D-012). No production code exists.**
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** Phase 0 feasibility audit (TASKS.md backlog). Waiting for the owner's go-ahead.
-- **Waiting on:** Owner approval to start Phase 0, plus any more inputs.
+- **Next step:** Finish the Phase 0 audit and present it for approval.
+- **Waiting on:** Owner's receiving wallet address(es).
 
 ## Inputs received
 
@@ -63,12 +63,12 @@
 - **Frontend:** none until the endpoint works, agents can call it, and paid usage has been recorded. The V0 public surface is the README, `/skill.md`, `/openapi.json`, a working API URL and one example.
 - **Billing rule:** don't charge for requests already known to be invalid when the platform allows checking before payment. Document any settlement limitations that can't be avoided.
 
-## Owner checklist (from input #2, 1 of 5 done)
+## Owner checklist (from input #2, 3 of 5 done)
 
 - [x] Confirm the GitHub organization and authorize creating the Specshift repository. **Decided 2026-10-08: `danbuildss/specshift` (this repo).**
-- [ ] Choose or approve a dedicated Base USDC receiving wallet address.
-- [ ] Confirm whether Bankr x402 hosting is the preferred deployment platform.
-- [ ] Approve the $0.02 experimental price.
+- [ ] Choose or approve a dedicated Base USDC receiving wallet address. *Owner will send it.*
+- [x] Confirm whether Bankr x402 hosting is the preferred deployment platform. **Yes: Bankr is the host (D-010).**
+- [x] Approve the $0.02 experimental price. **Approved (D-011).**
 - [ ] Approve the technical specification before implementation.
 
 ## Open questions / things to confirm later
@@ -85,6 +85,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner decided three things. Bankr is the host (D-010). The $0.02 price is approved (D-011). Phase 0 is approved to start (D-012). Wallet addresses will follow.
 - **2026-10-08:** Owner clarified three things. "API Change Intelligence" was renamed to Specshift for brandability, with the same product. Somehow Internet is the owner's company. The repo lives on the owner's personal account (`danbuildss`).
 - **2026-10-08:** Received input #3, the project workspace zip. Installed the 9 docs in the repo root unchanged (commit `588f7d2`). Then made minimal reconciliation edits:
   - CLAUDE.md startup step 0 now says read `notes.md` first.

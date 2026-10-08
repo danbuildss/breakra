@@ -44,5 +44,19 @@ Decisions are append-only. If superseded, add a new decision referencing the old
 **Decision:** The owner renamed it to Specshift because the old name isn't brandable. The product scope is unchanged. Somehow Internet is the owner's company and owns the product. The code lives on the owner's personal GitHub account (`danbuildss/specshift`, see D-008).
 **Consequences:** Name-conflict clearance (D-001) still applies before public branding.
 
+## D-010 — Host is Bankr
+**Status:** Accepted (owner decision). **Date:** 2026-10-08.
+**Decision:** Specshift will be deployed on Bankr's x402 hosting.
+**Consequences:** Phase 0 must verify Bankr's actual runtime, x402 SDK/facilitator, limits and settlement semantics, and design around them. If a hard incompatibility is found, report it to the owner rather than silently switching hosts.
+
+## D-011 — Price approved at $0.02
+**Status:** Accepted (owner decision). **Date:** 2026-10-08. Supersedes the "proposed" status of D-006.
+**Decision:** $0.02 USDC per successful analysis on Base.
+
+## D-012 — Phase 0 approved
+**Status:** Accepted. **Date:** 2026-10-08.
+**Decision:** The owner approved starting the Phase 0 feasibility audit. It is research and documentation only: no production code, infrastructure or deployment.
+**Pending from owner:** Receiving wallet address(es). The owner will send them.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
