@@ -56,6 +56,25 @@
 | 2026-10-08 | **T0** unpaid 402 | `bun t001.ts T0` (owner) | 402, valid v2 requirements, amount 1000, **payTo `0x8AEE…01a0` ≠ payout wallet** | Owner-pasted output | Payment (blocked pending approval) |
 | 2026-10-08 | Burner funding | Balance read | 0.04 USDC on Base | Portfolio read | — |
 
+## Phase 1 results (2026-10-08, local and CI-equivalent run)
+
+| Check | Command | Result |
+|---|---|---|
+| Install | `bun install --frozen-lockfile` | ✅ |
+| Typecheck | `bun run typecheck` | ✅ |
+| Lint | `bun run lint` (Biome) | ✅ |
+| Unit/integration tests | `bun run test` (Vitest) | ✅ **65/65**: validation and limits (18), rules (34), bake-off and determinism (7), handler and response bounds (6) |
+| Build | `bun run build` | ✅ one file, about 137 KB, no imports, literal default export |
+| Smoke (built file) | `bun run smoke` on Bun 1.4.2 **and** Bun 1.3.14 | ✅ both |
+| Oracle | `bun run oracle` (oasdiff v1.33.0) | ✅ 26 pairs, 21 operation verdicts, 3 documented differences (Breakra stricter) |
+| Benchmarks | `bun scripts/bench.ts` | See BENCHMARKS.md. Real 1 MB+1 MB pair about 1.7 s; worst accepted ref bomb about 0.25 s / 156 MB |
+
+**Not tested in Phase 1:**
+- anything on Bankr (Phase 3);
+- arm64 timing and memory;
+- real paid calls at $0.02;
+- the GitHub Actions run itself (the workflow will first run on the Phase 1 PR).
+
 ## Reporting format
 Date | Commit/PR | Command | Result | Evidence | Not tested | Known risks.
 

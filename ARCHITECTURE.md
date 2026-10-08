@@ -1,5 +1,68 @@
 # Breakra — Technical Architecture
 
+**As built in Phase 1 (2026-10-08).** Decisions: D-013 to D-017 (via D-020), D-023 to D-026, D-028. The original Phase 0 proposal is kept at the bottom for history.
+
+## Request flow (Bankr x402 Cloud)
+
+```
+Agent ── POST ──▶ x402.bankr.bot/<wallet>/breakra-analyze
+                   │  Bankr: 402 challenge → verify signed USDC authorization (Base)
+                   ▼
+            handler(req)  [dist/x402/breakra-analyze/index.ts: one self-contained file]
+                   │  parse body (≤2 MB) → validate both specs (3.0.0–3.0.4, structure, local $refs)
+                   │  → bound work (depth, nodes, operations, $ref expansion) BEFORE diffing
+                   │  → canonicalize (sorted keys) → sha256 input hashes
+                   │  → api-smart-diff 1.0.6 (raw changes only)
+                   │  → Breakra rule set 0.1.0 (classification, direction, evidence, action)
+                   │  → sort, de-duplicate, bound (500 changes, 1,000-char evidence)
+                   ▼
+            2xx only on complete analysis ──▶ Bankr settles via BankrFeeRouterV2 → owner wallet
+            4xx/5xx on any failure       ──▶ Bankr does NOT settle (verified on-chain, T-001)
+```
+
+## Source layout
+
+| Path | Responsibility |
+|---|---|
+| `src/index.ts` | Bankr handler: literal `export default async function handler(req)`. Maps errors to statuses and writes one privacy-safe log line. |
+| `src/analyze.ts` | Pure pipeline: validate → canonicalize → hash → compare → classify → format. |
+| `src/core/validate.ts` | Request parsing, OpenAPI 3.0.x structural checks, $ref inventory, depth/node/operation caps, expanded-size (ref-bomb) guard. |
+| `src/core/limits.ts` | All bounds (calibrated in BENCHMARKS.md). |
+| `src/core/compare.ts` | The only module that imports api-smart-diff. Its labels are discarded. |
+| `src/core/classify.ts` | Rule set 0.1.0 (RULES.md). |
+| `src/core/format.ts` | Deterministic ordering, ids, summary, output bounds. |
+| `src/core/canonical.ts` | Canonical JSON and Web Crypto SHA-256 (no imports in the bundle). |
+| `src/core/errors.ts` | Error codes → HTTP statuses (all non-2xx). |
+| `scripts/build.ts` | Bundles to one file with no imports and the literal export; writes `dist/bankr.x402.json`. |
+| `scripts/smoke.ts` | Runs the built artefact (CI runs it under Bun 1.4.2 **and** Bankr's 1.3.14). |
+| `scripts/oracle.ts` | Cross-checks verdicts against oasdiff v1.33.0. |
+| `scripts/bench.ts` | Manual benchmark on real GitHub API slices. |
+
+## Contract
+See `docs/API.md` (request, response, errors) and `RULES.md` (classification). Every field except `metadata.duration_ms` is deterministic.
+
+## Security invariants (as implemented)
+- Specs are data. No code execution. **No network access**: external `$ref`s are never fetched (a test stubs `fetch` to fail if touched).
+- Inline input only (D-014). There is no URL mode, so there's no SSRF surface.
+- All work is bounded before the synchronous diff runs. **$ref amplification is rejected** using an expanded-size estimate (`SPEC_TOO_COMPLEX`, free).
+- Errors never echo input or internals. Unexpected failures return a sanitized 500 (free for the caller).
+- Logs: one JSON line per request (outcome, status, code, size, change count, duration, `x-402-payer`). **Never** the body or `x-forwarded-for` (D-026).
+
+## Payment invariants (verified in T-001)
+- Bankr verifies and settles. Breakra holds no keys and has no payment code (D-017).
+- **Only 2xx is charged**, so the handler returns 2xx only for a complete analysis (D-023).
+- Payments go through `BankrFeeRouterV2` (`0x8AEE…01a0`) and are split per call to the owner's wallet (5% fee after the free tier).
+
+## Deployment (Phase 3, not yet done)
+`bun run build`, then deploy `dist/` with the **Bankr CLI** (`bankr x402 deploy breakra-analyze`), never via Bankr's agent (D-025). Then make a paid smoke call. Requires owner approval.
+
+## Deferred architecture
+Snapshots, schedulers, dashboard, MCP, URL mode, YAML, OpenAPI 3.1, semantic HTML extraction and LLM all require separate owner approval.
+
+---
+
+## Original Phase 0 proposal (superseded; kept for history)
+
 ## Intended request flow
 Agent → HTTP input validation → x402 authorization/settlement integration → OpenAPI parser/normalizer → diff/compatibility rules → evidence-backed JSON response. **Exact payment-before/after-execution sequence depends on verified SDK/host behavior**; document before implementation.
 

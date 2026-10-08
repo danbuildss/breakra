@@ -22,7 +22,9 @@
 ## Active task
 **T-001 — Bankr platform probe: COMPLETE** (AUDIT §17; cost 0.016 USDC). Both test endpoints **deleted** (Bankr's agent, 2026-10-08; verified by Claude: the schema API returns "Endpoint not found" for both).
 
-**ACTIVE: Phase 1, core engine** (approved D-027). Plan: `PHASE-1-PLAN.md`, tasks T-101 to T-108.
+**Phase 1, core engine: COMPLETE** (2026-10-08). T-101 to T-108 done. Evidence: TESTING.md (65 tests, oracle, smoke on Bun 1.3.14), BENCHMARKS.md. Delivered as a PR to `main`.
+
+**Next (needs owner approval):** Phase 2 hardening and Phase 3 deployment. Much of Phase 2 (limits, errors, security tests) was already done in Phase 1; see the end-of-phase report.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

@@ -143,7 +143,7 @@ function scan(
  * Size of the document if every local $ref were inlined, computed without inlining
  * (memoized per node; a $ref cycle counts once). Rejects "ref bombs" before the diff runs.
  */
-function expandedSize(spec: JsonObject, side: "before" | "after"): number {
+export function expandedSize(spec: JsonObject, side: "before" | "after"): number {
   const memo = new Map<object, number>();
   const inProgress = new Set<object>();
   const sizeOf = (node: Json): number => {

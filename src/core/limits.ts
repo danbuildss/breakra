@@ -12,12 +12,17 @@ export const LIMITS = {
   /** Maximum number of operations (path + method) in either document. */
   maxOperations: 5_000,
   /**
-   * Maximum JSON nodes after expanding local $refs. Guards against "ref bombs": a ~2 KB document
-   * with 16 levels of doubled $refs yields ~200k raw diffs (measured in Phase 1 exploration).
+   * Maximum JSON nodes after expanding local $refs. Guards against "ref bombs": a ~2 KB document with
+   * 16 levels of doubled $refs yields ~200k raw diffs. Calibrated in BENCHMARKS.md: real GitHub API
+   * slices at the 2 MB body cap expand to ~135k nodes; the worst accepted synthetic bomb stays ~200 MB RSS.
    */
-  maxExpandedNodes: 1_500_000,
-  /** Maximum changes returned; the rest are counted and reported as a limitation. */
-  maxChanges: 1_000,
-  /** Maximum serialized size of each evidence value. */
-  maxEvidenceChars: 2_000,
+  maxExpandedNodes: 400_000,
+  /**
+   * Maximum changes listed; the rest are counted in the summary and reported as a limitation.
+   * Together with maxEvidenceChars this bounds the response to ~1.5 MB, well under the ~6 MB
+   * response limit of Bankr's Lambda-backed runtime.
+   */
+  maxChanges: 500,
+  /** Maximum serialized size of each evidence value (before/after). */
+  maxEvidenceChars: 1_000,
 } as const;

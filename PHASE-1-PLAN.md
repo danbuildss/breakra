@@ -1,6 +1,6 @@
 # Phase 1 — Core Engine: Plan for Approval
 
-**Status:** APPROVED (D-027, 2026-10-08). In progress.
+**Status:** COMPLETE (2026-10-08). All tasks T-101 to T-108 are done; acceptance criteria are met locally (see TESTING.md). It awaits the owner's review and merge, and the first GitHub Actions run on the PR.
 **Approving this plan also approves D-023 to D-026** (DECISIONS.md).
 **Goal:** a correct, deterministic, well-tested Breakra engine and a single-file Bankr-ready handler, **built and verified locally and in CI**.
 **Not in Phase 1:** payments, deployment, spending, publishing, URL mode, YAML, OpenAPI 3.1.

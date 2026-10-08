@@ -85,3 +85,27 @@ describe("handler", () => {
     }
   });
 });
+
+describe("response size is bounded", () => {
+  it("lists at most maxChanges, keeps full counts, and truncates large evidence", async () => {
+    const { LIMITS } = await import("../src/core/limits");
+    const before = baseSpec();
+    const after = clone(before);
+    const big = { type: "object", description: "x".repeat(2_000) };
+    for (let i = 0; i < LIMITS.maxChanges + 50; i++) {
+      after.paths[`/generated/${String(i).padStart(4, "0")}`] = {
+        get: {
+          responses: { "200": { description: "ok", content: { "application/json": { schema: big } } } },
+        },
+      };
+    }
+    const r = await post({ before, after });
+    expect(r.status).toBe(200);
+    expect(r.json.changes).toHaveLength(LIMITS.maxChanges);
+    expect(r.json.summary.total_changes).toBe(LIMITS.maxChanges + 50);
+    expect(r.json.metadata.changes_omitted).toBe(50);
+    expect(r.json.limitations.join(" ")).toMatch(/most severe/);
+    expect(r.json.changes[0].evidence.truncated).toBe(true);
+    expect(JSON.stringify(r.json).length).toBeLessThan(2_000_000);
+  });
+});

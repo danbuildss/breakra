@@ -1,0 +1,20 @@
+[
+  {
+    "case": "bakeoff-14",
+    "operation": "GET /reports",
+    "flaggedBy": "breakra",
+    "reason": "Authentication added to a previously open operation. oasdiff (v1.33.0) reports api-security-added at INFO; Breakra classifies authentication changes as potentially_breaking per the master brief §10 (unauthenticated callers may be rejected)."
+  },
+  {
+    "case": "operation-security-added",
+    "operation": "GET /users",
+    "flaggedBy": "breakra",
+    "reason": "Same as bakeoff-14 GET /reports: authentication added is potentially_breaking in Breakra, INFO in oasdiff."
+  },
+  {
+    "case": "response-property-removed",
+    "operation": "GET /users",
+    "flaggedBy": "breakra",
+    "reason": "Optional response property removed. oasdiff reports response-optional-property-removed at INFO; Breakra classifies removing any response field as potentially_breaking per the master brief §10 (consumers that read it may break)."
+  }
+]

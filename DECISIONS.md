@@ -139,5 +139,16 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 **Status:** Accepted (owner: "Approve"). **Date:** 2026-10-08.
 **Decision:** Execute `PHASE-1-PLAN.md` (T-101 to T-108). D-023 to D-026 are accepted. There's no payment, deployment or spend in Phase 1. It's delivered as one PR to `main` for owner review.
 
+## D-028 — Phase 1 implementation choices
+**Status:** Accepted under D-027's Phase 1 authority (no scope, contract or spend change; reported to the owner in the Phase 1 PR). **Date:** 2026-10-08.
+1. **Limits calibrated** (BENCHMARKS.md):
+   - `maxExpandedNodes` lowered from 1.5 M to **400 k**. A ref bomb under the old cap used 430 MB RSS; real specs at the 2 MB cap expand to about 135 k.
+   - Response bounded to **500 listed changes** and **1,000-char evidence values** (Lambda's ~6 MB response limit).
+2. **Ref-bomb guard:** an expanded-size estimate runs before the diff, because a 2 KB spec produced about 200 k diffs in the raw library.
+3. **Classification principle:** request narrowing / response widening (RULES.md). The library's labels are discarded entirely.
+4. **Toolchain:** Bun 1.4.2 builds (lockfile v2). CI smoke-tests the built file under **Bun 1.3.14** (Bankr's runtime), because Bun 1.3.14 can't read lockfile v2. Vitest, Biome and TypeScript 5.9 are pinned exactly.
+5. **oasdiff v1.33.0** is the CI oracle. 3 documented differences, where Breakra is stricter per brief §10.
+6. **Dangling local `$ref`s** are rejected (422, free) rather than reported as unknown.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
