@@ -1,0 +1,45 @@
+{
+  "network": "base",
+  "currency": "USDC",
+  "services": {
+    "breakra-t001-probe": {
+      "price": "0.001",
+      "currency": "USDC",
+      "network": "base",
+      "paymentScheme": "exact",
+      "description": "DISPOSABLE T-001 platform probe. Not a product. Do not use.",
+      "schema": {
+        "input": {
+          "type": "object",
+          "properties": {
+            "case": {
+              "type": "string",
+              "description": "Probe case: ok|bad|err|throw|sleep|size|mem|lib|env"
+            }
+          },
+          "required": [
+            "case"
+          ]
+        },
+        "output": {
+          "type": "object",
+          "properties": {
+            "case": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "breakra-t001-lib": {
+      "price": "0.001",
+      "currency": "USDC",
+      "network": "base",
+      "paymentScheme": "exact",
+      "methods": [
+        "GET"
+      ],
+      "description": "DISPOSABLE T-001 probe: pre-bundled library test. Not a product. Do not use."
+    }
+  }
+}
