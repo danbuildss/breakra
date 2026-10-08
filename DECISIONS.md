@@ -91,7 +91,7 @@ PyPI `specshift` (Lethe044, Aug–Sep 2026) is an OpenAPI breaking-change detect
 - **Public materials:** no "Built by Somehow" or similar attribution unless the owner explicitly approves it.
 - **Repo changes:** no repo rename, transfer or creation without first showing the exact proposed GitHub change and getting approval.
 **Conflict noted:** The owner's same message also contained an older brief text naming "Parent organization: Somehow Internet" and `somehow-internet/breakra`. The owner's explicit correction overrides it (per CLAUDE.md precedence).
-**Observed 2026-10-08 (not acted on):** The session remote is `github.com/danbuildss/specshift`. `git ls-remote https://github.com/danbuildss/breakra` returns the **same HEAD SHA** (`141011b`), while a nonexistent repo name fails. This suggests the repository may **already have been renamed** to `breakra` on GitHub, with the old name redirecting. Claude did not rename anything. The owner should confirm.
+**Observed 2026-10-08 (not acted on):** **Verified:** the git push of `d00fcde` returned `This repository moved. Please use the new location: https://github.com/danbuildss/breakra.git`. **The rename to `danbuildss/breakra` has already happened on GitHub** (not by Claude). Earlier signal: The session remote is `github.com/danbuildss/specshift`. `git ls-remote https://github.com/danbuildss/breakra` returns the **same HEAD SHA** (`141011b`), while a nonexistent repo name fails. This suggests the repository may **already have been renamed** to `breakra` on GitHub, with the old name redirecting. Claude did not rename anything. The owner should confirm.
 
 ## D-020 — Phase 0 architecture approved (D-013 to D-017)
 **Status:** Accepted (owner decision). **Date:** 2026-10-08.

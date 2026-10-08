@@ -10,7 +10,7 @@
 
 ## Current status
 
-- **Repo:** The session remote is `danbuildss/specshift`. **Proposed: `danbuildss/breakra`** (D-019); it may already be renamed on GitHub (AUDIT §13 P3). Never `somehow-internet/*`.
+- **Repo:** The session remote is `danbuildss/specshift`. **GitHub now reports the repo as `danbuildss/breakra`** (renamed outside this session; verified by the push response on 2026-10-08; AUDIT §13 P3). The old URL redirects. Never `somehow-internet/*`.
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
