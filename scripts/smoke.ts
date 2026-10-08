@@ -9,9 +9,12 @@ const fail = (msg: string): never => {
   console.error(`SMOKE FAIL: ${msg}`);
   process.exit(1);
 };
-if (/^\s*import\s/m.test(source)) fail("bundle contains import statements");
+const codeOnly = source.replace(/^\/\/.*$/gm, "");
+if (/(^|[;}\s])import[\s{(]/.test(codeOnly)) fail("bundle contains import statements");
+// Bankr's deploy API rejected a 137 KB upload with 413; keep a margin under ~100 KB.
+if (source.length > 95_000) fail(`bundle is ${source.length} bytes; too large for Bankr's deploy API`);
 if (
-  !/export default async function handler\(req: Request\): Promise<Response> \{\s*return __breakraHandler\(req\);\s*\}\s*$/.test(
+  !/export default async function handler\(req: Request\): Promise<Response> \{\s*return [A-Za-z_$][\w$]*\(req\);\s*\}\s*$/.test(
     source,
   )
 ) {

@@ -11,11 +11,12 @@ const root = join(import.meta.dir, "..");
 const outFile = join(root, "dist/x402/breakra-analyze/index.ts");
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 
+// Minified: Bankr's deploy API rejected the 137 KB unminified upload with 413 (Phase 3 T-302).
 const result = await Bun.build({
   entrypoints: [join(root, "src/index.ts")],
   target: "bun",
   format: "esm",
-  minify: false,
+  minify: true,
 });
 if (!result.success) {
   for (const log of result.logs) console.error(log);
@@ -23,13 +24,19 @@ if (!result.success) {
 }
 let code = await (result.outputs[0] as Blob).text();
 
-const tail = /export\s*\{\s*handler as default\s*\};?\s*$/;
-if (!tail.test(code)) throw new Error("unexpected bundle tail: expected `export { handler as default };`");
+// The minifier renames the handler; re-export it in the literal form Bankr's wrapper recognises (D-025).
+const tail = /export\s*\{\s*([A-Za-z_$][\w$]*)\s+as\s+default\s*\};?\s*$/;
+const match = code.match(tail);
+if (!match) throw new Error("unexpected bundle tail: expected `export { <name> as default };`");
+const inner = match[1] as string;
 code = code.replace(tail, "");
-if ((code.match(/async function handler\(/g) ?? []).length !== 1)
-  throw new Error("expected exactly one `async function handler(`");
-code = code.replace("async function handler(", "async function __breakraHandler(");
-if (/^\s*import\s/m.test(code) || /\brequire\(/.test(code)) throw new Error("bundle still contains imports");
+if (/\bhandler\b/.test(code))
+  throw new Error("bundle already uses the identifier `handler`; cannot add the literal export");
+if (/(^|[;}\s])import[\s{(]/.test(code) || /\brequire\(/.test(code))
+  throw new Error("bundle still contains imports");
+const MAX_BYTES = 92_000; // keep the deploy request well under Bankr's ~100 KB deploy API limit
+if (code.length > MAX_BYTES)
+  throw new Error(`bundle is ${code.length} bytes; limit ${MAX_BYTES} (Bankr deploy API 413)`);
 
 const header = [
   "// @ts-nocheck",
@@ -37,8 +44,7 @@ const header = [
   `// Includes api-smart-diff ${pkg.dependencies["api-smart-diff"]} (MIT, (C) Damir Yusipov) and its MIT dependencies.`,
   "",
 ].join("\n");
-const footer =
-  "\nexport default async function handler(req: Request): Promise<Response> {\n  return __breakraHandler(req);\n}\n";
+const footer = `\nexport default async function handler(req: Request): Promise<Response> {\n  return ${inner}(req);\n}\n`;
 
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, header + code + footer);

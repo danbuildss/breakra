@@ -159,5 +159,16 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - Payment `payTo` is Bankr's router `0x8AEE…01a0`, as approved in T-001.
 - Deploy with the Bankr CLI (D-025).
 
+## D-030 — Minified bundle; call the OpenAPI comparer directly
+**Status:** Accepted under D-029's Phase 3 authority (no behaviour change: all tests, the oracle and the analysis_id equivalence pass). **Date:** 2026-10-08.
+**Context:** The first `bankr x402 deploy breakra-analyze` (owner, CLI 0.3.45) failed with **`API error (413): Payload Too Large`** for the 137 KB unminified file. The 77 KB T-001 lib file had been accepted, and the limit looks like a ~100 KB request body cap (inferred, not documented).
+**Decision:**
+- Build with `minify: true`. The build re-exports the renamed handler in the literal `export default async function handler(req)` form.
+- `compareSpecs` calls `compareOpenApi` instead of `apiCompare` (the same OpenAPI comparer `apiCompare` routes to; drops unused AsyncAPI/GraphQL code).
+- Result: **90.5 KB** file, about 95 KB deploy request. Build fails above 92 KB and smoke fails above 95 KB, so regressions are caught in CI.
+**Evidence:**
+- 65/65 tests pass; the oracle passes; smoke passes on Bun 1.4.2 and 1.3.14.
+- Mock-Bankr end-to-end (V0–V5) passes with the minified build: **V4 and V5 `analysis_id` match the unminified source.**
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

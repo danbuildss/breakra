@@ -89,6 +89,10 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** PR #3 merged. The owner ran `bun run check` on their Mac (65/65 pass, smoke OK), then `bankr x402 deploy breakra-analyze`, which **failed with 413 Payload Too Large** (137 KB file). Nothing deployed or charged.
+  - **Fix (D-030):** minified build plus a direct call to `compareOpenApi`; now a 90.5 KB file (about 95 KB request), with size guards in build and smoke.
+  - **Re-verified:** all checks pass; mock-Bankr V0–V5 pass with matching `analysis_id`s.
+  - **Next:** PR #4 → the owner merges, rebuilds and redeploys.
 - **2026-10-08:** **Owner approved Phase 3, option A (D-029).** Claude completed T-301:
   - `docs/DEPLOYMENT.md`: prerequisites, build, CLI deploy, verification, pause/rollback/remove, monitoring.
   - `scripts/verify-live.ts`: checks terms before signing, 20000 → router, one signature, 5-attempt cap, compares `analysis_id` with the local result.

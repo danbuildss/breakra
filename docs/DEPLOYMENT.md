@@ -21,7 +21,7 @@ bun run check        # typecheck + lint + 65+ tests + build + smoke test of the 
 ```
 
 `bun run check` writes:
-- `dist/x402/breakra-analyze/index.ts`: one self-contained file, about 137 KB, no imports;
+- `dist/x402/breakra-analyze/index.ts`: one self-contained **minified** file, about 90 KB, no imports (Bankr's deploy API rejected the 137 KB unminified file with 413);
 - `dist/bankr.x402.json`: service `breakra-analyze`, price `0.02` USDC on Base, POST only, with description and schema.
 
 ## 3. Deploy
