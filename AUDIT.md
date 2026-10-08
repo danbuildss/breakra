@@ -327,3 +327,12 @@ The owner forwarded a brief written by Bankr's agent (archived verbatim in `note
 - (c) a separate free validation endpoint, if price 0 is allowed.
 
 No decision is made until there's evidence.
+
+**§15 addendum (input #5, 2026-10-08): Bankr agent's follow-up answers.**
+- **Failed calls:** It repeats that they're charged with no refund, and calls docs saying otherwise "outdated". Still unverified: the docs snippets and issue #5 point the other way. T4–T6 decide.
+- **Price 0:** "not supported, likely rejected". T11 tests it as a separate deploy.
+- **Upto $0 settlement:** undocumented.
+- **Body limit:** undocumented; treat 6 MB as safe.
+- **Fee:** undocumented.
+
+**SDK finding (verified in `@x402/fetch` 2.28.0 source):** `wrapFetchWithPayment` re-signs and **re-sends a fresh payment** when `processPaymentResult` reports `recovered`. A client using the stock wrapper could pay twice for one logical call. Breakra's `skill.md` should warn about this. The T-001 client avoids it by using `x402HTTPClient` directly (one signature, no auto-retry).

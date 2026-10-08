@@ -16,7 +16,11 @@
 
 - **Phase:** 0. Audit approved (D-018/019/020). **T-001 Bankr probe is prepared but not executed** (`T-001-PLAN.md`). No product code exists.
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** The owner confirms T-001-PLAN rev 2: Bankr account, the **full** payout wallet (`0xb98f0de…`), which payer wallet (A, B or C, not the payout wallet), and Bankr's agent's answers to the §2 questions. Then the owner gives explicit go-ahead. Bankr's agent deploys; Claude verifies and records.
+- **Next step:** The owner approves T-001-PLAN rev 3 and the burner-wallet approach, then gives explicit go-ahead.
+  1. Bankr's agent deploys the probe.
+  2. The owner creates and funds the burner (0.04 USDC from Rabby).
+  3. The owner runs `bun t001.ts T0…T12` and pastes the outputs.
+  4. Claude records and reconciles.
 - **Waiting on:** The owner's T-001 confirmations, plus the registrar and trademark checks for breakra.com/.dev.
 
 ## Inputs received
@@ -24,6 +28,7 @@
 | # | Date | What | Where |
 |---|------|------|-------|
 | 1 | 2026-10-08 | Specshift Master Product & Engineering Brief v1.0 | [Appendix A](#appendix-a--specshift-master-product--engineering-brief-v10) |
+| 5 | 2026-10-08 | Owner wallets (payout `0xb98f…fa91`; Rabby `0x9E84…719D`) + Bankr agent's answers to T-001 §2 questions | T-001-PLAN rev 3 §1–2, AUDIT §15 addendum |
 | 4 | 2026-10-08 | Bankr agent's technical brief on x402 Cloud for Breakra (forwarded by owner; owner wants Bankr to host and deploy) | [Appendix D](#appendix-d--bankr-agent-technical-brief-input-4); cross-checked in AUDIT.md §15 |
 | 3 | 2026-10-08 | Project workspace zip (9 Markdown files) plus a suggested first message to Claude | Repo root; see [Appendix C](#appendix-c--project-workspace-input-3) |
 | 2 | 2026-10-08 | Owner's cover document. It wraps the same master brief and adds: product decisions table, pre-start findings, owner checklist, build order, and an earlier "API Change Intelligence" draft with rules for Claude | [Appendix B](#appendix-b--owners-cover-document-input-2) |
@@ -88,6 +93,10 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner gave the payout wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91` and the payer source, Rabby `0x9E8415109A718de3A4653e4DA37C5906df7C719D`. Bankr's agent answered the §2 questions: it says failures are charged, price 0 isn't supported, and upto $0, the body limit and the fee are undocumented.
+  - **T001 client:** Claude wrote `experiments/t001-bankr-probe/client/t001.ts`. It uses the official x402 SDK and runs on the owner's machine with a burner wallet funded from Rabby. It validates the requirements before signing, signs once per call, never auto-retries, caps at 30 attempts and supports the replay test. Verified against a local mock.
+  - **SDK finding:** `@x402/fetch` can auto-retry with a fresh payment, a double-charge risk for callers.
+  - **Updated:** T-001-PLAN rev 3, AUDIT §15 addendum. Nothing deployed or spent.
 - **2026-10-08:** Owner asked why PayBox. Claude explained it was only the session's connected wallet, that the endpoint host is blocked from here, and that the payer should differ from the payee. Claude offered alternatives. **Owner decided Bankr (its agent) will host and deploy.**
 - **2026-10-08:** Received input #4, the Bankr agent's brief. Cross-checked it in AUDIT §15. Results:
   - **Direct conflict:** the brief says handler errors are charged, but Bankr's docs say payment is only collected on success. T-001 decides.
