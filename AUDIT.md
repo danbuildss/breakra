@@ -411,3 +411,9 @@ No decision is made until there's evidence.
 - **Design limit for Breakra: keep worst-case handler time ≤ 20 s** (a margin under the 30 s cap and the observed overhead).
 - Locally the 13 MB GitHub spec diff took 9–14 s on x86. Bankr runs arm64 with an unknown CPU allocation, so **Phase 1 must benchmark on Bankr itself** and set size caps from that.
 - Spend so far: 8 charged calls = **$0.008** (12 paid attempts).
+
+**§16 update, T9 (2026-10-08):**
+- **Request body ≤ 4 MB works; 6 MB is rejected** with 413 by the API Gateway *before* payment (not charged). The true ceiling is between 4 and 6 MB, consistent with the 6 MB Lambda payload limit. Bankr's agent's "10 MB" was wrong.
+- Upload time grows with size (4 MB took 16 s wall time from the owner's connection). The client sends the body twice (unpaid probe, then paid call), so x402 doubles the upload.
+- **Design proposal for Phase 1 (needs an ADR):** cap the request body well below the gateway limit, for example **≤ 2 MB total** (before + after combined). Return Breakra's own 413 JSON for larger bodies. Combined with the ≤ 20 s handler budget, that keeps the worst case safe.
+- Spend so far: 11 charged calls = **$0.011** (15 paid attempts).

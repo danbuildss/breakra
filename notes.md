@@ -93,6 +93,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** T9: 100 KB, 1 MB and 4 MB → 200 (charged); **6 MB → 413 at the gateway before payment (not charged)**. Limit is between 4 and 6 MB. Proposed Breakra cap: ≤ 2 MB total. Spent $0.011 (11 charges, 15 attempts). Remaining: T10 (memory), T12 (replay), T3 retest once the lib is redeployed.
 - **2026-10-08:** T8a/b/c (5/15/25 s): all 200 and charged; about 1–2.5 s platform overhead. Design limit: ≤ 20 s handler time. Spent $0.008 (8 charges, 12 attempts). Next: T9 body sizes.
 - **2026-10-08:** **T6 (throw → blank 500): NOT charged. T7 (2×200): charged twice**, which is the positive control and rules out lag. **VERIFIED: Bankr charges only for 2xx.** 400, 500, throw and load failure are all free to the caller. Bankr's agent was wrong; the docs were right. Spent $0.005 (5 charges, 9 attempts). Next: T8a (5 s sleep).
 - **2026-10-08:** **T5 (handler 500): NOT charged.** Next: T6 (throw).
