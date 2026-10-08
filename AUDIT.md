@@ -417,3 +417,6 @@ No decision is made until there's evidence.
 - Upload time grows with size (4 MB took 16 s wall time from the owner's connection). The client sends the body twice (unpaid probe, then paid call), so x402 doubles the upload.
 - **Design proposal for Phase 1 (needs an ADR):** cap the request body well below the gateway limit, for example **≤ 2 MB total** (before + after combined). Return Breakra's own 413 JSON for larger bodies. Combined with the ≤ 20 s handler budget, that keeps the worst case safe.
 - Spend so far: 11 charged calls = **$0.011** (15 paid attempts).
+
+**§16 update, T12 (2026-10-08): replay protection VERIFIED.** Resending the identical `PAYMENT-SIGNATURE` header after a successful paid call returned **402 "Payment already used"**. A signed payment can't be reused.
+**Accounting note (19:10 UTC):** the burner is down 3000 since T9 (T12 = 1, plus 2 not yet attributed; asked the owner). The payout wallet is up 9000, which includes income unrelated to T-001. **From here on, the burner's balance is the authoritative T-001 cost meter.**
