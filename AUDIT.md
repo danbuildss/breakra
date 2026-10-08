@@ -422,3 +422,11 @@ No decision is made until there's evidence.
 **Accounting note (19:10 UTC):** the burner is down 3000 since T9 (T12 = 1, plus 2 not yet attributed; asked the owner). The payout wallet is up 9000, which includes income unrelated to T-001. **From here on, the burner's balance is the authoritative T-001 cost meter.**
 
 **§16 update, T10:** a 128 MB allocation succeeded (RSS about 193 MB), so there's at least that much headroom. The memory ceiling wasn't probed (no stress testing). The burner is now 25000 (total T-001 cost $0.015). The 2 charges between T9 and T12 are still unattributed (T10 had never run before).
+
+**§16 update, reconciliation (19:14 UTC):** results.jsonl shows T10 ran twice (19:09 and 19:12), so the expected total is **14 charges**, but the burner spent **15** (0.015). **One charge between 08:08 and 19:10 UTC is unexplained.** Candidates:
+- (a) a failed call (T3–T6) settling late, which would **undermine the "only 2xx charged" result**;
+- (b) the T12 replay being charged despite the 402;
+- (c) a spend outside the client.
+
+All intra-session reads (07:59–08:08) showed failures uncharged. **T-001 conclusions on settlement stay PROVISIONAL until the owner's Basescan transfer list resolves this.**
+**T3 retest:** a blank 500 again, not charged. Redeploy status unknown.
