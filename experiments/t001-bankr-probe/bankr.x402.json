@@ -12,20 +12,34 @@
         "input": {
           "type": "object",
           "properties": {
-            "case": { "type": "string", "description": "Probe case: ok|bad|err|throw|sleep|size|mem|lib|env" }
+            "case": {
+              "type": "string",
+              "description": "Probe case: ok|bad|err|throw|sleep|size|mem|lib|env"
+            }
           },
-          "required": ["case"]
+          "required": [
+            "case"
+          ]
         },
-        "output": { "type": "object", "properties": { "case": { "type": "string" } } }
+        "output": {
+          "type": "object",
+          "properties": {
+            "case": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
-    "breakra-t001-free": {
-      "price": "0",
+    "breakra-t001-lib": {
+      "price": "0.001",
       "currency": "USDC",
       "network": "base",
       "paymentScheme": "exact",
-      "methods": ["GET"],
-      "description": "DISPOSABLE T-001 probe: free-route test. Not a product."
+      "methods": [
+        "GET"
+      ],
+      "description": "DISPOSABLE T-001 probe: pre-bundled library test. Not a product. Do not use."
     }
   }
 }

@@ -1,10 +1,9 @@
 /**
  * T-001 DISPOSABLE Bankr platform probe. NOT the Breakra product.
  * No business logic, no secrets, no logging of request bodies.
+ * NO npm dependencies (rev 4: the library test moved to breakra-t001-lib).
  * Select a case with ?case=<name>. See T-001-PLAN.md for expected outcomes.
  */
-import { apiCompare } from "api-smart-diff";
-
 const MAX_SLEEP_MS = 25_000; // stay under Bankr's stated 30 s gateway cap
 const MAX_ALLOC_MB = 256;
 
@@ -46,16 +45,6 @@ export default async function handler(req: Request): Promise<Response> {
       const mb = Math.min(Number(url.searchParams.get("mb") ?? 0) || 0, MAX_ALLOC_MB);
       const buf = new Uint8Array(mb * 1024 * 1024).fill(1);
       return Response.json({ case: "mem", allocated_mb: mb, touched: buf[buf.length - 1] ?? null, rss: process.memoryUsage().rss });
-    }
-
-    case "lib": {
-      const spec = (extra: Record<string, unknown>) => ({
-        openapi: "3.0.3",
-        info: { title: "t", version: "1" },
-        paths: { "/a": { get: { responses: { "200": { description: "ok" } } } }, ...extra },
-      });
-      const r = apiCompare(spec({}), spec({ "/b": { get: { responses: { "200": { description: "ok" } } } } }));
-      return Response.json({ case: "lib", diffs: r.diffs.length, elapsed_ms: Date.now() - started });
     }
 
     case "env": {

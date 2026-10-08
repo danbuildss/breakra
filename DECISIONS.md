@@ -118,5 +118,15 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - The hard stop rules in the plan apply.
 - Deleting the endpoints afterwards needs a separate owner confirmation.
 
+## D-022 — T-001 revision 4: no Bankr-side npm installs; D-016 confirmed
+**Status:** Accepted under D-021's T-001 authority (no scope or spend change). **Date:** 2026-10-08.
+**Context:**
+- The probe deploy with an npm dependency failed to build on Bankr (cause unknown).
+- Price 0 was rejected (minimum $0.000001).
+
+**Decision:**
+- T-001 endpoints ship with **no npm dependencies**. The library test uses a pre-bundled single file (the D-015 model).
+- **D-016 is confirmed:** free discovery can't be a $0 Bankr route.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

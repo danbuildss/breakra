@@ -1,6 +1,12 @@
 # T-001 — Bankr Platform Probe: Deployment and Payment Plan
 
-**Status:** PREPARED, revision 3 (2026-10-08).
+**Status:** IN PROGRESS, revision 4 (2026-10-08). Live results so far are in AUDIT §16.
+**Revision 4 changes:**
+- T11 is done: price 0 is rejected, and the minimum is $0.000001.
+- The probe now has **no npm dependencies**.
+- The library test moved to a new **`breakra-t001-lib`** endpoint: a pre-bundled single file (`build.sh`) with no dependencies. The first probe deploy failed to build.
+
+Previous status line follows: PREPARED, revision 3 (2026-10-08).
 **Revision 3 changes:**
 - Payout wallet confirmed.
 - The payer is a throwaway burner wallet funded from the owner's Rabby wallet, using the test client in `experiments/t001-bankr-probe/client/` (verified against a local mock).
@@ -94,7 +100,7 @@ The original questions follow.
 | T0 | Unpaid call to `?case=ok` | The 402 challenge | 402, USDC on Base, $0.001, payTo = payout wallet | same | 0 |
 | T1 | `?case=ok` | Happy path | 200, charged | 200, charged | 1 |
 | T2 | `?case=env` | Runtime and arch, RSS, outbound fetch, forwarded header names (looking for `x-402-payer`) | Bun on arm64, fetch allowed | — | 1 |
-| T3 | `?case=lib` | npm dependency bundled (`api-smart-diff` 1.0.6) | works | — | 1 |
+| T3 | `breakra-t001-lib` (pre-bundled, no dependencies) | Does the D-015 single-file bundle with api-smart-diff 1.0.6 run on Bankr? | works | — | 1 |
 | T4 | `?case=bad` (400) | Is a validation failure charged? | **charged** | **not charged** | 1 |
 | T5 | `?case=err` (500) | Is a returned 500 charged? | **charged** | **not charged** | 1 |
 | T6 | `?case=throw` | Is an unhandled exception charged? | **charged** (500) | **not charged** | 1 |
@@ -102,7 +108,7 @@ The original questions follow.
 | T8 | `?case=sleep&ms=5000`, `15000`, `25000` (stop at first failure; never ≥ 30 s) | Practical timeout headroom | OK under 30 s | — | ≤3 |
 | T9 | POST `?case=size` with 100 KB, 1 MB, 4 MB, 6 MB (stop at first rejection) | Body limit. Is a rejected body charged? | ~10 MB | (Lambda: 6 MB) | ≤4 |
 | T10 | `?case=mem&mb=128` (only if T2 shows headroom) | Memory | ~128–512 MB | — | ≤1 |
-| T11 | `breakra-t001-free` | Is price 0 deployable and free to call? | min $0.001 | listing exists at 0 | 0 |
+| T11 | `breakra-t001-free` | Is price 0 deployable and free to call? | min $0.001 | listing exists at 0 | 0. **DONE: rejected** (`minimum 0.000001`) |
 | T12 | Pay once, then resend the **identical** signed header | Replay protection | 2nd attempt rejected | — | 1 (+1 if the replay is wrongly accepted) |
 
 **Planned paid calls:** 15. **Cap:** 30. **Ceiling:** $0.030.

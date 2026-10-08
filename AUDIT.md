@@ -336,3 +336,19 @@ No decision is made until there's evidence.
 - **Fee:** undocumented.
 
 **SDK finding (verified in `@x402/fetch` 2.28.0 source):** `wrapFetchWithPayment` re-signs and **re-sends a fresh payment** when `processPaymentResult` reports `recovered`. A client using the stock wrapper could pay twice for one logical call. Breakra's `skill.md` should warn about this. The T-001 client avoids it by using `x402HTTPClient` directly (one signature, no auto-retry).
+
+## 16. T-001 live results (in progress, 2026-10-08)
+
+| Item | Result | Evidence class |
+|---|---|---|
+| **Price 0** | Deploy rejected: `Price must be a positive number (minimum 0.000001).` → **Free routes are not possible on Bankr.** The minimum price is **$0.000001**. (Bankr's agent earlier claimed $0.001; that was wrong.) | Verified by live deploy (reported verbatim by Bankr's agent) |
+| **Platform fee** | `bankrFeeBps: 500` = **5%** on the owner's existing endpoints. Net at $0.02 is $0.019 | Platform metadata, reported by Bankr's agent. **Claude has not seen it directly**; reconcile with T-001 revenue. |
+| Payout wallet | `0xb98f0de777eea8c481b64e33d3e0066cea38fa91` on all endpoints | Platform metadata via Bankr's agent; matches the owner's statement |
+| **Probe build, revision 1** (with npm dependency `api-smart-diff`) | Accepted, then **the backend build failed twice**: "the hosting backend couldn't finish building or deploying it". No endpoint exists (`api.bankr.bot/.../schema` → "Endpoint not found", checked by Claude). | Verified (the 404 checked by Claude). Cause **unknown**: build logs requested |
+| api-smart-diff as the cause? | Unlikely on its own. Its ESM entry is self-contained (no imports, no install scripts) and it bundles locally in 16 ms. The failure may be in Bankr's dependency install or in the deploy config | Inferred |
+| Burner payer `0x250265e8Dd7321AcfB495C9Cf1939dD14aD27a75` | Holds **0.04 USDC** (40000 atomic) on Base, 2026-10-08 07:46 UTC | Verified (balance read) |
+
+**Response (probe revision 4):**
+- The probe is split into `breakra-t001-probe` (**no dependencies**) and `breakra-t001-lib`, a **pre-bundled single file** with api-smart-diff 1.0.6 inlined and no dependencies.
+- That's exactly the D-015 shipping model, so T3 now tests the production approach directly. Both compile and run locally.
+- **Consequence for D-016:** free discovery endpoints can't live on Bankr. They have to be served off-platform (GitHub) or as near-free paid endpoints ($0.000001). D-016 stands.

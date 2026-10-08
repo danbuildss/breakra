@@ -19,7 +19,8 @@ import { ExactEvmScheme } from "@x402/evm/exact/client";
 export const PAYOUT = "0xb98f0de777eea8c481b64e33d3e0066cea38fa91";
 const BASE = process.env.T001_BASE ?? `https://x402.bankr.bot/${PAYOUT}`;
 const PROBE = `${BASE}/breakra-t001-probe`;
-const FREE = `${BASE}/breakra-t001-free`;
+const FREE = `${BASE}/breakra-t001-free`; // rejected at deploy (price 0); kept for the record
+const LIB = `${BASE}/breakra-t001-lib`;
 const NETWORK = "eip155:8453";
 const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 const EXPECTED_AMOUNT = process.env.T001_AMOUNT ?? "1000"; // 0.001 USDC (6 decimals)
@@ -33,7 +34,7 @@ export const CASES: Record<string, Case> = {
   T0: { url: q("ok"), paid: false },
   T1: { url: q("ok"), paid: true },
   T2: { url: q("env"), paid: true },
-  T3: { url: q("lib"), paid: true },
+  T3: { url: LIB, paid: true }, // pre-bundled single file, api-smart-diff inlined
   T4: { url: q("bad"), paid: true },
   T5: { url: q("err"), paid: true },
   T6: { url: q("throw"), paid: true },

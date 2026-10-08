@@ -93,6 +93,18 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** T-001 first results:
+  - **Burner wallet:** `0x250265e8…7a75`, funded with 0.04 USDC (verified).
+  - **Free probe:** Bankr rejected price 0 (minimum $0.000001).
+  - **Fee:** 5% (500 bps), reported by Bankr.
+  - **Probe:** failed to build twice with the npm dependency.
+
+  **Claude's response:**
+  - Split the probe: the dependency-free probe plus `breakra-t001-lib`, pre-bundled via `build.sh`.
+  - Wrote `BANKR-HANDOFF.md` rev 2, which asks for build logs and redeploys both.
+  - Recorded results in AUDIT §16, TESTING, D-022.
+
+  The owner must still **not** run T0+ until the new deploys are confirmed.
 - **2026-10-08:** **Owner approved T-001 execution ("approve and go", D-021).** Claude wrote `BANKR-HANDOFF.md` with the exact deploy request for Bankr's agent. Next: Bankr deploys, the owner sets up the burner and runs the cases, and Claude records the results.
 - **2026-10-08:** Owner gave the payout wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91` and the payer source, Rabby `0x9E8415109A718de3A4653e4DA37C5906df7C719D`. Bankr's agent answered the §2 questions: it says failures are charged, price 0 isn't supported, and upto $0, the body limit and the fee are undocumented.
   - **T001 client:** Claude wrote `experiments/t001-bankr-probe/client/t001.ts`. It uses the official x402 SDK and runs on the owner's machine with a burner wallet funded from Rabby. It validates the requirements before signing, signs once per call, never auto-retries, caps at 30 attempts and supports the replay test. Verified against a local mock.

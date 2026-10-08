@@ -26,6 +26,14 @@
 **Payment:** verified SDK and real low-budget Base payment, logs reconcile with settlement evidence.
 **Launch:** agent can follow `/skill.md`, payment result correct, rollback known, metrics active.
 
+## T-001 infrastructure results log
+
+| Date | Item | Command or source | Result | Evidence | Not tested |
+|---|---|---|---|---|---|
+| 2026-10-08 | Price-0 deploy (T11) | Bankr agent deploy | Rejected: `minimum 0.000001` | Live deploy error (relayed) | — |
+| 2026-10-08 | Probe rev 1 build (with npm dependency) | Bankr agent deploy ×2 | **Build failed** | Bankr error message; `schema` lookup returns "Endpoint not found" | Cause (logs requested) |
+| 2026-10-08 | Burner funding | Balance read | 0.04 USDC on Base | Portfolio read | — |
+
 ## Reporting format
 Date | Commit/PR | Command | Result | Evidence | Not tested | Known risks.
 

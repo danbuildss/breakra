@@ -1,27 +1,29 @@
-# Message to send to Bankr's agent (T-001)
+# Message to send to Bankr's agent (T-001, retry, revision 2)
 
 Copy everything below the line to Bankr's agent.
 
 ---
 
-Please deploy two **disposable test endpoints** from my wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91`. They're an infrastructure test, not a product. Deploy them **as two separate deployments**, so that if the second is rejected the first still goes live.
+Thanks. Results recorded: price 0 rejected (`minimum 0.000001`), fee 500 bps, payout wallet confirmed.
 
-### Deployment 1: `breakra-t001-probe`
-- price: `"0.001"` USDC on Base, scheme `exact`
-- methods: allow **GET and POST** (the test sends GET for most cases and POST for body-size cases)
+Before retrying, **please fetch the builder/deploy logs** for the failed `breakra-t001-probe` deploy (e.g. `get_x402_endpoint({ name: "breakra-t001-probe", include: ["logs"] })`) and send me the **exact build error text**.
+
+Then deploy these **two separate endpoints** from wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91`. Both have **no npm dependencies at all**: leave `dependencies` empty or absent. No env vars, fileAccess or appKVAccess. **Don't call them yourself.**
+
+### Deployment 1: `breakra-t001-probe` (redeploy; the source has changed)
+- price `"0.001"` USDC on Base, scheme `exact`
+- methods: **GET and POST**
 - description: `DISPOSABLE T-001 platform probe. Not a product. Do not use.`
-- dependencies: `api-smart-diff` **exactly `1.0.6`**, not `^3.0.0` (no 3.x exists) and not a range
-- no env vars, no fileAccess, no appKVAccess
-- source (`index.ts`, use exactly as written):
+- dependencies: **none**
+- source, exactly:
 
 ```ts
 /**
  * T-001 DISPOSABLE Bankr platform probe. NOT the Breakra product.
  * No business logic, no secrets, no logging of request bodies.
+ * NO npm dependencies (rev 4: the library test moved to breakra-t001-lib).
  * Select a case with ?case=<name>. See T-001-PLAN.md for expected outcomes.
  */
-import { apiCompare } from "api-smart-diff";
-
 const MAX_SLEEP_MS = 25_000; // stay under Bankr's stated 30 s gateway cap
 const MAX_ALLOC_MB = 256;
 
@@ -65,16 +67,6 @@ export default async function handler(req: Request): Promise<Response> {
       return Response.json({ case: "mem", allocated_mb: mb, touched: buf[buf.length - 1] ?? null, rss: process.memoryUsage().rss });
     }
 
-    case "lib": {
-      const spec = (extra: Record<string, unknown>) => ({
-        openapi: "3.0.3",
-        info: { title: "t", version: "1" },
-        paths: { "/a": { get: { responses: { "200": { description: "ok" } } } }, ...extra },
-      });
-      const r = apiCompare(spec({}), spec({ "/b": { get: { responses: { "200": { description: "ok" } } } } }));
-      return Response.json({ case: "lib", diffs: r.diffs.length, elapsed_ms: Date.now() - started });
-    }
-
     case "env": {
       let outbound: string;
       try {
@@ -102,25 +94,14 @@ export default async function handler(req: Request): Promise<Response> {
 }
 ```
 
-### Deployment 2: `breakra-t001-free`
-- price: `"0"`. **We're testing whether a free route is possible.** If the platform rejects price 0, don't substitute another price. Just tell me the exact rejection message.
+### Deployment 2: `breakra-t001-lib`
+- price `"0.001"` USDC on Base, scheme `exact`
 - methods: GET
-- description: `DISPOSABLE T-001 probe: free-route test. Not a product.`
-- source:
-
-```ts
-/**
- * T-001 DISPOSABLE probe: is a price-0 (free) Bankr service possible?
- * NOT the Breakra product.
- */
-export default async function handler(_req: Request): Promise<Response> {
-  return Response.json({ case: "free", ok: true });
-}
-```
+- description: `DISPOSABLE T-001 probe: pre-bundled library test. Not a product. Do not use.`
+- dependencies: **none**. The library is already inlined in the file.
+- source: the file **`experiments/t001-bankr-probe/x402/breakra-t001-lib/index.ts`** in the GitHub repo `danbuildss/breakra`, branch `claude/vigilant-allen-nnfhn2` (about 77 KB, one self-contained file; first line `// @ts-nocheck`). Raw link: https://raw.githubusercontent.com/danbuildss/breakra/claude/vigilant-allen-nnfhn2/experiments/t001-bankr-probe/x402/breakra-t001-lib/index.ts. Use it byte-for-byte. If you can't fetch it, tell me and I'll paste it.
 
 ### Please reply with
-1. Each deployment's exact URL and version number, or the exact error message.
-2. The price and network each endpoint is actually configured with.
-3. Confirmation that the payout wallet is `0xb98f0de777eea8c481b64e33d3e0066cea38fa91`.
-
-**Please don't call the endpoints yourself.** Test calls will come from a separate wallet so payments can be traced.
+1. The build log text from the failed attempt.
+2. For each deployment: the exact URL and version, or the exact error.
+3. The configured price, methods and network for each.
