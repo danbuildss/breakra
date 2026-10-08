@@ -20,9 +20,9 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-**T-001 — Bankr platform probe: COMPLETE** (AUDIT §17; cost 0.016 USDC). Remaining: the owner sends BANKR-HANDOFF Message B to delete both test endpoints.
+**T-001 — Bankr platform probe: COMPLETE** (AUDIT §17; cost 0.016 USDC). Both test endpoints **deleted** (Bankr's agent, 2026-10-08; verified by Claude: the schema API returns "Endpoint not found" for both).
 
-**Next (needs owner approval): Phase 1, core engine.** Scope proposed in the chat on 2026-10-08, with D-023 to D-026.
+**Next (needs owner approval): Phase 1, core engine.** See **`PHASE-1-PLAN.md`** (tasks T-101 to T-108, approval includes D-023 to D-026).
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 
