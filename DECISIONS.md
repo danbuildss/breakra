@@ -202,7 +202,7 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - Budget: about $0.02 for the live demo check. No ads, no paid listings.
 
 ## D-034 — Urgent fixes found while building the Phase 5 demo (engine 0.1.1)
-**Status:** PROPOSED (2026-10-08). Needs owner approval under D-033 ("urgent fixes only, each with owner approval"). Merging the PR and redeploying = approval.
+**Status:** **Accepted** (2026-10-08): the owner merged PR #9 and redeployed (v4); the live demo check confirmed engine 0.1.1.
 **Context:** Checking the real GitHub API demo by hand showed two defects in the live engine 0.1.0:
 1. **Misclassification.** A whole object added or removed by `$ref` (a parameter like `{ "$ref": "#/components/parameters/X" }`, or a request body) was classified without resolving the reference. A **required** parameter or request body added this way was reported as an *optional, compatible* change with the name `?`, a missed potentially breaking change. GitHub's own spec uses `$ref` parameters everywhere: 35 of 5,909 raw diffs between two GitHub API releases were affected.
 2. **Privacy.** api-smart-diff 1.0.6 calls `console.error("Classification Rule error for node: <document path>")` on some inputs, which would put parts of a submitted spec (schema and path names) into Bankr's logs, against D-026.

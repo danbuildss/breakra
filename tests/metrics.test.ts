@@ -143,12 +143,39 @@ function fakeChain(): ChainReader & { calls: number } {
 describe("readPayments", () => {
   it("resolves payers from settlement receipts and shrinks the window on RPC range errors", async () => {
     const chain = fakeChain();
-    const payments = await readPayments(chain, 0n, { chunk: 20_000n });
+    const payments = await readPayments(chain, 0n, { chunk: 20_000n, sleep: async () => {} });
     expect(payments.map((p) => [p.tx, p.payer, p.gross, p.net])).toEqual([
       ["0xaa", A, 20_000n, 20_000n],
       ["0xbb", B, 20_000n, 19_000n],
     ]);
     expect(payments[0]?.time).toBe(1_760_000_200);
+  });
+
+  it("waits on RPC rate limits without shrinking the window", async () => {
+    const chain = fakeChain();
+    const inner = chain.getLogs.bind(chain);
+    let throttles = 2;
+    const ranges: bigint[] = [];
+    chain.getLogs = async (args) => {
+      if (throttles-- > 0) {
+        throw Object.assign(new Error("RPC Request failed."), {
+          code: -32011,
+          details: "request limit reached",
+        });
+      }
+      ranges.push(args.toBlock - args.fromBlock + 1n);
+      return inner(args);
+    };
+    const waits: number[] = [];
+    const payments = await readPayments(chain, 0n, {
+      chunk: 5_000n,
+      sleep: async (ms) => {
+        waits.push(ms);
+      },
+    });
+    expect(payments).toHaveLength(2);
+    expect(waits.filter((w) => w >= 1_000)).toEqual([1_000, 2_000]); // backoff, then normal pacing
+    expect(new Set(ranges)).toEqual(new Set([5_000n, 1n])); // full windows; the last one is the tail
   });
 
   it("finds the first block at or after a time", async () => {

@@ -7,7 +7,7 @@
 ## Baseline (before day 1)
 | Item | Value |
 |---|---|
-| Self-paid Breakra calls so far | 4 (Phase 3 V4, V5, V6; Phase 4 cold-agent run) |
+| Self-paid Breakra calls so far | 5 (Phase 3 V4, V5, V6; Phase 4 cold-agent run; Phase 5 demo check on v4) |
 | External paid calls so far | to be measured by the first `bun run metrics` run |
 
 ## Daily metrics

@@ -33,6 +33,7 @@
       "includes": [
         "tests/**",
         "scripts/bench.ts",
+        "scripts/demo.ts",
         "scripts/lib/**",
         "scripts/verify-live.ts"
       ],

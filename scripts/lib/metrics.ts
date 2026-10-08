@@ -77,19 +77,50 @@ export async function blockAtOrAfter(client: ChainReader, time: number): Promise
   return lo;
 }
 
+/**
+ * Public RPCs throttle (mainnet.base.org: "request limit reached", code -32011). That needs waiting, not a
+ * smaller block range; every other getLogs error is treated as a range limit.
+ */
+export function isRateLimit(err: unknown): boolean {
+  const e = err as {
+    code?: unknown;
+    status?: unknown;
+    message?: unknown;
+    details?: unknown;
+    cause?: unknown;
+  };
+  const text = `${String(e?.message ?? "")} ${String(e?.details ?? "")} ${String((e?.cause as Error)?.message ?? "")}`;
+  return (
+    e?.code === -32011 ||
+    e?.status === 429 ||
+    /rate.?limit|request limit|too many requests|\b429\b/i.test(text)
+  );
+}
+
+const realSleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
 /** Reads every router → payout USDC transfer in [fromBlock, latest] and resolves who paid. */
 export async function readPayments(
   client: ChainReader,
   fromBlock: bigint,
-  opts: { chunk?: bigint; log?: (msg: string) => void } = {},
+  opts: {
+    chunk?: bigint;
+    log?: (msg: string) => void;
+    delayMs?: number; // pause before each getLogs, to stay under public RPC limits
+    sleep?: (ms: number) => Promise<void>;
+  } = {},
 ): Promise<Payment[]> {
+  const sleep = opts.sleep ?? realSleep;
+  const delayMs = opts.delayMs ?? 250;
   const latest = await client.getBlockNumber();
   let chunk = opts.chunk ?? 10_000n;
+  let throttled = 0;
   const payments: Payment[] = [];
   const times = new Map<bigint, number>();
   for (let start = fromBlock; start <= latest; ) {
     const end = start + chunk - 1n > latest ? latest : start + chunk - 1n;
     let logs: Awaited<ReturnType<ChainReader["getLogs"]>>;
+    await sleep(delayMs);
     try {
       logs = await client.getLogs({
         address: USDC,
@@ -99,10 +130,18 @@ export async function readPayments(
         toBlock: end,
       });
     } catch (err) {
+      if (isRateLimit(err)) {
+        if (++throttled > 8) throw err;
+        const wait = Math.min(30_000, 1_000 * 2 ** (throttled - 1));
+        opts.log?.(`RPC rate limit; waiting ${wait / 1000}s (attempt ${throttled}/8)`);
+        await sleep(wait);
+        continue; // same window
+      }
       if (chunk <= 100n) throw err;
       chunk /= 2n; // RPC range limit: retry the same start with a smaller window
       continue;
     }
+    throttled = 0;
     for (const log of logs) {
       if (String(log.args.from ?? "").toLowerCase() !== ROUTER || !log.transactionHash) continue;
       const receipt = await client.getTransactionReceipt({ hash: log.transactionHash as `0x${string}` });
