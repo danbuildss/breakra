@@ -49,7 +49,7 @@ const footer = `\nexport default async function handler(req: Request): Promise<R
 mkdirSync(dirname(outFile), { recursive: true });
 writeFileSync(outFile, header + code + footer);
 
-// Bankr service config for Phase 3 (deployed only with owner approval; never by this script).
+// Bankr service config and listing text (deployed only by the owner via the CLI; never by this script).
 const config = {
   network: "base",
   currency: "USDC",
@@ -61,7 +61,7 @@ const config = {
       paymentScheme: "exact",
       methods: ["POST"],
       description:
-        "Compare two OpenAPI 3.0 JSON contracts. Returns each change with a compatibility class (breaking / potentially_breaking / unknown / compatible), request/response direction, evidence and a recommended action. Deterministic. Invalid input returns 4xx and is not charged.",
+        "Compare two OpenAPI 3.0 JSON contracts (inline before/after, up to 1 MB). Returns every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with request/response direction, evidence and a recommended action. Deterministic. Only a 200 is charged; errors are free. Agent guide: https://github.com/danbuildss/breakra/blob/main/skill.md",
       schema: {
         input: {
           type: "object",
@@ -74,9 +74,11 @@ const config = {
         output: {
           type: "object",
           properties: {
+            analysis_id: { type: "string", description: "Same inputs give the same id and result." },
             compatibility: { type: "string", description: "Worst classification across all changes." },
             summary: { type: "object", description: "Counts per classification." },
             changes: { type: "array", description: "Findings with evidence and recommended actions." },
+            limitations: { type: "array", description: "What was not analysed (e.g. external $refs)." },
           },
         },
       },

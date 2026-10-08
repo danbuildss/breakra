@@ -2,39 +2,53 @@
 
 **Know what changed before your integration breaks.**
 
-Breakra is a planned x402-paid utility that compares two OpenAPI contracts and returns structured, evidence-backed compatibility findings for coding agents.
+Breakra compares two OpenAPI 3.0 contracts and returns structured, evidence-backed compatibility findings for coding agents. It is a single x402-paid endpoint: **$0.02 USDC on Base per analysis**, with errors never charged.
 
-**Current status:** Phase 1 complete. The core engine is built and tested locally and in CI. **Not deployed.** **Name:** Breakra (approved); final domain and trademark clearance pending.
+**Status:** live on Bankr x402 Cloud (engine 0.1.0, rule set 0.1.0). The name Breakra is approved; domain and trademark clearance are still pending.
 
-## Project navigation
-- `notes.md` — read first: running status, dated log and original owner inputs.
-- `AUDIT.md` — Phase 0 feasibility audit (findings, engine bake-off, proposed ADRs).
-- `PHASE-1-PLAN.md` — the proposed core-engine build plan.
-- `CLAUDE.md` — mandatory Claude workflow and guardrails.
-- `PRODUCT.md` — product source of truth and scope.
-- `PLAN.md` — phases and approval gates.
-- `ARCHITECTURE.md` — proposed backend, API, security and payments.
-- `DECISIONS.md` — durable decisions and pending approvals.
-- `TASKS.md` — WIP-limited task board.
-- `TESTING.md` — quality, security and release gates.
-- `LAUNCH.md` — distribution and 14-day commercial test.
+## Use it
 
-## First action
-Ask Claude to read `notes.md` and the eight documents, inspect the repository, conduct Phase 0 feasibility only, and present its recommendations for approval. Do not create production code or deploy yet.
+```
+POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze
+{ "before": { …OpenAPI 3.0 JSON… }, "after": { …OpenAPI 3.0 JSON… } }
+```
+
+- **Agents:** start with [`skill.md`](skill.md): when to call it, how to pay safely, and how to read the findings.
+- **Contract:** [`openapi.json`](openapi.json). Full field reference: [`docs/API.md`](docs/API.md). Rules: [`RULES.md`](RULES.md).
+- **Examples:** [`examples/request.json`](examples/request.json) → [`examples/response.json`](examples/response.json) (a real engine output), a paying client in [`examples/client.ts`](examples/client.ts), and a curl call in [`examples/curl.sh`](examples/curl.sh).
+
+```bash
+BREAKRA_KEY_FILE=./wallet.key bun examples/client.ts before.json after.json
+```
+
+The client checks the payment terms before signing (exact, Base, USDC, at most $0.02), signs once and never retries with a new payment. Use a dedicated low-balance wallet.
+
+What you get: every change, labelled `breaking`, `potentially_breaking`, `unknown`, `compatible` or `non_contract`, with direction (request/response), location, evidence (before/after values) and a recommended action. Results are deterministic: the same inputs always give the same `analysis_id`.
+
+Not supported in V0: OpenAPI 3.1, Swagger 2.0, YAML, URL inputs, request bodies over 1 MB. External `$ref`s are never fetched.
 
 ## Development
 
-Requires [Bun](https://bun.sh) ≥ 1.4.2. CI also uses Node 22, and Go for the oasdiff cross-check.
+Requires [Bun](https://bun.sh) ≥ 1.4.2. CI also uses Go for the oasdiff cross-check.
 
 ```bash
 bun install --frozen-lockfile
 bun run check        # typecheck + lint + tests + build + smoke test of the built handler
+bun run examples     # regenerate examples/response.json after an engine change
 bun run oracle       # cross-check against oasdiff (needs `oasdiff` v1.33.0 on PATH, or OASDIFF=/path)
 bun scripts/bench.ts # benchmarks on real GitHub API spec slices (downloads into .bench/)
 ```
 
-- Source: `src/` (see ARCHITECTURE.md). Tests: `tests/`. Rules: RULES.md. API contract: docs/API.md.
-- `bun run build` writes the Bankr-ready single file to `dist/x402/breakra-analyze/index.ts` (not committed). **Deployment is Phase 3 and needs owner approval.**
+- Source: `src/` (see ARCHITECTURE.md). Tests: `tests/` (including `docs.test.ts`, which keeps `openapi.json`, `skill.md` and the examples in sync with the code).
+- `bun run build` writes the Bankr-ready single file to `dist/x402/breakra-analyze/index.ts` (not committed). Deploying follows [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) and is done by the owner only.
 
-## Intended V0
-One paid `POST /v1/analyze` endpoint, no frontend, no database, no LLM, no continuous monitoring. Initial proposed price $0.02 USDC on Base, subject to owner approval and verified payment integration.
+## Project navigation
+- `notes.md`: read first. Running status, dated log and the original owner inputs.
+- `CLAUDE.md`: mandatory Claude workflow and guardrails.
+- `PRODUCT.md`, `PLAN.md`, `DECISIONS.md`, `TASKS.md`, `TESTING.md`, `LAUNCH.md`: scope, phases, decisions, tasks, test evidence and launch plan.
+- `ARCHITECTURE.md`, `BENCHMARKS.md`, `AUDIT.md`: design, performance and the Phase 0 audit.
+- `PHASE-1-PLAN.md`, `PHASE-3-PLAN.md`, `T-001-PLAN.md`: phase plans (historical).
+
+## License
+
+[MIT](LICENSE). The built handler bundles [api-smart-diff](https://github.com/udamir/api-smart-diff) (MIT).

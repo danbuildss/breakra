@@ -1,0 +1,549 @@
+{
+  "status": "success",
+  "analysis_id": "sha256:39f62e047574be8d2a45193353a905beeba81bc914b879fdaa790dfe605c2593",
+  "engine_version": "0.1.0",
+  "rule_set_version": "0.1.0",
+  "spec_versions": {
+    "before": "3.0.3",
+    "after": "3.0.3"
+  },
+  "compatibility": "breaking",
+  "summary": {
+    "total_changes": 15,
+    "breaking": 1,
+    "potentially_breaking": 10,
+    "unknown": 0,
+    "compatible": 2,
+    "non_contract": 2
+  },
+  "changes": [
+    {
+      "id": "change-001",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "DELETE",
+        "path": "/orders/{id}"
+      },
+      "location": {},
+      "reason": "Operation DELETE /orders/{id} was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to DELETE /orders/{id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders/{id}",
+          "delete"
+        ],
+        "before": {
+          "responses": {
+            "204": {
+              "description": "Cancelled"
+            }
+          },
+          "summary": "Cancel an order",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-002",
+      "rule": "request.required_parameter_added",
+      "kind": "required_parameter_added",
+      "compatibility": "potentially_breaking",
+      "direction": "request",
+      "operation": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "location": {
+        "in": "query",
+        "name": "customer_id"
+      },
+      "reason": "A new required query parameter `customer_id` was added to GET /orders. Callers that do not send it may be rejected.",
+      "recommended_action": "Update callers of GET /orders to send `customer_id`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "get",
+          "parameters",
+          "query:customer_id"
+        ],
+        "before": null,
+        "after": {
+          "in": "query",
+          "name": "customer_id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "id": "change-003",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[].status",
+        "keyword": "enum"
+      },
+      "reason": "Value \"cancelled\" was added to the allowed values of field `[].status` in the 200 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `[].status` in consumers of GET /orders.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "properties",
+          "status",
+          "enum",
+          "2"
+        ],
+        "before": null,
+        "after": "cancelled"
+      }
+    },
+    {
+      "id": "change-004",
+      "rule": "response.property_became_optional",
+      "kind": "property_became_optional",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[].total",
+        "keyword": "required"
+      },
+      "reason": "`[].total` is no longer guaranteed in the 200 response body. Consumers that assume it is present may break.",
+      "recommended_action": "Handle a missing `[].total` in consumers of GET /orders.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "required",
+          "2"
+        ],
+        "before": "total",
+        "after": null
+      }
+    },
+    {
+      "id": "change-005",
+      "rule": "response.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[].total"
+      },
+      "reason": "Property `[].total` was removed from the 200 response body. Consumers that read it may break.",
+      "recommended_action": "Find code that reads `[].total` from GET /orders and handle its absence.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "properties",
+          "total"
+        ],
+        "before": {
+          "type": "number"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-006",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "POST",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "status",
+        "keyword": "enum"
+      },
+      "reason": "Value \"cancelled\" was added to the allowed values of field `status` in the 201 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `status` in consumers of POST /orders.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "post",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "status",
+          "enum",
+          "2"
+        ],
+        "before": null,
+        "after": "cancelled"
+      }
+    },
+    {
+      "id": "change-007",
+      "rule": "response.property_became_optional",
+      "kind": "property_became_optional",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "POST",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "total",
+        "keyword": "required"
+      },
+      "reason": "`total` is no longer guaranteed in the 201 response body. Consumers that assume it is present may break.",
+      "recommended_action": "Handle a missing `total` in consumers of POST /orders.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "post",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "required",
+          "2"
+        ],
+        "before": "total",
+        "after": null
+      }
+    },
+    {
+      "id": "change-008",
+      "rule": "response.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "POST",
+        "path": "/orders"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "total"
+      },
+      "reason": "Property `total` was removed from the 201 response body. Consumers that read it may break.",
+      "recommended_action": "Find code that reads `total` from POST /orders and handle its absence.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "post",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "total"
+        ],
+        "before": {
+          "type": "number"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-009",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders/{id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "status",
+        "keyword": "enum"
+      },
+      "reason": "Value \"cancelled\" was added to the allowed values of field `status` in the 200 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `status` in consumers of GET /orders/{id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "status",
+          "enum",
+          "2"
+        ],
+        "before": null,
+        "after": "cancelled"
+      }
+    },
+    {
+      "id": "change-010",
+      "rule": "response.property_became_optional",
+      "kind": "property_became_optional",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders/{id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "total",
+        "keyword": "required"
+      },
+      "reason": "`total` is no longer guaranteed in the 200 response body. Consumers that assume it is present may break.",
+      "recommended_action": "Handle a missing `total` in consumers of GET /orders/{id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "required",
+          "2"
+        ],
+        "before": "total",
+        "after": null
+      }
+    },
+    {
+      "id": "change-011",
+      "rule": "response.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orders/{id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "total"
+      },
+      "reason": "Property `total` was removed from the 200 response body. Consumers that read it may break.",
+      "recommended_action": "Find code that reads `total` from GET /orders/{id} and handle its absence.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders/{id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "total"
+        ],
+        "before": {
+          "type": "number"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-012",
+      "rule": "operation.operation_added",
+      "kind": "operation_added",
+      "compatibility": "compatible",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/customers/{id}"
+      },
+      "location": {},
+      "reason": "New operation GET /customers/{id}.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/customers/{id}",
+          "get"
+        ],
+        "before": null,
+        "after": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The customer"
+            }
+          },
+          "summary": "Get a customer"
+        }
+      }
+    },
+    {
+      "id": "change-013",
+      "rule": "request.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "request",
+      "operation": {
+        "method": "POST",
+        "path": "/orders"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "note"
+      },
+      "reason": "Property `note` was added to the request body. Callers that omit it are unaffected unless it is also required.",
+      "recommended_action": "Optionally send `note` in POST /orders; check whether it is required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "post",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "note"
+        ],
+        "before": null,
+        "after": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "id": "change-014",
+      "rule": "document.document_metadata_changed",
+      "kind": "document_metadata_changed",
+      "compatibility": "non_contract",
+      "direction": "document",
+      "operation": null,
+      "location": {},
+      "reason": "Document metadata (`info.version`) changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "info",
+          "version"
+        ],
+        "before": "1.4.0",
+        "after": "2.0.0"
+      }
+    },
+    {
+      "id": "change-015",
+      "rule": "operation.operation_documentation_changed",
+      "kind": "operation_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/orders"
+      },
+      "location": {},
+      "reason": "Documentation (`summary`) of GET /orders changed.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "get",
+          "summary"
+        ],
+        "before": "List orders",
+        "after": "List orders for a customer"
+      }
+    }
+  ],
+  "limitations": [],
+  "metadata": {
+    "input_hashes": {
+      "before": "sha256:9bd9ff39263587ebd8a83fe22a81762daaf56e69658e7311b9e38316b6272de7",
+      "after": "sha256:4418d5680fe419ea76b6498a2d975e0bc5b029a14cb59a942db183add1e59c10"
+    },
+    "changes_omitted": 0,
+    "duration_ms": 0
+  }
+}

@@ -23,7 +23,9 @@
       "src/**",
       "tests/**",
       "scripts/**",
-      "!tests/fixtures/**"
+      "examples/**",
+      "!tests/fixtures/**",
+      "!examples/*.json"
     ]
   },
   "overrides": [
