@@ -70,7 +70,7 @@ async function snapshot(res: Response, started: number) {
   let settle: unknown = null;
   const h = res.headers.get("PAYMENT-RESPONSE") ?? res.headers.get("X-PAYMENT-RESPONSE");
   if (h) { try { settle = JSON.parse(Buffer.from(h, "base64").toString("utf8")); } catch { settle = "undecodable"; } }
-  return { status: res.status, elapsed_ms: Date.now() - started, body: text.slice(0, 600), payment_response: settle,
+  return { status: res.status, elapsed_ms: Date.now() - started, body: text.slice(0, 20_000), payment_response: settle,
            header_names: [...res.headers.keys()].sort() };
 }
 

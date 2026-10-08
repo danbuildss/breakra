@@ -35,6 +35,7 @@
 | 2026-10-08 | Probe rev 4 deploy (no dependencies) | Bankr agent deploy; Claude checked `api.bankr.bot/x402/endpoints/schema/<wallet>/breakra-t001-probe` | **Live** v1, $0.001 USDC, base, GET+POST | Public schema API read by Claude | Paid behaviour (T0+) |
 | 2026-10-08 | Lib deploy (pre-bundled single file) | Same, `breakra-t001-lib` | **Live** v1, $0.001 USDC, base, GET. **Built first try** | Public schema API read by Claude | Runtime result (T3) |
 | 2026-10-08 | Failed builds' logs | Bankr agent | No logs exist: rejected before an endpoint record was created | Relayed by Bankr's agent | Root cause not proven |
+| 2026-10-08 | **T2** env | `bun t001.ts T2` | 200 in 1120 ms. Runtime **Bun 1.3.14** (node-compat 24.3.0). **Rest of the body was truncated by the client (600-char cap, Claude's bug)**, so platform/arch, RSS, outbound fetch and request header names were lost | Owner output | Re-run as T2 after fixing the cap (+$0.001) |
 | 2026-10-08 | **T1** paid OK | `T001_PAYTO=0x8AEE… bun t001.ts T1` (owner-approved payTo) | **200** in 3388 ms. **No PAYMENT-RESPONSE header returned.** Burner 40000→39000; payout 121661→**122661** (+1000, **full amount, 0% fee**) | Owner output + Claude balance reads 07:53 → 07:56 UTC | Tx hash (not returned) |
 | 2026-10-08 | **T0** unpaid 402 | `bun t001.ts T0` (owner) | 402, valid v2 requirements, amount 1000, **payTo `0x8AEE…01a0` ≠ payout wallet** | Owner-pasted output | Payment (blocked pending approval) |
 | 2026-10-08 | Burner funding | Balance read | 0.04 USDC on Base | Portfolio read | — |
