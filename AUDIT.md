@@ -367,3 +367,8 @@ No decision is made until there's evidence.
   2. Breakra's skill.md and docs must not tell buyers they pay the owner's wallet directly.
   3. Revenue measurement must use Bankr's revenue figures plus observed payouts, not transfers into `0xb98f` per call.
 - **New T-001 measurement:** whether, when and how much reaches `0xb98f` after paid calls (payout timing, batching, the 5% fee).
+
+**§16 update, T1 (2026-10-08). The owner approved paying `0x8AEE…` (BankrFeeRouterV2 per Bankr's agent, which says it's a verified contract on Basescan; Claude can't reach Basescan to check).**
+- **Settlement: VERIFIED.** The payer lost exactly 0.001 and the payout wallet gained exactly **0.001** within about 3 minutes (balance reads at 07:53 and 07:56 UTC). Payout is per call and arrives promptly at the owner's wallet.
+- **Fee on this call: 0%, VERIFIED.** The owner got the gross 1000 units. That **contradicts** Bankr's agent ("5% every call, atomically") and is consistent with Bankr's docs and press ("5% after the first 1,000 requests/month"). Expect 5% beyond the monthly free tier; re-verify if volume grows.
+- **No `PAYMENT-RESPONSE` header** on the paid 200. Buyers get no settlement receipt or tx hash from Bankr in the HTTP response. Breakra's docs must not promise one.
