@@ -420,3 +420,5 @@ No decision is made until there's evidence.
 
 **§16 update, T12 (2026-10-08): replay protection VERIFIED.** Resending the identical `PAYMENT-SIGNATURE` header after a successful paid call returned **402 "Payment already used"**. A signed payment can't be reused.
 **Accounting note (19:10 UTC):** the burner is down 3000 since T9 (T12 = 1, plus 2 not yet attributed; asked the owner). The payout wallet is up 9000, which includes income unrelated to T-001. **From here on, the burner's balance is the authoritative T-001 cost meter.**
+
+**§16 update, T10:** a 128 MB allocation succeeded (RSS about 193 MB), so there's at least that much headroom. The memory ceiling wasn't probed (no stress testing). The burner is now 25000 (total T-001 cost $0.015). The 2 charges between T9 and T12 are still unattributed (T10 had never run before).
