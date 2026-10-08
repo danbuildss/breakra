@@ -1,6 +1,8 @@
 # Specshift — Phase 0 Feasibility Audit
 
 **Date:** 2026-10-08 · **Task:** T-000 (approved, D-012) · **Status:** Delivered for owner review. Nothing here is approved until the owner says so.
+
+> **Update 2026-10-08:** The owner rejected "Specshift" as the public brand (F1). See §12 for the naming clearance audit. The repo is not renamed yet.
 **Method:** Package and source inspection, hands-on benchmarks in a scratch environment (not committed), and web research. Every claim is tagged **[verified]** (I ran or read it myself), **[reported]** (a secondary source), or **[unknown]** (must be tested).
 
 ---
@@ -161,3 +163,114 @@ Overall `compatibility` is the worst class across all changes. **Wording rule:**
 **Total spend:** under $0.05. **What you'd need to provide:** run `bankr login` yourself (or give me the go-ahead and a way to authenticate) and a wallet with about $0.10 USDC on Base to pay from. Then we delete the probe.
 
 Phase 1 (core engine) doesn't depend on Bankr and could run in parallel, but the probe sets the size limits and bundle approach that Phase 1 must respect.
+
+---
+
+## 12. Naming clearance audit (2026-10-08, requested after the owner rejected "Specshift" as the public brand)
+
+**Status:** Findings only. No accounts created, no domains bought, and no project files changed except this one. Awaiting the owner's choice.
+
+### Method and how far it goes
+
+| Check | How | What it can and can't prove |
+|---|---|---|
+| npm, PyPI, crates.io | Registry APIs queried directly | **Verified** taken or free *at check time* |
+| GitHub user/org handle | `github.com/<name>` fetch | **Verified** exists (200) or doesn't (404) at check time |
+| Domains .com/.dev/.xyz (plus .io/.ai) | Live DNS NS/SOA lookups via 8.8.8.8 | **Delegated NS = verified registered.** **NXDOMAIN = probably unregistered, NOT proven** (a domain can be registered without nameservers). RDAP/WHOIS are blocked from this environment, so **confirm at a registrar before relying on any domain.** |
+| Trademarks | Web search of USPTO aggregators (Justia, Trademarkia, uspto.report) | **Not a clearance.** The official USPTO, EUIPO and WIPO search UIs weren't reachable from here. "No hit" means *no evidence found*, not *clear*. |
+| Products, companies, discoverability | Web search | Good at finding conflicts, can't prove absence |
+
+### The three names you proposed
+
+**Revra**
+- **Verified conflicts:**
+  - **REVRA trademark application**: serial 99638400, Revra LLC (El Cajon, CA), filed Feb 6 2026, **Class 14 (jewelry rings)**, live/pending ([Trademarkia](https://www.trademarkia.com/revra-99638400)). That's a different class from software (9/42), so direct legal risk is low, but the mark isn't free.
+  - **revra.com** is registered and resolving (eftydns NS). **revra.dev** is registered (Cloudflare NS). revra.io and revra.ai are registered.
+  - The GitHub handle `revra` is taken (individual user, no public repos).
+- **Free (verified):** npm `revra`, PyPI `revra`, crates `revra`.
+- **Uncertain:** revra.xyz returned NXDOMAIN (probably unregistered).
+- **Software/product use:** none found. Near-misses are Rev, Reva, Revenera and REVIRA (a student VR project). Moderate search noise from "Rev"/"Reva".
+- **Verdict:** clean in software. Weak on domains: both .com and .dev are held by others.
+
+**Deltic: reject**
+- **Verified conflicts:**
+  - **npm `deltic` is taken by an active developer tool.** v0.2.0, "Gulp-based incremental compile toolkit", updated **2026-10-06**.
+  - **npm `@deltic/*` scope** and GitHub org **`deltic-oss/deltic`**: TypeScript building blocks for applications ([PR #23](https://github.com/deltic-oss/deltic/pull/23)). That's the same ecosystem we'd ship in.
+  - **Deltic (France)**, an invoice/document software company ([PitchBook](https://pitchbook.com/profiles/company/465491-35), [Software Advice](https://www.softwareadvice.com/document-control/deltic-profile/)).
+  - UK companies Deltic Solutions Ltd and Deltic Systems Ltd ([Companies House](https://find-and-update.company-information.service.gov.uk/company/10376858)).
+  - deltic.com, deltic.dev and deltic.ai are all registered.
+- **Uncertain:** deltic.xyz and deltic.io returned NXDOMAIN.
+- **Verdict:** existing TypeScript developer tooling and a software company use this name. **High confusion risk.**
+
+**Drifto: reject**
+- **Verified conflicts:**
+  - **PyPI `drifto`**: "Automatic featurization and ML for event analytics".
+  - **Drifto desktop app** with API/webhooks ([driftoapp.com](https://driftoapp.com/)).
+  - A Drifto mobile game ([JohnnyHowe/drifto-pages](https://github.com/JohnnyHowe/drifto-pages/issues)).
+  - drifto.com, drifto.xyz, drifto.io and drifto.ai are all registered.
+- **Uncertain:** drifto.dev returned NXDOMAIN. npm `drifto` is free (verified).
+- **Discoverability:** very poor. "Drift" (Salesloft), Drift Protocol, and "API/data drift" as a general concept all dominate results.
+- **Verdict:** several existing software products. **High confusion and poor searchability.**
+
+### Additional candidates
+
+I pre-screened 12 coined names (Pactra, Diffra, Specra, Contrava, Pactly, Breakra, Delvra, Diffact, Pactdiff, Kontrakt, Shiftora, Vardiff) on registries and DNS.
+- **Excluded "Pact-" names:** Pact/PactFlow is a well-known **API contract-testing** product, so those would be confusing in our exact space.
+- **Excluded Specra:** npm `specra` and `specra-cli` exist.
+- **Excluded Pactra:** `@pactra.dev/*` exists.
+
+Three survivors:
+
+**Breakra**
+- **Free (verified):** npm `breakra`, PyPI `breakra`, crates `breakra`, GitHub handle `breakra` (404).
+- **Conflicts found:** none. Web search returned only "Breaka", a London DJ, which is a different field and spelling. No trademark records found.
+- **Domains:** **.com, .dev, .xyz, .io and .ai all returned NXDOMAIN.** That's probably all unregistered, but unproven.
+- **Notes:** The "break" root ties directly to *breaking changes* and is memorable. Pronunciation is slightly ambiguous ("BRAKE-ra").
+
+**Delvra**
+- **Free (verified):** npm, PyPI, crates.
+- **Domains:** **.com, .dev, .xyz, .io and .ai all returned NXDOMAIN** (probably unregistered, unproven).
+- **Verified conflicts:**
+  - GitHub handle `delvra` is taken (inactive user).
+  - delvra.nl, a Dutch household-goods shop.
+  - delvra.website, a software-license reseller.
+- **Trademark:** none found.
+- **Notes:** The meaning is abstract ("delve" / "delta"). It sounds close to "Delve", an existing startup name.
+
+**Contrava**
+- **Free (verified):** npm, PyPI, crates.
+- **Domains:** **contrava.com is registered.** .dev, .xyz, .io and .ai returned NXDOMAIN.
+- **Verified conflicts:**
+  - CONTRAVA trademark, Orexigen Therapeutics, pharma, **abandoned 2015** ([Justia](https://trademarks.justia.com/862/74/contrava-86274951.html)).
+  - **Contrave**, a well-known weight-loss drug. Search engines "correct" to it.
+  - Contrava Service Ltd (UK, dissolved 2021).
+- **Notes:** The meaning ("contract") fits, but discoverability is poor.
+
+### Ranking
+
+| Rank | Name | Why |
+|---|---|---|
+| **1** | **Breakra** | The only candidate where no conflicts turned up in any check: registries free, GitHub handle free, every TLD shows NXDOMAIN, no trademark hits, no software products. Its meaning maps to the product (breaking changes). |
+| 2 | Revra | The best-sounding name, and no software conflicts. But **.com and .dev are both held**, the GitHub handle is taken, and there's a pending REVRA trademark (jewelry class). It works only if `revra.xyz` (or a prefix like `getrevra.dev`) is acceptable. |
+| 3 | Delvra | Domains look open, but the meaning is weak, there are minor existing uses (a shop and a software reseller), and the GitHub handle is taken. |
+| — | Contrava | Pharma-brand confusion (Contrave). .com is taken. |
+| ✗ | Deltic, Drifto | Verified conflicts with existing software and developer tools. |
+
+**Recommendation: Breakra.** Before committing, the owner (not Claude) should:
+1. Check breakra.com, breakra.dev and breakra.xyz at a registrar. NXDOMAIN isn't proof of availability.
+2. Run an official USPTO search (Classes 9 and 42) and a WIPO Global Brand Database search, or ask counsel. Neither was reachable from here.
+3. Optionally reserve the npm name, GitHub org and domains in one sitting once approved, to avoid squatting between check and purchase.
+
+**Sources:**
+- npm registry, PyPI JSON API, crates.io sparse index, Google public DNS and GitHub profile fetches (all queried 2026-10-08).
+- [Trademarkia REVRA](https://www.trademarkia.com/revra-99638400)
+- [Justia CONTRAVA](https://trademarks.justia.com/862/74/contrava-86274951.html)
+- [deltic-oss/deltic](https://github.com/deltic-oss/deltic/pull/23)
+- [Deltic PitchBook](https://pitchbook.com/profiles/company/465491-35)
+- [Deltic Software Advice](https://www.softwareadvice.com/document-control/deltic-profile/)
+- [Deltic Solutions Ltd](https://find-and-update.company-information.service.gov.uk/company/10376858)
+- [Drifto app](https://driftoapp.com/)
+- [drifto-pages](https://github.com/JohnnyHowe/drifto-pages/issues)
+- [Contrava Service Ltd](https://find-and-update.company-information.service.gov.uk/company/12124254)
+- [Breaka (DJ)](https://ra.co/dj/breaka)
+- [delvra.nl](https://delvra.nl/), [delvra.website](https://delvra.website/)
