@@ -404,3 +404,10 @@ No decision is made until there's evidence.
   - **Never return 2xx unless the analysis is complete and correct.** 2xx is what triggers the charge.
   - The brief's rule "don't charge for known-invalid requests" is achievable.
 - **Spend so far:** 5 charged calls = **$0.005** (9 paid attempts of the 30-attempt cap).
+
+**§16 update, T8 (2026-10-08):**
+- Handler time of 5, 15 and **25 s all succeeded** (200, each charged). Platform overhead is about 1–2.5 s per call.
+- Bankr's stated 30 s cap was deliberately not tested.
+- **Design limit for Breakra: keep worst-case handler time ≤ 20 s** (a margin under the 30 s cap and the observed overhead).
+- Locally the 13 MB GitHub spec diff took 9–14 s on x86. Bankr runs arm64 with an unknown CPU allocation, so **Phase 1 must benchmark on Bankr itself** and set size caps from that.
+- Spend so far: 8 charged calls = **$0.008** (12 paid attempts).
