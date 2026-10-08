@@ -20,7 +20,7 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-**T-001 — Bankr platform probe: PREPARED (plan rev 2), not executed.** Bankr's agent deploys (owner's choice). The open conflict on whether failures are charged is the key question (AUDIT §15).
+**T-001 — Bankr platform probe: APPROVED FOR EXECUTION (D-021), in progress.** Waiting for Bankr's deploy result and the owner's client outputs. Handoff: `experiments/t001-bankr-probe/BANKR-HANDOFF.md`. (History: PREPARED, plan rev 2.) Bankr's agent deploys (owner's choice). The open conflict on whether failures are charged is the key question (AUDIT §15).
 - **Approved:** preparation only (2026-10-08). Max authorized spend $0.05. Disposable; not the product.
 - **Plan:** `T-001-PLAN.md`. **Code:** `experiments/t001-bankr-probe/` (bundles with Bun; all cases pass locally).
 - **Blocked on owner:**

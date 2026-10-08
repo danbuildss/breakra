@@ -109,5 +109,14 @@ PyPI `specshift` (Lethe044, Aug–Sep 2026) is an OpenAPI breaking-change detect
 Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope expansion.
 **Pending verification by T-001:** D-016 (free discovery off Bankr). The marketplace shows at least one service listed at price `0` (AUDIT.md §13), so free routes on Bankr may be possible after all. If T-001 confirms it, D-016 will be revisited through a new ADR.
 
+## D-021 — T-001 execution approved
+**Status:** Accepted (owner: "approve and go"). **Date:** 2026-10-08.
+**Decision:** Run T-001 per `T-001-PLAN.md` rev 3:
+- Bankr's agent deploys `breakra-t001-probe` ($0.001) and, separately, `breakra-t001-free` ($0) to payout wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91`.
+- The owner runs `t001.ts` with a burner wallet funded with 0.04 USDC from Rabby `0x9E8415109A718de3A4653e4DA37C5906df7C719D`.
+- Max 30 paid calls, max $0.03 in payments (authorization ceiling $0.05).
+- The hard stop rules in the plan apply.
+- Deleting the endpoints afterwards needs a separate owner confirmation.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
