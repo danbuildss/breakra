@@ -8,7 +8,7 @@ Decisions are append-only. If superseded, add a new decision referencing the old
 **Risk:** Existing uses of the name; verify trademark, packages, repositories and domains before public branding.
 
 ## D-002 — Independent repository
-**Status:** Proposed; creation requires owner approval.
+**Status:** Superseded by D-008.
 **Choice:** `somehow-internet/specshift` if organization and name are available.
 **Why:** Isolated releases and security boundaries; not another company.
 
@@ -31,6 +31,12 @@ Decisions are append-only. If superseded, add a new decision referencing the old
 ## D-007 — URL fetching
 **Status:** Conditional.
 **Choice:** Inline specs are mandatory; remote HTTPS JSON specs only if SSRF defenses are demonstrably robust.
+
+## D-008 — Canonical repository is danbuildss/specshift
+**Status:** Accepted. **Date:** 2026-10-08.
+**Context:** D-002 proposed `somehow-internet/specshift`, and an earlier draft proposed `somehow-internet/api-change-intelligence`.
+**Decision:** The owner confirmed that the canonical repository is `danbuildss/specshift`. It already exists, so no repository needs creating.
+**Consequences:** Supersedes D-002. Project docs live in the repo root (not `docs/` as the master brief's tree suggested).
 
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

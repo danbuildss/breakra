@@ -9,7 +9,7 @@
 - [ ] Decide inline-only vs safe URL mode.
 - [ ] Verify actual x402 SDK, host, facilitator and settlement semantics.
 - [ ] Estimate worst-case execution cost, latency and $0.02 unit economics.
-- [ ] Check Specshift naming conflicts and repository availability.
+- [ ] Check Specshift naming conflicts (repository settled by D-008: `danbuildss/specshift`).
 - [ ] Present feasibility audit and await owner approval.
 
 ## Not started — gated

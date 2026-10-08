@@ -1,6 +1,8 @@
 # Specshift — Working Notes
 
 > **WORKFLOW RULE (always):** Before building, integrating or changing anything, read this file first to know where we are. Every decision, input and step we take gets recorded here.
+>
+> **Then follow `CLAUDE.md`** (the operating manual). It requires reading PRODUCT → PLAN → DECISIONS → ARCHITECTURE → TASKS → TESTING → LAUNCH, inspecting the repo, and then doing one approved task at a time. Doc precedence: owner's latest explicit decision > DECISIONS.md > PRODUCT.md > ARCHITECTURE.md > PLAN.md > task notes.
 
 ---
 
@@ -8,16 +10,17 @@
 
 - **Repo:** `danbuildss/specshift` (owner-confirmed).
 
-- **Phase:** Collecting inputs. **No implementation has started.**
-- **What's happening now:** The owner is sending the context documents. Claude records them here and builds nothing.
-- **Next step:** Once the owner has sent everything, create the project docs (README.md, PLAN.md, DECISIONS.md, etc.) from these notes. Then do the feasibility audit described in Brief §25.
-- **Waiting on:** Any more documents or context from the owner.
+- **Phase:** 0, the feasibility audit (per PLAN.md). **Not started. No production code exists.**
+- **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
+- **Next step:** Phase 0 feasibility audit (TASKS.md backlog). Waiting for the owner's go-ahead.
+- **Waiting on:** Owner approval to start Phase 0, plus any more inputs.
 
 ## Inputs received
 
 | # | Date | What | Where |
 |---|------|------|-------|
 | 1 | 2026-10-08 | Specshift Master Product & Engineering Brief v1.0 | [Appendix A](#appendix-a--specshift-master-product--engineering-brief-v10) |
+| 3 | 2026-10-08 | Project workspace zip (9 Markdown files) plus a suggested first message to Claude | Repo root; see [Appendix C](#appendix-c--project-workspace-input-3) |
 | 2 | 2026-10-08 | Owner's cover document. It wraps the same master brief and adds: product decisions table, pre-start findings, owner checklist, build order, and an earlier "API Change Intelligence" draft with rules for Claude | [Appendix B](#appendix-b--owners-cover-document-input-2) |
 
 ## Key takeaways (summary of input #1)
@@ -80,6 +83,13 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Received input #3, the project workspace zip. Installed the 9 docs in the repo root unchanged (commit `588f7d2`). Then made minimal reconciliation edits:
+  - CLAUDE.md startup step 0 now says read `notes.md` first.
+  - README navigation lists `notes.md`.
+  - DECISIONS.md: added D-008 (repo is `danbuildss/specshift`), which supersedes D-002.
+  - TASKS.md: the naming-check item notes the repo is settled.
+
+  No production code written. Phase 0 not started; awaiting the owner's go-ahead.
 
 ---
 
@@ -821,3 +831,46 @@ Objective: Given two OpenAPI specifications, return a deterministic, structured 
 | Initial paid operations | One |
 
 > A deterministic OpenAPI diff is easy for coding agents to reproduce locally. That's the biggest commercial weakness. Treat V0 as a small paid-distribution experiment, not assumed recurring income. If buyers repeatedly use it, consider managed historical snapshots or higher-value semantic analysis, but only as responses to observed demand. The first action is to approve the backend specification, not build a website.
+
+---
+
+## Appendix C — Project workspace (input #3)
+
+*(Received 2026-10-08. The files themselves now live in the repo root, so this records the context and owner instructions that came with them.)*
+
+**Owner's intent:** The repo is a persistent project workspace for Claude, not just a code folder. Every new session should know what Specshift is, what was agreed, what shipped, what's blocked and what it may do next.
+
+**Files and their roles:**
+
+| File | Role |
+|---|---|
+| CLAUDE.md | Claude's permanent operating rules and session workflow |
+| PRODUCT.md | What Specshift is, its users, boundaries and success criteria |
+| PLAN.md | Development phases (0–5) and approval gates |
+| ARCHITECTURE.md | Backend, API contract, security, payments and infrastructure |
+| DECISIONS.md | Append-only decision log (D-001…), including pending approvals |
+| TASKS.md | WIP limit of 1, backlog, acceptance criteria and definition of done |
+| TESTING.md | Fixtures, security and payment tests, release gates and reporting format |
+| LAUNCH.md | Pre-launch checklist, demo assets, 14-day experiment and daily metrics |
+| README.md | Repo intro and navigation |
+
+**Work cycle:** READ → AUDIT → PLAN → APPROVE → BUILD → TEST → REVIEW → DOCUMENT → STOP. Claude cannot advance to a new phase on its own. Every task ends with a report covering: changed files, commands and results, evidence, security and payment implications, what's unverified, blockers, and exactly one recommended next task.
+
+**Notable details in the workspace docs (vs the master brief):**
+- ARCHITECTURE.md adds a `rule_set_version` field to the response.
+- PRODUCT.md and PLAN.md make URL mode explicitly optional: Phase 2 ships it only if SSRF defenses are proven, and inline-only is acceptable.
+- PLAN.md phases: 0 Feasibility → 1 Core backend (no payments) → 2 Hardening → 3 x402 + deployment → 4 Agent distribution → 5 14-day experiment.
+- DECISIONS.md is append-only. Supersede a decision with a new entry; never rewrite an old one.
+- The master brief placed ARCHITECTURE/API/SECURITY/PAYMENTS docs in `docs/`. The workspace keeps the core docs in the root, and that layout wins (it's the owner's latest).
+
+**Suggested first message (owner-drafted, to kick off Phase 0):**
+
+> Read all the Markdown files … Your first task is Phase 0: technical feasibility and architecture audit. Research the best OpenAPI diff engine, evaluate our intended stack, confirm x402 integration and hosting options, review security and payment risks, and identify anything we need to change before coding. Return:
+> 1. What you understand about Specshift.
+> 2. Your technical recommendations and trade-offs.
+> 3. What you agree or disagree with in our current architecture.
+> 4. Any existing tools we should reuse instead of rebuilding.
+> 5. Risks, limitations and estimated costs.
+> 6. The exact next implementation task.
+>
+> Do not write production code, create infrastructure or deploy anything yet. … Work carefully, verify your claims, and keep the Markdown documents updated as we progress.

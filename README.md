@@ -7,6 +7,7 @@ Specshift is a planned x402-paid utility that compares two OpenAPI contracts and
 **Current status:** Feasibility audit; not built or deployed. **Working name:** conflict clearance pending.
 
 ## Project navigation
+- `notes.md` — read first: running status, dated log and original owner inputs.
 - `CLAUDE.md` — mandatory Claude workflow and guardrails.
 - `PRODUCT.md` — product source of truth and scope.
 - `PLAN.md` — phases and approval gates.
@@ -17,7 +18,7 @@ Specshift is a planned x402-paid utility that compares two OpenAPI contracts and
 - `LAUNCH.md` — distribution and 14-day commercial test.
 
 ## First action
-Ask Claude to read the eight documents, inspect the repository, conduct Phase 0 feasibility only, and present its recommendations for approval. Do not create production code or deploy yet.
+Ask Claude to read `notes.md` and the eight documents, inspect the repository, conduct Phase 0 feasibility only, and present its recommendations for approval. Do not create production code or deploy yet.
 
 ## Intended V0
 One paid `POST /v1/analyze` endpoint, no frontend, no database, no LLM, no continuous monitoring. Initial proposed price $0.02 USDC on Base, subject to owner approval and verified payment integration.
