@@ -388,3 +388,19 @@ No decision is made until there's evidence.
 **§16 update, T4 (2026-10-08): KEY RESULT.** A handler-returned **400 was not charged** (both balances unchanged). The fast 485 ms response, versus 1.1–3.4 s for settled 200s, is consistent with **settlement only after a successful response**. **This contradicts Bankr's agent ("all errors charged, no refund") and matches Bankr's docs.** Lag re-check pending at T5. If it holds, Breakra can reject invalid input with 4xx **at no cost to the caller**, which meets the brief's "don't charge for known-invalid requests" rule.
 
 **§16 update, T5:** a handler-returned **500 was also not charged** (balances unchanged; the T4 result was re-confirmed about 50 s later). A positive control (T7, which expects 2 charges) will rule out indexer lag.
+
+**§16 update, T6 + T7 (2026-10-08): SETTLEMENT SEMANTICS VERIFIED.**
+- **Positive control:** T7 (two 200s) produced **exactly 2 charges**, visible within about 1 minute. So indexer lag doesn't explain the zero-charge results.
+- **Verified rule:** **Bankr settles only when the handler returns a successful (2xx) response.**
+  - Handler-returned **400** (T4): not charged.
+  - Handler-returned **500** (T5): not charged.
+  - **Unhandled throw** (T6, which the platform turns into a blank 500): not charged.
+  - **Module load failure** (T3, blank 500): not charged.
+  - Bankr's agent's claim ("all errors charged, no refund") is **wrong**. Bankr's docs ("only collected if your endpoint returns successfully") are **correct**.
+- **Retries:** each new authorization is charged separately. No platform dedup by body.
+- **Fee so far:** 0% on all 5 charged calls (consistent with the documented free first 1,000 requests/month).
+- **Consequences for Breakra (to adopt via an ADR in Phase 1):**
+  - Return **4xx for every invalid input**; the caller pays nothing.
+  - **Never return 2xx unless the analysis is complete and correct.** 2xx is what triggers the charge.
+  - The brief's rule "don't charge for known-invalid requests" is achievable.
+- **Spend so far:** 5 charged calls = **$0.005** (9 paid attempts of the 30-attempt cap).
