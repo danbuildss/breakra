@@ -93,6 +93,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Rev-4 endpoints live: `breakra-t001-probe` (GET+POST) and `breakra-t001-lib` (GET), both v1 at $0.001 on Base. Claude verified them via the public schema API. **The owner may now run T0, then the next cases one at a time.**
 - **2026-10-08:** T-001 first results:
   - **Burner wallet:** `0x250265e8…7a75`, funded with 0.04 USDC (verified).
   - **Free probe:** Bankr rejected price 0 (minimum $0.000001).

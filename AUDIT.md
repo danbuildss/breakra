@@ -352,3 +352,7 @@ No decision is made until there's evidence.
 - The probe is split into `breakra-t001-probe` (**no dependencies**) and `breakra-t001-lib`, a **pre-bundled single file** with api-smart-diff 1.0.6 inlined and no dependencies.
 - That's exactly the D-015 shipping model, so T3 now tests the production approach directly. Both compile and run locally.
 - **Consequence for D-016:** free discovery endpoints can't live on Bankr. They have to be served off-platform (GitHub) or as near-free paid endpoints ($0.000001). D-016 stands.
+
+**§16 update:**
+- Both rev-4 endpoints are **live** (v1, $0.001 USDC, Base). Verified by Claude via the public schema API.
+- The **pre-bundled single file built first try**, while the npm-dependency build had failed twice. That strongly supports D-015: Breakra ships as one self-contained file and asks Bankr to install no dependencies. The root cause of the earlier failure is unproven, because no build logs exist.
