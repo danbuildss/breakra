@@ -14,9 +14,9 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** **1 COMPLETE** (core engine), awaiting the owner's review and merge of the Phase 1 PR. Phase 0 (audit and T-001 Bankr test) is complete.
+- **Phase:** **1 MERGED** (PR #2; CI green on the PR and on `main`). **Phase 3 plan proposed (`PHASE-3-PLAN.md`), awaiting owner approval.** Phase 2 is folded in. Phase 0 (audit and T-001 Bankr test) is complete.
 - **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench), `.github/workflows/ci.yml`, plus docs: RULES.md, docs/API.md, BENCHMARKS.md, ARCHITECTURE.md (as built). **Nothing is deployed.** Bankr has no Breakra endpoints (the T-001 endpoints were deleted).
-- **Next step:** The owner reviews and merges the Phase 1 PR, then approves the next phase (Phase 2 hardening and Phase 3 deploy at $0.02 via the Bankr CLI, D-025).
+- **Next step:** The owner approves Phase 3. Decisions needed: (1) approval and up to $0.10 spend (top up the burner about 0.08 USDC); (2) deploy publicly as `breakra-analyze` now vs a staging endpoint first; (3) whether the open brand clearance blocks deploying or only promotion.
 - **Waiting on:** The owner's PR review. Before launch: the domain and trademark checks, and a repo license decision.
 
 ## Inputs received
@@ -89,6 +89,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner merged PR #2. GitHub Actions CI passed on the PR (run 37836292583) and on `main` (run 37837847635). Branch reset onto `main`. Claude wrote `PHASE-3-PLAN.md` (deploy via CLI, live verification V0–V6, $0.04 expected / $0.10 cap).
 - **2026-10-08:** **Phase 1 COMPLETE.** Core engine built:
   - **Validation:** limits, plus a ref-bomb guard (a 2 KB bomb would otherwise produce about 200 k diffs).
   - **Comparison and rules:** api-smart-diff wrapper and rule set 0.1.0 (RULES.md).
