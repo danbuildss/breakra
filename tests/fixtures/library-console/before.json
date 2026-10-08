@@ -1,0 +1,51 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "labels",
+    "version": "22.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "L": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "node_id": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "color": {
+              "type": "string"
+            },
+            "default": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "id",
+            "node_id",
+            "url",
+            "name",
+            "description",
+            "color",
+            "default"
+          ]
+        }
+      }
+    }
+  }
+}

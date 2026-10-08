@@ -1,0 +1,2268 @@
+{
+  "status": "success",
+  "analysis_id": "sha256:c17639a1f47c0d48a1dec9faac4eaf8b0f2a0ecd94dab6867a65872453faddc1",
+  "engine_version": "0.1.1",
+  "rule_set_version": "0.1.0",
+  "spec_versions": {
+    "before": "3.0.3",
+    "after": "3.0.3"
+  },
+  "compatibility": "breaking",
+  "summary": {
+    "total_changes": 59,
+    "breaking": 5,
+    "potentially_breaking": 35,
+    "unknown": 0,
+    "compatible": 10,
+    "non_contract": 9
+  },
+  "changes": [
+    {
+      "id": "change-001",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/orgs/{org}/copilot/metrics"
+      },
+      "location": {},
+      "reason": "Operation GET /orgs/{org}/copilot/metrics was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to GET /orgs/{org}/copilot/metrics.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/copilot/metrics",
+          "get"
+        ],
+        "before": "{\"description\":\"Use this endpoint to see a breakdown of aggregated metrics for various GitHub Copilot features. See the response schema tab for detailed metrics definitions.\\n\\n> [!NOTE]\\n> This endpoint will only return results for a given day if the organization contained **five or more members with active Copilot licenses** on that day, as evaluated at the end of that day.\\n\\nThe response contains metrics for up to 100 days prior. Metrics are processed once per day for the previous day,\\nand the response will only include data up until yesterday. In order for an end user to be counted towards these metrics,\\nthey must have telemetry enabled in their IDE.\\n\\nTo access this endpoint, the Copilot Metrics API access policy must be enabled for the organization.\\nOnly organization owners and owners and billing managers of the parent enterprise can view Copilot metrics.\\n\\nOAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot`, `read:org`, or `read:e…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-002",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/tags/protection"
+      },
+      "location": {},
+      "reason": "Operation GET /repos/{owner}/{repo}/tags/protection was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to GET /repos/{owner}/{repo}/tags/protection.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/tags/protection",
+          "get"
+        ],
+        "before": "{\"deprecated\":true,\"description\":\"> [!WARNING]\\n> **Closing down notice:** This operation is closing down and will be removed after August 30, 2024. Use the \\\"[Repository Rulesets](https://docs.github.com/rest/repos/rules#get-all-repository-rulesets)\\\" endpoint instead.\\n\\nThis returns the tag protection states of a repository.\\n\\nThis information is only available to repository administrators.\",\"externalDocs\":{\"description\":\"API method documentation\",\"url\":\"https://docs.github.com/rest/repos/tags#closing-down---list-tag-protection-states-for-a-repository\"},\"operationId\":\"repos/list-tag-protection\",\"parameters\":[{\"$ref\":\"#/components/parameters/owner\"},{\"$ref\":\"#/components/parameters/repo\"}],\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"default\":{\"$ref\":\"#/components/examples/tag-protection-items\"}},\"schema\":{\"items\":{\"$ref\":\"#/components/schemas/tag-protection\"},\"type\":\"array\"}}},\"description\":\"Response\"},\"403\":{\"$ref\":\"#/components/responses/forbidden\"},\"404\":{\"$re…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-003",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "POST",
+        "path": "/repos/{owner}/{repo}/tags/protection"
+      },
+      "location": {},
+      "reason": "Operation POST /repos/{owner}/{repo}/tags/protection was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to POST /repos/{owner}/{repo}/tags/protection.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/tags/protection",
+          "post"
+        ],
+        "before": "{\"deprecated\":true,\"description\":\"> [!WARNING]\\n> **Closing down notice:** This operation is closing down and will be removed after August 30, 2024. Use the \\\"[Repository Rulesets](https://docs.github.com/rest/repos/rules#create-a-repository-ruleset)\\\" endpoint instead.\\n\\nThis creates a tag protection state for a repository.\\nThis endpoint is only available to repository administrators.\",\"externalDocs\":{\"description\":\"API method documentation\",\"url\":\"https://docs.github.com/rest/repos/tags#closing-down---create-a-tag-protection-state-for-a-repository\"},\"operationId\":\"repos/create-tag-protection\",\"parameters\":[{\"$ref\":\"#/components/parameters/owner\"},{\"$ref\":\"#/components/parameters/repo\"}],\"requestBody\":{\"content\":{\"application/json\":{\"examples\":{\"default\":{\"value\":{\"pattern\":\"v1.*\"}}},\"schema\":{\"properties\":{\"pattern\":{\"description\":\"An optional glob pattern to match against when enforcing tag protection.\",\"type\":\"string\"}},\"required\":[\"pattern\"],\"type\":\"object\"}}},\"required\":true},\"…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-004",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/teams/{team_id}/discussions"
+      },
+      "location": {},
+      "reason": "Operation GET /teams/{team_id}/discussions was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to GET /teams/{team_id}/discussions.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/teams/{team_id}/discussions",
+          "get"
+        ],
+        "before": "{\"deprecated\":true,\"description\":\"> [!WARNING]\\n> **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List discussions`](https://docs.github.com/rest/teams/discussions#list-discussions) endpoint.\\n\\nList all discussions on a team's page.\\n\\nOAuth app tokens and personal access tokens (classic) need the `read:discussion` scope to use this endpoint.\",\"externalDocs\":{\"description\":\"API method documentation\",\"url\":\"https://docs.github.com/rest/teams/discussions#list-discussions-legacy\"},\"operationId\":\"teams/list-discussions-legacy\",\"parameters\":[{\"$ref\":\"#/components/parameters/team-id\"},{\"$ref\":\"#/components/parameters/direction\"},{\"$ref\":\"#/components/parameters/per-page\"},{\"$ref\":\"#/components/parameters/page\"}],\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"default\":{\"$ref\":\"#/components/examples/team-discussion-items\"}},\"schema\":{\"items\":{\"$ref\":\"#/comp…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-005",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "POST",
+        "path": "/teams/{team_id}/discussions"
+      },
+      "location": {},
+      "reason": "Operation POST /teams/{team_id}/discussions was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to POST /teams/{team_id}/discussions.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/teams/{team_id}/discussions",
+          "post"
+        ],
+        "before": "{\"deprecated\":true,\"description\":\"> [!WARNING]\\n> **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create a discussion`](https://docs.github.com/rest/teams/discussions#create-a-discussion) endpoint.\\n\\nCreates a new discussion post on a team's page.\\n\\nThis endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see \\\"[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)\\\" and \\\"[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api).\\\"\\n\\nOAuth app tokens and personal access tokens (classic) need the `write:discussion` scope to use this endpoin…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-006",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_scope",
+        "keyword": "enum"
+      },
+      "reason": "Value \"multi_user_customer\" was added to the allowed values of field `budget_scope` in the 200 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `budget_scope` in consumers of GET /organizations/{org}/settings/billing/budgets/{budget_id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_scope",
+          "enum",
+          "4"
+        ],
+        "before": null,
+        "after": "multi_user_customer"
+      }
+    },
+    {
+      "id": "change-007",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_scope",
+        "keyword": "enum"
+      },
+      "reason": "Value \"multi_user_cost_center\" was added to the allowed values of field `budget_scope` in the 200 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `budget_scope` in consumers of GET /organizations/{org}/settings/billing/budgets/{budget_id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_scope",
+          "enum",
+          "5"
+        ],
+        "before": null,
+        "after": "multi_user_cost_center"
+      }
+    },
+    {
+      "id": "change-008",
+      "rule": "response.enum_value_added",
+      "kind": "enum_value_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_scope",
+        "keyword": "enum"
+      },
+      "reason": "Value \"user\" was added to the allowed values of field `budget_scope` in the 200 response body. Consumers with exhaustive handling may receive a value they do not expect.",
+      "recommended_action": "Update enum handling for field `budget_scope` in consumers of GET /organizations/{org}/settings/billing/budgets/{budget_id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_scope",
+          "enum",
+          "6"
+        ],
+        "before": null,
+        "after": "user"
+      }
+    },
+    {
+      "id": "change-009",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_type",
+        "keyword": "oneOf"
+      },
+      "reason": "A `oneOf` branch was added to field `budget_type` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `budget_type` handling in GET /organizations/{org}/settings/billing/budgets/{budget_id}.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_type",
+          "oneOf",
+          "1"
+        ],
+        "before": null,
+        "after": {
+          "description": "The type of pricing for the budget",
+          "example": "ProductPricing",
+          "enum": [
+            "SkuPricing"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    {
+      "id": "change-010",
+      "rule": "request.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_entity_name"
+      },
+      "reason": "Property `budget_entity_name` was removed from the request body. Callers that still send it may have it rejected or silently ignored.",
+      "recommended_action": "Stop sending `budget_entity_name` to PATCH /organizations/{org}/settings/billing/budgets/{budget_id} or confirm the server tolerates it.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_entity_name"
+        ],
+        "before": {
+          "description": "The name of the entity to apply the budget to",
+          "type": "string"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-011",
+      "rule": "request.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_product_sku"
+      },
+      "reason": "Property `budget_product_sku` was removed from the request body. Callers that still send it may have it rejected or silently ignored.",
+      "recommended_action": "Stop sending `budget_product_sku` to PATCH /organizations/{org}/settings/billing/budgets/{budget_id} or confirm the server tolerates it.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_product_sku"
+        ],
+        "before": {
+          "description": "A single product or SKU that will be covered in the budget",
+          "type": "string"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-012",
+      "rule": "request.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_scope"
+      },
+      "reason": "Property `budget_scope` was removed from the request body. Callers that still send it may have it rejected or silently ignored.",
+      "recommended_action": "Stop sending `budget_scope` to PATCH /organizations/{org}/settings/billing/budgets/{budget_id} or confirm the server tolerates it.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_scope"
+        ],
+        "before": {
+          "description": "The scope of the budget",
+          "enum": [
+            "enterprise",
+            "organization",
+            "repository",
+            "cost_center"
+          ],
+          "type": "string"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-013",
+      "rule": "request.property_removed",
+      "kind": "property_removed",
+      "compatibility": "potentially_breaking",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_type"
+      },
+      "reason": "Property `budget_type` was removed from the request body. Callers that still send it may have it rejected or silently ignored.",
+      "recommended_action": "Stop sending `budget_type` to PATCH /organizations/{org}/settings/billing/budgets/{budget_id} or confirm the server tolerates it.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_type"
+        ],
+        "before": {
+          "description": "The type of pricing for the budget",
+          "enum": [
+            "ProductPricing",
+            "SkuPricing"
+          ],
+          "type": "string"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-014",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "keyword": "properties"
+      },
+      "reason": "`properties` of the schema root in the 200 response body changed ({\"budget\":{\"properties\":{\"budget_alerting\":{\"properties\":{\"a → null), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /organizations/{org}/settings/billing/budgets/{budget_id} handle the new `properties` of the schema root.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties"
+        ],
+        "before": "{\"budget\":{\"properties\":{\"budget_alerting\":{\"properties\":{\"alert_recipients\":{\"description\":\"Array of user login names who will receive alerts\",\"items\":{\"type\":\"string\"},\"type\":\"array\"},\"will_alert\":{\"description\":\"Whether alerts are enabled for this budget\",\"type\":\"boolean\"}},\"required\":[\"will_alert\",\"alert_recipients\"],\"type\":\"object\"},\"budget_amount\":{\"description\":\"The budget amount in whole dollars. For license-based products, this represents the number of licenses.\",\"format\":\"float\",\"type\":\"number\"},\"budget_entity_name\":{\"default\":\"\",\"description\":\"The name of the entity to apply the budget to\",\"type\":\"string\"},\"budget_product_sku\":{\"description\":\"A single product or SKU that will be covered in the budget\",\"type\":\"string\"},\"budget_scope\":{\"description\":\"The scope of the budget\",\"enum\":[\"enterprise\",\"organization\",\"repository\",\"cost_center\"],\"type\":\"string\"},\"budget_type\":{\"description\":\"The type of pricing for the budget\",\"enum\":[\"ProductPricing\",\"SkuPricing\"],\"type\":\"string\"},\"i…",
+        "after": null,
+        "truncated": true
+      }
+    },
+    {
+      "id": "change-015",
+      "rule": "response.type_changed",
+      "kind": "type_changed",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "keyword": "type"
+      },
+      "reason": "`type` of the schema root in the 200 response body changed (\"object\" → null), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /organizations/{org}/settings/billing/budgets/{budget_id} handle the new `type` of the schema root.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "type"
+        ],
+        "before": "object",
+        "after": null
+      }
+    },
+    {
+      "id": "change-016",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.blog",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.blog` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of GET /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.blog`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "blog",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-017",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.company",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.company` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of GET /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.company`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "company",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-018",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.email",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.email` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of GET /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.email`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "email",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-019",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.location",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.location` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of GET /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.location`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "location",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-020",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.blog",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.blog` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.blog`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "blog",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-021",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.company",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.company` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.company`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "company",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-022",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.email",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.email` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.email`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "email",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-023",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "organization.location",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.location` in the 200 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.location`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "location",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-024",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "organization.blog",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.blog` in the 201 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.blog`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "blog",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-025",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "organization.company",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.company` in the 201 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.company`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "company",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-026",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "organization.email",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.email` in the 201 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.email`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "email",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-027",
+      "rule": "response.constraint_widened",
+      "kind": "constraint_widened",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "201",
+        "media_type": "application/json",
+        "field": "organization.location",
+        "keyword": "nullable"
+      },
+      "reason": "`nullable` of field `organization.location` in the 201 response body changed (null → true), so the set of returned values widened.",
+      "recommended_action": "Check that consumers of PATCH /orgs/{org}/teams/{team_slug} handle the new `nullable` of field `organization.location`.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "responses",
+          "201",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "organization",
+          "properties",
+          "location",
+          "nullable"
+        ],
+        "before": null,
+        "after": true
+      }
+    },
+    {
+      "id": "change-028",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "22"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issue-type-added-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-029",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "23"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issue-type-removed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-030",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "24"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issue-type-changed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-031",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "25"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/sub-issue-added-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-032",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "26"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/sub-issue-removed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-033",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "27"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/parent-issue-added-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-034",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "28"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/parent-issue-removed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-035",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "29"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/blocked-by-added-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-036",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "30"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/blocked-by-removed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-037",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "31"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/blocking-added-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-038",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "32"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/blocking-removed-issue-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-039",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "33"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/timeline-connected-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-040",
+      "rule": "response.schema_variant_added",
+      "kind": "schema_variant_added",
+      "compatibility": "potentially_breaking",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]",
+        "keyword": "anyOf"
+      },
+      "reason": "A `anyOf` branch was added to field `[]` in the 200 response body, so the set of possible values widened.",
+      "recommended_action": "Review field `[]` handling in GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "34"
+        ],
+        "before": null,
+        "after": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/timeline-disconnected-event"
+            },
+            {
+              "description": "Timeline Event",
+              "title": "Timeline Event",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-041",
+      "rule": "response.enum_value_removed",
+      "kind": "enum_value_removed",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_type<oneOf:0>",
+        "keyword": "enum"
+      },
+      "reason": "Value \"SkuPricing\" will no longer be returned for field `budget_type<oneOf:0>` in the 200 response body.",
+      "recommended_action": "No action required for GET /organizations/{org}/settings/billing/budgets/{budget_id}; optionally update enums in generated clients.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_type",
+          "oneOf",
+          "0",
+          "enum",
+          "1"
+        ],
+        "before": "SkuPricing",
+        "after": null
+      }
+    },
+    {
+      "id": "change-042",
+      "rule": "response.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "consumed_amount"
+      },
+      "reason": "Property `consumed_amount` was added to the 200 response body. Tolerant consumers are unaffected.",
+      "recommended_action": "Ensure consumers of GET /organizations/{org}/settings/billing/budgets/{budget_id} ignore or handle the new `consumed_amount` field (strict deserializers may reject unknown fields).",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "consumed_amount"
+        ],
+        "before": null,
+        "after": {
+          "description": "The current usage amount counted toward the budget. How usage is calculated may vary by budget type.",
+          "example": 12.5,
+          "type": "number"
+        }
+      }
+    },
+    {
+      "id": "change-043",
+      "rule": "response.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "user"
+      },
+      "reason": "Property `user` was added to the 200 response body. Tolerant consumers are unaffected.",
+      "recommended_action": "Ensure consumers of GET /organizations/{org}/settings/billing/budgets/{budget_id} ignore or handle the new `user` field (strict deserializers may reject unknown fields).",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "user"
+        ],
+        "before": null,
+        "after": {
+          "description": "The user login when the budget is scoped to a single user (`user` scope).",
+          "example": "octocat",
+          "type": "string"
+        }
+      }
+    },
+    {
+      "id": "change-044",
+      "rule": "request.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "expires_at"
+      },
+      "reason": "Property `expires_at` was added to the request body. Callers that omit it are unaffected unless it is also required.",
+      "recommended_action": "Optionally send `expires_at` in PATCH /organizations/{org}/settings/billing/budgets/{budget_id}; check whether it is required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "expires_at"
+        ],
+        "before": null,
+        "after": {
+          "oneOf": [
+            {
+              "description": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for existing user-scoped budgets.",
+              "format": "date",
+              "nullable": true,
+              "type": "string"
+            },
+            {
+              "description": "The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted.\nIf not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set.\n\nOnly supported for existing user-scoped budgets.",
+              "enum": [
+                0
+              ],
+              "type": "integer"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "change-045",
+      "rule": "response.constraint_narrowed",
+      "kind": "constraint_narrowed",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "keyword": "allOf"
+      },
+      "reason": "`allOf` of the schema root in the 200 response body changed (null → [{\"$ref\":\"#/components/schemas/update-budget\"},{\"properties\"), so the set of returned values narrowed.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "allOf"
+        ],
+        "before": null,
+        "after": [
+          {
+            "$ref": "#/components/schemas/update-budget"
+          },
+          {
+            "properties": {},
+            "type": "object"
+          }
+        ]
+      }
+    },
+    {
+      "id": "change-046",
+      "rule": "response.response_status_added",
+      "kind": "response_status_added",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "DELETE",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "status": "422"
+      },
+      "reason": "DELETE /orgs/{org}/teams/{team_slug} may now return status 422.",
+      "recommended_action": "No action required for clients that handle errors generically.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "delete",
+          "responses",
+          "422"
+        ],
+        "before": null,
+        "after": {
+          "description": "Unprocessable entity if you attempt to modify an enterprise team at the organization level."
+        }
+      }
+    },
+    {
+      "id": "change-047",
+      "rule": "request.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/orgs/{org}/teams/{team_slug}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "parent_team_slug"
+      },
+      "reason": "Property `parent_team_slug` was added to the request body. Callers that omit it are unaffected unless it is also required.",
+      "recommended_action": "Optionally send `parent_team_slug` in PATCH /orgs/{org}/teams/{team_slug}; check whether it is required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orgs/{org}/teams/{team_slug}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "parent_team_slug"
+        ],
+        "before": null,
+        "after": {
+          "description": "The slug of a team to set as the parent team. Ignored when `parent_team_id` is also provided.",
+          "nullable": true,
+          "type": "string"
+        }
+      }
+    },
+    {
+      "id": "change-048",
+      "rule": "request.optional_parameter_added",
+      "kind": "optional_parameter_added",
+      "compatibility": "compatible",
+      "direction": "request",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "in": "query",
+        "name": "exclude"
+      },
+      "reason": "A new optional query parameter `exclude` was added to GET /repos/{owner}/{repo}/issues/{issue_number}/timeline.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "parameters",
+          "query:exclude"
+        ],
+        "before": null,
+        "after": {
+          "description": "A comma-separated list of timeline event names to exclude from the response.",
+          "in": "query",
+          "name": "exclude",
+          "schema": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "id": "change-049",
+      "rule": "response.property_added",
+      "kind": "property_added",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "[]<anyOf:0><allOf:0>.intent"
+      },
+      "reason": "Property `[]<anyOf:0><allOf:0>.intent` was added to the 200 response body. Tolerant consumers are unaffected.",
+      "recommended_action": "Ensure consumers of GET /repos/{owner}/{repo}/issues/{issue_number}/timeline ignore or handle the new `[]<anyOf:0><allOf:0>.intent` field (strict deserializers may reject unknown fields).",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "items",
+          "anyOf",
+          "0",
+          "allOf",
+          "0",
+          "properties",
+          "intent"
+        ],
+        "before": null,
+        "after": {
+          "description": "The intent behind an agent's action on an issue, including the rationale and confidence. Present (and `null` when the event carried no agent intent) on supported event types while the issue suggestions feature is enabled for the repository; the property is omitted entirely when the feature is disabled or the event type does not support intent.",
+          "nullable": true,
+          "properties": {
+            "confidence": {
+              "description": "The confidence level the agent had when performing this action.",
+              "enum": [
+                "LOW",
+                "MEDIUM",
+                "HIGH"
+              ],
+              "nullable": true,
+              "type": "string"
+            },
+            "rationale": {
+              "description": "The reasoning the agent provided for the change.",
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          "title": "Issue Event Intent",
+          "type": "object"
+        }
+      }
+    },
+    {
+      "id": "change-050",
+      "rule": "response.response_status_added",
+      "kind": "response_status_added",
+      "compatibility": "compatible",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+      },
+      "location": {
+        "status": "400"
+      },
+      "reason": "GET /repos/{owner}/{repo}/issues/{issue_number}/timeline may now return status 400.",
+      "recommended_action": "No action required for clients that handle errors generically.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
+          "get",
+          "responses",
+          "400"
+        ],
+        "before": null,
+        "after": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/basic-error"
+              }
+            },
+            "application/scim+json": {
+              "schema": {
+                "$ref": "#/components/schemas/scim-error"
+              }
+            }
+          },
+          "description": "Bad Request"
+        }
+      }
+    },
+    {
+      "id": "change-051",
+      "rule": "document.document_metadata_changed",
+      "kind": "document_metadata_changed",
+      "compatibility": "non_contract",
+      "direction": "document",
+      "operation": null,
+      "location": {},
+      "reason": "Document metadata (`info.version`) changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "info",
+          "version"
+        ],
+        "before": "22.0.0",
+        "after": "24.0.0"
+      }
+    },
+    {
+      "id": "change-052",
+      "rule": "operation.operation_documentation_changed",
+      "kind": "operation_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "operation",
+      "operation": {
+        "method": "DELETE",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {},
+      "reason": "Documentation (`description`) of DELETE /organizations/{org}/settings/billing/budgets/{budget_id} changed.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "delete",
+          "description"
+        ],
+        "before": "> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nDeletes a budget by ID for an organization. The authenticated user must be an organization admin or billing manager.",
+        "after": "Deletes a budget by ID for an organization. The authenticated user must be an organization admin or billing manager."
+      }
+    },
+    {
+      "id": "change-053",
+      "rule": "operation.operation_documentation_changed",
+      "kind": "operation_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {},
+      "reason": "Documentation (`description`) of GET /organizations/{org}/settings/billing/budgets/{budget_id} changed.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "description"
+        ],
+        "before": "> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nGets a budget by ID. The authenticated user must be an organization admin or billing manager.",
+        "after": "Gets a budget by ID. The authenticated user must be an organization admin or billing manager."
+      }
+    },
+    {
+      "id": "change-054",
+      "rule": "response.schema_documentation_changed",
+      "kind": "schema_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_alerting.alert_recipients",
+        "keyword": "description"
+      },
+      "reason": "Documentation (`description`) of field `budget_alerting.alert_recipients` in the 200 response body changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_alerting",
+          "properties",
+          "alert_recipients",
+          "description"
+        ],
+        "before": "Array of user login names who will receive alerts",
+        "after": "Array of user login names who will receive alerts. Present but not applicable for user-scope as alerting is always disabled for them."
+      }
+    },
+    {
+      "id": "change-055",
+      "rule": "response.schema_documentation_changed",
+      "kind": "schema_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "response",
+      "operation": {
+        "method": "GET",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "status": "200",
+        "media_type": "application/json",
+        "field": "budget_alerting.will_alert",
+        "keyword": "description"
+      },
+      "reason": "Documentation (`description`) of field `budget_alerting.will_alert` in the 200 response body changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "get",
+          "responses",
+          "200",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_alerting",
+          "properties",
+          "will_alert",
+          "description"
+        ],
+        "before": "Whether alerts are enabled for this budget",
+        "after": "Whether alerts are enabled for this budget. Present but not applicable for user-scope as alerting is always disabled for them."
+      }
+    },
+    {
+      "id": "change-056",
+      "rule": "operation.operation_documentation_changed",
+      "kind": "operation_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "operation",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {},
+      "reason": "Documentation (`description`) of PATCH /organizations/{org}/settings/billing/budgets/{budget_id} changed.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "description"
+        ],
+        "before": "> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nUpdates an existing budget for an organization. The authenticated user must be an organization admin or billing manager.",
+        "after": "Updates an existing budget for an organization. The authenticated user must be an organization admin or billing manager."
+      }
+    },
+    {
+      "id": "change-057",
+      "rule": "request.schema_documentation_changed",
+      "kind": "schema_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_alerting.alert_recipients",
+        "keyword": "description"
+      },
+      "reason": "Documentation (`description`) of field `budget_alerting.alert_recipients` in the request body changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_alerting",
+          "properties",
+          "alert_recipients",
+          "description"
+        ],
+        "before": "Array of user login names who will receive alerts",
+        "after": "Array of user login names who will receive alerts. Ignored for user-scopes as alerting is always disabled for them."
+      }
+    },
+    {
+      "id": "change-058",
+      "rule": "request.schema_documentation_changed",
+      "kind": "schema_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "budget_alerting.will_alert",
+        "keyword": "description"
+      },
+      "reason": "Documentation (`description`) of field `budget_alerting.will_alert` in the request body changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "budget_alerting",
+          "properties",
+          "will_alert",
+          "description"
+        ],
+        "before": "Whether alerts are enabled for this budget",
+        "after": "Whether alerts are enabled for this budget. Ignored for user-scopes as alerting is always disabled for them."
+      }
+    },
+    {
+      "id": "change-059",
+      "rule": "request.schema_documentation_changed",
+      "kind": "schema_documentation_changed",
+      "compatibility": "non_contract",
+      "direction": "request",
+      "operation": {
+        "method": "PATCH",
+        "path": "/organizations/{org}/settings/billing/budgets/{budget_id}"
+      },
+      "location": {
+        "media_type": "application/json",
+        "field": "prevent_further_usage",
+        "keyword": "description"
+      },
+      "reason": "Documentation (`description`) of field `prevent_further_usage` in the request body changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/organizations/{org}/settings/billing/budgets/{budget_id}",
+          "patch",
+          "requestBody",
+          "content",
+          "application/json",
+          "schema",
+          "properties",
+          "prevent_further_usage",
+          "description"
+        ],
+        "before": "Whether to prevent additional spending once the budget is exceeded",
+        "after": "Whether to prevent additional spending once the budget is exceeded. For budgets with `user` or `multi_user_customer` scope, this must remain `true`."
+      }
+    }
+  ],
+  "limitations": [],
+  "metadata": {
+    "input_hashes": {
+      "before": "sha256:c0223a31b7ac5e933105d320f6bb669ae4f5e293b9cb8722bd39f6f07f11bacb",
+      "after": "sha256:3b06bdc02bae52f99b81403ff19583c0c195b2b856beab3a05d7eb57efb003b7"
+    },
+    "changes_omitted": 0,
+    "duration_ms": 0
+  }
+}

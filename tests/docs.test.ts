@@ -1,10 +1,11 @@
 /**
- * Keeps the agent-facing docs (openapi.json, skill.md, examples/) in sync with the code (D-032).
+ * Keeps the agent-facing docs (openapi.json, SKILL.md, examples/) in sync with the code (D-032).
  * If one of these fails after a code change, update the doc, or run `bun run examples`.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { demoResponse } from "../scripts/demo";
 import { exampleResponse } from "../scripts/examples";
 import { BreakraError, type ErrorCode } from "../src/core/errors";
 import { SEVERITY } from "../src/core/format";
@@ -18,7 +19,7 @@ const openapi = JSON.parse(read("openapi.json"));
 const schemas = openapi.components.schemas;
 const op = openapi.paths["/"].post;
 const response = JSON.parse(read("examples/response.json"));
-const skill = read("skill.md");
+const skill = read("SKILL.md");
 const LIVE_URL = "https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze";
 
 describe("examples/response.json", () => {
@@ -83,7 +84,7 @@ describe("openapi.json", () => {
   });
 });
 
-describe("skill.md", () => {
+describe("SKILL.md", () => {
   it("states the live URL, price and limits", () => {
     expect(skill).toContain(LIVE_URL);
     expect(skill).toContain("$0.02 USDC on Base");
@@ -104,5 +105,28 @@ describe("skill.md", () => {
     expect(skill).toContain(quoted.recommended_action);
     for (const [key, value] of Object.entries(response.summary))
       expect(skill).toContain(`"${key}": ${value}`);
+  });
+});
+
+describe("demo/github-rest-api", () => {
+  const demo = (name: string) => JSON.parse(read(`demo/github-rest-api/${name}`));
+  it("response.json is exactly what the engine returns for the committed before/after", async () => {
+    expect(await demoResponse(demo("before.json"), demo("after.json"))).toEqual(demo("response.json"));
+  });
+  it("the write-up quotes the real summary", () => {
+    const { summary, analysis_id } = demo("response.json");
+    const readme = read("demo/github-rest-api/README.md");
+    expect(readme).toContain(analysis_id);
+    for (const k of ["breaking", "potentially_breaking", "compatible", "non_contract"] as const) {
+      expect(readme).toContain(`| \`${k}\` | ${summary[k]} |`);
+    }
+  });
+});
+
+describe("SKILL.md front matter", () => {
+  it("has the name and description that skill directories require", () => {
+    const fm = skill.match(/^---\nname: (.+)\ndescription: (.+)\n---\n/);
+    expect(fm?.[1]).toBe("breakra");
+    expect((fm?.[2] ?? "").length).toBeGreaterThan(50);
   });
 });

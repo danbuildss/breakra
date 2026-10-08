@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { baseSpec, clone, post } from "./helpers";
 
@@ -27,7 +29,7 @@ describe("handler", () => {
         "summary",
       ].sort(),
     );
-    expect(r.json.engine_version).toBe("0.1.0");
+    expect(r.json.engine_version).toBe("0.1.1");
     expect(r.json.rule_set_version).toBe("0.1.0");
     expect(r.json.spec_versions).toEqual({ before: "3.0.3", after: "3.0.3" });
   });
@@ -44,6 +46,23 @@ describe("handler", () => {
     expect(lines).toHaveLength(1);
     expect(lines[0]).toContain('"payer":"0xPAYER"');
     expect(lines[0]).not.toMatch(/SECRET-SPEC-CONTENT|203\.0\.113\.9/);
+  });
+
+  it("library console output never reaches the logs (it can contain spec paths)", async () => {
+    // Real GitHub API fragment (MIT) on which api-smart-diff 1.0.6 calls console.error with a document path.
+    const fixture = (name: string) =>
+      JSON.parse(readFileSync(join(__dirname, "fixtures/library-console", name), "utf8"));
+    const calls: unknown[][] = [];
+    for (const m of ["log", "info", "warn", "error", "debug"] as const) {
+      vi.spyOn(console, m).mockImplementation((...args: unknown[]) => {
+        calls.push(args);
+      });
+    }
+    const res = await post({ before: fixture("before.json"), after: fixture("after.json") });
+    expect(res.status).toBe(200);
+    expect(calls).toHaveLength(1);
+    expect(String(calls[0]?.[0])).toMatch(/^\{"event":"breakra\.analyze"/);
+    expect(JSON.stringify(calls)).not.toMatch(/components|schemas|Classification Rule/);
   });
 
   it("an unexpected internal failure returns a sanitized 500, never 2xx", async () => {

@@ -190,5 +190,27 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - No engine, price or limit changes; no website or domain; no promotion (Phase 5, after the domain and trademark checks).
 **Consequence:** the repo history becomes public, including commit author emails and the payout and burner addresses (these are on-chain anyway). Claude scanned the history: no keys or secrets are tracked (`.burner-key` was always gitignored).
 
+## D-033 — Phase 5: 14-day commercial experiment
+**Status:** Accepted (owner: "approve Phase 5, channels: X + GitHub + directories, bar OK", 2026-10-08).
+**Decision:**
+- Run the 14-day experiment in LAUNCH.md. Plan: `PHASE-5-PLAN.md`; daily log: `EXPERIMENT.md`.
+- **Gate before day 1:** the owner's domain and trademark check for Breakra (D-018). Claude prepares materials now, but **nothing is published until the check is clear**.
+- **Channels:** X and GitHub (the owner's own accounts) and directories. Claude drafts; **only the owner posts or submits**.
+- **"Continue" bar (guide, not proof of product-market fit):** at least 3 external wallets that each paid on 2 or more different UTC days.
+- No new features, no price or limit changes during the 14 days. Urgent correctness or security fixes only, each with owner approval.
+- Self-paid calls (burner, payout and Rabby wallets) are always counted separately. A wallet is never equated with a person.
+- Budget: about $0.02 for the live demo check. No ads, no paid listings.
+
+## D-034 — Urgent fixes found while building the Phase 5 demo (engine 0.1.1)
+**Status:** PROPOSED (2026-10-08). Needs owner approval under D-033 ("urgent fixes only, each with owner approval"). Merging the PR and redeploying = approval.
+**Context:** Checking the real GitHub API demo by hand showed two defects in the live engine 0.1.0:
+1. **Misclassification.** A whole object added or removed by `$ref` (a parameter like `{ "$ref": "#/components/parameters/X" }`, or a request body) was classified without resolving the reference. A **required** parameter or request body added this way was reported as an *optional, compatible* change with the name `?`, a missed potentially breaking change. GitHub's own spec uses `$ref` parameters everywhere: 35 of 5,909 raw diffs between two GitHub API releases were affected.
+2. **Privacy.** api-smart-diff 1.0.6 calls `console.error("Classification Rule error for node: <document path>")` on some inputs, which would put parts of a submitted spec (schema and path names) into Bankr's logs, against D-026.
+**Decision (proposed):**
+- Resolve `$ref`s on whole added/removed objects before classifying (`classify.ts`); a changed `$ref` string stays `unknown`.
+- Discard console output during the synchronous library call (`compare.ts`).
+- `ENGINE_VERSION` 0.1.0 → **0.1.1** (rule set unchanged at 0.1.0), so results for affected inputs get new `analysis_id`s.
+**Evidence:** 4 regression tests for `$ref` objects and 1 log-leak test (all fail without the fixes); 88 tests total in `bun run check`; oasdiff oracle OK; bundle 90,997 bytes (under the 92,000 guard).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

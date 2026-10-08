@@ -1,7 +1,7 @@
 {
   "status": "success",
-  "analysis_id": "sha256:39f62e047574be8d2a45193353a905beeba81bc914b879fdaa790dfe605c2593",
-  "engine_version": "0.1.0",
+  "analysis_id": "sha256:b2fdcf54a4e226c1c84c36b86fed8807048d23fb51f57c8f5230877ad9505a52",
+  "engine_version": "0.1.1",
   "rule_set_version": "0.1.0",
   "spec_versions": {
     "before": "3.0.3",

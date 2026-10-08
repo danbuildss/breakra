@@ -1,8 +1,8 @@
-# Breakra — API Contract (engine 0.1.0, rule set 0.1.0)
+# Breakra — API Contract (engine 0.1.1, rule set 0.1.0)
 
 **Status:** **LIVE** on Bankr x402 Cloud (Phase 3, 2026-10-08): `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` (one URL per deployment; there is no `/v1/analyze` path on Bankr). Price: $0.02 USDC on Base, paid via x402.
 
-Agent guide: [`skill.md`](../skill.md). Machine-readable contract: [`openapi.json`](../openapi.json). Example: [`examples/`](../examples/).
+Agent guide: [`SKILL.md`](../SKILL.md). Machine-readable contract: [`openapi.json`](../openapi.json). Example: [`examples/`](../examples/).
 
 ## Request
 

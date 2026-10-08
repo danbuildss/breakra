@@ -4,7 +4,7 @@
 
 Breakra compares two OpenAPI 3.0 contracts and returns structured, evidence-backed compatibility findings for coding agents. It is a single x402-paid endpoint: **$0.02 USDC on Base per analysis**, with errors never charged.
 
-**Status:** live on Bankr x402 Cloud (engine 0.1.0, rule set 0.1.0). The name Breakra is approved; domain and trademark clearance are still pending.
+**Status:** live on Bankr x402 Cloud. Every response states its `engine_version` and `rule_set_version`. The name Breakra is approved; domain and trademark clearance are still pending.
 
 ## Use it
 
@@ -13,7 +13,7 @@ POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-a
 { "before": { …OpenAPI 3.0 JSON… }, "after": { …OpenAPI 3.0 JSON… } }
 ```
 
-- **Agents:** start with [`skill.md`](skill.md): when to call it, how to pay safely, and how to read the findings.
+- **Agents:** start with [`SKILL.md`](SKILL.md): when to call it, how to pay safely, and how to read the findings.
 - **Contract:** [`openapi.json`](openapi.json). Full field reference: [`docs/API.md`](docs/API.md). Rules: [`RULES.md`](RULES.md).
 - **Examples:** [`examples/request.json`](examples/request.json) → [`examples/response.json`](examples/response.json) (a real engine output), a paying client in [`examples/client.ts`](examples/client.ts), and a curl call in [`examples/curl.sh`](examples/curl.sh).
 
@@ -39,7 +39,7 @@ bun run oracle       # cross-check against oasdiff (needs `oasdiff` v1.33.0 on P
 bun scripts/bench.ts # benchmarks on real GitHub API spec slices (downloads into .bench/)
 ```
 
-- Source: `src/` (see ARCHITECTURE.md). Tests: `tests/` (including `docs.test.ts`, which keeps `openapi.json`, `skill.md` and the examples in sync with the code).
+- Source: `src/` (see ARCHITECTURE.md). Tests: `tests/` (including `docs.test.ts`, which keeps `openapi.json`, `SKILL.md` and the examples in sync with the code).
 - `bun run build` writes the Bankr-ready single file to `dist/x402/breakra-analyze/index.ts` (not committed). Deploying follows [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) and is done by the owner only.
 
 ## Project navigation
