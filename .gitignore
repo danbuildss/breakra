@@ -2,3 +2,5 @@ node_modules/
 dist/
 .bench/
 .verify-results.jsonl
+.cold-before.json
+.cold-after.json

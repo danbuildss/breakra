@@ -1,6 +1,6 @@
 # Breakra — Phase Plan and Status
 
-**Current phase:** 3 — COMPLETE (2026-10-08). **Next: Phase 4 (agent distribution), proposed, awaiting owner approval.**
+**Current phase:** 4 — Agent distribution, IN PROGRESS (approved D-032, 2026-10-08). Phase 3 COMPLETE.
 **Overall status:** **LIVE** on Bankr x402 Cloud: `breakra-analyze` v2, $0.02 USDC on Base (D-029, D-031). V0–V6 verified with on-chain reconciliation; deployed `analysis_id` equals local.
 **Last verified:** 2026-10-08 (V6 on v2: 200, 8.1 s server; balances reconciled 20:55 UTC).
 **Earlier header (kept for history):** Current phase 0 — Feasibility audit; not implemented.
@@ -28,6 +28,7 @@ Integrate verified SDK, receiving address and host. Test unpaid 402, valid payme
 
 ## Phase 4 — Agent distribution
 Publish `GET /skill.md`, `GET /openapi.json`, `GET /health`, pricing details, README, examples, marketplace listings where appropriate.
+**Amended by D-032:** Bankr allows one paid URL per service, so `skill.md`, `openapi.json` and `examples/` live in the public repo and the Bankr listing links to them. There is no `/health` route.
 **Gate:** Unfamiliar agent can discover/pay/use without human instructions.
 
 ## Phase 5 — 14-day commercial experiment

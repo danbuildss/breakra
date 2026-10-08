@@ -180,5 +180,15 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - Performance work to raise the limits again is a candidate for a later phase.
 **Consequence:** very large specs (roughly > 1 MB combined) get a free 413 or 422 instead of risking a timeout.
 
+## D-032 — Phase 4: agent distribution, docs in the public repo, MIT license
+**Status:** Accepted (owner: "approve Phase 4, option A, MIT", 2026-10-08).
+**Context:** Bankr gives each service one URL, and every call to it is paid, so free `GET /skill.md`, `/openapi.json` or `/health` routes (PLAN.md Phase 4) can't be hosted on the endpoint.
+**Decision:**
+- **Option A:** agent-facing docs live in the GitHub repo (`skill.md`, `openapi.json`, `examples/`), and the Bankr listing links to them. This requires the repo to be **public**. Making it public is the owner's action in GitHub settings.
+- **License: MIT.**
+- Scope: skill.md, openapi.json, examples, listing text and README, tests that keep the docs in sync with the code, and one cold-agent paid test (about $0.02–$0.04).
+- No engine, price or limit changes; no website or domain; no promotion (Phase 5, after the domain and trademark checks).
+**Consequence:** the repo history becomes public, including commit author emails and the payout and burner addresses (these are on-chain anyway). Claude scanned the history: no keys or secrets are tracked (`.burner-key` was always gitignored).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

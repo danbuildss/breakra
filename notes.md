@@ -14,11 +14,11 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** **3 COMPLETE** (2026-10-08). Phases 0, 1 and 3 are done; Phase 2 was folded in. **Phase 4 (agent distribution) is proposed and awaits owner approval.**
+- **Phase:** **4 IN PROGRESS** (approved D-032: option A, MIT). Phases 0, 1 and 3 are done; Phase 2 was folded in. Built: skill.md, openapi.json, examples/, LICENSE, docs drift tests, listing text. **Waiting on the owner:** live cold-agent run ($0.02), making the repo public, and a redeploy for the new listing text.
 - **Live:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`, **v2**, $0.02 USDC on Base, deployed from `main` @ `4f3c4b1`. Limits per D-031 (1 MB body, 75 k expanded nodes).
 - **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench, verify-live), CI, and docs (RULES.md, docs/API.md, docs/DEPLOYMENT.md, BENCHMARKS.md, ARCHITECTURE.md).
 - **Wallets:** burner 0.044 USDC left (the verify cap of 5 signed attempts is used up; raise `VERIFY_MAX_ATTEMPTS` for future checks). Payout 0.203661 USDC.
-- **Open owner items:** domain and trademark clearance for Breakra (blocks promotion, not deployment); a license decision (MIT recommended) before Phase 4 promotion.
+- **Open owner items:** domain and trademark clearance for Breakra (blocks promotion in Phase 5, not deployment). License decided: MIT (D-032).
 
 ## Inputs received
 
@@ -90,6 +90,11 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** **Owner approved Phase 4, option A, MIT (D-032)** after merging PR #6.
+  - Built `skill.md`, `openapi.json`, `examples/` (request, generated response, safe paying client, curl), MIT `LICENSE`, `tests/docs.test.ts` (keeps docs in sync), new Bankr listing text with the skill link, and a buyer-facing README.
+  - Scanned git history before going public: no keys or secrets. Commit author emails and wallet addresses will become public.
+  - Cold-agent test: a fresh agent given only skill.md wrote a working client (mock: 200, matching `analysis_id`). It found 9 gaps in skill.md (e.g. the expected `payTo` was missing); all fixed.
+  - Waiting on the owner: the live cold-agent run, making the repo public, and a redeploy so the listing shows the new text.
 - **2026-10-08:** **Phase 3 COMPLETE.** PR #5 merged; the owner redeployed from `main` (**v2**, `bun run check` passed, 90,521 bytes).
   - V0 passed: 402, 20000, router.
   - **V6 passed:** 940 KB real pair → 200, 290 changes, `analysis_id` = local. **8,097 ms server, 17,923 ms client**, under the ≤ ~9 s target.
