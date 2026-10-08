@@ -41,3 +41,12 @@ The 160-path pair (about 1.9 MB combined) is the largest real pair under the **2
 | Evidence value size | 1,000 chars | Response bound (worst case about 1.5 MB, versus Lambda's ~6 MB response limit) |
 
 **Budget check (D-024, ≤ 20 s):** the local worst case is about 1.7 s for real specs and about 0.25 s for adversarial specs. That leaves a large margin for arm64 or a smaller CPU share on Bankr. **Phase 3 must confirm this on Bankr.** Memory observed on Bankr in T-001: a 128 MB allocation was fine (RSS about 193 MB); the local worst cases here use 156–208 MB, so **Phase 3 must also measure memory on Bankr**.
+
+## Bankr production measurements (Phase 3, 2026-10-08)
+
+| Case | Body | Server `duration_ms` | Client wall time | Local equivalent |
+|---|---|---|---|---|
+| V4 bake-off fixture | 3 KB | 618 | 2,971 ms | about 37 ms |
+| V5 GitHub 160-path pair (135 k expanded nodes) | 2.03 MB | **16,677** | **26,673 ms** | about 1.7–2.0 s |
+
+**Finding: Bankr's runtime is about 9–17× slower than local** (arm64 Lambda with an unknown CPU share; V4 may include a cold start). At the current limits (2 MB body, 400 k expanded nodes), a near-limit real spec pair takes about 17 s of handler time and about 27 s end to end, **too close to the 30 s gateway cap**. A timeout isn't charged (T-001), but the caller gets nothing. **The limits need recalibrating** (proposed D-031).
