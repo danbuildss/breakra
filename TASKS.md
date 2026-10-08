@@ -20,13 +20,13 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-**T-001 — Bankr platform probe: PREPARED, not executed.**
+**T-001 — Bankr platform probe: PREPARED (plan rev 2), not executed.** Bankr's agent deploys (owner's choice). The open conflict on whether failures are charged is the key question (AUDIT §15).
 - **Approved:** preparation only (2026-10-08). Max authorized spend $0.05. Disposable; not the product.
 - **Plan:** `T-001-PLAN.md`. **Code:** `experiments/t001-bankr-probe/` (bundles with Bun; all cases pass locally).
 - **Blocked on owner:**
-  1. Confirm the Bankr account and payout wallet.
-  2. Add `BANKR_API_KEY` as an environment secret.
-  3. Fund payer wallet `0x96753D…e51C` with about $0.10 USDC on Base.
+  1. Confirm the Bankr account and the **full** payout wallet (`0xb98f0de…`).
+  2. Choose the payer wallet (A: second Bankr account, B: local client, C: PayBox). It must not be the payout wallet.
+  3. Get Bankr's agent's answers to T-001-PLAN §2.
   4. Give explicit go-ahead to deploy and pay.
 
 **T-000** (Phase 0 audit) is done: `AUDIT.md`, approved via D-018 and D-020.

@@ -1,87 +1,100 @@
 # T-001 — Bankr Platform Probe: Deployment and Payment Plan
 
-**Status:** PREPARED. **Not deployed. No USDC spent.** Waiting for the owner's explicit confirmation of every item in §1.
-**Approved scope:** preparation only (owner message 2026-10-08). This is a disposable infrastructure test, not the Breakra endpoint.
-**Code:** `experiments/t001-bankr-probe/`. It bundles with Bun (probe 79 KB, free 161 B), and every case was run locally (see §5).
+**Status:** PREPARED, revision 2 (2026-10-08). **Not deployed. No USDC spent.** Waiting for the owner's explicit confirmation of §1.
+**Approved scope:** preparation only. This is a disposable infrastructure test, not the Breakra endpoint. Max authorized spend is $0.05 USDC.
+**Revision 2 changes:**
+- **Bankr's agent** hosts and deploys (owner's choice).
+- PayBox is no longer assumed as the payer.
+- The handling of failed calls is now an **open conflict** (AUDIT §15).
+- The timeout test is capped at 25 s.
+
+**Code:** `experiments/t001-bankr-probe/`. It bundles with Bun and all cases pass locally (§6).
 
 ---
 
-## 1. Items needing owner confirmation before anything is deployed or paid
+## 1. Items needing owner confirmation before deploy or payment
 
 | # | Item | Proposed value | Status |
 |---|---|---|---|
-| 1 | **Bankr account** | The owner's Bankr account. Claude can't see which account or email it is. | ❓ **Owner to state** which account to use. |
-| 2 | **Payout wallet** | The wallet attached to that Bankr account. Bankr pays out to it, and it appears in the endpoint URL `x402.bankr.bot/<wallet>/<service>`. | ❓ **Owner to state** the address. It must **not** be the payer wallet below, so payments show up as real transfers between two wallets. |
-| 3 | **Payer wallet** (makes the test payments) | PayBox wallet **`eth1` `0x96753D18312Bd3736ffe86666E7dcc7Bc34ce51C`**, the only wallet granted to this session. Paid via PayBox `pay_x402`. | ⚠️ **Balance on Base is 0 USDC** (read 2026-10-08 07:16 UTC). It needs funding with about **$0.10 USDC on Base**. The connector's approval mode is `autonomous`, but Claude **won't pay anything until you confirm**. No signer is recorded yet, so the first payment will ask you to connect a signing key in the PayBox window. |
-| 4 | **Endpoint names** | `breakra-t001-probe` (paid) and `breakra-t001-free` (price `0`, testing whether free routes exist) | Proposed |
-| 5 | **Test price** | **$0.001 USDC** per call on `breakra-t001-probe`, the CLI's default minimum. `$0` on the free probe. | Proposed |
-| 6 | **Paid requests** | **15 planned**, with a hard cap of **30** (allows for re-running ambiguous cases). The free probe is at most 2 calls at $0. | Proposed |
-| 7 | **Max spend** | 30 × $0.001 = **$0.030 USDC** in payments. That's under the $0.05 authorization even if every call is charged. **Known extra costs:** funding the PayBox wallet (an on-ramp fee if bought by card, or about $0.01 of Base gas if transferred from another wallet; shown before you confirm). In x402 "exact" payments the payer signs and the facilitator pays the gas, so there's **no per-call gas for the payer** (inferred from the x402 design; verified during the test). The Bankr fee is reportedly 0% under 1,000 requests/month, charged to the payee. | Proposed |
-| 8 | **Deploy credential** | A Bankr API key (from `bankr login` / bankr.bot/api-keys), added by the owner as an environment secret named **`BANKR_API_KEY`** (see §3). **Never paste it into chat.** | ❓ Owner action |
+| 1 | **Bankr account and deployer** | The owner's Bankr account. **Bankr's agent deploys** using its `deploy_x402_endpoint` tool, from the handler source in `experiments/t001-bankr-probe/`. | ❓ Owner confirms the account. |
+| 2 | **Payout wallet** | That account's deploying wallet, given in the Bankr brief as **`0xb98f0de...` (truncated)** | ❓ **Owner to give the full address.** |
+| 3 | **Payer wallet** | **Must be a different wallet from #2.** Otherwise the payout wallet pays itself, which proves nothing about settlement and may be rejected. Options: **(A)** a second Bankr account paying via `call_x402_endpoint` or `bankr x402 call`; **(B)** the owner runs an x402 client locally with a throwaway wallet (also enables the replay test); **(C)** PayBox `eth1` `0x96753D…e51C` (0 USDC on Base, would need funding). | ❓ **Owner chooses.** Claude recommends A, plus B for the replay case. |
+| 4 | **Endpoint names** | `breakra-t001-probe` (paid) and `breakra-t001-free` (price `0`, to test free routes) | Proposed |
+| 5 | **Test price** | **$0.001 USDC** per call (Bankr-stated minimum). $0 on the free probe. | Proposed |
+| 6 | **Paid requests** | **15 planned**, hard cap **30** | Proposed |
+| 7 | **Max spend** | 30 × $0.001 = **$0.030 USDC**, under $0.05 **even if every call, including failures, is charged** (which the Bankr brief claims). Bankr says it covers settlement gas. **Extra cost:** funding the payer wallet, shown before you confirm. | Proposed |
 
 **Hard stop rules:**
-- Stop at the 30-call cap or $0.05, whichever comes first.
-- Stop immediately if any charge is unexpected (e.g. a charge larger than $0.001, or a charge with no response).
-- Stop if any payment status is ambiguous, or if anything asks for a seed phrase or private key.
+- Stop at the 30-call cap or $0.05.
+- Stop on any charge other than $0.001.
+- Stop on any ambiguous payment status.
+- Stop if anything asks for a seed phrase or private key.
 
-## 2. Irreversible actions and known uncertainties
+## 2. Questions to ask Bankr's agent before deploying
+
+Its answers are recorded, but T-001 still tests them.
+
+1. Its brief says handler errors (4xx, 5xx, throw, timeout) are **charged with no refund**. Bankr's docs say payments are *"only collected if your endpoint returns successfully"*. **Which is current?**
+2. Is **price `0`** allowed? The marketplace lists `littlefinger-demo` at 0.
+3. What is the full payout wallet address?
+4. For `paymentScheme: "upto"`, how does a handler report the actual amount to settle? Can it be $0? What fields does `BankrX402Context` have?
+5. Is the request body limit 6 MB (Lambda) or 10 MB (API Gateway)?
+6. What payload format does `deploy_x402_endpoint` expect: `dependencies` as an array or as an object; schema `properties` as an array or as standard JSON Schema?
+7. What is the platform fee percentage, and is there a free tier?
+
+**Corrections to send back to Bankr's agent** (verified, AUDIT §15):
+- `api-smart-diff` latest is **1.0.6**; there is no `^3.0.0`.
+- The function is `apiCompare`, not `diffSpecs`.
+- CLI 0.3.45 has no `x402 logs` or `x402 update` command.
+
+## 3. Irreversible actions and known uncertainties
 
 **Irreversible:**
-- On-chain USDC payments can't be undone.
-- `bankr login` accepts Bankr's Terms of Service and creates an API key. You can revoke the key afterwards.
-- Deployed services are public at `x402.bankr.bot/<wallet>/<name>` until deleted. Deletion is planned at the end (`bankr x402 delete`), and the CLI says it "cannot be undone". Bankr may still list or index the services briefly.
+- On-chain USDC payments.
+- Deployed endpoints are public and listed in the Bankr marketplace until deleted. Deletion "cannot be undone". Bankr archives the source on deploy.
+- There's no built-in rollback (per the Bankr brief).
 
 **Uncertainties:**
-- **Network limits on Claude's side:**
-  - `x402.bankr.bot` is **blocked from this container**, so Claude can't call the endpoints directly. Paid calls go through **PayBox** (server-side). Unpaid probes (e.g. reading the raw 402) may need the owner to run `curl` locally, or PayBox's quote step.
-  - `api.bankr.bot` (deploy, discovery, revenue APIs) **is reachable**.
-- Whether PayBox exposes enough detail (settlement tx hash, response headers) to check settlement independently. The fallback is comparing PayBox balances with Bankr's `revenue` API.
-- **Replay testing is partial.** True duplicate-authorization replay (resending the same signed payment header) needs a low-level x402 client holding a test key. PayBox signs fresh for every call, so we can test *retries* (two calls give two charges?) but **not** replay of an identical signature, unless the owner runs a local client with a throwaway wallet. That would be recorded as Unknown/blocked.
-- The Bankr docs site is blocked from here. Everything about Bankr comes from the CLI source, the public discovery API and secondary reports.
-- An open GitHub issue reports blank 500s on paid calls with nothing charged. If we hit it, we document it and stop.
+- Whether failures are charged (the core conflict).
+- Real body-size and memory limits.
+- The fee.
+- Whether price 0 works.
+- Replay of an identical signed payment can only be tested with option B.
+- Claude's container can't reach `x402.bankr.bot`, so Claude can't call the endpoints directly. Claude *can* reach `api.bankr.bot` (discovery, schema, revenue reads).
 
-## 3. How deployment would work (after confirmation)
+## 4. Procedure (after confirmation)
 
-1. **Owner:** create a Bankr API key and add it to this cloud environment's settings (session title bar → environment menu → Edit) under **Network secrets**, or as an environment variable, with the name **`BANKR_API_KEY`**. A new session picks it up. Claude reads only that variable.
-2. **Owner:** fund the payer wallet `0x96753D…e51C` with about $0.10 USDC on Base.
-3. **Claude:**
-   - Run `bankr whoami`.
-   - **Stop and show you the account and payout wallet.** You confirm they match §1.
-   - Run `bankr x402 deploy` from `experiments/t001-bankr-probe/`.
-   - Record the returned URLs and version.
-4. **Claude:** run the cases in §4 in order, one at a time, recording each result immediately.
-5. **Claude:**
-   - Run `bankr x402 revenue breakra-t001-probe` and read the PayBox balances.
-   - Reconcile the numbers.
-   - Run `bankr x402 delete` on both services. **You confirm the deletion first.**
-6. **Claude:** update AUDIT.md, PLAN.md, TASKS.md, DECISIONS.md, TESTING.md (and ARCHITECTURE.md only if needed), tagging every finding as **Verified by test / Official docs / Inferred / Unknown**.
+1. The owner (via Bankr's agent) deploys both services from `experiments/t001-bankr-probe/`, with `api-smart-diff` pinned to **exactly `1.0.6`**.
+2. Claude checks the public listing and schema through `api.bankr.bot` and confirms the payout wallet in the URL matches §1 #2.
+3. Run the cases in §5 one at a time with the chosen payer, recording each result. Claude prepares the exact call for each case; the owner or payer agent runs it if Claude can't reach the endpoint.
+4. Reconcile the payer's balance changes against Bankr's revenue figures (requests, total USD, `bankrFeesUsd`).
+5. Delete both endpoints. **The owner confirms the deletion first.**
+6. Update AUDIT.md, PLAN.md, TASKS.md, DECISIONS.md, TESTING.md (and ARCHITECTURE.md only if needed), tagging every result as **Verified by test / Official docs / Inferred / Unknown**.
 
-## 4. Test cases and expected outcomes
+## 5. Test cases
 
-"Expected" means our current hypothesis. **None of these is assumed to be true.** Each result is recorded as observed.
-
-| ID | Request | What it tests | Hypothesis | Paid calls |
-|---|---|---|---|---|
-| T0 | Unpaid call to `?case=ok` | The 402 challenge | HTTP 402 with network `eip155:8453`, asset USDC, amount `1000` (0.001 × 10⁶), payTo = your payout wallet | 0 |
-| T1 | `?case=ok` | Happy path and settlement | 200, **charged once** (payer −0.001, Bankr revenue +1) | 1 |
-| T2 | `?case=env` | Runtime, memory, outbound fetch, forwarded headers | 200. Reveals the runtime (Bun?), RSS, whether `fetch` to example.com works, and which headers Bankr forwards (names only, no values) | 1 |
-| T3 | `?case=lib` | Whether npm dependencies get bundled (`api-smart-diff` 1.0.6) | 200, `diffs: 1` | 1 |
-| T4 | `?case=bad` | A 400 validation failure | 400. **Not charged?** (the key question) | 1 |
-| T5 | `?case=err` | A 500 returned by the handler | 500. **Not charged?** | 1 |
-| T6 | `?case=throw` | An unhandled exception | 5xx (possibly a blank 500). **Not charged?** | 1 |
-| T7 | `?case=ok`, sent twice back to back | Retries | Two separate payments, **charged twice** (each call is a new authorization). Shows whether Bankr de-duplicates anything | 2 |
-| T8 | `?case=sleep&ms=5000`, then `15000`, then `30000`. Stop at the first failure | Handler timeout | Work out the practical timeout. **Check whether a timed-out call is charged.** | ≤3 |
-| T9 | POST `?case=size` with 100 KB, 1 MB, 4 MB, 6 MB bodies (stop at the first rejection, never above 6 MB, the common AWS Lambda sync limit) | Max request body | Find the practical limit. **Check whether a rejected body is charged.** | ≤4 |
-| T10 | `?case=mem&mb=128` | Memory headroom (only if T2 shows enough) | 200, or an out-of-memory failure. **Charged?** | ≤1 |
-| T11 | Free probe `breakra-t001-free` | Do free (price 0) routes exist? (relevant to D-016) | Either 200 without any payment, or the deploy rejects price 0 | 0 |
+| ID | Request | Tests | Bankr brief predicts | Bankr docs predict | Paid calls |
+|---|---|---|---|---|---|
+| T0 | Unpaid call to `?case=ok` | The 402 challenge | 402, USDC on Base, $0.001, payTo = payout wallet | same | 0 |
+| T1 | `?case=ok` | Happy path | 200, charged | 200, charged | 1 |
+| T2 | `?case=env` | Runtime and arch, RSS, outbound fetch, forwarded header names (looking for `x-402-payer`) | Bun on arm64, fetch allowed | — | 1 |
+| T3 | `?case=lib` | npm dependency bundled (`api-smart-diff` 1.0.6) | works | — | 1 |
+| T4 | `?case=bad` (400) | Is a validation failure charged? | **charged** | **not charged** | 1 |
+| T5 | `?case=err` (500) | Is a returned 500 charged? | **charged** | **not charged** | 1 |
+| T6 | `?case=throw` | Is an unhandled exception charged? | **charged** (500) | **not charged** | 1 |
+| T7 | `?case=ok` twice | Retry / duplicate | two charges | two charges | 2 |
+| T8 | `?case=sleep&ms=5000`, `15000`, `25000` (stop at first failure; never ≥ 30 s) | Practical timeout headroom | OK under 30 s | — | ≤3 |
+| T9 | POST `?case=size` with 100 KB, 1 MB, 4 MB, 6 MB (stop at first rejection) | Body limit. Is a rejected body charged? | ~10 MB | (Lambda: 6 MB) | ≤4 |
+| T10 | `?case=mem&mb=128` (only if T2 shows headroom) | Memory | ~128–512 MB | — | ≤1 |
+| T11 | `breakra-t001-free` | Is price 0 deployable and free to call? | min $0.001 | listing exists at 0 | 0 |
+| T12 | Replay the identical signed payment header (**option B only**) | Replay protection | rejected | — | 0–1 |
 
 **Planned paid calls:** 15. **Cap:** 30. **Ceiling:** $0.030.
 
-**Not tested:** replaying an identical signed payment header (§2), and concurrent load of any kind. We won't stress the platform.
+## 6. Local verification (2026-10-08, no network, no spend)
 
-## 5. Local verification already done (2026-10-08, no network, no spend)
+- **Bundling:** `bun build` succeeds. The probe is 79.1 KB including api-smart-diff 1.0.6; the free probe is 161 B.
+- **Local run under Bun 1.4.2:** `ok`→200, `bad`→400, `err`→500, `throw`→throws, `sleep`→200, `size 100 KB`→200, `mem 16 MB`→200, `lib`→200 (1 diff), `env`→200, unknown case→400.
+- **Revision 2:** the sleep cap was lowered to 25 s.
 
-- **Bundling:** `bun build` of both handlers succeeded. The probe bundle is 79.1 KB (including api-smart-diff); the free probe is 161 B.
-- **Local run:** every case passed under Bun 1.4.2 through a local harness:
-  - `ok`→200, `bad`→400, `err`→500, `throw`→throws, `sleep 200ms`→200, `size 100 KB`→200 with sha256, `mem 16 MB`→200, `lib`→200 (1 diff), `env`→200, unknown case→400.
-  - This proves only that the handler behaves as designed. **It proves nothing about Bankr.**
+This proves only that the handler behaves as designed. **It proves nothing about Bankr.**

@@ -295,3 +295,35 @@ Three survivors:
 ## 14. T-001 plan
 
 See **`T-001-PLAN.md`**: accounts, wallets, endpoint names, price, call count, max spend, test cases, irreversible actions and uncertainties. **Not executed.** Waiting for owner confirmation.
+
+## 15. Cross-check of the Bankr-provided technical brief (input #4, 2026-10-08)
+
+The owner forwarded a brief written by Bankr's agent (archived verbatim in `notes.md`, Appendix D). It adds useful facts, but several claims conflict with evidence verified earlier. **T-001 decides every row marked ⚠️.**
+
+| Topic | Bankr brief says | Our evidence | Status |
+|---|---|---|---|
+| **Charging on handler errors** | Payment settles **before** the handler runs. 400, 500, a throw or a timeout are **all charged, no refund**. (The brief's own §6 also says "Failed executions billed: no", which contradicts its §3.) | Bankr docs snippets: *"payments are only collected if your endpoint returns successfully"* and *settles "only after your endpoint returns successfully"*. Issue #5: paid calls returning 500 showed "$0 earned". | ⚠️ **Direct conflict.** This is the most important T-001 question (cases T4–T6, T8). |
+| Runtime | Bun on Amazon Linux 2023, aarch64, Lambda-backed | CLI source: "bundles with Bun", "builder Lambda" | Consistent. Arch and OS are new and unverified (T2 reports them). |
+| Handler signature | `handler(req, ctx?: BankrX402Context)` | CLI template has `handler(req)` only | `ctx` is new. Its fields are unknown. |
+| **Timeout** | **30 s hard cap** (API Gateway), 503 on timeout | Not previously documented. GitHub's 13 MB spec took 9–14 s to diff locally | Plausible. **Design limit: aim for ≤ 20 s worst case.** T8 now tops out at 25 s. |
+| Body size | "API Gateway default 10 MB", not confirmed | AWS Lambda synchronous payload limit is 6 MB | ⚠️ Probably ≤ 6 MB. T9 measures it (never above 6 MB). |
+| Minimum price | $0.001 "confirmed" | The Bankr marketplace lists a price-`0` service (AUDIT §13 P4). Docs snippet says the minimum is 0.000001 | ⚠️ T11 tests price 0. |
+| **`api-smart-diff` version and API** | `^3.0.0`, call `diffSpecs(before, after, {format})` | **Wrong (verified).** The latest on npm is **1.0.6**; no 2.x or 3.x exists. `diffSpecs` is **not exported**. That function is from Atlassian `openapi-diff`. The real API is `apiCompare(before, after)`. | ❌ The brief's sample handler **would fail to build or run**. Don't use it. |
+| Sample handler error output | Returns `err.message` to the client | Our rule: sanitize errors, no internal details | ❌ Don't copy. |
+| CLI commands | `bankr x402 logs`, `bankr x402 update --price` | **CLI 0.3.45 (latest) has neither** (verified in source). `logs` exists only for webhooks. Price changes use `configure` plus redeploy | ❌ Use the verified commands. |
+| Deploy payload | `dependencies` as an array of `{name, version}`, schema `properties` as an array | The CLI sends `dependencies` as an object (from `package.json`) and the schema as standard JSON Schema | Possibly a different format for the agent's `deploy_x402_endpoint` tool. Use the format of whichever tool actually deploys. |
+| Routes | One URL per deployment. No sub-routes, so `/v1/analyze` can't exist | Consistent with the CLI (`x402.bankr.bot/<wallet>/<service>`) | **Accepted.** The endpoint will be `…/<wallet>/breakra-analyze`. Docs must not promise `/v1/analyze`. Free discovery routes would each need their own deployment (D-016). |
+| Payer identity | `x-402-payer` request header, "router-set, spoof-proof" | New | **Useful for metrics** (unique and repeat paying wallets) without storing request bodies. T2 reports header names. |
+| Gas | Bankr covers settlement gas | Consistent with x402 "exact" design | Verify in T-001. |
+| Replay | A payment receipt can't be reused | Consistent with x402 (EIP-3009 nonces) | Not testable via a fresh-signing client (T-001-PLAN §2). |
+| Fees | Not documented. Won't guess | Secondary sources: free for the first 1,000 requests/month, then 5% | Unknown. T-001 reads `revenue`, which separates `bankrFeesUsd`. |
+| Outbound fetch | Allowed | — | T2 verifies. (V0 doesn't need it; URL mode stays deferred under D-014.) |
+| Payout wallet | Deploying wallet `0xb98f0de...` (truncated) | — | **Owner must give the full address.** It must differ from the T-001 payer. |
+| Upto scheme | Not covered | CLI offers `paymentScheme: "upto"` ("server settles actual cost") | **Open question.** If errors turn out to be charged, `upto` could let Breakra settle $0 on invalid input. We need to know how the handler reports the actual amount (via `ctx`?). |
+
+**Consequence if T-001 confirms "errors are charged":** the brief's rule *"don't charge for known-invalid requests"* can't be met with 4xx responses. Options to bring to the owner:
+- (a) the `upto` scheme, if it can settle $0;
+- (b) accept it and disclose it clearly in skill.md and the schema, and keep validation cheap and strict;
+- (c) a separate free validation endpoint, if price 0 is allowed.
+
+No decision is made until there's evidence.

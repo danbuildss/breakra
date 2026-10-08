@@ -16,7 +16,7 @@
 
 - **Phase:** 0. Audit approved (D-018/019/020). **T-001 Bankr probe is prepared but not executed** (`T-001-PLAN.md`). No product code exists.
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** The owner confirms the T-001 plan items (Bankr account, payout wallet, `BANKR_API_KEY` secret, funding the payer wallet), then gives explicit go-ahead. Then Claude runs T-001.
+- **Next step:** The owner confirms T-001-PLAN rev 2: Bankr account, the **full** payout wallet (`0xb98f0de…`), which payer wallet (A, B or C, not the payout wallet), and Bankr's agent's answers to the §2 questions. Then the owner gives explicit go-ahead. Bankr's agent deploys; Claude verifies and records.
 - **Waiting on:** The owner's T-001 confirmations, plus the registrar and trademark checks for breakra.com/.dev.
 
 ## Inputs received
@@ -24,6 +24,7 @@
 | # | Date | What | Where |
 |---|------|------|-------|
 | 1 | 2026-10-08 | Specshift Master Product & Engineering Brief v1.0 | [Appendix A](#appendix-a--specshift-master-product--engineering-brief-v10) |
+| 4 | 2026-10-08 | Bankr agent's technical brief on x402 Cloud for Breakra (forwarded by owner; owner wants Bankr to host and deploy) | [Appendix D](#appendix-d--bankr-agent-technical-brief-input-4); cross-checked in AUDIT.md §15 |
 | 3 | 2026-10-08 | Project workspace zip (9 Markdown files) plus a suggested first message to Claude | Repo root; see [Appendix C](#appendix-c--project-workspace-input-3) |
 | 2 | 2026-10-08 | Owner's cover document. It wraps the same master brief and adds: product decisions table, pre-start findings, owner checklist, build order, and an earlier "API Change Intelligence" draft with rules for Claude | [Appendix B](#appendix-b--owners-cover-document-input-2) |
 
@@ -87,6 +88,13 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner asked why PayBox. Claude explained it was only the session's connected wallet, that the endpoint host is blocked from here, and that the payer should differ from the payee. Claude offered alternatives. **Owner decided Bankr (its agent) will host and deploy.**
+- **2026-10-08:** Received input #4, the Bankr agent's brief. Cross-checked it in AUDIT §15. Results:
+  - **Direct conflict:** the brief says handler errors are charged, but Bankr's docs say payment is only collected on success. T-001 decides.
+  - **Verified wrong:** `api-smart-diff ^3.0.0` (the latest is 1.0.6), a `diffSpecs` export (it doesn't exist), and the `x402 logs` and `x402 update` CLI commands.
+  - **New and useful:** a 30 s hard timeout, one URL per deployment, and the `x-402-payer` header.
+  - **Changes:** rewrote `T-001-PLAN.md` (rev 2); probe sleep is now capped at 25 s.
+  - Nothing deployed or spent.
 - **2026-10-08:** Owner approved **Breakra** (D-018) and D-013 to D-017 (D-020). They clarified that the repo lives on `danbuildss`, proposed `danbuildss/breakra`, with independent branding and no Somehow attribution (D-019). They approved T-001 *preparation* only.
   - **Docs:** renamed the living docs to Breakra; historical records kept.
   - **New files:** `T-001-PLAN.md`, the disposable probe in `experiments/t001-bankr-probe/` (bundled and run locally), and `.gitignore`.
@@ -894,3 +902,255 @@ Objective: Given two OpenAPI specifications, return a deterministic, structured 
 > 6. The exact next implementation task.
 >
 > Do not write production code, create infrastructure or deploy anything yet. … Work carefully, verify your claims, and keep the Markdown documents updated as we progress.
+
+---
+
+## Appendix D — Bankr agent technical brief (input #4)
+
+*(Received 2026-10-08 from the owner and written by Bankr's agent. Saved verbatim. **Several claims are verified wrong or conflict with Bankr's docs. See AUDIT.md §15 before relying on any of it.**)*
+
+> Here's a complete, grounded technical brief for Breakra on Bankr x402 Cloud. Everything below is confirmed from the platform's actual capabilities — I'll flag anything that's unconfirmed or undocumented.
+
+### 1. Runtime and Deployment
+
+**Runtime**: Bun (Amazon Linux 2023, aarch64). The sandbox shims `node`/`npm`/`npx` to Bun, so most Node-compatible TypeScript runs without changes.
+
+**Handler interface** — exact required export:
+
+```ts
+export default async function handler(
+  req: Request,
+  ctx?: BankrX402Context,
+): Promise<Response> {
+  return Response.json({ ok: true });
+}
+```
+
+The file must be a single self-contained TypeScript module (`x402/<name>/index.ts`). No local imports outside declared `dependencies`.
+
+**Third-party npm dependencies**: yes, fully supported. Declare them in the `dependencies` array of the deploy payload with exact or semver-pinned versions. Published npm packages only — no git URLs, GitHub shorthand, file refs, or workspace links. `api-smart-diff` is a published npm package and will work.
+
+**Known limits**:
+- Execution timeout: **30 seconds hard cap** (AWS HTTP API Gateway — cannot be raised)
+- Bundle size, memory, CPU, concurrency: not publicly documented with exact numbers. The platform is Lambda-backed; assume standard Lambda constraints (~128–512 MB RAM, ephemeral `/tmp` only for in-process use)
+- No persistent filesystem between invocations unless you opt into `fileAccess` (see §4)
+
+**CLI deployment**: yes. The agent tool (`deploy_x402_endpoint`) and the CLI share the same server-side builder/deployer. You can deploy from source directly — no Docker, no DNS, no infra. The CLI command is `bankr x402 deploy` from your project folder.
+
+**Updates / versioning**: redeploying the same `name` bumps the version in-place. The platform archives source on every successful deploy. There is no built-in rollback to a prior version via UI — you'd redeploy the prior source manually.
+
+**Logs**: yes. `get_x402_endpoint({ name, include: ["logs"] })` returns recent request logs and errors. Also accessible via the x402 dashboard.
+
+### 2. API Requests and Responses
+
+**Request body size**: not publicly documented with an exact byte limit. AWS API Gateway's default is **10 MB** — treat that as the practical ceiling. For OpenAPI spec comparison, multi-megabyte payloads are likely fine in practice, but this is not a confirmed platform guarantee.
+
+**POST and custom paths**: yes. You declare `methods: ["POST"]` in the deploy payload. Each deployment is a single endpoint at `https://x402.bankr.bot/<wallet>/<name>`. The path is fixed to that URL — you cannot expose multiple sub-routes (e.g. `/v1/analyze` and `/v1/health`) from one deployment. Each route = one deployment.
+
+**HTTP status codes / headers / response bodies**: fully under your control. Return any `Response` object — `Response.json(...)`, custom headers, any status code.
+
+**Content-type restrictions**: none enforced by the platform. Parse `await req.json()` yourself and return 400 on parse failure.
+
+**CORS**: not handled automatically. Add `Access-Control-Allow-Origin` headers in your handler if needed.
+
+**Multiple routes per deployment**: not supported. One deployment = one paid endpoint URL. For Breakra's `POST /v1/analyze`, deploy one endpoint named e.g. `breakra-analyze`.
+
+### 3. x402 Payments — Full Lifecycle
+
+**Payment scheme**: `exact` (default). The client pays the fixed price before the handler runs. The handler only executes after payment is verified on-chain.
+
+**x402 version**: the platform implements the x402 protocol. Exact version string is not publicly documented.
+
+**Base mainnet USDC**: yes, confirmed. Payments settle in USDC on Base.
+
+**Lifecycle**: Client sends POST → platform issues HTTP 402 with payment details → client signs and submits USDC payment on Base → platform verifies payment on-chain → handler executes → handler returns Response → platform forwards response to client → USDC settles to deploying wallet
+
+**Failure scenarios**:
+
+| Scenario | What happens |
+|---|---|
+| Handler returns 400 / 422 | Payment already settled. Client paid; got an error response. No refund. |
+| Handler returns 500 | Payment already settled. Client paid; got a 500. No refund. |
+| Handler throws / unhandled exception | Payment already settled. Platform returns 500 to client. No refund. |
+| Handler times out (>30s) | Payment already settled. Client gets 503. No refund. |
+| Payment fails / client doesn't pay | Handler never runs. No charge. |
+
+**Important**: the handler runs only after payment is confirmed. But once payment is confirmed, the client bears the risk of handler errors. Design Breakra to be robust — validate inputs before doing expensive work, return 400 early for malformed specs.
+
+**Double-charge / retry protection**: the x402 protocol includes payment receipts that prevent replay. A valid payment receipt cannot be reused for a second request. Idempotency at the application layer (same spec pair submitted twice) is your responsibility — the platform does not deduplicate by request body content.
+
+**Price configuration**: `$0.02 USDC` is fully supported. Set `price: "0.02"` (string, not float). Minimum price: `$0.001` USDC (confirmed — this is the deploy default).
+
+**Fees and payouts**: Bankr charges a platform fee per successful request. The exact fee percentage is not publicly documented in the authoring directive — I won't guess a number. Revenue goes to the wallet that deployed the endpoint (your connected wallet: `0xb98f0de...`). Payout wallet is the deploying wallet; changing it requires redeploying from a different wallet. Settlement timing is not publicly documented with exact block/time guarantees.
+
+### 4. Security and Operational Limits
+
+**Request-size / execution limits**: enforced by the platform (API Gateway + Lambda layer). You don't need to implement your own timeout logic.
+
+**Rate limiting / abuse protection**: not publicly documented. No confirmed per-endpoint rate limiting beyond what Lambda concurrency provides.
+
+**Environment variables / secrets**: yes. Declare names in `requiredEnvVars`; set values in Terminal Settings → Env Vars → x402 endpoints (or `bankr x402 env set KEY=value`). Values are injected as `process.env.KEY` at runtime. Values are never exposed to the agent or in logs. Breakra doesn't need external API keys, so this is a non-issue for your use case.
+
+**Outbound network access**: yes, allowed. `fetch()` works from handlers. Breakra doesn't need it (pure computation), but it's available.
+
+**Filesystem / persistent storage**: ephemeral `/tmp` only between invocations. For persistent state, opt into `fileAccess` (private file store) or `appKVAccess` (companion app KV). Breakra is stateless, so neither is needed.
+
+**Concurrent request isolation**: each invocation is an isolated Lambda execution. No shared in-process state between concurrent requests.
+
+**Malformed JSON**: handle it yourself — `await req.json()` throws on bad JSON; wrap in try/catch and return 400. The platform does not pre-validate request bodies.
+
+**Restricting HTTP methods**: yes. Set `methods: ["POST"]` in the deploy payload. The platform rejects other methods before the handler runs.
+
+### 5. Developer Experience and Discovery
+
+**Testing before production**: deploy a separate endpoint with a different name (e.g. `breakra-analyze-test`) at `$0.001` price. There is no sandbox or Base Sepolia test environment — all deployments are on Base mainnet. Test endpoints are real paid endpoints at minimum price.
+
+**Disposable test endpoint at $0.001**: yes, confirmed. That's the minimum price and the deploy default.
+
+**Agent discovery**: yes. Endpoints are listed in the Bankr x402 marketplace at `https://bankr.bot`. Agents can discover via `discover_x402_endpoints` (semantic search) and call via `call_x402_endpoint` with automatic payment. The endpoint URL itself (`https://x402.bankr.bot/<wallet>/<name>`) is machine-callable without visiting any website — agents probe it, receive the 402 with payment details, pay, and get the response.
+
+**API documentation / schema**: publish via the `schema` field in the deploy payload (JSON Schema for input/output) and the `description` field. No separate docs hosting — the schema is embedded in the endpoint's marketplace listing.
+
+**Discovery without a website**: confirmed. The x402 protocol is self-describing — a GET/HEAD to the endpoint URL returns the 402 with price, payment token, and network. Agents can discover and invoke autonomously.
+
+### 6. Costs, Analytics, and Payouts
+
+**Platform fee**: charged per successful request. Exact percentage not publicly documented — I won't fabricate a number.
+
+**Free allowances**: none confirmed.
+
+**Failed executions billed**: no — if the handler never runs (payment failed), no charge. If the handler runs and errors, the client paid but you still receive the revenue (minus platform fee). The platform does not refund on handler errors.
+
+**Network transaction fees**: Bankr covers gas for payment settlement — clients don't pay separate gas on top of the USDC price.
+
+**Revenue wallet**: the wallet that deployed the endpoint (`0xb98f0de...` in your case).
+
+**Analytics**: `get_x402_endpoint({ name, include: ["details"] })` returns 30-day revenue and aggregate request metrics. Logs via `include: ["logs"]`. Detailed per-call analytics (unique wallets, repeat usage, per-request breakdown) — not confirmed as available beyond what the dashboard shows.
+
+**Data export**: not confirmed as a platform feature.
+
+### 7. Compatibility Assessment for Breakra
+
+**Verdict: fully compatible, no blockers.**
+
+| Requirement | Status |
+|---|---|
+| TypeScript handler | confirmed |
+| POST endpoint | confirmed |
+| JSON request/response | confirmed |
+| `api-smart-diff` npm dependency | confirmed (published npm package) |
+| No database / frontend / external API | confirmed (stateless = simplest pattern) |
+| $0.02 USDC price | confirmed |
+| Agent-discoverable | confirmed |
+| No persistent storage needed | confirmed |
+
+**One risk to design around**: the 30-second hard timeout. If `api-smart-diff` runs slowly on very large OpenAPI specs (thousands of paths, deeply nested schemas), you could hit the wall. Validate and size-cap inputs early. Consider returning 413 for payloads above a safe threshold before doing the diff.
+
+### Minimal Working Handler (as provided; ⚠️ does not work, see AUDIT §15)
+
+```ts
+import { diffSpecs } from "api-smart-diff";
+
+export default async function handler(req: Request): Promise<Response> {
+  if (req.method !== "POST") {
+    return Response.json({ error: "Method not allowed" }, { status: 405 });
+  }
+
+  let body: { before?: unknown; after?: unknown };
+  try {
+    body = await req.json();
+  } catch {
+    return Response.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { before, after } = body;
+  if (!before || !after || typeof before !== "object" || typeof after !== "object") {
+    return Response.json(
+      { error: "body must contain 'before' and 'after' OpenAPI 3.0 objects" },
+      { status: 422 },
+    );
+  }
+
+  let result: unknown;
+  try {
+    result = diffSpecs(before, after, { format: "openapi3" });
+  } catch (err) {
+    return Response.json(
+      { error: "diff failed", detail: err instanceof Error ? err.message : String(err) },
+      { status: 422 },
+    );
+  }
+
+  return Response.json({ ok: true, diff: result });
+}
+```
+
+### Deploy Payload (as provided)
+
+```json
+{
+  "name": "breakra-analyze",
+  "description": "Compare two OpenAPI 3.0 specs and return breaking-change analysis. $0.02 USDC per call.",
+  "price": "0.02",
+  "methods": ["POST"],
+  "tags": ["openapi", "api-diff", "breaking-changes", "developer-tools"],
+  "dependencies": [
+    { "name": "api-smart-diff", "version": "^3.0.0" }
+  ],
+  "schema": {
+    "input": {
+      "type": "object",
+      "properties": [
+        { "name": "before", "schema": { "type": "object", "description": "OpenAPI 3.0 spec (before)" } },
+        { "name": "after",  "schema": { "type": "object", "description": "OpenAPI 3.0 spec (after)"  } }
+      ],
+      "required": ["before", "after"]
+    },
+    "output": {
+      "type": "object",
+      "properties": [
+        { "name": "ok",   "schema": { "type": "boolean" } },
+        { "name": "diff", "schema": { "type": "object", "description": "Structured diff with breaking-change classifications" } }
+      ]
+    }
+  }
+}
+```
+
+### CLI Commands (as provided)
+
+```bash
+npm install -g @bankr/cli
+bankr login
+bankr x402 deploy
+bankr x402 env set MY_KEY=value
+bankr x402 logs breakra-analyze          # ⚠️ not in CLI 0.3.45
+bankr x402 update breakra-analyze --price 0.03   # ⚠️ not in CLI 0.3.45
+bankr x402 pause breakra-analyze
+bankr x402 resume breakra-analyze
+bankr x402 delete breakra-analyze
+```
+
+> Note: CLI package name (`@bankr/cli`) and exact subcommand syntax — verify against the official docs below, as I'm grounding this on the authoring directive's description of the CLI model, not a live CLI reference.
+
+### Example x402 Payment Flow (as provided)
+
+Step 1: `POST https://x402.bankr.bot/0xb98f0de.../breakra-analyze` → HTTP 402, `x-payment-required: { "amount": "0.02", "token": "USDC", "network": "base", ... }`
+Step 2: client signs and submits USDC payment on Base, receives receipt.
+Step 3: client retries with `x-payment: <signed receipt>` and the JSON body → HTTP 200 `{ "ok": true, "diff": {...} }`.
+
+The payer wallet is available in your handler via `req.headers.get("x-402-payer")` — router-set, spoof-proof, useful for per-wallet quotas or audit logs.
+
+### Official Documentation (as provided)
+- Platform: `https://bankr.bot`
+- x402 endpoints dashboard: `https://bankr.bot/terminal` (x402 section)
+- x402 protocol spec: `https://x402.org`
+
+### Commonly Overlooked Limits (as provided)
+1. **30-second hard timeout**: no exceptions, no config. Diffs that take more than 30 s will 503 the client after they've already paid. Add an input size cap.
+2. **One URL per deployment**: no sub-routing. `/v1/analyze` is not a real path; the endpoint is at `/<wallet>/breakra-analyze`.
+3. **Handler errors don't refund**: a 500 or exception after payment verification means the client paid and got nothing.
+4. **No rollback**: redeploying overwrites. Keep your source in version control.
+5. **x402 env vars are a separate scope** from agent/tool env vars. Use `bankr x402 env set` or the x402 dashboard.
+6. **Platform fee is taken from revenue**: net per call is less than $0.02.
+7. **`api-smart-diff` version**: pin the exact version you tested against.

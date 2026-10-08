@@ -5,7 +5,7 @@
  */
 import { apiCompare } from "api-smart-diff";
 
-const MAX_SLEEP_MS = 30_000;
+const MAX_SLEEP_MS = 25_000; // stay under Bankr's stated 30 s gateway cap
 const MAX_ALLOC_MB = 256;
 
 async function sha256Hex(data: ArrayBuffer): Promise<string> {
