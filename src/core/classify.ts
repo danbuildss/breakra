@@ -1,5 +1,5 @@
 import type { RawDiff } from "./compare";
-import { isObject, type Json } from "./validate";
+import { isObject, type Json, resolveLocalRef } from "./validate";
 
 /**
  * Breakra rule set 0.1.0 (RULES.md). Pure, deterministic mapping from raw structural changes to
@@ -63,6 +63,24 @@ function getAt(root: Json, path: Array<string | number>): Json | undefined {
     else if (isObject(node) && typeof key === "string") node = node[key];
     else return undefined;
     if (node === undefined) return undefined;
+  }
+  return node;
+}
+
+/**
+ * Follows a local `$ref` (and chains of them) to its target in the merged document. api-smart-diff
+ * reports a whole added/removed object as written, so a `$ref` parameter, request body or response must
+ * be resolved before its `required`, `name` or `in` can be read. Unresolvable refs are returned as is.
+ */
+function deref(value: Json | undefined, merged: Json): Json | undefined {
+  let node = value;
+  for (let hops = 0; hops < 32; hops++) {
+    if (!isObject(node ?? null)) return node;
+    const ref = (node as Record<string, Json>).$ref;
+    if (typeof ref !== "string" || !isObject(merged)) return node;
+    const target = resolveLocalRef(merged, ref);
+    if (target === undefined) return node;
+    node = target;
   }
   return node;
 }
@@ -719,7 +737,7 @@ function param(ctx: Ctx, opPath: Array<string | number>, index: number): { in: s
   ) {
     return { in: String((own as Record<string, Json>).in), name: String((own as Record<string, Json>).name) };
   }
-  const p = getAt(ctx.merged, [...opPath, "parameters", index]);
+  const p = deref(getAt(ctx.merged, [...opPath, "parameters", index]), ctx.merged);
   const source = isObject(p ?? null)
     ? (p as Record<string, Json>)
     : isObject(ctx.diff.before ?? null)
@@ -1240,7 +1258,7 @@ function displayPath(diff: RawDiff, merged: Json): string[] {
     const seg = diff.path[i];
     const prev = diff.path[i - 1];
     if (typeof seg === "number" && prev === "parameters") {
-      const p = getAt(merged, [...diff.path.slice(0, i + 1)]);
+      const p = deref(getAt(merged, [...diff.path.slice(0, i + 1)]), merged);
       const src = isObject(p ?? null)
         ? (p as Record<string, Json>)
         : isObject(diff.before ?? null)
@@ -1257,7 +1275,13 @@ function displayPath(diff: RawDiff, merged: Json): string[] {
 }
 
 /** Classifies one raw diff. Returns one or more findings, or none for changes with no contract surface. */
-export function classify(diff: RawDiff, merged: Json): Change[] {
+export function classify(raw: RawDiff, merged: Json): Change[] {
+  // Whole objects added or removed by `$ref` (parameters, request bodies, responses, headers) are
+  // classified by what they point to. A changed `$ref` string itself stays `unknown` (below).
+  const diff: RawDiff =
+    raw.action === "add" || raw.action === "remove"
+      ? { ...raw, before: deref(raw.before, merged), after: deref(raw.after, merged) }
+      : raw;
   const ctx: Ctx = { diff, merged, displayPath: displayPath(diff, merged) };
   const path = diff.path;
   const root = path[0];

@@ -14,7 +14,7 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** **4 COMPLETE** (2026-10-08). Phases 0–4 are done (2 folded in). **Next: Phase 5 (14-day commercial experiment), awaiting approval; promotion is gated on domain and trademark clearance.**
+- **Phase:** **5, Step 1 (preparation)** (D-033). Demo, metrics script and launch kit ready. **Two urgent engine fixes proposed (D-034, engine 0.1.1)** awaiting the owner's merge and redeploy. Day 1 waits on the domain and trademark check.
 - **Public:** `github.com/danbuildss/breakra` is public (MIT). Agent guide: `skill.md`; contract: `openapi.json`.
 - **Live:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`, **v3**, $0.02 USDC on Base, deployed from `main` @ `b079a20` (listing links to skill.md). Limits per D-031 (1 MB body, 75 k expanded nodes).
 - **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench, verify-live), CI, and docs (RULES.md, docs/API.md, docs/DEPLOYMENT.md, BENCHMARKS.md, ARCHITECTURE.md).
@@ -91,6 +91,11 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** **Owner approved Phase 5** (channels X + GitHub + directories; continue bar OK) → D-033.
+  - Built: `PHASE-5-PLAN.md`, `EXPERIMENT.md`, demo `demo/github-rest-api/` (GitHub REST API Dec 2025 → Oct 2026: 5 breaking, 35 potentially breaking), `bun run metrics` (on-chain, owner-run), launch kit `launch/`.
+  - **Found two live bugs while checking the demo by hand (D-034, proposed):** a required parameter or request body added via `$ref` was reported as optional/compatible with name `?`; api-smart-diff's console.error could leak spec paths into Bankr logs. Fixed in engine 0.1.1 with regression tests; awaiting owner approval and redeploy.
+  - Directory research: best fit is Bankr's skills catalog (BankrBot/skills); CDP Bazaar doesn't index Bankr-settled endpoints; x402.org ecosystem page is gone. Renamed `skill.md` → `SKILL.md` for skill tooling.
+  - Container can't reach Base RPCs, so the metrics script must run on the owner's machine.
 - **2026-10-08:** **Phase 4 COMPLETE.** PR #7 merged; repo made public (GitHub API: public, MIT). The owner redeployed **v3** (listing now links to skill.md); V0 passed.
   - **Live cold-agent run:** the client written from skill.md alone paid $0.02 and got a 200 with the matching `analysis_id` (`sha256:39f62e04…2593`), server 634 ms.
   - Reconciled at 21:13 UTC: burner 44000 → 24000, payout 203661 → 223661 (0% fee). Phase 4 spend: $0.02.

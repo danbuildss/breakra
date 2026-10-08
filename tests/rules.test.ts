@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Change } from "../src/core/classify";
-import { diffAfter, type Spec } from "./helpers";
+import { baseSpec, clone, compare, diffAfter, only, type Spec } from "./helpers";
 
 const RESP = (s: Spec) => s.paths["/users"].get.responses["200"].content["application/json"].schema;
 const REQ = (s: Spec) => s.paths["/users"].post.requestBody.content["application/json"].schema;
@@ -396,5 +396,67 @@ describe("unsupported constructs are reported, never silently ignored", () => {
         }),
     );
     expect(r.changes.some((c) => c.kind === "callbacks_changed" && c.compatibility === "unknown")).toBe(true);
+  });
+});
+
+describe("whole objects added or removed by $ref are classified by their target", () => {
+  const withComponents = (s: Spec) => {
+    s.components = {
+      parameters: {
+        Region: { name: "region", in: "query", required: true, schema: { type: "string" } },
+        Page: { name: "page", in: "query", required: false, schema: { type: "integer" } },
+      },
+      requestBodies: {
+        Note: { required: true, content: { "application/json": { schema: { type: "object" } } } },
+      },
+    };
+    return s;
+  };
+  const start = () => withComponents(baseSpec());
+
+  it("required $ref parameter added is potentially breaking, with its real name", async () => {
+    const r = await diffAfter(
+      (s) => s.paths["/users"].get.parameters.push({ $ref: "#/components/parameters/Region" }),
+      start(),
+    );
+    const c = only(r, (x) => x.compatibility !== "non_contract");
+    expect(c).toHaveLength(1);
+    expectChange(c[0] as Change, "required_parameter_added", "potentially_breaking", "request");
+    expect(c[0]?.location).toEqual({ in: "query", name: "region" });
+    expect(c[0]?.evidence.path).toEqual(["paths", "/users", "get", "parameters", "query:region"]);
+  });
+  it("parameter array of $refs added to an operation: each classified", async () => {
+    const r = await diffAfter(
+      (s) =>
+        (s.paths["/users"].post.parameters = [
+          { $ref: "#/components/parameters/Region" },
+          { $ref: "#/components/parameters/Page" },
+        ]),
+      start(),
+    );
+    expect(r.changes.map((c) => `${c.kind}:${c.location.name}:${c.compatibility}`).sort()).toEqual([
+      "optional_parameter_added:page:compatible",
+      "required_parameter_added:region:potentially_breaking",
+    ]);
+  });
+  it("$ref parameter removed keeps its name", async () => {
+    const before = start();
+    before.paths["/users"].get.parameters.push({ $ref: "#/components/parameters/Page" });
+    const after = clone(before);
+    after.paths["/users"].get.parameters.pop();
+    const r = await compare(before, after);
+    expect(r.changes.map((c) => `${c.kind}:${c.location.in}:${c.location.name}`)).toEqual([
+      "parameter_removed:query:page",
+    ]);
+  });
+  it("required $ref request body added is potentially breaking", async () => {
+    const r = await diffAfter(
+      (s) => (s.paths["/users"].get.requestBody = { $ref: "#/components/requestBodies/Note" }),
+      start(),
+    );
+    const c = only(r, (x) => x.compatibility !== "non_contract");
+    expect(c.map((x) => `${x.kind}:${x.compatibility}`)).toEqual([
+      "required_request_body_added:potentially_breaking",
+    ]);
   });
 });

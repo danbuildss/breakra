@@ -16,7 +16,9 @@
     "bench": "bun scripts/bench.ts",
     "check": "bun run typecheck && bun run lint && bun run test && bun run build && bun run smoke",
     "verify-live": "bun scripts/verify-live.ts",
-    "examples": "bun scripts/examples.ts"
+    "examples": "bun scripts/examples.ts",
+    "demo": "bun scripts/demo.ts",
+    "metrics": "bun scripts/metrics.ts"
   },
   "dependencies": {
     "api-smart-diff": "1.0.6"

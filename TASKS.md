@@ -36,7 +36,15 @@
 - [x] T-405 Cold-agent test: mock, then **live** (v3): 200 with the matching `analysis_id`, $0.02.
 - [x] Owner: repo made public (verified via the GitHub API: public, MIT); redeployed v3 with the new listing text.
 
-**Phase 4: COMPLETE** (2026-10-08). **NEXT (awaiting approval): Phase 5, 14-day commercial experiment**, gated on domain and trademark clearance. No task is active.
+**Phase 4: COMPLETE** (2026-10-08).
+
+**ACTIVE: Phase 5, 14-day commercial experiment** (approved D-033). Step 1 (preparation):
+- [x] T-501 D-033, `PHASE-5-PLAN.md`, `EXPERIMENT.md`.
+- [x] T-502 Real-world demo `demo/github-rest-api/` (GitHub REST API Dec 2025 → Oct 2026: 5 breaking, 35 potentially breaking), `bun run demo`, drift test.
+- [x] T-503 `bun run metrics` (on-chain, owner-run; 5 unit tests with a fake chain). Not run against Base yet: the container can't reach a Base RPC.
+- [x] T-504 Launch kit `launch/` (X drafts, GitHub settings, directory submissions). `skill.md` renamed to `SKILL.md` (what skill directories look for).
+- [~] T-505 **Urgent fixes, D-034 (proposed):** `$ref` parameters/bodies misclassified; library console output could leak spec paths into logs. Engine 0.1.1. **Needs owner approval (merge + redeploy).**
+- [ ] Owner: merge, redeploy, demo live check ($0.02), first `bun run metrics`, domain/trademark check. Then day 1.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

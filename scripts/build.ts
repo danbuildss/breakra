@@ -61,7 +61,7 @@ const config = {
       paymentScheme: "exact",
       methods: ["POST"],
       description:
-        "Compare two OpenAPI 3.0 JSON contracts (inline before/after, up to 1 MB). Returns every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with request/response direction, evidence and a recommended action. Deterministic. Only a 200 is charged; errors are free. Agent guide: https://github.com/danbuildss/breakra/blob/main/skill.md",
+        "Compare two OpenAPI 3.0 JSON contracts (inline before/after, up to 1 MB). Returns every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with request/response direction, evidence and a recommended action. Deterministic. Only a 200 is charged; errors are free. Agent guide: https://github.com/danbuildss/breakra/blob/main/SKILL.md",
       schema: {
         input: {
           type: "object",

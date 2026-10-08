@@ -15,12 +15,32 @@ export interface CompareResult {
   merged: Json;
 }
 
+const CONSOLE_METHODS = ["log", "info", "warn", "error", "debug"] as const;
+
+/**
+ * Runs `fn` with console output discarded. api-smart-diff 1.0.6 calls console.error with document paths
+ * (e.g. "Classification Rule error for node: components.schemas.…") on some inputs, which would put parts
+ * of submitted specs into the host's logs (D-026). The call is synchronous, so no other request's logging
+ * can be swallowed.
+ */
+function silenced<T>(fn: () => T): T {
+  const saved = CONSOLE_METHODS.map((m) => console[m]);
+  for (const m of CONSOLE_METHODS) console[m] = () => {};
+  try {
+    return fn();
+  } finally {
+    CONSOLE_METHODS.forEach((m, i) => {
+      console[m] = saved[i] as (typeof console)[typeof m];
+    });
+  }
+}
+
 /**
  * Wrapper around api-smart-diff 1.0.6 (pinned). Isolated here so the engine can be swapped or vendored
  * without touching classification (D-013). The library's own breaking/non-breaking labels are discarded.
  */
 export function compareSpecs(before: JsonObject, after: JsonObject): CompareResult {
-  const result = compareOpenApi(structuredClone(before), structuredClone(after));
+  const result = silenced(() => compareOpenApi(structuredClone(before), structuredClone(after)));
   const diffs: RawDiff[] = result.diffs.map((d) => ({
     action: d.action as RawDiff["action"],
     path: [...(d.path as Array<string | number>)],
