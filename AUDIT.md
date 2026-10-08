@@ -3,6 +3,7 @@
 **Date:** 2026-10-08 · **Task:** T-000 (approved, D-012) · **Status:** Delivered for owner review. Nothing here is approved until the owner says so.
 
 > **Update 2026-10-08:** The owner rejected "Specshift" as the public brand (F1). See §12 for the naming clearance audit. The repo is not renamed yet.
+
 **Method:** Package and source inspection, hands-on benchmarks in a scratch environment (not committed), and web research. Every claim is tagged **[verified]** (I ran or read it myself), **[reported]** (a secondary source), or **[unknown]** (must be tested).
 
 ---
