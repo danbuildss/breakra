@@ -3,7 +3,9 @@
 **Current phase:** 0 — Feasibility audit
 **Overall status:** Not implemented
 **Last verified:** 2026-10-08. The repo contains docs plus the disposable T-001 probe (`experiments/`). There is no product code.
-**Phase 0 status:** Audit approved (D-018 brand Breakra, D-019 ownership/repo, D-020 architecture). Remaining in Phase 0: **T-001 Bankr probe** (prepared; waiting for owner confirmation before deploy or spend). Phase 1 starts only after the T-001 evidence is reviewed and approved.
+**Current phase: 1, core engine: COMPLETE, pending owner review of the Phase 1 PR** (2026-10-08). Evidence: TESTING.md Phase 1 results, BENCHMARKS.md. **Next gate: the owner merges the Phase 1 PR and approves Phase 2/3.**
+**Phase 0 status (updated 2026-10-08):** **T-001 complete** (AUDIT §17). Phase 0 is done except for deleting the test endpoints. **Next gate: the owner approves Phase 1 and D-023 to D-026.**
+**Earlier Phase 0 status:** Audit approved (D-018 brand Breakra, D-019 ownership/repo, D-020 architecture). Remaining in Phase 0: **T-001 Bankr probe** (prepared; waiting for owner confirmation before deploy or spend). Phase 1 starts only after the T-001 evidence is reviewed and approved.
 **Owner approval required to advance:** Yes
 
 ## Phase 0 — Feasibility (current)

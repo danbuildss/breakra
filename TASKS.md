@@ -20,13 +20,13 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-**T-001 — Bankr platform probe: APPROVED FOR EXECUTION (D-021), in progress.** Waiting for Bankr's deploy result and the owner's client outputs. Handoff: `experiments/t001-bankr-probe/BANKR-HANDOFF.md`. (History: PREPARED, plan rev 2.) Bankr's agent deploys (owner's choice). The open conflict on whether failures are charged is the key question (AUDIT §15).
-- **Approved:** preparation only (2026-10-08). Max authorized spend $0.05. Disposable; not the product.
-- **Plan:** `T-001-PLAN.md`. **Code:** `experiments/t001-bankr-probe/` (bundles with Bun; all cases pass locally).
-- **Blocked on owner:**
-  1. ✅ Payout wallet confirmed (`0xb98f…fa91`). ✅ Bankr's answers received.
-  2. Approve the burner-wallet approach, funded from Rabby `0x9E84…719D` (T-001-PLAN rev 3).
-  3. Give explicit go-ahead: Bankr's agent deploys, the owner runs the client and pastes the results.
+**T-001 — Bankr platform probe: COMPLETE** (AUDIT §17; cost 0.016 USDC). Both test endpoints **deleted** (Bankr's agent, 2026-10-08; verified by Claude: the schema API returns "Endpoint not found" for both).
+
+**Phase 1, core engine: COMPLETE** (2026-10-08). T-101 to T-108 done. Evidence: TESTING.md (65 tests, oracle, smoke on Bun 1.3.14), BENCHMARKS.md. Delivered as a PR to `main`.
+
+**Next (needs owner approval):** Phase 2 hardening and Phase 3 deployment. Much of Phase 2 (limits, errors, security tests) was already done in Phase 1; see the end-of-phase report.
+
+*History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 
 **T-000** (Phase 0 audit) is done: `AUDIT.md`, approved via D-018 and D-020.
 

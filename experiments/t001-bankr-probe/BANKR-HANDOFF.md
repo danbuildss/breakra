@@ -1,6 +1,10 @@
-# Message to send to Bankr's agent (T-001, revision 3: fix `breakra-t001-lib`)
+# Messages to send to Bankr's agent (T-001, revision 4)
 
-Copy everything below the line to Bankr's agent.
+There are **two messages**. Send **Message A now**. Send **Message B** only after you've run `bun t001.ts T3` and pasted the result to Claude (or straight away if you decide to skip the T3 retest).
+
+# Message A: fix `breakra-t001-lib`
+
+Copy everything between the lines to Bankr's agent.
 
 ---
 
@@ -15,3 +19,17 @@ A paid call to `breakra-t001-lib` returned **HTTP 500 with an empty body and no 
    - Use it byte-for-byte. If you can't fetch it, tell me.
 
 **Please don't call the endpoint yourself.** Reply with the log text, your answer to (2), and the new version number.
+
+---
+
+# Message B: delete the test endpoints (owner approved deletion on 2026-10-08)
+
+---
+
+The T-001 tests are finished. Please **delete both disposable test endpoints** from wallet `0xb98f0de777eea8c481b64e33d3e0066cea38fa91`:
+- `breakra-t001-probe`
+- `breakra-t001-lib`
+
+Don't delete anything else. Reply confirming that both deletions succeeded.
+
+---

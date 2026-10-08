@@ -430,3 +430,46 @@ No decision is made until there's evidence.
 
 All intra-session reads (07:59–08:08) showed failures uncharged. **T-001 conclusions on settlement stay PROVISIONAL until the owner's Basescan transfer list resolves this.**
 **T3 retest:** a blank 500 again, not charged. Redeploy status unknown.
+
+**§16 update, on-chain reconciliation (2026-10-08): RESOLVED.** The owner's Basescan transfer list shows 15 `Settle And Split` transfers. **None correspond to T3, T4, T5, T6, the T3 retest or the T12 replay.** So **"only 2xx is charged" is VERIFIED ON-CHAIN** and no longer provisional.
+- **The extra (15th) charge:** block 52329220, about 08:23 UTC (517 blocks after T8c at 08:05:53). It **can't** be a late settlement of a failed call: `@x402/evm` signs EIP-3009 authorizations with `validBefore = now + maxTimeoutSeconds` (60 s, verified in source), and the failed calls were signed between 07:59 and 08:02. So it came from a **new, successful paid call** made with the burner key that the client didn't log (for example, an interrupted run). The owner was asked; it's not a platform issue.
+- **Funding note:** the 0.04 USDC came from `0x4456…01F1`, not the Rabby address the owner listed (`0x9E84…719D`). Informational only.
+- **Owner approved deleting both test endpoints** (BANKR-HANDOFF rev 4, Message B).
+
+**§16 update, T3 root-cause evidence (Bankr's agent reply, 2026-10-08):**
+- **Log of the failed v1 invocation (07:59:11Z):** `ReferenceError: getErrorMessage is not defined at fetch (/var/task/handler.js:6:10026)`, invoked from `/opt/runtime.ts`. Both failed calls show `settled: false` (consistent with the on-chain record).
+- Bankr's agent attributes this to "a platform-injected symbol". **Claude's check:** `getErrorMessage` appears **0 times** in our file (sha256 `0259c1e0…`, 76,962 bytes, matching the handoff). Bankr's agent **admits v1 was deployed from a truncated fetch** of the file. **Most likely cause: a corrupted (truncated) source, not the platform and not our export form.** Inferred, not verified.
+- **v2 (redeployed by Bankr's agent) is also not byte-identical to our file.** It reports the file ends with `export default handler;`, whereas ours ends with `export default async function handler(req: Request) {…}`. Its fetch tool appears to transform large files.
+- **Conclusion:** large handler files must **not** be passed through Bankr's agent by URL. **Deploy with the Bankr CLI (`bankr x402 deploy <name>`)**, which uploads the local file verbatim (verified in CLI source: it reads `index.ts` and sends the raw text). Phase 3 must use the CLI path.
+- Next: test T3 against v2. If it fails, the owner redeploys the lib via the CLI and re-tests. Deletion (Message B) waits until then.
+
+---
+
+## 17. T-001 conclusion (2026-10-08)
+
+**Status: COMPLETE** (pending deletion of the two test endpoints, which the owner approved).
+**Total cost:** **0.016 USDC**: 16 on-chain charges of 0.001 (15 earlier plus T3 on v2), against the $0.05 authorization.
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Does payment reach the owner? | Yes, per call, within about 1 min, via `BankrFeeRouterV2` (`0x8AEE…01a0`) | Basescan `Settle And Split` list + balance reads |
+| **Are failed calls charged?** | **No. Only 2xx is charged.** 400, 500, an unhandled throw and a module load failure were all free | On-chain: no transfer for T3 v1, T4, T5, T6 or the T3 retest |
+| Retry / duplicate | Each new authorization is charged; no dedup | T7 |
+| Replay of a used payment | Rejected: `402 Payment already used` | T12 |
+| Fee | 0% so far (documented: free first 1,000 calls/month, then 5%) | Payout +1000 per charge (T1) |
+| Receipt to buyer | None. No `PAYMENT-RESPONSE` header | All paid calls |
+| Handler time | 25 s OK; platform overhead about 1–2.5 s; 30 s cap (not tested) | T8 |
+| Request body | ≤ 4 MB OK; 6 MB → 413 before payment (free) | T9 |
+| Memory | 128 MB allocation OK (RSS about 193 MB) | T10 |
+| Runtime | Bun 1.3.14, linux/arm64, outbound fetch allowed, `x-402-payer` header present | T2 |
+| Minimum price | $0.000001; $0 rejected | Deploy error |
+| npm deps installed by Bankr | Build failed | Probe rev 1 |
+| **Pre-bundled single file with api-smart-diff** | **Works** (98 ms handler time for a small diff) | T3 on v2 |
+| Deploying large files via Bankr's agent | **Unreliable**: the agent truncated or rewrote the file twice | Bankr's own admission + `getErrorMessage` ReferenceError |
+
+**Architecture decisions this evidence supports:** proposed as D-023 to D-026 and approved together with Phase 1.
+
+**Still open (not blocking Phase 1):**
+- Domain and trademark clearance for Breakra (owner).
+- Real-world diff speed on Bankr's arm64 for large specs (measured in Phase 1 or 3).
+- The origin of one unlogged successful call at about 08:23 UTC (harmless).

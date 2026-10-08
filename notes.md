@@ -14,14 +14,10 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** 0. Audit approved (D-018/019/020). **T-001 Bankr probe approved and in progress (D-021)**: waiting for Bankr's deploy and the owner's test-run outputs. No product code exists.
-- **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** The owner approves T-001-PLAN rev 3 and the burner-wallet approach, then gives explicit go-ahead.
-  1. Bankr's agent deploys the probe.
-  2. The owner creates and funds the burner (0.04 USDC from Rabby).
-  3. The owner runs `bun t001.ts T0…T12` and pastes the outputs.
-  4. Claude records and reconciles.
-- **Waiting on:** The owner's T-001 confirmations, plus the registrar and trademark checks for breakra.com/.dev.
+- **Phase:** **1 COMPLETE** (core engine), awaiting the owner's review and merge of the Phase 1 PR. Phase 0 (audit and T-001 Bankr test) is complete.
+- **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench), `.github/workflows/ci.yml`, plus docs: RULES.md, docs/API.md, BENCHMARKS.md, ARCHITECTURE.md (as built). **Nothing is deployed.** Bankr has no Breakra endpoints (the T-001 endpoints were deleted).
+- **Next step:** The owner reviews and merges the Phase 1 PR, then approves the next phase (Phase 2 hardening and Phase 3 deploy at $0.02 via the Bankr CLI, D-025).
+- **Waiting on:** The owner's PR review. Before launch: the domain and trademark checks, and a repo license decision.
 
 ## Inputs received
 
@@ -93,6 +89,19 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** **Phase 1 COMPLETE.** Core engine built:
+  - **Validation:** limits, plus a ref-bomb guard (a 2 KB bomb would otherwise produce about 200 k diffs).
+  - **Comparison and rules:** api-smart-diff wrapper and rule set 0.1.0 (RULES.md).
+  - **Delivery:** deterministic response (docs/API.md), the handler, and a single-file build (about 137 KB).
+  - **Tests:** 65 tests. The oasdiff v1.33.0 oracle shows 3 documented differences, where Breakra is stricter. The smoke test passes under Bankr's Bun 1.3.14.
+  - **Benchmarks:** real 1 MB spec pairs take about 1.7 s locally (BENCHMARKS.md). Limits calibrated: expanded cap 1.5 M → 400 k; response ≤ 500 changes and 1,000-char evidence (D-028).
+  - **CI:** GitHub Actions workflow added.
+  - **Delivery:** PR to `main`. Nothing deployed.
+- **2026-10-08:** **Owner approved Phase 1 (D-027); D-023 to D-026 accepted.** Claude started T-101.
+- **2026-10-08:** Test endpoints **deleted** (verified). **Phase 0 is fully complete.** Claude wrote `PHASE-1-PLAN.md` (T-101 to T-108, error contract, test plan, acceptance criteria, risks). **Waiting for "approve Phase 1"**, which also approves D-023 to D-026.
+- **2026-10-08:** **T3 on lib v2 PASSED** (200, `diffs:1`, 98 ms; charged). **T-001 COMPLETE**, total cost 0.016 USDC. Summary in AUDIT §17. Proposed D-023 to D-026 (4xx-free errors and 2xx only on success; 2 MB / 20 s limits; single-file bundle via the CLI; payer metrics without logging IPs). Next: the owner sends Message B (delete endpoints) and approves Phase 1.
+- **2026-10-08:** Bankr's agent sent the T3 failure log: `ReferenceError: getErrorMessage is not defined`. That symbol isn't in our file. **v1 was deployed from a truncated copy** (the agent admits it), and v2 also differs from our file. Lesson: deploy large handlers with the **Bankr CLI**, not via the agent. Next: the owner tests T3 on v2; if it fails, they `bankr x402 deploy breakra-t001-lib` via the CLI and re-test. Then Message B (delete).
+- **2026-10-08:** PR #1 merged into `main`; the branch was reset onto `main`. **Basescan reconciliation: no on-chain charge for any failed call, so "only 2xx is charged" is verified on-chain.** The 15th charge (about 08:23 UTC) was a new successful call the client didn't log; it can't be a late failed-call settlement because authorizations expire after 60 s. **Owner approved deleting both test endpoints.** BANKR-HANDOFF rev 4: Message A (lib logs and redeploy), Message B (delete). Remaining: the T3 retest, then deletion, then the T-001 summary and the Phase 1 approval.
 - **2026-10-08:** Owner asked for a full status summary and a PR merging all work into `main`. `main` didn't exist, so Claude created it from the first commit (`e8735af`) and opened a PR from `claude/vigilant-allen-nnfhn2`. T-001 is still open (one unexplained charge; lib redeploy unconfirmed).
 - **2026-10-08 (19:14 UTC):** T3 retest: blank 500 again, not charged (redeploy unconfirmed; asked the owner). **Reconciliation: 14 expected charges, 15 actual. One unexplained.** The owner is checking the burner's Basescan USDC transfer list. The settlement conclusion is provisional until then.
 - **2026-10-08 (19:12 UTC):** T10 passed (128 MB OK, RSS about 193 MB). Burner 25000; **total T-001 cost $0.015.** Still open: attribute the 2 extra charges (owner's results.jsonl) and the T3 retest after the lib redeploy.

@@ -35,6 +35,9 @@
 | 2026-10-08 | Probe rev 4 deploy (no dependencies) | Bankr agent deploy; Claude checked `api.bankr.bot/x402/endpoints/schema/<wallet>/breakra-t001-probe` | **Live** v1, $0.001 USDC, base, GET+POST | Public schema API read by Claude | Paid behaviour (T0+) |
 | 2026-10-08 | Lib deploy (pre-bundled single file) | Same, `breakra-t001-lib` | **Live** v1, $0.001 USDC, base, GET. **Built first try** | Public schema API read by Claude | Runtime result (T3) |
 | 2026-10-08 | Failed builds' logs | Bankr agent | No logs exist: rejected before an endpoint record was created | Relayed by Bankr's agent | Root cause not proven |
+| 2026-10-08 | Endpoint deletion | Bankr agent (owner-approved) | Both deleted | `api.bankr.bot/.../schema` → "Endpoint not found" for both (Claude) | — |
+| 2026-10-08 | **T3 on lib v2** | `bun t001.ts T3` (19:3x UTC) | **200**, `{"case":"lib","diffs":1,"elapsed_ms":98}` (wall 3740 ms). **Pre-bundled api-smart-diff runs on Bankr.** Charged 1× (burner 25000→24000) | Owner output + Claude balance read 19:36 UTC | v2 source not byte-verified (deployed by Bankr's agent) |
+| 2026-10-08 | **On-chain reconciliation** | Owner's Basescan screenshot of burner USDC transfers | 1 IN (0.04 from `0x4456…01F1`) and **15 OUT** `Settle And Split` → `0x8AEE…01a0`, 0.001 each. Mapped by block: T1 412, T2 446, T2r 472, T7 605×2, T8a 648, T8b 673, T8c 703 (08:05:53 UTC), T9a 744, T9b 751, T9c 770, **unlogged 52329220 (about 08:23 UTC)**, T10 52348616, T12 621, T10 695. **No transfer for T3, T4, T5, T6, the T3 retest or the T12 replay.** | Basescan (owner) | Origin of the 08:23 call |
 | 2026-10-08 | **T3 retest** lib | `bun t001.ts T3` (19:13 UTC) | **500, empty body** again (1967 ms). **Not charged** (burner 25000 at 19:14). **Unknown whether Bankr redeployed the rev-2 file**; asked the owner | Owner output + balance read | Root cause |
 | 2026-10-08 | **Reconciliation** | owner `results.jsonl` + balance reads | Expected charges: T1, T2, T2r, T7×2, T8×3, T9a-c, T10 (19:09), T12, T10 (19:12) = **14** (0.014). Actual burner spend 40000→25000 = **15** (0.015). **One extra charge between 08:08 and 19:10 UTC, unexplained.** | Balance reads | **Owner checking Basescan transfer list** |
 | 2026-10-08 | **T10** memory | `bun t001.ts T10` | **200** (3114 ms): 128 MB allocated and touched; RSS **192.9 MB**. Charged 1× (burner 26000→**25000**, 19:12 UTC) | Owner output + Claude balance read | Hard memory ceiling (deliberately not probed) |
@@ -52,6 +55,25 @@
 | 2026-10-08 | **T1** paid OK | `T001_PAYTO=0x8AEE… bun t001.ts T1` (owner-approved payTo) | **200** in 3388 ms. **No PAYMENT-RESPONSE header returned.** Burner 40000→39000; payout 121661→**122661** (+1000, **full amount, 0% fee**) | Owner output + Claude balance reads 07:53 → 07:56 UTC | Tx hash (not returned) |
 | 2026-10-08 | **T0** unpaid 402 | `bun t001.ts T0` (owner) | 402, valid v2 requirements, amount 1000, **payTo `0x8AEE…01a0` ≠ payout wallet** | Owner-pasted output | Payment (blocked pending approval) |
 | 2026-10-08 | Burner funding | Balance read | 0.04 USDC on Base | Portfolio read | — |
+
+## Phase 1 results (2026-10-08, local and CI-equivalent run)
+
+| Check | Command | Result |
+|---|---|---|
+| Install | `bun install --frozen-lockfile` | ✅ |
+| Typecheck | `bun run typecheck` | ✅ |
+| Lint | `bun run lint` (Biome) | ✅ |
+| Unit/integration tests | `bun run test` (Vitest) | ✅ **65/65**: validation and limits (18), rules (34), bake-off and determinism (7), handler and response bounds (6) |
+| Build | `bun run build` | ✅ one file, about 137 KB, no imports, literal default export |
+| Smoke (built file) | `bun run smoke` on Bun 1.4.2 **and** Bun 1.3.14 | ✅ both |
+| Oracle | `bun run oracle` (oasdiff v1.33.0) | ✅ 26 pairs, 21 operation verdicts, 3 documented differences (Breakra stricter) |
+| Benchmarks | `bun scripts/bench.ts` | See BENCHMARKS.md. Real 1 MB+1 MB pair about 1.7 s; worst accepted ref bomb about 0.25 s / 156 MB |
+
+**Not tested in Phase 1:**
+- anything on Bankr (Phase 3);
+- arm64 timing and memory;
+- real paid calls at $0.02;
+- the GitHub Actions run itself (the workflow will first run on the Phase 1 PR).
 
 ## Reporting format
 Date | Commit/PR | Command | Result | Evidence | Not tested | Known risks.

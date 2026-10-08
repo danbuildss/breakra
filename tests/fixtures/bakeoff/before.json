@@ -1,0 +1,183 @@
+{
+ "openapi": "3.0.3",
+ "info": {
+  "title": "Bake",
+  "version": "1.0.0"
+ },
+ "components": {
+  "securitySchemes": {
+   "bearer": {
+    "type": "http",
+    "scheme": "bearer"
+   }
+  },
+  "schemas": {
+   "User": {
+    "type": "object",
+    "required": [
+     "id"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "email": {
+      "type": "string"
+     }
+    }
+   },
+   "Order": {
+    "type": "object",
+    "properties": {
+     "qty": {
+      "type": "integer"
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "a",
+       "b",
+       "c"
+      ]
+     },
+     "note": {
+      "type": "string"
+     }
+    }
+   },
+   "OrderOut": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "enum": [
+       "a",
+       "b",
+       "c"
+      ]
+     }
+    }
+   }
+  }
+ },
+ "paths": {
+  "/users": {
+   "get": {
+    "description": "List users",
+    "parameters": [],
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/users/{id}": {
+   "get": {
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/User"
+        }
+       },
+       "application/xml": {
+        "schema": {
+         "$ref": "#/components/schemas/User"
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "nf"
+     }
+    }
+   }
+  },
+  "/items/{id}": {
+   "delete": {
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "gone"
+     }
+    }
+   }
+  },
+  "/orders": {
+   "post": {
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/Order"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "c"
+     }
+    }
+   }
+  },
+  "/orders/{id}": {
+   "get": {
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/OrderOut"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/reports": {
+   "get": {
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  }
+ }
+}
