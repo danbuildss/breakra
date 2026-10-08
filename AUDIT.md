@@ -372,3 +372,9 @@ No decision is made until there's evidence.
 - **Settlement: VERIFIED.** The payer lost exactly 0.001 and the payout wallet gained exactly **0.001** within about 3 minutes (balance reads at 07:53 and 07:56 UTC). Payout is per call and arrives promptly at the owner's wallet.
 - **Fee on this call: 0%, VERIFIED.** The owner got the gross 1000 units. That **contradicts** Bankr's agent ("5% every call, atomically") and is consistent with Bankr's docs and press ("5% after the first 1,000 requests/month"). Expect 5% beyond the monthly free tier; re-verify if volume grows.
 - **No `PAYMENT-RESPONSE` header** on the paid 200. Buyers get no settlement receipt or tx hash from Bankr in the HTTP response. Breakra's docs must not promise one.
+
+**§16 update, T2 (verified by live call):**
+- Runtime is **Bun 1.3.14** on linux/**arm64** (AWS: `x-amzn-trace-id`, `apigw-requestid`), using about 60 MB RSS at idle.
+- **Outbound fetch is allowed.** V0 still won't use it (D-014).
+- **`x-402-payer` is forwarded to the handler** (Bankr says it's router-set). That enables the "unique and repeat paying wallets" metrics in brief §14 without storing request bodies.
+- **`x-forwarded-for` (the caller's IP) is forwarded.** Breakra must not log it (privacy rule).
