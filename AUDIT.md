@@ -356,3 +356,14 @@ No decision is made until there's evidence.
 **§16 update:**
 - Both rev-4 endpoints are **live** (v1, $0.001 USDC, Base). Verified by Claude via the public schema API.
 - The **pre-bundled single file built first try**, while the npm-dependency build had failed twice. That strongly supports D-015: Breakra ships as one self-contained file and asks Bankr to install no dependencies. The root cause of the earlier failure is unproven, because no build logs exist.
+
+**§16 update, T0 result (2026-10-08, run by the owner, $0):**
+- **The 402 is valid x402 v2:** scheme `exact`, network `eip155:8453`, amount `1000` (maxAmountRequired `1000`), asset Base USDC `0x8335…2913`, `maxTimeoutSeconds` 60, facilitator **`https://api.bankr.bot/facilitator`**. The requirements come in both the `payment-required` header and the body.
+- **`payTo` is `0x8AEE621035D93Deb3C0C1177fac252dC2dd501a0`, not the owner's payout wallet `0xb98f…fa91`.** The client's safety check would refuse to sign (as designed). **Verified.**
+- **What `0x8AEE…` probably is:** public search results show the same address as the payTo on *other* sellers' Bankr services (x402-list.com entries; the reports in BankrBot/x402-cli-example issues #4 and #5). So it's most likely **a shared Bankr collection/settlement address**: callers pay Bankr, and Bankr pays creators later. **Inferred, not verified.** The Base RPCs and explorers are blocked from Claude's environment.
+- **Baselines** (USDC on Base, 2026-10-08 07:53 UTC): payout `0xb98f…fa91` = **0.121661**; collector `0x8AEE…01a0` = **1.3718**. That's a low balance for a shared collector, which suggests funds are swept or forwarded.
+- **Consequences for Breakra:**
+  1. Payment is **custodial in transit**: buyers' USDC goes to Bankr first, so there's counterparty and timing risk until payout.
+  2. Breakra's skill.md and docs must not tell buyers they pay the owner's wallet directly.
+  3. Revenue measurement must use Bankr's revenue figures plus observed payouts, not transfers into `0xb98f` per call.
+- **New T-001 measurement:** whether, when and how much reaches `0xb98f` after paid calls (payout timing, batching, the 5% fee).

@@ -21,6 +21,9 @@ const BASE = process.env.T001_BASE ?? `https://x402.bankr.bot/${PAYOUT}`;
 const PROBE = `${BASE}/breakra-t001-probe`;
 const FREE = `${BASE}/breakra-t001-free`; // rejected at deploy (price 0); kept for the record
 const LIB = `${BASE}/breakra-t001-lib`;
+// Who the 402 may ask us to pay. Defaults to the owner's payout wallet. T0 showed Bankr asks for a
+// different (shared Bankr) address; only set T001_PAYTO to it with the owner's explicit approval.
+const EXPECTED_PAYTO = (process.env.T001_PAYTO ?? PAYOUT).toLowerCase();
 const NETWORK = "eip155:8453";
 const USDC_BASE = "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913";
 const EXPECTED_AMOUNT = process.env.T001_AMOUNT ?? "1000"; // 0.001 USDC (6 decimals)
@@ -76,7 +79,7 @@ export function pickRequirement(pr: { accepts: Array<Record<string, any>> }) {
   const ok = pr.accepts.filter((a) =>
     a.scheme === "exact" && a.network === NETWORK &&
     String(a.asset).toLowerCase() === USDC_BASE &&
-    String(a.payTo).toLowerCase() === PAYOUT &&
+    String(a.payTo).toLowerCase() === EXPECTED_PAYTO &&
     String(a.amount ?? a.maxAmountRequired) === EXPECTED_AMOUNT);
   if (ok.length !== 1) throw new Error(`ABORT: unexpected payment requirements, nothing signed: ${JSON.stringify(pr.accepts)}`);
   return ok[0];
