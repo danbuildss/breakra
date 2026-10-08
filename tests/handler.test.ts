@@ -66,7 +66,7 @@ describe("handler", () => {
     expect(JSON.stringify(body)).not.toMatch(/internal detail|secret\.ts|TypeError/);
   });
 
-  it("rejects a declared Content-Length over 2 MB before reading the body", async () => {
+  it("rejects a declared Content-Length over the body limit before reading the body", async () => {
     const r = await post(
       { before: baseSpec(), after: baseSpec() },
       { headers: { "content-length": String(3 * 1024 * 1024) } },
@@ -91,7 +91,7 @@ describe("response size is bounded", () => {
     const { LIMITS } = await import("../src/core/limits");
     const before = baseSpec();
     const after = clone(before);
-    const big = { type: "object", description: "x".repeat(2_000) };
+    const big = { type: "object", description: "x".repeat(1_200) };
     for (let i = 0; i < LIMITS.maxChanges + 50; i++) {
       after.paths[`/generated/${String(i).padStart(4, "0")}`] = {
         get: {

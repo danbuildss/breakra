@@ -31,7 +31,7 @@ export function isObject(value: unknown): value is JsonObject {
 /** Parses and shape-checks the request body. Never echoes body content in errors. */
 export function parseRequestBody(bytes: Uint8Array): AnalyzeInput {
   if (bytes.byteLength > LIMITS.maxBodyBytes) {
-    throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 2 MB limit.", {
+    throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 1 MB limit.", {
       limit_bytes: LIMITS.maxBodyBytes,
     });
   }

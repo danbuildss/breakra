@@ -9,7 +9,7 @@ Agent ── POST ──▶ x402.bankr.bot/<wallet>/breakra-analyze
                    │  Bankr: 402 challenge → verify signed USDC authorization (Base)
                    ▼
             handler(req)  [dist/x402/breakra-analyze/index.ts: one self-contained file]
-                   │  parse body (≤2 MB) → validate both specs (3.0.0–3.0.4, structure, local $refs)
+                   │  parse body (≤1 MB, D-031) → validate both specs (3.0.0–3.0.4, structure, local $refs)
                    │  → bound work (depth, nodes, operations, $ref expansion) BEFORE diffing
                    │  → canonicalize (sorted keys) → sha256 input hashes
                    │  → api-smart-diff 1.0.6 (raw changes only)

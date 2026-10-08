@@ -1,5 +1,6 @@
 import { analyze } from "./analyze";
 import { BreakraError, errorBody } from "./core/errors";
+import { LIMITS } from "./core/limits";
 import { parseRequestBody } from "./core/validate";
 import { ENGINE_VERSION } from "./version";
 
@@ -29,8 +30,10 @@ export default async function handler(req: Request): Promise<Response> {
       throw new BreakraError("METHOD_NOT_ALLOWED", "Use POST with a JSON body.");
     }
     const declared = Number(req.headers.get("content-length") ?? "0");
-    if (declared > 2 * 1024 * 1024) {
-      throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 2 MB limit.");
+    if (declared > LIMITS.maxBodyBytes) {
+      throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 1 MB limit.", {
+        limit_bytes: LIMITS.maxBodyBytes,
+      });
     }
     const bytes = new Uint8Array(await req.arrayBuffer());
     const result = await analyze(parseRequestBody(bytes));
