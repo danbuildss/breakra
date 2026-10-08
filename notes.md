@@ -14,10 +14,11 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** **1 MERGED** (PR #2; CI green on the PR and on `main`). **Phase 3 plan proposed (`PHASE-3-PLAN.md`), awaiting owner approval.** Phase 2 is folded in. Phase 0 (audit and T-001 Bankr test) is complete.
-- **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench), `.github/workflows/ci.yml`, plus docs: RULES.md, docs/API.md, BENCHMARKS.md, ARCHITECTURE.md (as built). **Nothing is deployed.** Bankr has no Breakra endpoints (the T-001 endpoints were deleted).
-- **Next step (Phase 3 approved, D-029, option A):** the owner tops up the burner (about 0.08 USDC), deploys with the Bankr CLI per `docs/DEPLOYMENT.md`, then runs `bun scripts/verify-live.ts V0/V1/V3/V4/V5` one at a time and pastes the outputs.
-- **Waiting on:** The owner's PR review. Before launch: the domain and trademark checks, and a repo license decision.
+- **Phase:** **3 COMPLETE** (2026-10-08). Phases 0, 1 and 3 are done; Phase 2 was folded in. **Phase 4 (agent distribution) is proposed and awaits owner approval.**
+- **Live:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`, **v2**, $0.02 USDC on Base, deployed from `main` @ `4f3c4b1`. Limits per D-031 (1 MB body, 75 k expanded nodes).
+- **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench, verify-live), CI, and docs (RULES.md, docs/API.md, docs/DEPLOYMENT.md, BENCHMARKS.md, ARCHITECTURE.md).
+- **Wallets:** burner 0.044 USDC left (the verify cap of 5 signed attempts is used up; raise `VERIFY_MAX_ATTEMPTS` for future checks). Payout 0.203661 USDC.
+- **Open owner items:** domain and trademark clearance for Breakra (blocks promotion, not deployment); a license decision (MIT recommended) before Phase 4 promotion.
 
 ## Inputs received
 
@@ -89,6 +90,12 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** **Phase 3 COMPLETE.** PR #5 merged; the owner redeployed from `main` (**v2**, `bun run check` passed, 90,521 bytes).
+  - V0 passed: 402, 20000, router.
+  - **V6 passed:** 940 KB real pair → 200, 290 changes, `analysis_id` = local. **8,097 ms server, 17,923 ms client**, under the ≤ ~9 s target.
+  - Claude reconciled at 20:55 UTC: burner 64000 → 44000, payout 183661 → 203661 (0% fee).
+  - Phase 3 spend: **$0.06** (V4, V5, V6) of the $0.10 cap.
+  - Wrap-up docs PR opened. **Phase 4 (agent distribution) proposed; awaiting approval.**
 - **2026-10-08:** **Owner approved D-031:** body 2 MB → 1 MB, expanded nodes 400 k → 75 k. Implemented and checked locally and against mock Bankr (V5 now 413 free; new V6 = 940 KB near-limit pair, 200 with a match). PR → the owner merges, redeploys (`cd dist && bankr x402 deploy breakra-analyze`), then runs V0 and V6 ($0.02).
 - **2026-10-08:** **Breakra is LIVE** on Bankr: `https://x402.bankr.bot/0xb98f…fa91/breakra-analyze` (v1, $0.02, POST). The first redeploy needed a write-enabled Bankr API key.
   - **Verification V0–V6 all pass:**

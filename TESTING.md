@@ -30,6 +30,10 @@
 
 | Date | Item | Command or source | Result | Evidence | Not tested |
 |---|---|---|---|---|---|
+| 2026-10-08 | **Phase 3 v2 reconciliation** | Balance reads 20:55 UTC | Burner 64000 → **44000** (−20000 = V6 only). Payout 183661 → **203661** (+20000, **0% fee**). Phase 3 total: burner −60000 (V4, V5, V6 = $0.06 of the $0.10 cap); 5 of 5 signed attempts used | On-chain balances (Claude) | — |
+| 2026-10-08 | **V6 live** largest accepted real pair, 940 KB (paid, v2) | `verify-live V6` | **200**, 290 changes (22 breaking, 86 potentially_breaking, 118 compatible, 64 non_contract). **`analysis_id` = local** (`sha256:16b3d985…3815`). **Server 8,097 ms, client 17,923 ms**: inside the ≤ ~9 s handler target and 12 s of headroom under the 30 s cap | Owner output | Memory on Bankr (not observable) |
+| 2026-10-08 | **V0 live** (v2) | `verify-live V0` | 402: exact, eip155:8453, USDC, amount 20000, payTo router `0x8AEE…01a0` | Owner output | — |
+| 2026-10-08 | **Redeploy v2** (D-031 limits) | `bun run check` then `bankr x402 deploy breakra-analyze` from `main` @ `4f3c4b1` (PR #5) | check passed (smoke OK, 90,521 bytes). ✅ **Live v2**, $0.02, POST | Owner output | — |
 | 2026-10-08 | Price-0 deploy (T11) | Bankr agent deploy | Rejected: `minimum 0.000001` | Live deploy error (relayed) | — |
 | 2026-10-08 | Probe rev 1 build (with npm dependency) | Bankr agent deploy ×2 | **Build failed** | Bankr error message; `schema` lookup returns "Endpoint not found" | Cause (logs requested) |
 | 2026-10-08 | Probe rev 4 deploy (no dependencies) | Bankr agent deploy; Claude checked `api.bankr.bot/x402/endpoints/schema/<wallet>/breakra-t001-probe` | **Live** v1, $0.001 USDC, base, GET+POST | Public schema API read by Claude | Paid behaviour (T0+) |
@@ -48,7 +52,7 @@
 | 2026-10-08 | **V3** $ref bomb (signed) | `verify-live V3` | **422 `SPEC_TOO_COMPLEX`** (limit 400000), 0.5 s. **Not charged** | Owner output + balance read | — |
 | 2026-10-08 | **V4** bake-off fixture (paid) | `verify-live V4` | **200**, 15 changes, `breaking`. **`analysis_id` = local** (`sha256:f5bc256b…755b`). Server 618 ms, client 2.97 s | Owner output | — |
 | 2026-10-08 | **V5** largest real pair, 2.03 MB (paid) | `verify-live V5` | **200**, 711 changes (500 listed), `breaking`. **`analysis_id` = local** (`sha256:cb010075…6173`). ⚠️ **Server 16,677 ms** (about 1.7–2 s locally, so about 9× slower on Bankr); **client 26.7 s** end to end against the 30 s gateway cap | Owner output | Memory on Bankr (not observable) |
-| 2026-10-08 | **V6** reconciliation | Balance reads 20:39 → 20:45 UTC | Burner 104000 → **64000** (−40000 = 2 × $0.02). Payout 143661 → **183661** (+40000, **0% fee**). Only V4 and V5 charged | On-chain balances | — |
+| 2026-10-08 | **v1 reconciliation** (the plan's original "V6" step) | Balance reads 20:39 → 20:45 UTC | Burner 104000 → **64000** (−40000 = 2 × $0.02). Payout 143661 → **183661** (+40000, **0% fee**). Only V4 and V5 charged | On-chain balances | — |
 | 2026-10-08 | **Phase 3 T-302 deploy attempt 1** | `bankr x402 deploy breakra-analyze` (owner, CLI 0.3.45) | **Failed: `API error (413): Payload Too Large`**. The 137 KB unminified upload was rejected; nothing was deployed or charged. Fix: minified build of about 90 KB (D-030) | Owner output | Exact Bankr limit (not documented) |
 | 2026-10-08 | **T12** replay | `bun t001.ts T12` | Paid call **200** (1685 ms), then an **identical signed header** resent → **402 `{"error":"Payment already used"}`** (303 ms). **Replay protection verified.** | Owner output | — |
 | 2026-10-08 | Balance check 19:10 UTC | Claude balance reads | Burner 29000→**26000** (−3000 since T9: T12 = 1, plus **2 unexplained**: owner asked whether T10/T3 were run). Payout 132661→**141661** (+9000: includes **non-T-001 income**, probably the owner's other endpoints, so payout deltas can't be attributed any more) | Balance reads | Attribution pending the owner's results.jsonl |

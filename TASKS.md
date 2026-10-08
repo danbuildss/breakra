@@ -13,10 +13,10 @@
 - [x] Present feasibility audit and await owner approval. (Delivered 2026-10-08)
 
 ## Not started — gated
-- [ ] Phase 1 core implementation.
-- [ ] Phase 2 security hardening.
-- [ ] Phase 3 payments/deployment.
-- [ ] Phase 4 agent documentation/distribution.
+- [x] Phase 1 core implementation. (PR #2)
+- [x] Phase 2 security hardening. (folded into Phases 1 and 3)
+- [x] Phase 3 payments/deployment. (PRs #3–#5; live v2)
+- [ ] Phase 4 agent documentation/distribution. (proposed; awaiting approval)
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
@@ -26,7 +26,9 @@
 
 **Merged** as PR #2 (2026-10-08); CI green on the PR and on `main`.
 
-**ACTIVE: Phase 3, deploy and verify on Bankr** (approved D-029, option A). T-301 done: `docs/DEPLOYMENT.md` and `scripts/verify-live.ts` (tested end to end against a mock Bankr wrapping the built handler). **Waiting on the owner:** top up the burner (about 0.08 USDC), deploy via the CLI, then run V0–V5.
+**Phase 3, deploy and verify on Bankr: COMPLETE** (2026-10-08; D-029, D-031). T-301 deployment docs and live client; T-302 deploy (v1, then v2 with the D-031 limits); T-303 live verification V0–V6, all pass, with balances reconciled on-chain (burner −$0.06, payout +$0.06, 0% fee). Evidence: TESTING.md, BENCHMARKS.md.
+
+**NEXT (awaiting approval): Phase 4, agent distribution.** No task is active.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

@@ -48,6 +48,7 @@ The 160-path pair (about 1.9 MB combined) is the largest real pair under the **2
 |---|---|---|---|---|
 | V4 bake-off fixture | 3 KB | 618 | 2,971 ms | about 37 ms |
 | V5 GitHub 160-path pair (135 k expanded nodes) | 2.03 MB | **16,677** | **26,673 ms** | about 1.7–2.0 s |
+| V6 GitHub 50-path pair (about 61 k expanded nodes), v2 | 940 KB | **8,097** | **17,923 ms** | about 0.7 s |
 
 **Finding: Bankr's runtime is about 9–17× slower than local** (arm64 Lambda with an unknown CPU share; V4 may include a cold start). At the current limits (2 MB body, 400 k expanded nodes), a near-limit real spec pair takes about 17 s of handler time and about 27 s end to end, **too close to the 30 s gateway cap**. A timeout isn't charged (T-001), but the caller gets nothing. **The limits need recalibrating** (proposed D-031).
 
@@ -58,5 +59,5 @@ The 160-path pair (about 1.9 MB combined) is the largest real pair under the **2
 | Body (before + after) | 2 MB | **1 MB** | A 2 MB real pair took 16.7 s of handler time and 26.7 s end to end on Bankr, against the 30 s cap |
 | Expanded nodes per spec | 400,000 | **75,000** | The best proxy for analysis time: 135 k nodes took 16.7 s on Bankr, so 75 k targets ≤ ~9 s |
 
-Largest real pair now accepted: the GitHub API 50-path slice, **940 KB, about 61 k expanded nodes**. That's 0.7 s locally, and about 7–8 s is the estimate on Bankr, which **verification V6 measures**. The 55-path pair (1.06 MB) and the 60-path pair (77 k nodes) are rejected for free.
+Largest real pair now accepted: the GitHub API 50-path slice, **940 KB, about 61 k expanded nodes**. That's 0.7 s locally. **Measured on Bankr (V6, v2): 8,097 ms of handler time and 17,923 ms end to end**, within the ≤ ~9 s target with about 12 s of headroom under the 30 s cap. Client time includes uploading 940 KB and payment verification/settlement. The 55-path pair (1.06 MB) and the 60-path pair (77 k nodes) are rejected for free.
 The earlier rows in this file were measured under the old limits and are kept for history.
