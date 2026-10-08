@@ -1,16 +1,18 @@
-# Specshift — Phase 0 Feasibility Audit
+# Breakra — Phase 0 Feasibility Audit
+
+*(Written while the product's working name was Specshift. Historical mentions of "Specshift" below are kept as-is. Forward-looking references now say Breakra.)*
 
 **Date:** 2026-10-08 · **Task:** T-000 (approved, D-012) · **Status:** Delivered for owner review. Nothing here is approved until the owner says so.
 
-> **Update 2026-10-08:** The owner rejected "Specshift" as the public brand (F1). See §12 for the naming clearance audit. The repo is not renamed yet.
+> **Update 2026-10-08:** The owner rejected "Specshift" as the public brand (F1). See §12 for the naming clearance audit. **The owner approved Breakra (D-018)** and approved D-013 to D-017 (D-020). See §13 for post-approval findings and §14 for the T-001 plan. The repo has not been renamed by Claude.
 
 **Method:** Package and source inspection, hands-on benchmarks in a scratch environment (not committed), and web research. Every claim is tagged **[verified]** (I ran or read it myself), **[reported]** (a secondary source), or **[unknown]** (must be tested).
 
 ---
 
-## 1. What I understand Specshift to be
+## 1. What I understand Breakra (then "Specshift") to be
 
-- **What it is:** One paid endpoint. An agent posts two OpenAPI 3.0 contracts (old and new). Specshift returns deterministic JSON: what changed, which side it affects (request or response), a compatibility class (`compatible` / `potentially_breaking` / `breaking` / `unknown`), before/after evidence, and a review hint.
+- **What it is:** One paid endpoint. An agent posts two OpenAPI 3.0 contracts (old and new). Breakra returns deterministic JSON: what changed, which side it affects (request or response), a compatibility class (`compatible` / `potentially_breaking` / `breaking` / `unknown`), before/after evidence, and a review hint.
 - **Price and hosting:** $0.02 USDC on Base, collected by Bankr x402 Cloud.
 - **What V0 doesn't have:** a frontend, a database, an LLM, or monitoring.
 - **What it's for:** It's a commercial experiment. Success means independent wallets paying more than once.
@@ -41,7 +43,7 @@ I tested four candidates on a fixture with **14 deliberate contract changes**: e
 
 **Recommendation (to approve as D-013):**
 1. **Diff layer:** `api-smart-diff`, pinned to an exact version and wrapped behind our own `compare()` interface so it can be swapped or vendored (it's MIT, so we can fork it if it rots).
-2. **Classification:** a **Specshift-owned rules layer** (`rule_set_version`). It maps each raw diff to our four classes and writes our own `reason` and `recommended_action` text. We **don't trust the library's labels or classifications** (bugs shown above).
+2. **Classification:** a **Breakra-owned rules layer** (`rule_set_version`). It maps each raw diff to our four classes and writes our own `reason` and `recommended_action` text. We **don't trust the library's labels or classifications** (bugs shown above).
 3. **Correctness oracle:** oasdiff runs in **CI only** (it isn't shipped). It cross-checks our findings against every fixture and a few real-world spec pairs, which catches regressions and blind spots cheaply.
 
 ## 4. Architecture: what I agree with and what I'd change
@@ -118,7 +120,7 @@ Overall `compatibility` is the worst class across all changes. **Wording rule:**
 - **Lethe044/specshift** (Python, with optional AI summaries)
 - An agent can also just write a diff script itself.
 
-**Honest pitch:** Specshift needs no install. Agents in sandboxes often can't install Go or Java binaries. You get one HTTP call, a stable agent-oriented JSON schema with evidence pointers and actions, consistent classification across languages, and x402 with no account or API key.
+**Honest pitch:** Breakra needs no install. Agents in sandboxes often can't install Go or Java binaries. You get one HTTP call, a stable agent-oriented JSON schema with evidence pointers and actions, consistent classification across languages, and x402 with no account or API key.
 
 **Moat:** weak. As the brief already says, V0 is a distribution experiment.
 
@@ -275,3 +277,21 @@ Three survivors:
 - [Contrava Service Ltd](https://find-and-update.company-information.service.gov.uk/company/12124254)
 - [Breaka (DJ)](https://ra.co/dj/breaka)
 - [delvra.nl](https://delvra.nl/), [delvra.website](https://delvra.website/)
+
+---
+
+## 13. Post-approval findings (2026-10-08, after Breakra and D-020 were approved)
+
+| # | Finding | Evidence class |
+|---|---|---|
+| P1 | **Authoritative domain lookup not possible from Claude's environment.** RDAP and WHOIS for Verisign (.com), Google Registry (.dev), CentralNic (.xyz), rdap.org, whois.com and who.is are all blocked by the egress proxy. breakra.com and breakra.dev remain **NXDOMAIN (no delegation)** in DNS, which is consistent with unregistered but **unproven**. → **The owner must check at a registrar** before public branding. | Unknown / blocked |
+| P2 | **No official trademark search possible from here** (USPTO, EUIPO and WIPO UIs unreachable). Web aggregators show no BREAKRA record. → Unresolved. Owner or counsel to search Classes 9 and 42. | Unknown / blocked |
+| P3 | **The repo may already be renamed.** `git ls-remote https://github.com/danbuildss/breakra` returns the same HEAD SHA (`141011b…`) as `danbuildss/specshift`. A made-up repo name fails. That is consistent with a GitHub rename plus redirect, but not proven: the GitHub API for `breakra` is outside this session's scope. Claude renamed nothing. | Inferred, not verified |
+| P4 | **F4 needs revising.** Bankr's public discovery API lists a service at **price `0`** (`littlefinger-demo`), so free routes may exist on Bankr. T-001 case T11 will test it. If confirmed, D-016 (moving free discovery off Bankr) should be revisited. | Verified listing; behaviour unverified |
+| P5 | **No OpenAPI-diff service found on the Bankr marketplace.** Searches for "openapi", "api diff", "breaking changes" and "swagger" returned only unrelated services. The closest is `webpage-diff` ($0.04, HTML text diff). Low direct competition inside Bankr. | Verified (discovery API, 2026-10-08) |
+| P6 | **Network reachability from Claude's environment:** `api.bankr.bot` (deploy, discovery, revenue) is reachable. `x402.bankr.bot` (the paid endpoints) is blocked. → T-001 paid calls go through PayBox. | Verified |
+| P7 | **Payer wallet:** PayBox `eth1` `0x96753D18312Bd3736ffe86666E7dcc7Bc34ce51C` has 0 USDC on Base (2026-10-08 07:16 UTC). It needs funding before T-001. | Verified |
+
+## 14. T-001 plan
+
+See **`T-001-PLAN.md`**: accounts, wallets, endpoint names, price, call count, max spend, test cases, irreversible actions and uncertainties. **Not executed.** Waiting for owner confirmation.

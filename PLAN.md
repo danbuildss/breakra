@@ -1,8 +1,9 @@
-# Specshift — Phase Plan and Status
+# Breakra — Phase Plan and Status
 
 **Current phase:** 0 — Feasibility audit
 **Overall status:** Not implemented
-**Last verified:** 2026-10-08. The repo contains docs only. Phase 0 audit delivered (`AUDIT.md`) and awaiting owner approval of D-013 to D-017 and the name decision.
+**Last verified:** 2026-10-08. The repo contains docs plus the disposable T-001 probe (`experiments/`). There is no product code.
+**Phase 0 status:** Audit approved (D-018 brand Breakra, D-019 ownership/repo, D-020 architecture). Remaining in Phase 0: **T-001 Bankr probe** (prepared; waiting for owner confirmation before deploy or spend). Phase 1 starts only after the T-001 evidence is reviewed and approved.
 **Owner approval required to advance:** Yes
 
 ## Phase 0 — Feasibility (current)

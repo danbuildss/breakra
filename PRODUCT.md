@@ -1,12 +1,14 @@
-# Specshift — Product Source of Truth
+# Breakra — Product Source of Truth
 
-**Working name:** Specshift (availability and conflicts not cleared)
-**Owner:** Somehow Internet
+**Name:** Breakra (approved D-018). It replaces the working name Specshift, rejected because a same-category product already uses that name. Final domain and trademark clearance is still open.
+**Brand:** Independently branded. Public materials say **Breakra** only, with no "Built by Somehow" or similar attribution unless the owner approves it (D-019).
+**Business owner:** Somehow (the owner's company), for business ownership and administration only.
+**Code:** The owner's personal GitHub account `danbuildss`. Proposed repo: `danbuildss/breakra` (D-019).
 **Tagline:** Know what changed before your integration breaks.
 **Status:** Concept approved; backend not yet built.
 
 ## Job to be done
-Coding agents maintaining third-party integrations need an actionable, evidence-backed comparison between two versions of an API contract. Specshift accepts two OpenAPI specifications and returns what changed, compatibility risk, evidence and review actions.
+Coding agents maintaining third-party integrations need an actionable, evidence-backed comparison between two versions of an API contract. Breakra accepts two OpenAPI specifications and returns what changed, compatibility risk, evidence and review actions.
 
 ## Audience
 Primary: autonomous coding agents and developers maintaining external API integrations. Secondary: CI and integration maintenance scripts.

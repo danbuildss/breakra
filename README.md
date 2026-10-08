@@ -1,10 +1,10 @@
-# Specshift
+# Breakra
 
 **Know what changed before your integration breaks.**
 
-Specshift is a planned x402-paid utility that compares two OpenAPI contracts and returns structured, evidence-backed compatibility findings for coding agents.
+Breakra is a planned x402-paid utility that compares two OpenAPI contracts and returns structured, evidence-backed compatibility findings for coding agents.
 
-**Current status:** Feasibility audit; not built or deployed. **Working name:** conflict clearance pending.
+**Current status:** Feasibility audit; not built or deployed. **Name:** Breakra (approved); final domain and trademark clearance pending.
 
 ## Project navigation
 - `notes.md` — read first: running status, dated log and original owner inputs.

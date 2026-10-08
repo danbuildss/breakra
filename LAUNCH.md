@@ -1,7 +1,8 @@
-# Specshift — Launch and Commercial Experiment
+# Breakra — Launch and Commercial Experiment
 
 ## Before public launch
-- [ ] Confirm working name can be used publicly; do not claim trademark/domain availability without checks.
+- [ ] Confirm Breakra can be used publicly: authoritative registrar check of breakra.com/.dev and an official trademark search (D-018 open items). Do not claim availability without checks.
+- [ ] Public materials are branded **Breakra only**. No "Built by Somehow" or similar attribution unless the owner explicitly approves it (D-019).
 - [ ] Repository public and documented; license approved.
 - [ ] `POST /v1/analyze` works with representative fixtures.
 - [ ] x402 Base USDC payment verified with real low-budget settlement.

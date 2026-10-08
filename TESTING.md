@@ -1,4 +1,4 @@
-# Specshift — Quality, Security and Release Gates
+# Breakra — Quality, Security and Release Gates
 
 ## Minimum core fixtures
 - Identical specs; reordered JSON keys; description-only change.

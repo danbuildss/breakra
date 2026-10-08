@@ -1,0 +1,19 @@
+{
+  "lockfileVersion": 2,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "name": "x402-breakra-t001-probe",
+      "dependencies": {
+        "api-smart-diff": "1.0.6",
+      },
+    },
+  },
+  "packages": {
+    "allof-merge": ["allof-merge@0.6.8", "", { "dependencies": { "json-crawl": "^0.5.3" } }, "sha512-RJrHVDqITsU1kjE2L7s1hy4AYZSTlO1m9jTleYhVCEOfOpbbygRGfcEgrp+bW3oX/PcMUwVkt6MSJyXoyI6lRA=="],
+
+    "api-smart-diff": ["api-smart-diff@1.0.6", "", { "dependencies": { "allof-merge": "^0.6.4", "json-crawl": "^0.5.2" } }, "sha512-kDkGblcJG9eqy6duqYC/Cr0jN5AC9RrELRSLb3rOKgeni+7wBkCxBVIcNQVtKbYwUQ3K9JOxfPTZaEZDWtyOhg=="],
+
+    "json-crawl": ["json-crawl@0.5.3", "", {}, "sha512-BEjjCw8c7SxzNK4orhlWD5cXQh8vCk2LqDr4WgQq4CV+5dvopeYwt1Tskg67SuSLKvoFH5g0yuYtg7rcfKV6YA=="],
+  }
+}

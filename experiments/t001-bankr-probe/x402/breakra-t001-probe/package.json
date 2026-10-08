@@ -1,0 +1,7 @@
+{
+  "name": "x402-breakra-t001-probe",
+  "private": true,
+  "dependencies": {
+    "api-smart-diff": "1.0.6"
+  }
+}

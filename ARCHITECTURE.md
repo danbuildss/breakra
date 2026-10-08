@@ -1,4 +1,4 @@
-# Specshift — Technical Architecture
+# Breakra — Technical Architecture
 
 ## Intended request flow
 Agent → HTTP input validation → x402 authorization/settlement integration → OpenAPI parser/normalizer → diff/compatibility rules → evidence-backed JSON response. **Exact payment-before/after-execution sequence depends on verified SDK/host behavior**; document before implementation.

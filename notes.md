@@ -1,4 +1,6 @@
-# Specshift — Working Notes
+# Breakra — Working Notes
+
+*(Formerly "Specshift": rejected as a brand on 2026-10-08, see D-018. The appendices keep the original owner inputs verbatim, including the old name.)*
 
 > **WORKFLOW RULE (always):** Before building, integrating or changing anything, read this file first to know where we are. Every decision, input and step we take gets recorded here.
 >
@@ -8,14 +10,14 @@
 
 ## Current status
 
-- **Repo:** `danbuildss/specshift` (owner-confirmed; the owner's personal GitHub account).
-- **Company:** Somehow Internet is the owner's company and the product owner. It is not a GitHub org for this project.
-- **Name:** Specshift. "API Change Intelligence" was the original working name, dropped because it isn't brandable. The product is the same.
+- **Repo:** The session remote is `danbuildss/specshift`. **Proposed: `danbuildss/breakra`** (D-019); it may already be renamed on GitHub (AUDIT §13 P3). Never `somehow-internet/*`.
+- **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
+- **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** 0, the feasibility audit. **Delivered as `AUDIT.md`; awaiting owner review.** No production code exists.
+- **Phase:** 0. Audit approved (D-018/019/020). **T-001 Bankr probe is prepared but not executed** (`T-001-PLAN.md`). No product code exists.
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** The owner reviews `AUDIT.md`. They approve or reject the proposed D-013 to D-017, decide on the name, and approve T-001 (Bankr probe) or another next task.
-- **Waiting on:** Owner review, the name decision, and the wallet address(es). Bankr pays out to the wallet of the Bankr account that deploys; the endpoint URL contains that wallet.
+- **Next step:** The owner confirms the T-001 plan items (Bankr account, payout wallet, `BANKR_API_KEY` secret, funding the payer wallet), then gives explicit go-ahead. Then Claude runs T-001.
+- **Waiting on:** The owner's T-001 confirmations, plus the registrar and trademark checks for breakra.com/.dev.
 
 ## Inputs received
 
@@ -85,6 +87,11 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Owner approved **Breakra** (D-018) and D-013 to D-017 (D-020). They clarified that the repo lives on `danbuildss`, proposed `danbuildss/breakra`, with independent branding and no Somehow attribution (D-019). They approved T-001 *preparation* only.
+  - **Docs:** renamed the living docs to Breakra; historical records kept.
+  - **New files:** `T-001-PLAN.md`, the disposable probe in `experiments/t001-bankr-probe/` (bundled and run locally), and `.gitignore`.
+  - **Findings (AUDIT §13):** registrar and trademark lookups are blocked from here; the repo may already be renamed; a price-0 Bankr service exists; no OpenAPI-diff competitor on Bankr; the payer PayBox wallet holds 0 USDC.
+  - **Not done:** nothing deployed, spent, renamed or registered.
 - **2026-10-08:** Phase 0 audit done and saved as `AUDIT.md`. Key results:
   - **Name conflict:** PyPI `specshift` is a same-category OpenAPI breaking-change tool.
   - **Bankr payments:** Bankr handles the whole payment layer, uploads one `index.ts` per service, and has no free routes.

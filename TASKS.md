@@ -1,4 +1,4 @@
-# Specshift — Task Board
+# Breakra — Task Board
 
 **WIP limit: 1 active implementation task.** Claude may research several alternatives during an approved audit but must not silently implement them.
 
@@ -9,7 +9,7 @@
 - [x] Decide inline-only vs safe URL mode. (Proposed D-014: inline-only)
 - [~] Verify actual x402 SDK, host, facilitator and settlement semantics. (CLI source verified. Settlement, limits and retries are **unknown** until T-001.)
 - [x] Estimate worst-case execution cost, latency and $0.02 unit economics. (AUDIT.md §9; the fee figure is reported, not verified)
-- [x] Check Specshift naming conflicts. **Conflict found** (AUDIT.md F1); owner decision pending.
+- [x] Check Specshift naming conflicts. **Conflict found** (AUDIT.md F1). Specshift was rejected; **Breakra was approved (D-018)** after the naming audit (AUDIT.md §12).
 - [x] Present feasibility audit and await owner approval. (Delivered 2026-10-08)
 
 ## Not started — gated
@@ -20,9 +20,16 @@
 - [ ] Phase 5 commercial experiment.
 
 ## Active task
-None. T-000 (Phase 0 audit) was delivered as `AUDIT.md` on 2026-10-08 and is awaiting owner review.
+**T-001 — Bankr platform probe: PREPARED, not executed.**
+- **Approved:** preparation only (2026-10-08). Max authorized spend $0.05. Disposable; not the product.
+- **Plan:** `T-001-PLAN.md`. **Code:** `experiments/t001-bankr-probe/` (bundles with Bun; all cases pass locally).
+- **Blocked on owner:**
+  1. Confirm the Bankr account and payout wallet.
+  2. Add `BANKR_API_KEY` as an environment secret.
+  3. Fund payer wallet `0x96753D…e51C` with about $0.10 USDC on Base.
+  4. Give explicit go-ahead to deploy and pay.
 
-**Recommended next (needs approval):** T-001, the Bankr platform probe. It's a throwaway $0.001 service that measures body size and timeout limits, whether a single-file bundle works, whether non-2xx responses are charged, retry behaviour and outbound fetch. Spend under $0.05. Needs the owner's Bankr login and a wallet holding about $0.10 USDC on Base.
+**T-000** (Phase 0 audit) is done: `AUDIT.md`, approved via D-018 and D-020.
 
 ## Task record template
 ID | Phase | Goal | Acceptance criteria | Owner approval | Branch/PR | Tests/evidence | Status | Follow-up.

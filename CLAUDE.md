@@ -1,4 +1,6 @@
-# Claude Operating Manual — Specshift
+# Claude Operating Manual — Breakra
+
+> Breakra was formerly the working name Specshift (rejected; see D-018). Repo owner: `danbuildss` (personal account). Independently branded. See D-019.
 
 ## Mandatory session startup
 0. Read `notes.md` first (owner's rule). It holds the current status, the dated log of everything done, and the raw owner inputs (master brief, cover doc). Append to its log at the end of every session.
