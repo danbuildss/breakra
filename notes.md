@@ -6,6 +6,8 @@
 
 ## Current status
 
+- **Repo:** `danbuildss/specshift` (owner-confirmed).
+
 - **Phase:** Collecting inputs. **No implementation has started.**
 - **What's happening now:** The owner is sending the context documents. Claude records them here and builds nothing.
 - **Next step:** Once the owner has sent everything, create the project docs (README.md, PLAN.md, DECISIONS.md, etc.) from these notes. Then do the feasibility audit described in Brief §25.
@@ -56,9 +58,9 @@
 - **Frontend:** none until the endpoint works, agents can call it, and paid usage has been recorded. The V0 public surface is the README, `/skill.md`, `/openapi.json`, a working API URL and one example.
 - **Billing rule:** don't charge for requests already known to be invalid when the platform allows checking before payment. Document any settlement limitations that can't be avoided.
 
-## Owner checklist (from input #2, 0 of 5 done)
+## Owner checklist (from input #2, 1 of 5 done)
 
-- [ ] Confirm the GitHub organization and authorize creating the Specshift repository.
+- [x] Confirm the GitHub organization and authorize creating the Specshift repository. **Decided 2026-10-08: `danbuildss/specshift` (this repo).**
 - [ ] Choose or approve a dedicated Base USDC receiving wallet address.
 - [ ] Confirm whether Bankr x402 hosting is the preferred deployment platform.
 - [ ] Approve the $0.02 experimental price.
@@ -66,7 +68,7 @@
 
 ## Open questions / things to confirm later
 
-- **Repository location.** The brief proposes `somehow-internet/specshift`, but the actual working repo is `danbuildss/specshift`. Confirm which one is canonical.
+- ~~**Repository location.**~~ **Resolved 2026-10-08:** the canonical repo is **`danbuildss/specshift`**. This replaces `somehow-internet/specshift` from the brief and `somehow-internet/api-change-intelligence` from the earlier draft.
 - **Name and repo conflict between drafts.** The earlier draft in input #2 uses the name "API Change Intelligence" and the repo `somehow-internet/api-change-intelligence`. **Assumption:** the master brief supersedes it (Specshift, `specshift` repo). The earlier draft's file layout (e.g. `public/skill.md`, `core/diff.ts`) is also superseded by the master brief's tree.
 - **License.** The earlier draft says "MIT licensed for original code", but the master brief says MIT is a candidate only. Going with the master brief: decide after the dependency review.
 - **Receiving wallet.** Use a dedicated wallet or an approved treasury wallet. Address not yet provided.
@@ -77,6 +79,7 @@
 
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
+- **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
 
 ---
 
