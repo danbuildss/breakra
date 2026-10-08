@@ -58,5 +58,16 @@ Decisions are append-only. If superseded, add a new decision referencing the old
 **Decision:** The owner approved starting the Phase 0 feasibility audit. It is research and documentation only: no production code, infrastructure or deployment.
 **Pending from owner:** Receiving wallet address(es). The owner will send them.
 
+## D-013 to D-017 — Proposed by the Phase 0 audit (see `AUDIT.md` §3–4)
+**Status:** Proposed, awaiting owner approval. **Date:** 2026-10-08.
+- **D-013:** The diff layer is `api-smart-diff` (pinned and wrapped), with a Specshift-owned classification rules layer. oasdiff is used as a CI-only correctness oracle.
+- **D-014:** V0 is inline-only. URL mode is deferred because we can't enforce SSRF controls on Bankr.
+- **D-015:** No HTTP framework in production. A single `handler(Request)`, with a build step that bundles `src/` into `x402/analyze/index.ts` (Bankr uploads one file per service).
+- **D-016:** Free discovery (`skill.md`, `openapi.json`, pricing) is served from GitHub plus Bankr's built-in schema and discovery. No `/health` or `/ready` endpoint on Bankr, because every Bankr route is paid. This amends brief §13.
+- **D-017:** No `@x402/hono` and no facilitator code. Bankr owns verification and settlement.
+
+## Open owner decision — Name conflict (AUDIT.md F1)
+PyPI `specshift` (Lethe044, Aug–Sep 2026) is an OpenAPI breaking-change detector: the same name in the same category. The owner must decide whether to keep "Specshift" for public branding or pick another name before launch. Building can continue under the working name.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

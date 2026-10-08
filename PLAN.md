@@ -2,7 +2,7 @@
 
 **Current phase:** 0 — Feasibility audit
 **Overall status:** Not implemented
-**Last verified:** Not yet verified against a repository
+**Last verified:** 2026-10-08. The repo contains docs only. Phase 0 audit delivered (`AUDIT.md`) and awaiting owner approval of D-013 to D-017 and the name decision.
 **Owner approval required to advance:** Yes
 
 ## Phase 0 — Feasibility (current)

@@ -12,10 +12,10 @@
 - **Company:** Somehow Internet is the owner's company and the product owner. It is not a GitHub org for this project.
 - **Name:** Specshift. "API Change Intelligence" was the original working name, dropped because it isn't brandable. The product is the same.
 
-- **Phase:** 0, the feasibility audit (per PLAN.md). **Approved and in progress (D-012). No production code exists.**
+- **Phase:** 0, the feasibility audit. **Delivered as `AUDIT.md`; awaiting owner review.** No production code exists.
 - **Project workspace:** The owner's 9 docs are installed in the repo root: CLAUDE, README, PRODUCT, PLAN, ARCHITECTURE, DECISIONS, TASKS, TESTING, LAUNCH.
-- **Next step:** Finish the Phase 0 audit and present it for approval.
-- **Waiting on:** Owner's receiving wallet address(es).
+- **Next step:** The owner reviews `AUDIT.md`. They approve or reject the proposed D-013 to D-017, decide on the name, and approve T-001 (Bankr probe) or another next task.
+- **Waiting on:** Owner review, the name decision, and the wallet address(es). Bankr pays out to the wallet of the Bankr account that deploys; the endpoint URL contains that wallet.
 
 ## Inputs received
 
@@ -85,6 +85,15 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-08:** Phase 0 audit done and saved as `AUDIT.md`. Key results:
+  - **Name conflict:** PyPI `specshift` is a same-category OpenAPI breaking-change tool.
+  - **Bankr payments:** Bankr handles the whole payment layer, uploads one `index.ts` per service, and has no free routes.
+  - **Engine bake-off:** api-smart-diff found 14/14, oasdiff 13/14 (but it's Go, so it can't ship on Bankr), and Atlassian openapi-diff about 7/14.
+  - **Big-spec speed:** the 13 MB GitHub spec takes 9–14 s.
+  - **Proposed decisions:** D-013 to D-017.
+  - **Recommended next:** T-001, the Bankr probe.
+
+  The benchmarks ran in the scratchpad and weren't committed. No production code written.
 - **2026-10-08:** Owner decided three things. Bankr is the host (D-010). The $0.02 price is approved (D-011). Phase 0 is approved to start (D-012). Wallet addresses will follow.
 - **2026-10-08:** Owner clarified three things. "API Change Intelligence" was renamed to Specshift for brandability, with the same product. Somehow Internet is the owner's company. The repo lives on the owner's personal account (`danbuildss`).
 - **2026-10-08:** Received input #3, the project workspace zip. Installed the 9 docs in the repo root unchanged (commit `588f7d2`). Then made minimal reconciliation edits:

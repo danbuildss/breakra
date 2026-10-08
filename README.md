@@ -8,6 +8,7 @@ Specshift is a planned x402-paid utility that compares two OpenAPI contracts and
 
 ## Project navigation
 - `notes.md` — read first: running status, dated log and original owner inputs.
+- `AUDIT.md` — Phase 0 feasibility audit (findings, engine bake-off, proposed ADRs).
 - `CLAUDE.md` — mandatory Claude workflow and guardrails.
 - `PRODUCT.md` — product source of truth and scope.
 - `PLAN.md` — phases and approval gates.
