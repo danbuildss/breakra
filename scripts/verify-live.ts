@@ -9,7 +9,7 @@
  *  - The burner key never leaves this machine; it is read from a local file.
  *
  *   bun scripts/verify-live.ts V0          # unpaid 402 check (free)
- *   bun scripts/verify-live.ts V1|V3|V4|V5 # signed calls (V1/V3 should not be charged; V4/V5 cost $0.02 each)
+ *   bun scripts/verify-live.ts V1|V3|V4|V5|V6 # signed calls (V1/V3/V5 should not be charged; V4/V6 cost $0.02 each)
  *
  * Env: VERIFY_URL (default: production URL), VERIFY_KEY_FILE (default: the T-001 burner key),
  *      VERIFY_RESULTS (default .verify-results.jsonl), VERIFY_MAX_ATTEMPTS (default 5).
@@ -92,12 +92,24 @@ const CASES: Record<string, Case> = {
     expectStatus: 200,
     compareLocal: true,
   },
+  // ~2 MB real pair: was 200 in 16.7 s on Bankr (v1); since D-031 it exceeds the 1 MB body limit → 413, free.
   V5: {
     paid: true,
     body: () =>
       JSON.stringify({
         before: slice(loadGithubSpec("22.0.0"), 160),
         after: slice(loadGithubSpec("24.0.0"), 160),
+      }),
+    expectStatus: 413,
+    expectCode: "PAYLOAD_TOO_LARGE",
+  },
+  // Largest real pair under the D-031 limits (50 paths: ~940 KB, ~61k expanded nodes). Measures Bankr timing.
+  V6: {
+    paid: true,
+    body: () =>
+      JSON.stringify({
+        before: slice(loadGithubSpec("22.0.0"), 50),
+        after: slice(loadGithubSpec("24.0.0"), 50),
       }),
     expectStatus: 200,
     compareLocal: true,

@@ -28,7 +28,7 @@ describe("request parsing", () => {
   it("rejects non-object specs", async () => {
     expect((await post({ before: "x", after: baseSpec() })).status).toBe(400);
   });
-  it("rejects bodies over 2 MB with 413", async () => {
+  it("rejects bodies over the body limit (1 MB) with 413", async () => {
     const big = clone(baseSpec());
     big.info.description = "x".repeat(LIMITS.maxBodyBytes);
     const r = await post({ before: baseSpec(), after: big });

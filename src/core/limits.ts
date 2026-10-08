@@ -3,8 +3,11 @@
  * cannot be interrupted and Bankr hard-stops handlers at 30 s. Values are calibrated in BENCHMARKS.md.
  */
 export const LIMITS = {
-  /** Request body, before + after combined. Bankr's gateway rejects > ~6 MB anyway (T-001 T9). */
-  maxBodyBytes: 2 * 1024 * 1024,
+  /**
+   * Request body, before + after combined. Lowered from 2 MB (D-031): on Bankr a 2 MB real pair took
+   * 16.7 s of handler time and 26.7 s end to end against the 30 s gateway cap.
+   */
+  maxBodyBytes: 1024 * 1024,
   /** Maximum JSON nesting depth of either document. */
   maxDepth: 64,
   /** Maximum number of JSON nodes in either document as submitted. */
@@ -12,11 +15,11 @@ export const LIMITS = {
   /** Maximum number of operations (path + method) in either document. */
   maxOperations: 5_000,
   /**
-   * Maximum JSON nodes after expanding local $refs. Guards against "ref bombs": a ~2 KB document with
-   * 16 levels of doubled $refs yields ~200k raw diffs. Calibrated in BENCHMARKS.md: real GitHub API
-   * slices at the 2 MB body cap expand to ~135k nodes; the worst accepted synthetic bomb stays ~200 MB RSS.
+   * Maximum JSON nodes after expanding local $refs: the best proxy for analysis time. Guards against
+   * "ref bombs" (a ~2 KB document with 16 levels of doubled $refs yields ~200k raw diffs). Lowered from
+   * 400k (D-031): on Bankr, 135k expanded nodes took 16.7 s of handler time; 75k targets ≤ ~9 s.
    */
-  maxExpandedNodes: 400_000,
+  maxExpandedNodes: 75_000,
   /**
    * Maximum changes listed; the rest are counted in the summary and reported as a limitation.
    * Together with maxEvidenceChars this bounds the response to ~1.5 MB, well under the ~6 MB

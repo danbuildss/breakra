@@ -170,5 +170,15 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - 65/65 tests pass; the oracle passes; smoke passes on Bun 1.4.2 and 1.3.14.
 - Mock-Bankr end-to-end (V0–V5) passes with the minified build: **V4 and V5 `analysis_id` match the unminified source.**
 
+## D-031 — Limits recalibrated from Bankr production timing
+**Status:** Accepted (owner: "yes", 2026-10-08). Amends D-024 and D-028.
+**Context:** Live verification V5 on Bankr: a 2.03 MB real GitHub API pair (135 k expanded nodes) returned 200 with a matching `analysis_id`, but took **16,677 ms of handler time and 26,673 ms end to end**, against Bankr's 30 s gateway cap. About 9× slower than local.
+**Decision:**
+- Request body **2 MB → 1 MB**.
+- `maxExpandedNodes` **400 k → 75 k** (targets ≤ ~9 s of handler time on Bankr).
+- The largest accepted real pair (GitHub 50-path slice, 940 KB, about 61 k nodes) becomes live check **V6**. V5 (2 MB) now expects a free 413.
+- Performance work to raise the limits again is a candidate for a later phase.
+**Consequence:** very large specs (roughly > 1 MB combined) get a free 413 or 422 instead of risking a timeout.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

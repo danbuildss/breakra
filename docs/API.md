@@ -1,6 +1,6 @@
 # Breakra — API Contract (engine 0.1.0, rule set 0.1.0)
 
-**Status:** implemented and tested locally (Phase 1). **Not deployed.** On Bankr x402 Cloud the endpoint will be `POST https://x402.bankr.bot/<payout-wallet>/breakra-analyze` (one URL per deployment; there is no `/v1/analyze` path on Bankr). Price: $0.02 USDC on Base, paid via x402.
+**Status:** **LIVE** on Bankr x402 Cloud (Phase 3, 2026-10-08): `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` (one URL per deployment; there is no `/v1/analyze` path on Bankr). Price: $0.02 USDC on Base, paid via x402.
 
 ## Request
 
@@ -12,7 +12,7 @@
 ```
 
 - Both must be inline **OpenAPI 3.0.0–3.0.4 JSON** documents. YAML, OpenAPI 3.1, Swagger 2.0 and URL inputs are not supported in V0.
-- Body ≤ **2 MB** total. Other bounds are listed in `BENCHMARKS.md`.
+- Body ≤ **1 MB** total (D-031: Bankr's runtime is about 9× slower than local; this keeps the worst case well under Bankr's 30 s cap). Other bounds are listed in `BENCHMARKS.md`.
 - Local `$ref`s (`#/…`) are resolved, including circular ones. **External `$ref`s are never fetched**; they're reported in `limitations` and as `unknown` changes.
 
 ## Success (HTTP 200, and the only status that is charged)
@@ -65,7 +65,7 @@
 |---|---|---|---|
 | 400 | `INVALID_REQUEST` | Not JSON or UTF-8; not exactly `before` + `after`; a spec isn't an object | no |
 | 405 | `METHOD_NOT_ALLOWED` | Anything other than POST | no |
-| 413 | `PAYLOAD_TOO_LARGE` | Body > 2 MB (Bankr's gateway also rejects > ~5 MB before payment) | no |
+| 413 | `PAYLOAD_TOO_LARGE` | Body > **1 MB** (D-031; Bankr's gateway also rejects > ~5 MB before payment) | no |
 | 422 | `INVALID_SPECIFICATION` | Missing or invalid `openapi`/`info`/`paths`, a malformed path or operation, a dangling local `$ref` | no |
 | 422 | `UNSUPPORTED_OPENAPI_VERSION` | Swagger 2.0, OpenAPI 3.1+ | no |
 | 422 | `SPEC_TOO_COMPLEX` | Nesting, node, operation or expanded-size (`$ref` amplification) limits exceeded | no |
@@ -75,7 +75,7 @@ Error messages never echo submitted content or internal details.
 
 ## Payment notes (from T-001, Bankr x402 Cloud)
 
-- Unpaid requests receive HTTP 402 with x402 v2 requirements: `exact` scheme, `eip155:8453`, USDC, amount `20000` ($0.02; inferred from the `1000` observed for $0.001 in T-001, to be confirmed in Phase 3).
+- Unpaid requests receive HTTP 402 with x402 v2 requirements: `exact` scheme, `eip155:8453`, USDC, amount `20000` ($0.02; **verified live** in Phase 3 V0).
 - **Only 2xx responses are settled.** 4xx/5xx are free, verified on-chain.
 - Each new authorization is a separate charge; a reused payment is rejected (`402 Payment already used`).
 - **No settlement receipt header is returned** to the buyer.

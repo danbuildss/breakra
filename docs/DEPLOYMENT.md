@@ -45,10 +45,11 @@ bun scripts/verify-live.ts V0   # free: unpaid → 402 with the right terms
 bun scripts/verify-live.ts V1   # invalid JSON → 400, should NOT be charged
 bun scripts/verify-live.ts V3   # $ref bomb → 422, should NOT be charged
 bun scripts/verify-live.ts V4   # bake-off fixture → 200, $0.02; analysis_id must match the local result
-bun scripts/verify-live.ts V5   # largest real pair (~1.9 MB GitHub API) → 200, $0.02; records Bankr timing
+bun scripts/verify-live.ts V5   # ~2 MB real pair → 413 PAYLOAD_TOO_LARGE since D-031, should NOT be charged (optional)
+bun scripts/verify-live.ts V6   # largest real pair under the limits (~940 KB) → 200, $0.02; analysis_id must match; records Bankr timing
 ```
 
-Expected spend: **$0.04** (V4 + V5). Claude reconciles both wallets' balances on-chain after V5.
+Expected spend: **$0.04** (V4 + V6). V1, V3 and V5 should be free, but each signed call counts toward the 5-attempt cap; raise it with `VERIFY_MAX_ATTEMPTS` if needed. Claude reconciles both wallets' balances on-chain after V5.
 
 ## 5. Pause, roll back, remove
 
