@@ -430,3 +430,8 @@ No decision is made until there's evidence.
 
 All intra-session reads (07:59–08:08) showed failures uncharged. **T-001 conclusions on settlement stay PROVISIONAL until the owner's Basescan transfer list resolves this.**
 **T3 retest:** a blank 500 again, not charged. Redeploy status unknown.
+
+**§16 update, on-chain reconciliation (2026-10-08): RESOLVED.** The owner's Basescan transfer list shows 15 `Settle And Split` transfers. **None correspond to T3, T4, T5, T6, the T3 retest or the T12 replay.** So **"only 2xx is charged" is VERIFIED ON-CHAIN** and no longer provisional.
+- **The extra (15th) charge:** block 52329220, about 08:23 UTC (517 blocks after T8c at 08:05:53). It **can't** be a late settlement of a failed call: `@x402/evm` signs EIP-3009 authorizations with `validBefore = now + maxTimeoutSeconds` (60 s, verified in source), and the failed calls were signed between 07:59 and 08:02. So it came from a **new, successful paid call** made with the burner key that the client didn't log (for example, an interrupted run). The owner was asked; it's not a platform issue.
+- **Funding note:** the 0.04 USDC came from `0x4456…01F1`, not the Rabby address the owner listed (`0x9E84…719D`). Informational only.
+- **Owner approved deleting both test endpoints** (BANKR-HANDOFF rev 4, Message B).
