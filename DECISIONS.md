@@ -150,5 +150,14 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 5. **oasdiff v1.33.0** is the CI oracle. 3 documented differences, where Breakra is stricter per brief §10.
 6. **Dangling local `$ref`s** are rejected (422, free) rather than reported as unknown.
 
+## D-029 — Phase 3 approved, option A
+**Status:** Accepted (owner: "approve Phase 3, option A"). **Date:** 2026-10-08.
+**Decision:**
+- Execute `PHASE-3-PLAN.md`. Deploy **`breakra-analyze`** directly at $0.02 (no staging endpoint). It will appear in Bankr's marketplace, but there's **no promotion until Phase 4**.
+- Spend cap **$0.10** USDC from the burner wallet.
+- Open brand clearance blocks promotion, not deployment (Claude's recommendation, accepted with option A).
+- Payment `payTo` is Bankr's router `0x8AEE…01a0`, as approved in T-001.
+- Deploy with the Bankr CLI (D-025).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

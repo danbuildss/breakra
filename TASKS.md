@@ -24,7 +24,9 @@
 
 **Phase 1, core engine: COMPLETE** (2026-10-08). T-101 to T-108 done. Evidence: TESTING.md (65 tests, oracle, smoke on Bun 1.3.14), BENCHMARKS.md. Delivered as a PR to `main`.
 
-**Next (needs owner approval):** Phase 2 hardening and Phase 3 deployment. Much of Phase 2 (limits, errors, security tests) was already done in Phase 1; see the end-of-phase report.
+**Merged** as PR #2 (2026-10-08); CI green on the PR and on `main`.
+
+**ACTIVE: Phase 3, deploy and verify on Bankr** (approved D-029, option A). T-301 done: `docs/DEPLOYMENT.md` and `scripts/verify-live.ts` (tested end to end against a mock Bankr wrapping the built handler). **Waiting on the owner:** top up the burner (about 0.08 USDC), deploy via the CLI, then run V0–V5.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

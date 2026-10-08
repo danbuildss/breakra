@@ -13,7 +13,8 @@
     "smoke": "bun scripts/smoke.ts",
     "oracle": "bun scripts/oracle.ts",
     "bench": "bun scripts/bench.ts",
-    "check": "bun run typecheck && bun run lint && bun run test && bun run build && bun run smoke"
+    "check": "bun run typecheck && bun run lint && bun run test && bun run build && bun run smoke",
+    "verify-live": "bun scripts/verify-live.ts"
   },
   "dependencies": {
     "api-smart-diff": "1.0.6"
@@ -21,7 +22,10 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@types/bun": "1.4.2",
+    "@x402/core": "2.28.0",
+    "@x402/evm": "2.28.0",
     "typescript": "5.9.3",
+    "viem": "2.57.4",
     "vitest": "3.2.7"
   }
 }
