@@ -1,6 +1,6 @@
 # Phase 3 — Deploy Breakra on Bankr and Verify Real Payments: Plan for Approval
 
-**Status:** APPROVED, option A (D-029, 2026-10-08). In progress.
+**Status:** **COMPLETE** (2026-10-08). Approved option A (D-029); limits amended by D-031. Live at v2; V0–V6 verified (TESTING.md); spend $0.06 of the $0.10 cap.
 **Starting point:** `main` @ `767b0e7` (Phase 1 merged; CI green on the PR and on `main`).
 
 ## Why Phase 2 is folded in
