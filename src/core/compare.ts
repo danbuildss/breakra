@@ -1,4 +1,4 @@
-import { apiCompare } from "api-smart-diff";
+import { compareOpenApi } from "api-smart-diff";
 import type { Json, JsonObject } from "./validate";
 
 /** A raw structural change. Classification is done by Breakra's own rules (classify.ts), never by the library. */
@@ -20,7 +20,7 @@ export interface CompareResult {
  * without touching classification (D-013). The library's own breaking/non-breaking labels are discarded.
  */
 export function compareSpecs(before: JsonObject, after: JsonObject): CompareResult {
-  const result = apiCompare(structuredClone(before), structuredClone(after));
+  const result = compareOpenApi(structuredClone(before), structuredClone(after));
   const diffs: RawDiff[] = result.diffs.map((d) => ({
     action: d.action as RawDiff["action"],
     path: [...(d.path as Array<string | number>)],

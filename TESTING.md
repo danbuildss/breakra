@@ -41,6 +41,7 @@
 | 2026-10-08 | **T3 retest** lib | `bun t001.ts T3` (19:13 UTC) | **500, empty body** again (1967 ms). **Not charged** (burner 25000 at 19:14). **Unknown whether Bankr redeployed the rev-2 file**; asked the owner | Owner output + balance read | Root cause |
 | 2026-10-08 | **Reconciliation** | owner `results.jsonl` + balance reads | Expected charges: T1, T2, T2r, T7×2, T8×3, T9a-c, T10 (19:09), T12, T10 (19:12) = **14** (0.014). Actual burner spend 40000→25000 = **15** (0.015). **One extra charge between 08:08 and 19:10 UTC, unexplained.** | Balance reads | **Owner checking Basescan transfer list** |
 | 2026-10-08 | **T10** memory | `bun t001.ts T10` | **200** (3114 ms): 128 MB allocated and touched; RSS **192.9 MB**. Charged 1× (burner 26000→**25000**, 19:12 UTC) | Owner output + Claude balance read | Hard memory ceiling (deliberately not probed) |
+| 2026-10-08 | **Phase 3 T-302 deploy attempt 1** | `bankr x402 deploy breakra-analyze` (owner, CLI 0.3.45) | **Failed: `API error (413): Payload Too Large`**. The 137 KB unminified upload was rejected; nothing was deployed or charged. Fix: minified build of about 90 KB (D-030) | Owner output | Exact Bankr limit (not documented) |
 | 2026-10-08 | **T12** replay | `bun t001.ts T12` | Paid call **200** (1685 ms), then an **identical signed header** resent → **402 `{"error":"Payment already used"}`** (303 ms). **Replay protection verified.** | Owner output | — |
 | 2026-10-08 | Balance check 19:10 UTC | Claude balance reads | Burner 29000→**26000** (−3000 since T9: T12 = 1, plus **2 unexplained**: owner asked whether T10/T3 were run). Payout 132661→**141661** (+9000: includes **non-T-001 income**, probably the owner's other endpoints, so payout deltas can't be attributed any more) | Balance reads | Attribution pending the owner's results.jsonl |
 | 2026-10-08 | **T9a/b/c/d** body 100 KB / 1 MB / 4 MB / 6 MB | `bun t001.ts T9a`…`T9d` | 100 KB → 200 (1.3 s), 1 MB → 200 (4.4 s), 4 MB → 200 (16.1 s), each with the exact byte count and sha256 echoed (100 KB hash matches the local run). **6 MB → 413 `Request Entity Too Large` from the gateway on the *unpaid* request**: never reached payment, **not charged**. Charged 3× (burner 32000→29000, payout 129661→132661) | Owner output + Claude balance reads 08:08 UTC | Exact limit between 4 and 6 MB |
@@ -64,7 +65,7 @@
 | Typecheck | `bun run typecheck` | ✅ |
 | Lint | `bun run lint` (Biome) | ✅ |
 | Unit/integration tests | `bun run test` (Vitest) | ✅ **65/65**: validation and limits (18), rules (34), bake-off and determinism (7), handler and response bounds (6) |
-| Build | `bun run build` | ✅ one file, about 137 KB, no imports, literal default export |
+| Build | `bun run build` | ✅ one file, about 137 KB, no imports, literal default export (Phase 1; minified to about 90 KB in Phase 3, D-030) |
 | Smoke (built file) | `bun run smoke` on Bun 1.4.2 **and** Bun 1.3.14 | ✅ both |
 | Oracle | `bun run oracle` (oasdiff v1.33.0) | ✅ 26 pairs, 21 operation verdicts, 3 documented differences (Breakra stricter) |
 | Benchmarks | `bun scripts/bench.ts` | See BENCHMARKS.md. Real 1 MB+1 MB pair about 1.7 s; worst accepted ref bomb about 0.25 s / 156 MB |
