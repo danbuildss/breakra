@@ -3,7 +3,7 @@
   "info": {
     "title": "Breakra",
     "version": "0.1.1",
-    "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://github.com/danbuildss/breakra/blob/main/SKILL.md",
+    "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md",
     "license": { "name": "MIT", "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE" }
   },
   "servers": [

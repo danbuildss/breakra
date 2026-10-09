@@ -3,6 +3,7 @@
 </p>
 
 <p align="center">
+  <a href="https://breakra.dev"><img src="docs/assets/btn-site.svg" alt="breakra.dev" height="34"></a>&nbsp;
   <a href="https://github.com/danbuildss/breakra/stargazers"><img src="docs/assets/btn-star.svg" alt="Star Breakra on GitHub" height="34"></a>&nbsp;
   <a href="SKILL.md"><img src="docs/assets/btn-agents.svg" alt="Agent guide (SKILL.md)" height="34"></a>&nbsp;
   <a href="demo/github-rest-api/"><img src="docs/assets/btn-example.svg" alt="Real example: GitHub REST API" height="34"></a>&nbsp;
@@ -15,7 +16,7 @@
   <strong>One HTTP call. $0.02 USDC on Base via x402. Errors are free.</strong>
 </p>
 
-> **🤖 Using a coding agent?** Point it here: **read https://github.com/danbuildss/breakra/blob/main/SKILL.md and follow it to check an OpenAPI change.**
+> **🤖 Using a coding agent?** Point it here: **read https://breakra.dev/skill.md and follow it to check an OpenAPI change.**
 
 <div align="center">
 
@@ -120,6 +121,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 
 | | |
 |---|---|
+| [breakra.dev](https://breakra.dev) | Website; agents can fetch [`/skill.md`](https://breakra.dev/skill.md) and [`/openapi.json`](https://breakra.dev/openapi.json) there |
 | [`SKILL.md`](SKILL.md) | Agent guide: when to call, payment terms, reading results |
 | [`docs/API.md`](docs/API.md) | Request, response and error reference |
 | [`openapi.json`](openapi.json) | Machine-readable contract of the endpoint |

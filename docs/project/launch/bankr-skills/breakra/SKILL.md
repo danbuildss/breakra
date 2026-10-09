@@ -9,7 +9,7 @@ Breakra compares two OpenAPI 3.0 JSON contracts and tells you which changes may 
 
 - **Endpoint:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`
 - **Price:** $0.02 USDC on Base (x402 v2, scheme `exact`, network `eip155:8453`, amount `20000`). **Only a 200 is charged.** Every error (4xx/5xx) is free.
-- **Contract:** [`openapi.json`](https://raw.githubusercontent.com/danbuildss/breakra/main/openapi.json). Example request and response: [`examples/`](https://github.com/danbuildss/breakra/tree/main/examples).
+- **Contract:** [`openapi.json`](https://breakra.dev/openapi.json). Example request and response: [`examples/`](https://github.com/danbuildss/breakra/tree/main/examples).
 
 ## When to use it
 
