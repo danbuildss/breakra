@@ -4,40 +4,86 @@
     "title": "Breakra",
     "version": "0.1.1",
     "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md",
-    "license": { "name": "MIT", "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE" }
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE"
+    },
+    "contact": {
+      "name": "Breakra",
+      "url": "https://github.com/danbuildss/breakra/issues"
+    }
   },
   "servers": [
-    { "url": "https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze" }
+    {
+      "url": "https://x402.bankr.bot",
+      "description": "Bankr x402 Cloud"
+    }
   ],
   "paths": {
-    "/": {
+    "/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze": {
       "post": {
         "operationId": "analyze",
         "summary": "Compare two OpenAPI 3.0 contracts ($0.02 USDC on Base, x402)",
         "description": "Send the previous and the new contract inline. The first unpaid request returns 402 with the x402 payment terms in the `payment-required` header (base64 JSON). Sign one USDC authorization and resend the same body with the `PAYMENT-SIGNATURE` header. Sign once per call: a reused signature is rejected, and each new signature is a separate charge. The body must be at most 1 MB.",
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalyzeRequest" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeRequest"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "description": "Analysis complete. This is the only charged response.",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AnalysisResult" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResult"
+                }
+              }
+            }
           },
-          "400": { "$ref": "#/components/responses/Error" },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
           "402": {
             "description": "Payment required (x402 v2). Terms: scheme `exact`, network `eip155:8453`, asset USDC `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`, amount `20000` (6 decimals, $0.02). Also returned as `Payment already used` when a signature is replayed.",
             "headers": {
               "payment-required": {
                 "description": "Base64-encoded JSON with the x402 payment requirements.",
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
-          "405": { "$ref": "#/components/responses/Error" },
-          "413": { "$ref": "#/components/responses/Error" },
-          "422": { "$ref": "#/components/responses/Error" },
-          "500": { "$ref": "#/components/responses/Error" }
+          "405": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "422": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-payment-info": {
+          "price": {
+            "mode": "fixed",
+            "currency": "USD",
+            "amount": "0.02"
+          },
+          "protocols": [
+            {
+              "x402": {}
+            }
+          ]
         }
       }
     }
@@ -46,14 +92,23 @@
     "responses": {
       "Error": {
         "description": "Not charged. See `error.code`.",
-        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } }
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
       }
     },
     "schemas": {
       "AnalyzeRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["before", "after"],
+        "required": [
+          "before",
+          "after"
+        ],
         "properties": {
           "before": {
             "type": "object",
@@ -80,62 +135,131 @@
           "metadata"
         ],
         "properties": {
-          "status": { "type": "string", "enum": ["success"] },
+          "status": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          },
           "analysis_id": {
             "type": "string",
             "description": "sha256 of engine version, rule-set version and both canonical input hashes. The same inputs always give the same id and the same result.",
             "pattern": "^sha256:[0-9a-f]{64}$"
           },
-          "engine_version": { "type": "string" },
-          "rule_set_version": { "type": "string" },
+          "engine_version": {
+            "type": "string"
+          },
+          "rule_set_version": {
+            "type": "string"
+          },
           "spec_versions": {
             "type": "object",
-            "required": ["before", "after"],
-            "properties": { "before": { "type": "string" }, "after": { "type": "string" } }
+            "required": [
+              "before",
+              "after"
+            ],
+            "properties": {
+              "before": {
+                "type": "string"
+              },
+              "after": {
+                "type": "string"
+              }
+            }
           },
-          "compatibility": { "$ref": "#/components/schemas/Compatibility" },
+          "compatibility": {
+            "$ref": "#/components/schemas/Compatibility"
+          },
           "summary": {
             "type": "object",
             "description": "Counts over all changes, including any not listed.",
-            "required": ["total_changes", "breaking", "potentially_breaking", "unknown", "compatible", "non_contract"],
+            "required": [
+              "total_changes",
+              "breaking",
+              "potentially_breaking",
+              "unknown",
+              "compatible",
+              "non_contract"
+            ],
             "properties": {
-              "total_changes": { "type": "integer" },
-              "breaking": { "type": "integer" },
-              "potentially_breaking": { "type": "integer" },
-              "unknown": { "type": "integer" },
-              "compatible": { "type": "integer" },
-              "non_contract": { "type": "integer" }
+              "total_changes": {
+                "type": "integer"
+              },
+              "breaking": {
+                "type": "integer"
+              },
+              "potentially_breaking": {
+                "type": "integer"
+              },
+              "unknown": {
+                "type": "integer"
+              },
+              "compatible": {
+                "type": "integer"
+              },
+              "non_contract": {
+                "type": "integer"
+              }
             }
           },
           "changes": {
             "type": "array",
             "maxItems": 500,
             "description": "Most severe first. At most 500 are listed; see metadata.changes_omitted.",
-            "items": { "$ref": "#/components/schemas/Change" }
+            "items": {
+              "$ref": "#/components/schemas/Change"
+            }
           },
           "limitations": {
             "type": "array",
             "description": "What was not analysed, such as external $refs (never fetched) or omitted changes.",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "metadata": {
             "type": "object",
-            "required": ["input_hashes", "changes_omitted", "duration_ms"],
+            "required": [
+              "input_hashes",
+              "changes_omitted",
+              "duration_ms"
+            ],
             "properties": {
               "input_hashes": {
                 "type": "object",
-                "required": ["before", "after"],
-                "properties": { "before": { "type": "string" }, "after": { "type": "string" } }
+                "required": [
+                  "before",
+                  "after"
+                ],
+                "properties": {
+                  "before": {
+                    "type": "string"
+                  },
+                  "after": {
+                    "type": "string"
+                  }
+                }
               },
-              "changes_omitted": { "type": "integer" },
-              "duration_ms": { "type": "integer", "description": "The only non-deterministic field." }
+              "changes_omitted": {
+                "type": "integer"
+              },
+              "duration_ms": {
+                "type": "integer",
+                "description": "The only non-deterministic field."
+              }
             }
           }
         }
       },
       "Compatibility": {
         "type": "string",
-        "enum": ["breaking", "potentially_breaking", "unknown", "compatible", "non_contract"],
+        "enum": [
+          "breaking",
+          "potentially_breaking",
+          "unknown",
+          "compatible",
+          "non_contract"
+        ],
         "description": "breaking: existing callers will fail (rule set 0.1.0: a removed operation). potentially_breaking: some callers may fail (e.g. a new required input, a removed or newly optional response field, a new response enum value). unknown: not classified; review by hand. compatible: additive and safe. non_contract: docs or metadata only."
       },
       "Change": {
@@ -153,50 +277,125 @@
           "evidence"
         ],
         "properties": {
-          "id": { "type": "string", "description": "change-001, change-002, … in output order." },
-          "rule": { "type": "string", "description": "Stable rule id, `<direction>.<kind>`, e.g. request.required_parameter_added." },
-          "kind": { "type": "string" },
-          "compatibility": { "$ref": "#/components/schemas/Compatibility" },
-          "direction": { "type": "string", "enum": ["request", "response", "operation", "security", "document"] },
+          "id": {
+            "type": "string",
+            "description": "change-001, change-002, … in output order."
+          },
+          "rule": {
+            "type": "string",
+            "description": "Stable rule id, `<direction>.<kind>`, e.g. request.required_parameter_added."
+          },
+          "kind": {
+            "type": "string"
+          },
+          "compatibility": {
+            "$ref": "#/components/schemas/Compatibility"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "request",
+              "response",
+              "operation",
+              "security",
+              "document"
+            ]
+          },
           "operation": {
             "type": "object",
             "nullable": true,
-            "required": ["method", "path"],
-            "properties": { "method": { "type": "string" }, "path": { "type": "string" } }
+            "required": [
+              "method",
+              "path"
+            ],
+            "properties": {
+              "method": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              }
+            }
           },
           "location": {
             "type": "object",
             "properties": {
-              "in": { "type": "string" },
-              "name": { "type": "string" },
-              "status": { "type": "string" },
-              "media_type": { "type": "string" },
-              "field": { "type": "string", "description": "Dot path into the schema; [] means array items." },
-              "keyword": { "type": "string" }
+              "in": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "media_type": {
+                "type": "string"
+              },
+              "field": {
+                "type": "string",
+                "description": "Dot path into the schema; [] means array items."
+              },
+              "keyword": {
+                "type": "string"
+              }
             }
           },
-          "reason": { "type": "string" },
-          "recommended_action": { "type": "string" },
+          "reason": {
+            "type": "string"
+          },
+          "recommended_action": {
+            "type": "string"
+          },
           "evidence": {
             "type": "object",
-            "required": ["path", "before", "after"],
+            "required": [
+              "path",
+              "before",
+              "after"
+            ],
             "properties": {
-              "path": { "type": "array", "items": { "type": "string" } },
-              "before": { "nullable": true, "description": "Value before (null when added). Over 1,000 characters is truncated." },
-              "after": { "nullable": true, "description": "Value after (null when removed)." },
-              "truncated": { "type": "boolean" }
+              "path": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "before": {
+                "nullable": true,
+                "description": "Value before (null when added). Over 1,000 characters is truncated."
+              },
+              "after": {
+                "nullable": true,
+                "description": "Value after (null when removed)."
+              },
+              "truncated": {
+                "type": "boolean"
+              }
             }
           }
         }
       },
       "Error": {
         "type": "object",
-        "required": ["status", "error"],
+        "required": [
+          "status",
+          "error"
+        ],
         "properties": {
-          "status": { "type": "string", "enum": ["error"] },
+          "status": {
+            "type": "string",
+            "enum": [
+              "error"
+            ]
+          },
           "error": {
             "type": "object",
-            "required": ["code", "message", "retryable"],
+            "required": [
+              "code",
+              "message",
+              "retryable"
+            ],
             "properties": {
               "code": {
                 "type": "string",
@@ -210,9 +409,16 @@
                   "ANALYSIS_FAILED"
                 ]
               },
-              "message": { "type": "string" },
-              "retryable": { "type": "boolean", "description": "Only ANALYSIS_FAILED is retryable. Errors are never charged." },
-              "details": { "type": "object" }
+              "message": {
+                "type": "string"
+              },
+              "retryable": {
+                "type": "boolean",
+                "description": "Only ANALYSIS_FAILED is retryable. Errors are never charged."
+              },
+              "details": {
+                "type": "object"
+              }
             }
           }
         }
