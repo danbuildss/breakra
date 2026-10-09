@@ -18,6 +18,8 @@
 | Date | Channel | What was published | Link | Reactions / replies |
 |---|---|---|---|---|
 | 2026-10-09 | X | **Launch post (day 1)** | https://x.com/danbuildss/status/2108486248004260253 | (to record) |
+| 2026-10-09 | Bankr skills catalog | PR adding `breakra/` (SKILL.md + catalog.json + README row) | https://github.com/BankrBot/skills/pull/771 | Awaiting review |
+| 2026-10-09 | awesome-x402 | PR adding Breakra to Developer Tools | https://github.com/xpaysh/awesome-x402/pull/1766 | Awaiting review (reviews are slow) |
 | 2026-10-09 | x402scan | Registered `breakra.dev` (1 resource: `POST /api/analyze`, $0.02) | x402scan.com | Non-blocking warning: Bankr 402 lacks top-level `resource` |
 
 ## Feedback

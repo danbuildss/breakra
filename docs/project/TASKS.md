@@ -60,7 +60,8 @@
 - [ ] Owner: tag `v0.1.1` → GitHub Release "Breakra v0.1.1" = **V0 released**. Optional: Bankr redeploy so the listing's agent-guide link points to breakra.dev/skill.md.
 - [x] Owner: security switches done (2026-10-09, owner report).
 - [x] Owner: Bankr skills PR opened from danbuildss/skills:add-breakra (owner report).
-- [ ] Owner: awesome-x402 PR (steps in `launch/directories.md` §3); email Bankr (later); X post 2 (demo) on day 2–4 with `docs/assets/x-demo.png`.
+- [x] Owner: awesome-x402 PR opened: xpaysh/awesome-x402#1766. Bankr skills PR: BankrBot/skills#771.
+- [ ] Owner: email Bankr (later); X post 2 (demo) on day 2–4 with `docs/assets/x-demo.png`.
 - [x] D-036 D: owner forked BankrBot/skills; Claude pushed branch `add-breakra` (on upstream main `dc47eed`, author Dan, no AI attribution) to danbuildss/skills. **Owner opens the PR to BankrBot/skills.** (was: owner forks BankrBot/skills → Claude pushes `breakra/` + README row → owner opens the PR.
 - [ ] Owner: merge PR #12; enable **Private vulnerability reporting**; upload `docs/assets/social-preview.png` (Settings → General → Social preview); X post 1 with `docs/assets/x-launch.png`; x402scan; awesome-x402 PR.
 
