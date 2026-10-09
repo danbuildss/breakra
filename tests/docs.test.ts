@@ -44,7 +44,9 @@ describe("openapi.json", () => {
   it("matches the engine version and live URL", () => {
     expect(openapi.info.version).toBe(ENGINE_VERSION);
     const [path] = Object.keys(openapi.paths);
-    expect(`${openapi.servers[0].url}${path}`).toBe(LIVE_URL);
+    // D-038: discovery origin is breakra.dev (Vercel forwards /api/analyze to the Bankr endpoint).
+    expect(`${openapi.servers[0].url}${path}`).toBe("https://breakra.dev/api/analyze");
+    expect(openapi.info.description).toContain(LIVE_URL);
   });
 
   it("lists exactly the fields the engine returns", () => {
