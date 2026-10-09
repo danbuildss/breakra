@@ -26,14 +26,20 @@ Reply under it:
 
 ## Post 2 — real demo (day 2–4)
 
-> What changed in GitHub's REST API description between Dec 2025 and Oct 2026? Ran six paths through Breakra:
+Attach **`docs/assets/x-demo.png`** (1600×900). Post it as a **new post** (not a reply), 1–3 days after post 1.
+
+> GitHub's REST API, Dec 2025 → Oct 2026. Six paths through Breakra:
 >
-> • 5 operations gone from the contract: team discussions, tag protection, Copilot org metrics
-> • 13 new issue-timeline event types (exhaustive switches beware)
-> • billing budget fields dropped from PATCH, new enum values in GET
+> • 5 operations removed (team discussions, tag protection, Copilot metrics)
+> • 13 new issue-timeline event types
+> • budget fields dropped from PATCH
 > • team org fields now nullable
 >
-> Full output + inputs: github.com/danbuildss/breakra/tree/main/demo/github-rest-api
+> breakra.dev
+
+Reply under it:
+
+> Inputs, full output and write-up: github.com/danbuildss/breakra/tree/main/demo/github-rest-api
 
 ## Replies you may need
 
