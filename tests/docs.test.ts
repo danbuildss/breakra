@@ -176,6 +176,7 @@ describe("openapi.json discovery metadata (x402scan / @agentcash/discovery)", ()
     });
     expect(op.responses).toHaveProperty("402");
     expect(op.requestBody.content["application/json"].schema).toBeDefined();
-    expect(openapi.info.contact.url ?? openapi.info.contact.email).toBeTruthy();
+    expect(openapi.info.contact.email).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]+$/);
+    expect(openapi.info.contact.url).toBeTruthy();
   });
 });
