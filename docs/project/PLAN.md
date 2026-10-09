@@ -1,6 +1,6 @@
 # Breakra — Phase Plan and Status
 
-**Current phase:** 5 — 14-day commercial experiment, Step 1 (preparation) (approved D-033, 2026-10-08). Day 1 waits on the domain and trademark check. Engine 0.1.1 live in v4 (D-034).
+**Current phase:** 5 — 14-day commercial experiment, **running: day 1 = 2026-10-09, day 14 = 2026-10-22** (D-033). **V0 released as v0.1.1** (GitHub Release, 2026-10-09); live on Bankr (v4) and at breakra.dev/api/analyze (D-038); listed on x402scan.
 **Overall status:** **LIVE** on Bankr x402 Cloud: `breakra-analyze` v2, $0.02 USDC on Base (D-029, D-031). V0–V6 verified with on-chain reconciliation; deployed `analysis_id` equals local.
 **Last verified:** 2026-10-08 (V6 on v2: 200, 8.1 s server; balances reconciled 20:55 UTC).
 **Earlier header (kept for history):** Current phase 0 — Feasibility audit; not implemented.
