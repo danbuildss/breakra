@@ -62,9 +62,9 @@ describe("site/index.html content", () => {
   });
 });
 
-describe("site/vercel.json", () => {
+describe("vercel.json", () => {
   it("sets a strict Content-Security-Policy and security headers", () => {
-    const cfg = JSON.parse(read("site/vercel.json"));
+    const cfg = JSON.parse(read("vercel.json"));
     const headers = Object.fromEntries(
       cfg.headers[0].headers.map((h: { key: string; value: string }) => [h.key, h.value]),
     );
@@ -72,5 +72,15 @@ describe("site/vercel.json", () => {
     expect(headers["Content-Security-Policy"]).toContain("frame-ancestors 'none'");
     expect(headers["Strict-Transport-Security"]).toContain("max-age=");
     expect(headers["X-Content-Type-Options"]).toBe("nosniff");
+  });
+});
+
+describe("vercel.json build settings", () => {
+  it("serves site/ as-is: no install, no build of the API bundle", () => {
+    const cfg = JSON.parse(read("vercel.json"));
+    expect(cfg.outputDirectory).toBe("site");
+    expect(cfg.framework).toBeNull();
+    expect(cfg.buildCommand).not.toMatch(/bun|npm|build\.ts/);
+    expect(cfg.installCommand).not.toMatch(/bun|npm|yarn|pnpm/);
   });
 });

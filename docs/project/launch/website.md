@@ -1,14 +1,11 @@
 # breakra.dev on Vercel (owner steps)
 
-The site is static: `site/` (HTML, CSS, a few lines of JS for copy buttons, self-hosted Geist fonts). No build step, no framework, no analytics. Security headers live in `site/vercel.json`. Tests in `tests/site.test.ts` keep the page's numbers and example in sync with the code.
+The site is static: `site/` (HTML, CSS, a few lines of JS for copy buttons, self-hosted Geist fonts). No build step, no framework, no analytics. Build settings and security headers live in the root `vercel.json` (`outputDirectory: site`). Tests in `tests/site.test.ts` keep the page's numbers and example in sync with the code.
 
 ## 1. Create the Vercel project (about 3 minutes)
 1. Go to **vercel.com** → **Sign up / Log in with GitHub** (Hobby plan, free).
 2. **Add New… → Project** → find **danbuildss/breakra** → **Import**. If the repo isn't listed: **Adjust GitHub App Permissions** → allow `breakra`.
-3. On the configure screen:
-   - **Framework Preset:** `Other`
-   - **Root Directory:** `site` (click *Edit*, pick the `site` folder)
-   - **Build Command:** leave empty / override to empty. **Output Directory:** leave default (`.`)
+3. On the configure screen: **leave Root Directory empty** and don't change any build settings. The repo's root `vercel.json` tells Vercel everything: serve the `site/` folder as-is, install nothing, build nothing. (The first attempt failed because Vercel tried to build the whole repo.)
 4. **Deploy**. You get a preview URL like `breakra-xxxx.vercel.app`. Open it and check the page.
 
 From now on every merge to `main` redeploys the site automatically; PRs get preview links.

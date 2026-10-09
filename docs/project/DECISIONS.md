@@ -239,5 +239,7 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **D-036 amendment (2026-10-09, fixing the first CodeQL failure on PR #15):** `.github/codeql/codeql-config.yml` ignores `experiments/` (archived Phase 0 probe, not shipped) and excludes one query, `js/file-access-to-http` (the CLI tools exist to send the user's own spec files to the API; the deployed handler never reads files). All other security-and-quality queries stay on. Local CodeQL 2.23.2 run with this config: 0 results across 199 queries. Owner may revert.
 
+**D-037 amendment (2026-10-09):** the first Vercel deploy built the whole repo (`bun run build`) and failed (no output directory). Settings now live in the root `vercel.json` (`outputDirectory: site`, no install, no build, same headers), so the Vercel project needs no manual build settings; Root Directory stays empty. `site/vercel.json` removed.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
