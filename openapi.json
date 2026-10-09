@@ -4,6 +4,7 @@
     "title": "Breakra",
     "version": "0.1.1",
     "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md The same endpoint is also reachable directly on Bankr at https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze (identical behaviour and price).",
+    "x-guidance": "POST {\"before\": <OpenAPI 3.0 JSON>, \"after\": <OpenAPI 3.0 JSON>} (inline, ≤ 1 MB). Pay once via x402: check scheme exact, network eip155:8453, USDC, amount 20000; sign once and never re-sign automatically. Only a 200 is charged; 4xx/5xx are free. Gate on `compatibility`; fix each breaking / potentially_breaking finding by operation + location. Full guide: https://breakra.dev/skill.md",
     "license": {
       "name": "MIT",
       "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE"
