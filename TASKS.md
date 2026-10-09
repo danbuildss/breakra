@@ -44,8 +44,10 @@
 - [x] T-503 `bun run metrics` (on-chain, owner-run; 5 unit tests with a fake chain). Not run against Base yet: the container can't reach a Base RPC.
 - [x] T-504 Launch kit `launch/` (X drafts, GitHub settings, directory submissions). `skill.md` renamed to `SKILL.md` (what skill directories look for).
 - [x] T-505 Urgent fixes, D-034 (accepted): engine 0.1.1 **live in v4**; demo check matched.
-- [~] T-506 Metrics: first owner run hit the public RPC rate limit; fixed (backoff + fallback RPC). **Owner re-runs.**
-- [ ] Owner: domain/trademark check (owner plans to buy the .dev domain later). Then day 1.
+- [x] T-506 Metrics verified on real Base data (Alchemy RPC): 5 self-paid calls, matches the known count.
+- [x] Gate: owner's trademark search, no results (2026-10-09). `breakra.dev` later.
+
+**Step 1 complete. Day 1 starts with the owner's first post (`launch/README.md`).**
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

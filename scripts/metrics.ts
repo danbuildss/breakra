@@ -2,8 +2,8 @@
  * Phase 5 daily metrics (D-033). Run on the owner's machine (needs a Base RPC; no keys, read-only):
  *   bun run metrics                     # since Breakra went live (2026-10-08)
  *   bun run metrics -- --since 2026-10-15
- * Env: BASE_RPC_URL (default: publicnode, then mainnet.base.org as fallback; a free Alchemy/QuickNode
- *      URL is more reliable), METRICS_CHUNK (blocks per getLogs, default 10000), METRICS_DELAY_MS (default 250).
+ * Env: BASE_RPC_URL (recommended: a free Alchemy/QuickNode Base URL; public RPCs rate-limit eth_getLogs.
+ *      Default: publicnode, then mainnet.base.org), METRICS_CHUNK (blocks per getLogs, default 10000), METRICS_DELAY_MS (default 250).
  * Paste the output to Claude for EXPERIMENT.md, and cross-check with `bankr x402 revenue breakra-analyze`.
  */
 import { createPublicClient, fallback, http } from "viem";

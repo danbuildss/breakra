@@ -1,6 +1,6 @@
 # Phase 5 — 14-Day Commercial Experiment
 
-**Status:** APPROVED (D-033, 2026-10-08). Step 1 (preparation) in progress. **Day 1 waits on the owner's domain and trademark check.**
+**Status:** APPROVED (D-033, 2026-10-08). Step 1 (preparation) **complete**. **Gate cleared 2026-10-09:** the owner's trademark search for "Breakra" returned no results; `breakra.dev` will be bought later (not required for the experiment). **Day 1 = the owner's first post.**
 **Starting point:** live v3 (`main` @ `b079a20`), public repo (MIT), SKILL.md verified by a cold-agent paid run (Phase 4).
 
 ## Question

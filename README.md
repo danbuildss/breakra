@@ -4,7 +4,7 @@
 
 Breakra compares two OpenAPI 3.0 contracts and returns structured, evidence-backed compatibility findings for coding agents. It is a single x402-paid endpoint: **$0.02 USDC on Base per analysis**, with errors never charged.
 
-**Status:** live on Bankr x402 Cloud. Every response states its `engine_version` and `rule_set_version`. The name Breakra is approved; domain and trademark clearance are still pending.
+**Status:** live on Bankr x402 Cloud. Every response states its `engine_version` and `rule_set_version`. The owner's trademark search for "Breakra" found no results (2026-10-09); the `breakra.dev` domain is planned.
 
 ## Use it
 
