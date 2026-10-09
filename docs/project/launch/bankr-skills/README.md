@@ -11,7 +11,7 @@ Ready-to-upload folder for a PR to **github.com/BankrBot/skills**. Format checke
 3. Open `README.md` in your fork → ✏️ edit. Add this row in the **Available Skills** table, after the `botchan` row and before `[Capacitr]` (rows are roughly alphabetical):
 
 ```
-| [Breakra](https://github.com/danbuildss/breakra) | [breakra](breakra/) | OpenAPI 3.0 breaking-change checks for coding agents. Send the old and new contract; get every change classified breaking / potentially breaking / compatible, with evidence and a recommended fix. Deterministic. Single x402 endpoint on Base, $0.02 USDC per analysis; errors are free. |
+| [Breakra](https://breakra.dev) | [breakra](breakra/) | OpenAPI 3.0 breaking-change checks for coding agents. Send the old and new contract; get every change classified breaking / potentially breaking / compatible, with evidence and a recommended fix. Deterministic. Single x402 endpoint on Base, $0.02 USDC per analysis; errors are free. |
 ```
 
 4. Commit to a new branch, then **Open pull request** to `BankrBot/skills:main`.
