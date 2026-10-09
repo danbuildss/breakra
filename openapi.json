@@ -3,7 +3,7 @@
   "info": {
     "title": "Breakra",
     "version": "0.1.1",
-    "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md",
+    "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md The same endpoint is also reachable directly on Bankr at https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze (identical behaviour and price).",
     "license": {
       "name": "MIT",
       "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE"
@@ -16,12 +16,12 @@
   },
   "servers": [
     {
-      "url": "https://x402.bankr.bot",
-      "description": "Bankr x402 Cloud"
+      "url": "https://breakra.dev",
+      "description": "Breakra (forwards to Bankr x402 Cloud)"
     }
   ],
   "paths": {
-    "/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze": {
+    "/api/analyze": {
       "post": {
         "operationId": "analyze",
         "summary": "Compare two OpenAPI 3.0 contracts ($0.02 USDC on Base, x402)",

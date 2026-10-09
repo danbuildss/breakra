@@ -4,6 +4,8 @@
 
 Agent guide: [`SKILL.md`](../SKILL.md). Machine-readable contract: [`openapi.json`](../openapi.json). Example: [`examples/`](../examples/).
 
+Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unchanged to the Bankr endpoint (same 402 terms, same payment recipient, same response). This address exists so x402 directories can read `breakra.dev/openapi.json` on the same origin (D-038).
+
 ## Request
 
 `POST` with a JSON body containing exactly two fields:

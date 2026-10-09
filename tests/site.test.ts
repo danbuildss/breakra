@@ -94,3 +94,12 @@ describe("agent files on breakra.dev", () => {
     expect(html).toContain('href="/openapi.json"');
   });
 });
+
+describe("breakra.dev/api/analyze (D-038)", () => {
+  it("forwards to the live Bankr endpoint and is listed for x402 discovery", () => {
+    const cfg = JSON.parse(read("vercel.json"));
+    expect(cfg.rewrites).toEqual([{ source: "/api/analyze", destination: LIVE_URL }]);
+    const wellKnown = JSON.parse(read("site/.well-known/x402"));
+    expect(wellKnown).toEqual({ version: 1, resources: ["https://breakra.dev/api/analyze"] });
+  });
+});

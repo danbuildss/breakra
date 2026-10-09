@@ -52,5 +52,11 @@
       "destination": "/skill.md",
       "permanent": true
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/analyze",
+      "destination": "https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze"
+    }
   ]
 }

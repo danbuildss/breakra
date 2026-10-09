@@ -241,5 +241,15 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **D-037 amendment (2026-10-09):** the first Vercel deploy built the whole repo (`bun run build`) and failed (no output directory). Settings now live in the root `vercel.json` (`outputDirectory: site`, no install, no build, same headers), so the Vercel project needs no manual build settings; Root Directory stays empty. `site/vercel.json` removed.
 
+## D-038 — breakra.dev/api/analyze forwards to Bankr (for x402 discovery)
+**Status:** Accepted (owner: "approve B and draft A", 2026-10-09). Amends D-037's "no API proxy".
+**Context:** x402scan rejected the Bankr URL: "Missing input schema". The owner's probe showed Bankr's 402 has no `extensions.bazaar` and `x402.bankr.bot` serves no OpenAPI, and x402scan reads schemas only from the endpoint's own origin.
+**Decision:**
+- `vercel.json` rewrites `/api/analyze` to the Bankr endpoint (a pure forward: no code, no storage, no secrets). Bankr still verifies, runs the handler, settles and pays the owner.
+- `openapi.json` uses `servers: https://breakra.dev`, path `/api/analyze`, and names the direct Bankr URL in its description. `site/.well-known/x402` lists the resource.
+- Register on x402scan via "Add Server: breakra.dev" **only after** one paid call through the forward succeeds.
+- **A:** ask Bankr to add `extensions.bazaar` (built from each service's `schema`) to their 402s; draft in `docs/project/launch/bankr-bazaar-request.md`.
+**Consequences:** request bodies to `/api/analyze` pass through Vercel's network. The 402's `resource` field still names the Bankr URL. If the forward ever fails, the Bankr URL keeps working.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
