@@ -14,7 +14,7 @@
 - **Company:** Somehow (Somehow Internet) is the owner's company, for business and admin only. **Breakra is independently branded. No "Built by Somehow" attribution without approval** (D-019).
 - **Name:** **Breakra** (D-018). History: "API Change Intelligence" (not brandable), then "Specshift" (rejected; a same-category competitor), then Breakra. Domain and trademark clearance is still open.
 
-- **Phase:** **5, Step 1 (preparation)** (D-033). Demo, metrics script and launch kit ready. **Engine 0.1.1 live (v4, D-034).** Day 1 waits on the domain and trademark check; the owner plans to buy the .dev domain later.
+- **Phase:** **5, Step 1 (preparation)** (D-033). Demo, metrics script and launch kit ready. **Engine 0.1.1 live (v4, D-034).** **Gate cleared 2026-10-09** (owner's trademark search: no results). Day 1 = the owner's first post. `breakra.dev` planned later.
 - **Public:** `github.com/danbuildss/breakra` is public (MIT). Agent guide: `skill.md`; contract: `openapi.json`.
 - **Live:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`, **v4** (engine 0.1.1), $0.02 USDC on Base, deployed from `main` @ `cc98f7c` (listing links to SKILL.md). Limits per D-031 (1 MB body, 75 k expanded nodes).
 - **What exists:** `src/` (engine), `tests/` (65 tests), `scripts/` (build, smoke, oracle, bench, verify-live), CI, and docs (RULES.md, docs/API.md, docs/DEPLOYMENT.md, BENCHMARKS.md, ARCHITECTURE.md).
@@ -91,6 +91,7 @@
 - **2026-10-08:** Received the master brief. Saved it to notes.md. No code written. Waiting for more inputs.
 - **2026-10-08:** Received input #2, the owner's cover document. Its master brief is identical to Appendix A, so I didn't save it twice. Recorded the new decisions, findings, owner checklist, build order and the earlier "API Change Intelligence" draft. Flagged the name, repo and license differences between drafts. No code written. Waiting for more inputs.
 - **2026-10-08:** Owner confirmed the canonical repo is `danbuildss/specshift`. Checklist item 1 is done.
+- **2026-10-09:** Owner's trademark search for "Breakra": no results → gate cleared. Metrics verified with the owner's Alchemy RPC: 5 self-paid Breakra calls, 0 external, 22 other-service payments. **The owner pasted their Alchemy key in chat; Claude advised rotating it and did not record it.** Step 1 complete; day 1 starts with the owner's first post.
 - **2026-10-08:** PR #9 merged; owner redeployed **v4** (engine 0.1.1). V0 passed; the live demo check matched (`sha256:c17639a1…ddc1`). D-034 accepted. Burner 24000 → 4000.
   - First `bun run metrics` failed on the public RPC's rate limit; fixed (backoff, fallback RPC). Owner says they will buy the .dev domain later.
 - **2026-10-08:** **Owner approved Phase 5** (channels X + GitHub + directories; continue bar OK) → D-033.

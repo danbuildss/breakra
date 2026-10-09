@@ -4,7 +4,7 @@ Everything here is a **draft**. Only the owner posts or submits (D-033). **Nothi
 
 ## Before day 1
 1. Merge the Phase 5 PR, redeploy (engine 0.1.1, `SKILL.md` link in the listing), then run `bun scripts/verify-live.ts V0` and the demo check in `../demo/github-rest-api/` (see the PR).
-2. Domain and trademark check: clear.
+2. Trademark check: **clear** (owner, 2026-10-09: no results). Domain `breakra.dev`: planned, not required.
 3. GitHub repo settings (see `github.md`): description, website, topics.
 
 ## Day 1 (in this order)

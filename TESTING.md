@@ -30,6 +30,8 @@
 
 | Date | Item | Command or source | Result | Evidence | Not tested |
 |---|---|---|---|---|---|
+| 2026-10-09 | **Trademark gate (D-033)** | Owner's search for "Breakra" | **No results found.** Gate cleared. Domain `breakra.dev` planned later | Owner report | Which registers were searched was not stated |
+| 2026-10-08 | **`bun run metrics` with Alchemy** (owner) | `BASE_RPC_URL=<alchemy> bun run metrics` | ✅ Scanned 52314127–52353241. **5 self-paid Breakra calls** (= V4, V5, V6, cold-agent run, demo check: matches the known count), **0 external**, 22 payments from the owner's other Bankr services. Public RPC fallback still rate-limited; Alchemy recommended | Owner output | — |
 | 2026-10-08 | **`bun run metrics` first run** (owner) | `bun run metrics` | **Failed:** `mainnet.base.org` returned `request limit reached` (-32011); the script treated it as a range error, shrank the window and gave up. Fixed: rate limits now back off and retry the same window; publicnode + mainnet.base.org fallback; 250 ms pacing; new test | Owner output | Re-run by the owner |
 | 2026-10-08 | **Live demo check on v4** (paid) | Owner: `examples/client.ts demo/github-rest-api/…` | **200**, 59 changes (5 breaking, 35 potentially breaking), **`analysis_id` = local** (`sha256:c17639a1…ddc1`): **engine 0.1.1 is live** | Owner output | — |
 | 2026-10-08 | **Redeploy v4** (engine 0.1.1, D-034) | `bun run check` (88/88) then deploy from `main` @ `cc98f7c` (PR #9); `verify-live V0` | ✅ **Live v4**. V0: 402, 20000, router, 60 s; listing links to `SKILL.md` | Owner output | — |
