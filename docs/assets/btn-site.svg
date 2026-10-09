@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="138" height="40" viewBox="0 0 138 40" role="img" aria-label="breakra.dev">
+  <rect x="0.5" y="0.5" width="137" height="39" rx="19.5" fill="#0D0C0A" stroke="#F4EFE1" stroke-opacity="0.55"/>
+  <g fill="none" stroke="#F4EFE1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="20" r="8"/><path d="M16 20h16M24 12c2.5 2.3 3.6 5 3.6 8s-1.1 5.7-3.6 8c-2.5-2.3-3.6-5-3.6-8s1.1-5.7 3.6-8z"/></g>
+  <text x="44" y="25.5" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F4EFE1">breakra.dev</text>
+</svg>

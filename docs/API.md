@@ -75,6 +75,10 @@ Agent guide: [`SKILL.md`](../SKILL.md). Machine-readable contract: [`openapi.jso
 
 Error messages never echo submitted content or internal details.
 
+## Rate limits
+
+Breakra sets no rate limit of its own: every successful call is paid ($0.02), which bounds abuse, and every error is free. Bankr's gateway may apply platform limits (a 30 s request cap and a ~5 MB body cap were observed in T-001).
+
 ## Payment notes (from T-001, Bankr x402 Cloud)
 
 - Unpaid requests receive HTTP 402 with x402 v2 requirements: `exact` scheme, `eip155:8453`, USDC, amount `20000` ($0.02; **verified live** in Phase 3 V0).

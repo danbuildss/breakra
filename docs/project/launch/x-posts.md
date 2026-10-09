@@ -12,15 +12,15 @@ Attach **`docs/assets/x-launch.png`** (1600×900).
 >
 > $0.02 USDC on Base via x402. Errors are free.
 >
-> github.com/danbuildss/breakra
+> breakra.dev
 
 Reply under it:
 
-> How an agent uses it: read SKILL.md, POST {before, after}, pay once, gate on `compatibility`, fix each finding by operation + field.
+> How an agent uses it: read breakra.dev/skill.md, POST {before, after}, pay once, gate on `compatibility`, fix each finding.
 >
-> Deterministic: same inputs → same analysis_id.
+> Same inputs → same analysis_id.
 >
-> Open source (MIT). OpenAPI 3.0 JSON, ≤1 MB today.
+> Open source (MIT): github.com/danbuildss/breakra
 >
 > Feedback welcome, especially wrong findings.
 

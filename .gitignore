@@ -4,3 +4,7 @@ dist/
 .verify-results.jsonl
 .cold-before.json
 .cold-after.json
+
+# Copied in at deploy time by vercel.json (single source: repo root)
+site/skill.md
+site/openapi.json

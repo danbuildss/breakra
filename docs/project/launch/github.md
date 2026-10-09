@@ -3,7 +3,7 @@
 **Description** (≤ 350 chars):
 > Pay-per-call OpenAPI 3.0 breaking-change checks for coding agents. Send two contracts, get every change classified (breaking / potentially_breaking / …) with evidence and a fix. $0.02 USDC on Base via x402.
 
-**Website:** `https://github.com/danbuildss/breakra/blob/main/SKILL.md` (until there's a domain)
+**Website:** `https://breakra.dev`
 
 **Topics** (up to 20; these exist and are active):
 `x402` `agent-skills` `claude-skills` `openapi` `openapi3` `openapi-diff` `breaking-changes` `api-compatibility` `api-contract` `coding-agents` `base` `usdc` `bankr`

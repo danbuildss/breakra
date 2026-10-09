@@ -84,3 +84,13 @@ describe("vercel.json build settings", () => {
     expect(cfg.installCommand).not.toMatch(/bun|npm|yarn|pnpm/);
   });
 });
+
+describe("agent files on breakra.dev", () => {
+  it("vercel.json publishes SKILL.md and openapi.json from the repo root at deploy (single source)", () => {
+    const cfg = JSON.parse(read("vercel.json"));
+    expect(cfg.buildCommand).toBe("cp SKILL.md site/skill.md && cp openapi.json site/openapi.json");
+    expect(cfg.redirects).toContainEqual({ source: "/SKILL.md", destination: "/skill.md", permanent: true });
+    expect(html).toContain('href="/skill.md"');
+    expect(html).toContain('href="/openapi.json"');
+  });
+});

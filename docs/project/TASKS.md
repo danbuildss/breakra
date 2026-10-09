@@ -56,7 +56,8 @@
 - [x] D-036 C: project docs moved to `docs/project/`.
 - [x] Owner: merged PR #12, enabled private vulnerability reporting, uploaded the social preview, bought breakra.dev (Namecheap).
 - [x] D-037 Landing page `site/` (static, Vercel), tests, CSP verified in Chromium, desktop and mobile screenshots.
-- [ ] Owner: Vercel project + DNS (`docs/project/launch/website.md`), then Claude switches links to breakra.dev.
+- [x] Owner: Vercel project deployed (PR #16 fix). Claude switched links to breakra.dev and publishes `/skill.md` + `/openapi.json` there (V0 docs pass).
+- [ ] Owner: tag `v0.1.1` → GitHub Release "Breakra v0.1.1" = **V0 released**. Optional: Bankr redeploy so the listing's agent-guide link points to breakra.dev/skill.md.
 - [ ] Owner: security switches (ruleset on main, Dependabot alerts/updates, secret scanning + push protection, Actions read-only, 2FA everywhere, Namecheap lock + WHOIS privacy, rotate the Alchemy key).
 - [ ] D-036 D: owner forks BankrBot/skills → Claude pushes `breakra/` + README row → owner opens the PR.
 - [ ] Owner: merge PR #12; enable **Private vulnerability reporting**; upload `docs/assets/social-preview.png` (Settings → General → Social preview); X post 1 with `docs/assets/x-launch.png`; x402scan; awesome-x402 PR.
