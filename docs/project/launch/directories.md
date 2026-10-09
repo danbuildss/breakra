@@ -35,11 +35,18 @@ The best fit: Bankr's own catalog, which already lists paid x402 skills.
 - Optional pre-check: `npx -y @agentcash/discovery x402.bankr.bot -v`.
 
 ## 3. awesome-x402 — PR to github.com/xpaysh/awesome-x402
-One line at the bottom of **Ecosystem Projects → Developer Tools** in README.md, using their PR template (one change per PR; reviews are slow):
+Checked 2026-10-09 (their `c45d14e`). Format: `- [Name](link) - Description.`; one change per PR; add at the **bottom** of the category.
+
+Browser-only steps (GitHub forks automatically):
+1. Open https://github.com/xpaysh/awesome-x402/blob/main/README.md → click the **pencil** (Edit). GitHub offers to fork: accept.
+2. Press **Ctrl/Cmd+F**, find `### Developer Tools`. Its last line starts with `- [BountyVerdict]`.
+3. Put the cursor at the end of that BountyVerdict line, press Enter, paste:
 
 ```
-- [Breakra](https://github.com/danbuildss/breakra) - Deterministic OpenAPI 3.0 breaking-change analysis for coding agents, one x402 endpoint at $0.02 USDC per call on Base.
+- [Breakra](https://breakra.dev) - OpenAPI 3.0 breaking-change checks for coding agents: send the old and new contract, get every change classified with evidence and a recommended fix. Single x402 endpoint, $0.02 USDC per call on Base; errors are free. ([OpenAPI](https://breakra.dev/openapi.json)) ([GitHub](https://github.com/danbuildss/breakra))
 ```
+
+4. **Commit changes…** → message `Add Breakra to Developer Tools` → **Propose changes** → **Create pull request**. PR body: `Adds Breakra (OpenAPI breaking-change checks, x402 on Base) to Developer Tools. Live, MIT-licensed, listed on x402scan.`
 
 ## Automatic / passive
 - **Bankr x402 marketplace:** listed automatically on deploy.
