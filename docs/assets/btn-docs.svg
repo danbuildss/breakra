@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="126" height="40" viewBox="0 0 126 40" role="img" aria-label="API docs">
+  <rect x="0.5" y="0.5" width="125" height="39" rx="19.5" fill="#0D0C0A" stroke="#F4EFE1" stroke-opacity="0.55"/>
+  <g fill="none" stroke="#F4EFE1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11h9l4 4v14H18zM27 11v4h4M21 20h7M21 24h7"/></g>
+  <text x="44" y="25.5" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F4EFE1">API docs</text>
+</svg>

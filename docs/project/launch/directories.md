@@ -4,8 +4,10 @@ Research 2026-10-08 (Claude, read-only). Not suitable right now: Coinbase CDP Ba
 
 ## 1. Bankr skills catalog — PR to github.com/BankrBot/skills
 The best fit: Bankr's own catalog, which already lists paid x402 skills.
+
+**Ready to upload: see `bankr-skills/README.md`** (format verified against their repo on 2026-10-09). The draft below is superseded by `bankr-skills/breakra/catalog.json`.
 - Fork, add a folder `breakra/` with:
-  - `SKILL.md`: copy of `../SKILL.md` at submission time.
+  - `SKILL.md`: copy of the repo root `SKILL.md` at submission time.
   - `catalog.json`: draft below. **Before submitting, compare it with a current folder in that repo** (field names were read from their repo on 2026-10-08 and may change).
 - PR title: `Add breakra: OpenAPI breaking-change checks (x402)`.
 

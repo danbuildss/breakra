@@ -1,6 +1,6 @@
 /**
  * Input bounds (D-024). All work is bounded *before* the diff runs, because a synchronous diff
- * cannot be interrupted and Bankr hard-stops handlers at 30 s. Values are calibrated in BENCHMARKS.md.
+ * cannot be interrupted and Bankr hard-stops handlers at 30 s. Values are calibrated in docs/project/BENCHMARKS.md.
  */
 export const LIMITS = {
   /**

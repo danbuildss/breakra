@@ -9,3 +9,5 @@
 `x402` `agent-skills` `claude-skills` `openapi` `openapi3` `openapi-diff` `breaking-changes` `api-compatibility` `api-contract` `coding-agents` `base` `usdc` `bankr`
 
 Leave "Releases", "Packages" and "Deployments" as they are. No Somehow attribution anywhere (D-019).
+
+**Social preview:** Settings → General → Social preview → upload `docs/assets/social-preview.png` (1280×640). It's the image shown when the repo link is shared on X.

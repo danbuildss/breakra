@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-label="How Breakra works: send the old and new OpenAPI contract, pay $0.02 once via x402, get every change classified with evidence and a recommended fix.">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#F4EFE1" fill-opacity="0.6"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="380" fill="#0D0C0A"/>
+  <g font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace">
+    <!-- 1. Contracts -->
+    <g transform="translate(70 60)">
+      <rect x="18.5" y="18.5" width="259" height="149" rx="12" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.18"/>
+      <rect x="0.5" y="0.5" width="259" height="149" rx="12" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.4"/>
+      <text x="20" y="34" font-size="14" fill="#F4EFE1">after.json</text>
+      <text x="20" y="64" font-size="12" fill="#F4EFE1" fill-opacity="0.55">"openapi": "3.0.3",</text>
+      <text x="20" y="86" font-size="12" fill="#F4EFE1" fill-opacity="0.55">"paths": {</text>
+      <text x="36" y="108" font-size="12" fill="#F4EFE1" fill-opacity="0.55">"/orders": { … }</text>
+      <text x="20" y="130" font-size="12" fill="#F4EFE1" fill-opacity="0.55">}</text>
+    </g>
+    <!-- arrow -->
+    <line x1="372" y1="145" x2="478" y2="145" stroke="#F4EFE1" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <text x="425" y="132" font-size="12" fill="#F4EFE1" fill-opacity="0.55" text-anchor="middle">$0.02 · x402</text>
+    <!-- 2. Breakra -->
+    <g transform="translate(490 60)">
+      <rect x="0.5" y="0.5" width="299" height="169" rx="12" fill="#F4EFE1"/>
+      <text x="150" y="64" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="40" font-weight="700" letter-spacing="-1.5" fill="#0D0C0A" text-anchor="middle">breakra</text>
+      <text x="150" y="104" font-size="13" fill="#0D0C0A" fill-opacity="0.7" text-anchor="middle">validate · diff · classify</text>
+      <text x="150" y="130" font-size="13" fill="#0D0C0A" fill-opacity="0.7" text-anchor="middle">same inputs → same result</text>
+    </g>
+    <line x1="802" y1="145" x2="908" y2="145" stroke="#F4EFE1" stroke-opacity="0.6" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <!-- 3. Findings -->
+    <g transform="translate(920 40)">
+      <rect x="0.5" y="0.5" width="289" height="209" rx="12" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.4"/>
+      <text x="20" y="32" font-size="14" fill="#F4EFE1">"compatibility": "breaking"</text>
+      <line x1="0" y1="48" x2="290" y2="48" stroke="#F4EFE1" stroke-opacity="0.12"/>
+      <rect x="20" y="64" width="12" height="12" rx="2" fill="#F4EFE1"/>
+      <text x="44" y="75" font-size="13" fill="#F4EFE1">breaking</text>
+      <text x="268" y="75" font-size="13" fill="#F4EFE1" text-anchor="end">1</text>
+      <rect x="20.5" y="94.5" width="11" height="11" rx="2" fill="none" stroke="#F4EFE1"/>
+      <text x="44" y="105" font-size="13" fill="#F4EFE1">potentially_breaking</text>
+      <text x="268" y="105" font-size="13" fill="#F4EFE1" text-anchor="end">10</text>
+      <rect x="20.5" y="124.5" width="11" height="11" rx="2" fill="none" stroke="#F4EFE1" stroke-opacity="0.4"/>
+      <text x="44" y="135" font-size="13" fill="#F4EFE1" fill-opacity="0.65">compatible</text>
+      <text x="268" y="135" font-size="13" fill="#F4EFE1" fill-opacity="0.65" text-anchor="end">2</text>
+      <rect x="20.5" y="154.5" width="11" height="11" rx="2" fill="none" stroke="#F4EFE1" stroke-opacity="0.2" stroke-dasharray="2 2"/>
+      <text x="44" y="165" font-size="13" fill="#F4EFE1" fill-opacity="0.45">non_contract</text>
+      <text x="268" y="165" font-size="13" fill="#F4EFE1" fill-opacity="0.45" text-anchor="end">2</text>
+      <text x="20" y="193" font-size="11" fill="#F4EFE1" fill-opacity="0.4">+ evidence · location · recommended fix</text>
+    </g>
+  </g>
+  <!-- captions -->
+  <g font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="17" fill="#F4EFE1">
+    <text x="70" y="318"><tspan font-weight="700">1</tspan><tspan dx="10" fill-opacity="0.8">Send the old + new contract</tspan></text>
+    <text x="490" y="318"><tspan font-weight="700">2</tspan><tspan dx="10" fill-opacity="0.8">Pay $0.02 once, errors are free</tspan></text>
+    <text x="920" y="318"><tspan font-weight="700">3</tspan><tspan dx="10" fill-opacity="0.8">Fix what may break</tspan></text>
+  </g>
+</svg>

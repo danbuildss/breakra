@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="40" viewBox="0 0 140 40" role="img" aria-label="Contribute">
+  <rect x="0.5" y="0.5" width="139" height="39" rx="19.5" fill="#0D0C0A" stroke="#F4EFE1" stroke-opacity="0.55"/>
+  <g fill="none" stroke="#F4EFE1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 28s-8-4.6-8-10a4.5 4.5 0 0 1 8-2.8 4.5 4.5 0 0 1 8 2.8c0 5.4-8 10-8 10z"/></g>
+  <text x="44" y="25.5" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F4EFE1">Contribute</text>
+</svg>

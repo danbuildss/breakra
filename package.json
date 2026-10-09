@@ -18,7 +18,8 @@
     "verify-live": "bun scripts/verify-live.ts",
     "examples": "bun scripts/examples.ts",
     "demo": "bun scripts/demo.ts",
-    "metrics": "bun scripts/metrics.ts"
+    "metrics": "bun scripts/metrics.ts",
+    "brand": "bun scripts/brand.ts"
   },
   "dependencies": {
     "api-smart-diff": "1.0.6"

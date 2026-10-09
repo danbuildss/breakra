@@ -1,0 +1,32 @@
+name: Bug report
+description: An error, crash, wrong status code or wrong limit.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Status code, `error.code` and message, or the unexpected behaviour.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: A minimal request body or steps. Don't paste private specs.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: engine_version / rule_set_version
+      description: From the response, if you have one.
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Hosted endpoint (Bankr)
+        - Local (bun run / tests)
+    validations:
+      required: true

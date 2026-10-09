@@ -24,6 +24,14 @@ bun run check        # typecheck + lint + 65+ tests + build + smoke test of the 
 - `dist/x402/breakra-analyze/index.ts`: one self-contained **minified** file, about 90 KB, no imports (Bankr's deploy API rejected the 137 KB unminified file with 413);
 - `dist/bankr.x402.json`: service `breakra-analyze`, price `0.02` USDC on Base, POST only, with description and schema.
 
+## 2b. Tag a release (recommended)
+
+```bash
+git tag v0.1.1 && git push origin v0.1.1   # the tag must equal ENGINE_VERSION in src/version.ts
+```
+
+The **Release** workflow re-runs `bun run check`, builds the same single file and publishes it with `SHA256SUMS` as a GitHub Release. After deploying, `sha256sum dist/x402/breakra-analyze/index.ts` should match the release's checksum: proof that what runs on Bankr is that commit.
+
 ## 3. Deploy
 
 ```bash
@@ -32,7 +40,7 @@ bankr x402 deploy breakra-analyze
 cd ..
 ```
 
-Record the printed **URL** and **version** in TESTING.md. The URL should be `https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`.
+Record the printed **URL** and **version** in `docs/project/TESTING.md`. The URL should be `https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`.
 
 ## 4. Verify the live endpoint (T-303)
 

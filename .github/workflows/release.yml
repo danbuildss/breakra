@@ -1,0 +1,52 @@
+name: Release
+
+# Push a tag like v0.1.1 (it must equal ENGINE_VERSION). The workflow runs the full check, builds the exact
+# single-file handler that Bankr runs, and publishes it with checksums as a GitHub Release, so every deploy
+# can be traced to a public, reproducible artifact. It never deploys: deploying stays a manual owner step.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Tag must match ENGINE_VERSION
+        run: |
+          engine=$(sed -n 's/^export const ENGINE_VERSION = "\(.*\)";/\1/p' src/version.ts)
+          if [ "v$engine" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match ENGINE_VERSION $engine"; exit 1
+          fi
+
+      - name: Install, check, build
+        run: bun install --frozen-lockfile && bun run check
+
+      - name: Package
+        run: |
+          mkdir -p release
+          cp dist/x402/breakra-analyze/index.ts "release/breakra-analyze-${GITHUB_REF_NAME}.ts"
+          cp dist/bankr.x402.json "release/bankr.x402-${GITHUB_REF_NAME}.json"
+          (cd release && sha256sum * > SHA256SUMS)
+          cat release/SHA256SUMS
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/* \
+            --title "Breakra $GITHUB_REF_NAME" \
+            --notes "Single-file Bankr handler built from ${GITHUB_SHA} with \`bun run build\`. Verify with \`sha256sum -c SHA256SUMS\`. Deploying is a separate, manual step (docs/DEPLOYMENT.md)."

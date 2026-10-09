@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="40" viewBox="0 0 140 40" role="img" aria-label="For agents">
+  <rect x="0.5" y="0.5" width="139" height="39" rx="19.5" fill="#0D0C0A" stroke="#F4EFE1" stroke-opacity="0.55"/>
+  <g fill="none" stroke="#F4EFE1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="13" width="16" height="13" rx="3"/><path d="M24 9v4M20.5 19h.01M27.5 19h.01M21 23h6"/></g>
+  <text x="44" y="25.5" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="14" font-weight="600" fill="#F4EFE1">For agents</text>
+</svg>

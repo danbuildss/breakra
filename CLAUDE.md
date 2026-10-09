@@ -3,8 +3,8 @@
 > Breakra was formerly the working name Specshift (rejected; see D-018). Repo owner: `danbuildss` (personal account). Independently branded. See D-019.
 
 ## Mandatory session startup
-0. Read `notes.md` first (owner's rule). It holds the current status, the dated log of everything done, and the raw owner inputs (master brief, cover doc). Append to its log at the end of every session.
-1. Read `PRODUCT.md`, `PLAN.md`, `DECISIONS.md`, `ARCHITECTURE.md`, `TASKS.md`, `TESTING.md`, and `LAUNCH.md` in that order.
+0. Read `docs/project/notes.md` first (owner's rule). It holds the current status, the dated log of everything done, and the raw owner inputs (master brief, cover doc). Append to its log at the end of every session.
+1. Read `PRODUCT.md`, `PLAN.md`, `DECISIONS.md`, `ARCHITECTURE.md`, `TASKS.md`, `TESTING.md`, and `LAUNCH.md` in that order. All project-management documents live in `docs/project/` (moved there 2026-10-09, D-036); the repository root holds only public-facing files.
 2. Inspect actual Git status, repository tree, relevant source, configuration, tests and recent commits. Documents are intent; code and test results are evidence. Identify discrepancies explicitly.
 3. Report: current phase, what is complete with evidence, blockers, next smallest task, risks and files likely to change.
 4. **Do not implement until the owner approves the next phase/task.** If the owner explicitly assigns a bounded task, that counts as approval for that task only.

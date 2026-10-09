@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="470" viewBox="0 0 1280 470" role="img" aria-label="x402 payment flow: the first request returns 402 with the terms; the agent checks them and signs once; the paid request returns 200 and is charged $0.02; any error is never charged.">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#F4EFE1"/></marker>
+    <marker id="d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#F4EFE1" fill-opacity="0.45"/></marker>
+  </defs>
+  <rect width="1280" height="470" fill="#0D0C0A"/>
+  <g font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" text-anchor="middle">
+    <rect x="160.5" y="30.5" width="239" height="49" rx="10" fill="#F4EFE1"/>
+    <text x="280" y="62" font-size="18" font-weight="700" fill="#0D0C0A">Your agent</text>
+    <rect x="880.5" y="30.5" width="239" height="49" rx="10" fill="none" stroke="#F4EFE1"/>
+    <text x="1000" y="62" font-size="18" font-weight="700" fill="#F4EFE1">Breakra on Bankr</text>
+  </g>
+  <line x1="280" y1="80" x2="280" y2="440" stroke="#F4EFE1" stroke-opacity="0.2" stroke-dasharray="4 6"/>
+  <line x1="1000" y1="80" x2="1000" y2="440" stroke="#F4EFE1" stroke-opacity="0.2" stroke-dasharray="4 6"/>
+  <g font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="15" fill="#F4EFE1">
+    <line x1="282" y1="122" x2="996" y2="122" stroke="#F4EFE1" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="640" y="112" text-anchor="middle">① POST { before, after }</text>
+
+    <line x1="998" y1="182" x2="284" y2="182" stroke="#F4EFE1" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="640" y="172" text-anchor="middle">402 · exact · Base · USDC · 20000 ($0.02)</text>
+
+    <rect x="120.5" y="208.5" width="319" height="51" rx="10" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.5"/>
+    <text x="280" y="231" font-size="14" text-anchor="middle">② check terms · sign once</text>
+    <text x="280" y="250" font-size="12" text-anchor="middle" fill-opacity="0.55">never re-sign automatically</text>
+
+    <line x1="282" y1="300" x2="996" y2="300" stroke="#F4EFE1" stroke-width="1.5" marker-end="url(#a)"/>
+    <text x="640" y="290" text-anchor="middle">③ same body + PAYMENT-SIGNATURE</text>
+
+    <line x1="998" y1="360" x2="284" y2="360" stroke="#F4EFE1" stroke-width="2.5" marker-end="url(#a)"/>
+    <text x="640" y="350" text-anchor="middle" font-weight="700">200 · findings · charged $0.02</text>
+
+    <line x1="998" y1="418" x2="284" y2="418" stroke="#F4EFE1" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#d)"/>
+    <text x="640" y="408" text-anchor="middle" fill-opacity="0.55">4xx / 5xx · error code · never charged</text>
+  </g>
+</svg>

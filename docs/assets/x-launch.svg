@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="Breakra: know what changed before your integration breaks.">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#F4EFE1" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="#0D0C0A"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <g transform="translate(120 250)">
+    <g font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" fill="#F4EFE1">
+      <text x="0" y="110" font-size="112" font-weight="700" letter-spacing="-4.5">breakra</text>
+      <rect x="5" y="138" width="60" height="5" fill="#F4EFE1"/>
+      <text x="0" y="200" font-size="30" fill-opacity="0.85">Know what changed before</text>
+      <text x="0" y="242" font-size="30" fill-opacity="0.85">your integration breaks.</text>
+    </g>
+    <g font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="18" fill="#F4EFE1">
+      <text x="0" y="306" fill-opacity="0.55">OpenAPI 3.0 breaking-change checks</text>
+      <text x="0" y="336" fill-opacity="0.55">for coding agents · $0.02 USDC via x402</text>
+      <text x="0" y="430" fill-opacity="0.9">github.com/danbuildss/breakra</text>
+    </g>
+  </g>
+  <g transform="translate(980 290)" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace">
+    <rect x="0.5" y="0.5" width="459" height="309" rx="16" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.22"/>
+    <circle cx="24" cy="24" r="5" fill="#F4EFE1" fill-opacity="0.25"/><circle cx="42" cy="24" r="5" fill="#F4EFE1" fill-opacity="0.25"/><circle cx="60" cy="24" r="5" fill="#F4EFE1" fill-opacity="0.25"/>
+    <text x="438" y="29" font-size="13" fill="#F4EFE1" fill-opacity="0.45" text-anchor="end">before.json → after.json</text>
+    <line x1="0" y1="48" x2="460" y2="48" stroke="#F4EFE1" stroke-opacity="0.12"/>
+    <text x="24" y="90" font-size="17" fill="#F4EFE1">− DELETE /orders/{id}</text>
+    <rect x="24" y="103" width="98" height="24" rx="12" fill="#F4EFE1"/>
+    <text x="73" y="120" font-size="12" font-weight="700" fill="#0D0C0A" text-anchor="middle" letter-spacing="1">BREAKING</text>
+    <text x="24" y="168" font-size="17" fill="#F4EFE1">+ GET /orders ?customer_id</text>
+    <rect x="24.5" y="181.5" width="216" height="23" rx="11.5" fill="none" stroke="#F4EFE1"/>
+    <text x="132.5" y="197.5" font-size="12" font-weight="700" fill="#F4EFE1" text-anchor="middle" letter-spacing="1">POTENTIALLY BREAKING</text>
+    <text x="24" y="246" font-size="17" fill="#F4EFE1" fill-opacity="0.6">+ POST /orders  note</text>
+    <rect x="24.5" y="259.5" width="120" height="23" rx="11.5" fill="none" stroke="#F4EFE1" stroke-opacity="0.35"/>
+    <text x="84.5" y="275.5" font-size="12" font-weight="700" fill="#F4EFE1" fill-opacity="0.6" text-anchor="middle" letter-spacing="1">COMPATIBLE</text>
+  </g>
+</svg>
