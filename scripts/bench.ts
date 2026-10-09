@@ -18,7 +18,7 @@ for (const n of [10, 40, 80, 120, 160, 200]) {
   const b = slice(before, n);
   const a = slice(after, n);
   const kb = (x: unknown) => Math.round(JSON.stringify(x).length / 1024);
-  let expanded = "-";
+  let expanded: string;
   try {
     expanded = String(Math.max(expandedSize(b, "before"), expandedSize(a, "after")));
   } catch {

@@ -7,7 +7,11 @@ import { LIMITS } from "../src/core/limits";
 const root = join(__dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 const html = read("site/index.html");
-const text = html.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ");
+// Visible text of the page, for content assertions only (never used as sanitised HTML).
+const text = html
+  .split(/<[^>]*>/)
+  .join("")
+  .replaceAll("&nbsp;", " ");
 const response = JSON.parse(read("examples/response.json"));
 const request = JSON.parse(read("examples/request.json"));
 const LIVE_URL = "https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze";

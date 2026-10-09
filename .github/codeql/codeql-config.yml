@@ -1,0 +1,13 @@
+name: Breakra CodeQL config
+
+# experiments/ holds the archived Phase 0 Bankr probe (including a generated third-party bundle). It is
+# not shipped and not maintained, so scanning it only produces noise.
+paths-ignore:
+  - experiments/**
+
+query-filters:
+  # "Outbound network request depends on file data": the CLI tools (examples/client.ts, scripts/verify-live.ts,
+  # scripts/metrics.ts) exist to read the user's own spec files and send them to the API they chose. The
+  # deployed handler (src/) never reads files. Every other security and quality query stays on.
+  - exclude:
+      id: js/file-access-to-http

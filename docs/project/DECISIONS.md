@@ -237,5 +237,7 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - After the domain is live: switch README/launch links to breakra.dev.
 **Supersedes:** CLAUDE.md's "no frontend" rule is relaxed for this one static, informational page only (no product UI).
 
+**D-036 amendment (2026-10-09, fixing the first CodeQL failure on PR #15):** `.github/codeql/codeql-config.yml` ignores `experiments/` (archived Phase 0 probe, not shipped) and excludes one query, `js/file-access-to-http` (the CLI tools exist to send the user's own spec files to the API; the deployed handler never reads files). All other security-and-quality queries stay on. Local CodeQL 2.23.2 run with this config: 0 results across 199 queries. Owner may revert.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
