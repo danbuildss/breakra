@@ -7,8 +7,8 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "lint": "biome check src tests scripts examples",
-    "format": "biome format --write src tests scripts examples",
+    "lint": "biome check src tests scripts examples site",
+    "format": "biome format --write src tests scripts examples site",
     "test": "vitest run",
     "build": "bun scripts/build.ts",
     "smoke": "bun scripts/smoke.ts",

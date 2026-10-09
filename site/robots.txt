@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://breakra.dev/sitemap.xml
