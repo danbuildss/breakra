@@ -212,5 +212,12 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - `ENGINE_VERSION` 0.1.0 → **0.1.1** (rule set unchanged at 0.1.0), so results for affected inputs get new `analysis_id`s.
 **Evidence:** 4 regression tests for `$ref` objects and 1 log-leak test (all fail without the fixes); 88 tests total in `bun run check`; oasdiff oracle OK; bundle 90,997 bytes (under the 92,000 guard).
 
+## D-035 — Open to contributions; Bankr skills catalog submission prepared
+**Status:** Accepted (owner: "approve A and B", 2026-10-09).
+**Decision:**
+- Breakra is run as an open-source project (MIT, already public): `CONTRIBUTING.md`, `SECURITY.md` (private reporting via GitHub), issue templates (*Report a wrong finding*, bug, feature request) and a PR template. Docs only; no product change, so it fits D-033's no-features rule.
+- A ready-to-upload folder for the BankrBot/skills catalog PR lives in `launch/bankr-skills/`, checked against their repo (`dc47eed`). The owner submits it. Their repo forbids AI-attribution lines in commits and PRs.
+- The paid hosted endpoint remains the product; self-hosting the MIT code is allowed.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

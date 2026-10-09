@@ -1,0 +1,16 @@
+name: Feature request
+description: Something Breakra should support (YAML, OpenAPI 3.1, a new rule…).
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need, and what are you using Breakra for?
+      description: The use case matters more than the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: A minimal before/after pair or request that shows it, if relevant.

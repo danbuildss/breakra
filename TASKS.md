@@ -48,6 +48,10 @@
 - [x] Gate: owner's trademark search, no results (2026-10-09). `breakra.dev` later.
 
 **Step 1 complete. Day 1 starts with the owner's first post (`launch/README.md`).**
+- [x] Owner: GitHub About box, description, website, topics (2026-10-09).
+- [x] T-507 Contributor docs (D-035): CONTRIBUTING.md, SECURITY.md, issue templates incl. *Report a wrong finding*, PR template.
+- [x] T-508 BankrBot/skills submission folder `launch/bankr-skills/` (D-035), format verified, drift test.
+- [ ] Owner: enable **Private vulnerability reporting** (Settings → Code security); X post 1; x402scan; Bankr skills PR; awesome-x402 PR.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

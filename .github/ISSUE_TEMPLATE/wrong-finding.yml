@@ -1,0 +1,38 @@
+name: Report a wrong finding
+description: Breakra classified a change wrongly, or missed one.
+title: "Wrong finding: "
+labels: ["wrong-finding"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! This is the most useful report you can send.
+        **Don't paste private specs.** Cut both documents down to the smallest example that still shows the problem.
+  - type: textarea
+    id: before
+    attributes:
+      label: Before (OpenAPI 3.0 JSON, minimal)
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: after
+    attributes:
+      label: After (OpenAPI 3.0 JSON, minimal)
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: got
+    attributes:
+      label: What Breakra returned
+      description: The finding (rule, compatibility, location), or "nothing" if a change was missed. Include `analysis_id` and `engine_version` if you have them.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and why
+      description: e.g. "potentially_breaking, because existing callers don't send this required parameter".
+    validations:
+      required: true

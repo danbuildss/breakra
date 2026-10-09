@@ -42,6 +42,10 @@ bun scripts/bench.ts # benchmarks on real GitHub API spec slices (downloads into
 - Source: `src/` (see ARCHITECTURE.md). Tests: `tests/` (including `docs.test.ts`, which keeps `openapi.json`, `SKILL.md` and the examples in sync with the code).
 - `bun run build` writes the Bankr-ready single file to `dist/x402/breakra-analyze/index.ts` (not committed). Deploying follows [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) and is done by the owner only.
 
+## Contributing
+
+Issues and PRs are welcome, especially reports of wrong findings (there's an issue template for that). See [CONTRIBUTING.md](CONTRIBUTING.md); security issues go through [SECURITY.md](SECURITY.md).
+
 ## Project navigation
 - `notes.md`: read first. Running status, dated log and the original owner inputs.
 - `CLAUDE.md`: mandatory Claude workflow and guardrails.
