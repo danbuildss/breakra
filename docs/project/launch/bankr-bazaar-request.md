@@ -10,10 +10,12 @@ Hi Bankr team,
 
 I run Breakra on x402 Cloud (`https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`). Hosting and payments work well.
 
-One gap: x402 directories can't index x402 Cloud endpoints. x402scan rejects them with **"Missing input schema"**. Its discovery library (`@agentcash/discovery`) looks for the input schema in two places, and neither exists for x402 Cloud endpoints:
+One gap: x402 directories can't fully index x402 Cloud endpoints. x402scan rejects them with **"Missing input schema"**. Its discovery library (`@agentcash/discovery`) looks for the input schema in two places, and neither exists for x402 Cloud endpoints:
 
 1. The 402 challenge's `extensions.bazaar` (`info.input` plus `schema`). Your 402 currently returns only `x402Version`, `error`, `accepts` and `facilitator`.
 2. An OpenAPI document at the endpoint's origin (`https://x402.bankr.bot/openapi.json`), which returns nothing.
+
+Discovery's audit (`npx -y @agentcash/discovery <origin> -v`) also reports `COINBASE_SCHEMA_INVALID (resource)`: x402 v2 expects a top-level `resource` object in the 402 (`{ "url", "description", "mimeType" }`), and yours only has `resource` inside `accepts[]`.
 
 You already have the data: every service's `schema.input` / `schema.output` in `bankr.x402.json`. Adding it to the 402 would make every x402 Cloud endpoint indexable. For a POST service it would look like this:
 

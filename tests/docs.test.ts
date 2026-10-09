@@ -180,5 +180,6 @@ describe("openapi.json discovery metadata (x402scan / @agentcash/discovery)", ()
     expect(op.requestBody.content["application/json"].schema).toBeDefined();
     expect(openapi.info.contact.email).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]+$/);
     expect(openapi.info.contact.url).toBeTruthy();
+    expect(openapi.info["x-guidance"]).toContain("https://breakra.dev/skill.md");
   });
 });
