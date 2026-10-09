@@ -29,8 +29,8 @@
     "@types/bun": "1.4.2",
     "@x402/core": "2.28.0",
     "@x402/evm": "2.28.0",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "viem": "2.57.4",
-    "vitest": "3.2.7"
+    "vitest": "5.0.3"
   }
 }
