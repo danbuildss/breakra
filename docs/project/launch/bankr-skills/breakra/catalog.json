@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "slug": "breakra",
   "provider": "Breakra",
-  "providerUrl": "https://github.com/danbuildss/breakra",
+  "providerUrl": "https://breakra.dev",
   "logo": null,
   "demo": {
     "title": "breakra.sh",
@@ -14,7 +14,7 @@
     "Only a 200 is charged; invalid input, oversize specs and errors are free",
     "Send two inline OpenAPI 3.0 JSON documents, before and after, up to 1 MB in total",
     "Pay once per call: check the 402 terms (exact, eip155:8453, USDC, amount 20000) and never re-sign automatically",
-    "Source and full guide: https://github.com/danbuildss/breakra"
+    "Agent guide: https://breakra.dev/skill.md · source (MIT): https://github.com/danbuildss/breakra"
   ],
   "install": {
     "type": "bankr",

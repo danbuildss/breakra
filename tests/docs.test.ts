@@ -18,7 +18,7 @@ const root = join(__dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 const openapi = JSON.parse(read("openapi.json"));
 const schemas = openapi.components.schemas;
-const op = openapi.paths["/"].post;
+const op = (Object.values(openapi.paths)[0] as { post: Record<string, any> }).post;
 const response = JSON.parse(read("examples/response.json"));
 const skill = read("SKILL.md");
 const LIVE_URL = "https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze";
@@ -43,7 +43,8 @@ describe("openapi.json", () => {
 
   it("matches the engine version and live URL", () => {
     expect(openapi.info.version).toBe(ENGINE_VERSION);
-    expect(openapi.servers[0].url).toBe(LIVE_URL);
+    const [path] = Object.keys(openapi.paths);
+    expect(`${openapi.servers[0].url}${path}`).toBe(LIVE_URL);
   });
 
   it("lists exactly the fields the engine returns", () => {
@@ -164,5 +165,18 @@ describe("README and brand assets", () => {
       .filter((t) => !/^(https?:|mailto:)/.test(t));
     expect(targets.length).toBeGreaterThan(15);
     for (const t of targets) expect(existsSync(join(root, t)), t).toBe(true);
+  });
+});
+
+describe("openapi.json discovery metadata (x402scan / @agentcash/discovery)", () => {
+  it("declares x402 pricing, a 402 response, a JSON request body and a contact", () => {
+    expect(op["x-payment-info"]).toEqual({
+      price: { mode: "fixed", currency: "USD", amount: "0.02" },
+      protocols: [{ x402: {} }],
+    });
+    expect(op.responses).toHaveProperty("402");
+    expect(op.requestBody.content["application/json"].schema).toBeDefined();
+    expect(openapi.info.contact.email).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]+$/);
+    expect(openapi.info.contact.url).toBeTruthy();
   });
 });
