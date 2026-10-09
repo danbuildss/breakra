@@ -7,7 +7,7 @@ import { baseSpec, clone, compare, type Spec } from "./helpers";
 const load = (name: string): Spec =>
   JSON.parse(readFileSync(join(__dirname, "fixtures/bakeoff", name), "utf8"));
 
-/** The 14 deliberate changes from the Phase 0 engine bake-off (AUDIT.md §3), with the rule set 0.1.0 verdicts. */
+/** The 14 deliberate changes from the Phase 0 engine bake-off (docs/project/AUDIT.md §3), with the rule set 0.1.0 verdicts. */
 const EXPECTED = [
   "breaking|operation|DELETE /items/{id}|operation_removed",
   "potentially_breaking|request|POST /orders|enum_value_removed",

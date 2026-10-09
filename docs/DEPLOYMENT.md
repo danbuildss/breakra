@@ -32,7 +32,7 @@ bankr x402 deploy breakra-analyze
 cd ..
 ```
 
-Record the printed **URL** and **version** in TESTING.md. The URL should be `https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`.
+Record the printed **URL** and **version** in `docs/project/TESTING.md`. The URL should be `https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze`.
 
 ## 4. Verify the live endpoint (T-303)
 

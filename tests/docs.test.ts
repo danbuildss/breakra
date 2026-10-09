@@ -131,12 +131,12 @@ describe("SKILL.md front matter", () => {
   });
 });
 
-describe("launch/bankr-skills (catalog submission)", () => {
+describe("docs/project/launch/bankr-skills (catalog submission)", () => {
   it("SKILL.md copy is identical to the repo's SKILL.md", () => {
-    expect(read("launch/bankr-skills/breakra/SKILL.md")).toBe(skill);
+    expect(read("docs/project/launch/bankr-skills/breakra/SKILL.md")).toBe(skill);
   });
   it("catalog.json follows the catalog format", () => {
-    const c = JSON.parse(read("launch/bankr-skills/breakra/catalog.json"));
+    const c = JSON.parse(read("docs/project/launch/bankr-skills/breakra/catalog.json"));
     expect(c).toMatchObject({
       schemaVersion: 1,
       slug: "breakra",

@@ -4,7 +4,7 @@
  *   bun run metrics -- --since 2026-10-15
  * Env: BASE_RPC_URL (recommended: a free Alchemy/QuickNode Base URL; public RPCs rate-limit eth_getLogs.
  *      Default: publicnode, then mainnet.base.org), METRICS_CHUNK (blocks per getLogs, default 10000), METRICS_DELAY_MS (default 250).
- * Paste the output to Claude for EXPERIMENT.md, and cross-check with `bankr x402 revenue breakra-analyze`.
+ * Paste the output to Claude for docs/project/EXPERIMENT.md, and cross-check with `bankr x402 revenue breakra-analyze`.
  */
 import { createPublicClient, fallback, http } from "viem";
 import { base } from "viem/chains";
