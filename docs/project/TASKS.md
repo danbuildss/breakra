@@ -54,6 +54,10 @@
 - [x] D-036 A: new README + brand assets (`docs/assets/`, `bun run brand`), drift tests.
 - [x] D-036 B: Dependabot, CodeQL, Release workflows.
 - [x] D-036 C: project docs moved to `docs/project/`.
+- [x] Owner: merged PR #12, enabled private vulnerability reporting, uploaded the social preview, bought breakra.dev (Namecheap).
+- [x] D-037 Landing page `site/` (static, Vercel), tests, CSP verified in Chromium, desktop and mobile screenshots.
+- [ ] Owner: Vercel project + DNS (`docs/project/launch/website.md`), then Claude switches links to breakra.dev.
+- [ ] Owner: security switches (ruleset on main, Dependabot alerts/updates, secret scanning + push protection, Actions read-only, 2FA everywhere, Namecheap lock + WHOIS privacy, rotate the Alchemy key).
 - [ ] D-036 D: owner forks BankrBot/skills → Claude pushes `breakra/` + README row → owner opens the PR.
 - [ ] Owner: merge PR #12; enable **Private vulnerability reporting**; upload `docs/assets/social-preview.png` (Settings → General → Social preview); X post 1 with `docs/assets/x-launch.png`; x402scan; awesome-x402 PR.
 

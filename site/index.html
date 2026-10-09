@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Breakra: OpenAPI breaking-change checks for coding agents</title>
+  <meta name="description" content="Compare two OpenAPI 3.0 contracts and get every breaking change, the evidence and a recommended fix. One HTTP call, $0.02 USDC on Base via x402. Errors are free.">
+  <link rel="canonical" href="https://breakra.dev/">
+  <meta name="theme-color" content="#0D0C0A">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://breakra.dev/">
+  <meta property="og:title" content="Breakra: know what changed before your integration breaks">
+  <meta property="og:description" content="OpenAPI 3.0 breaking-change checks for coding agents. $0.02 USDC on Base via x402.">
+  <meta property="og:image" content="https://breakra.dev/og.png">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://breakra.dev/og.png">
+  <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="wrap header">
+    <a class="wordmark" href="/" aria-label="Breakra home">breakra</a>
+    <nav aria-label="Primary">
+      <a href="https://github.com/danbuildss/breakra/blob/main/SKILL.md">Docs</a>
+      <a href="https://github.com/danbuildss/breakra">GitHub <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="wrap hero" aria-labelledby="title">
+      <p class="meta">
+        <span class="live"><span class="dot" aria-hidden="true"></span>Live on Bankr · Base</span>
+        <span class="mono muted">OpenAPI 3.0 · x402 · $0.02 / call</span>
+      </p>
+      <h1 id="title">Know what changed before your integration&nbsp;breaks.</h1>
+      <p class="lede">Compare two OpenAPI contracts. Get every breaking change, the evidence and a recommended fix. Built for coding agents.</p>
+      <p class="ctas">
+        <a class="btn btn-solid" href="https://github.com/danbuildss/breakra/blob/main/SKILL.md">Read the docs</a>
+        <a class="btn" href="https://github.com/danbuildss/breakra">View on GitHub <span aria-hidden="true">↗</span></a>
+      </p>
+      <div class="endpoint">
+        <code><span class="verb">POST</span> <span id="endpoint">https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze</span></code>
+        <button class="copy" type="button" data-copy="#endpoint" aria-label="Copy the endpoint URL">Copy</button>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="example">
+      <h2 id="example" class="label">Real example</h2>
+      <div class="panels">
+        <figure class="panel">
+          <figcaption><span>request</span><span class="muted">examples/request.json (excerpt)</span></figcaption>
+<pre><code>{
+  <span class="k">"before"</span>: {
+    <span class="k">"openapi"</span>: <span class="s">"3.0.3"</span>,
+    <span class="k">"paths"</span>: { <span class="s">"/orders"</span>: { <span class="k">"get"</span>: {
+      <span class="k">"parameters"</span>: [ <span class="c">{ "name": "limit", … }</span> ]
+    } }, … }
+  },
+  <span class="k">"after"</span>: {
+    <span class="k">"openapi"</span>: <span class="s">"3.0.3"</span>,
+    <span class="k">"paths"</span>: { <span class="s">"/orders"</span>: { <span class="k">"get"</span>: {
+      <span class="k">"parameters"</span>: [ <span class="c">{ "name": "limit", … }</span>,
+        { <span class="k">"name"</span>: <span class="s">"customer_id"</span>, <span class="k">"in"</span>: <span class="s">"query"</span>,
+          <span class="k">"required"</span>: <span class="v">true</span>, … } ]
+    } }, … }
+  }
+}</code></pre>
+        </figure>
+        <figure class="panel">
+          <figcaption><span>response · 200</span><span class="muted">examples/response.json (excerpt)</span></figcaption>
+<pre><code>{
+  <span class="k">"compatibility"</span>: <span class="s">"breaking"</span>,
+  <span class="k">"summary"</span>: { <span class="k">"total_changes"</span>: <span class="v">15</span>, <span class="k">"breaking"</span>: <span class="v">1</span>,
+               <span class="k">"potentially_breaking"</span>: <span class="v">10</span>, … },
+  <span class="k">"changes"</span>: [ …, {
+    <span class="k">"id"</span>: <span class="s">"change-002"</span>,
+    <span class="k">"compatibility"</span>: <span class="s">"potentially_breaking"</span>,
+    <span class="k">"operation"</span>: { <span class="k">"method"</span>: <span class="s">"GET"</span>, <span class="k">"path"</span>: <span class="s">"/orders"</span> },
+    <span class="k">"location"</span>: { <span class="k">"in"</span>: <span class="s">"query"</span>, <span class="k">"name"</span>: <span class="s">"customer_id"</span> },
+    <span class="k">"reason"</span>: <span class="s">"A new required query parameter `customer_id` was added to GET /orders. Callers that do not send it may be rejected."</span>,
+    <span class="k">"recommended_action"</span>: <span class="s">"Update callers of GET /orders to send `customer_id`."</span>
+  }, … ]
+}</code></pre>
+        </figure>
+      </div>
+      <p class="note">
+        <span class="pill pill-solid">Breaking</span>
+        <span class="pill pill-line">Potentially breaking</span>
+        <span class="pill pill-dim">Compatible</span>
+        <span class="muted">Same inputs → same <code>analysis_id</code>. <a href="https://github.com/danbuildss/breakra/blob/main/examples/response.json">Full output ↗</a></span>
+      </p>
+      <div class="endpoint try">
+        <code id="curl">curl -i -X POST -H 'content-type: application/json' --data @examples/request.json https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze</code>
+        <button class="copy" type="button" data-copy="#curl" aria-label="Copy the curl command">Copy</button>
+      </div>
+      <p class="hint muted">Without payment this returns <code>402</code> with the x402 terms. Pay with any x402 client, or the one in <a href="https://github.com/danbuildss/breakra/blob/main/examples/client.ts">examples/client.ts</a>.</p>
+    </section>
+
+    <section class="wrap" aria-labelledby="how">
+      <h2 id="how" class="label">How it works</h2>
+      <ol class="steps">
+        <li><span class="num">01</span><h3>Send two contracts</h3><p>The old and new OpenAPI 3.0 JSON, inline, in one <code>POST</code>.</p></li>
+        <li><span class="num">02</span><h3>Pay $0.02 via x402</h3><p>Check the terms, sign once. Errors are never charged.</p></li>
+        <li><span class="num">03</span><h3>Fix what may break</h3><p>Every change with its rule, location, evidence and a recommended fix.</p></li>
+      </ol>
+    </section>
+
+    <section class="wrap" aria-labelledby="details">
+      <h2 id="details" class="label">Details</h2>
+      <dl class="details">
+        <div><dt>Input</dt><dd>OpenAPI 3.0.0–3.0.4 JSON, inline, ≤ 1 MB</dd></div>
+        <div><dt>Price</dt><dd>$0.02 USDC on Base, only on a <code>200</code></dd></div>
+        <div><dt>Output</dt><dd><code>breaking</code> · <code>potentially_breaking</code> · <code>unknown</code> · <code>compatible</code> · <code>non_contract</code></dd></div>
+        <div><dt>Results</dt><dd>Deterministic: the same inputs always give the same findings</dd></div>
+        <div><dt>Privacy</dt><dd>Specs are never stored or logged; external <code>$ref</code>s are never fetched</dd></div>
+        <div><dt>Agents</dt><dd><a href="https://github.com/danbuildss/breakra/blob/main/SKILL.md">SKILL.md</a> tells your agent how to call it and pay safely</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <span class="wordmark small">breakra</span>
+    <nav aria-label="Footer">
+      <a href="https://github.com/danbuildss/breakra">GitHub</a>
+      <a href="https://github.com/danbuildss/breakra/blob/main/SKILL.md">SKILL.md</a>
+      <a href="https://github.com/danbuildss/breakra/blob/main/openapi.json">openapi.json</a>
+      <a href="https://github.com/danbuildss/breakra/issues/new?template=wrong-finding.yml">Report a wrong finding</a>
+      <a href="https://github.com/danbuildss/breakra/blob/main/LICENSE">MIT</a>
+    </nav>
+  </footer>
+</body>
+</html>

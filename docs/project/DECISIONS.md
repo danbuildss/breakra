@@ -227,5 +227,15 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - **C. Layout.** Project-management docs moved to `docs/project/`; `CLAUDE.md` startup paths updated. The root holds only public-facing files.
 - **D. Bankr skills PR.** The owner forks BankrBot/skills; Claude pushes the prepared folder and README row to the fork without AI-attribution lines (their repo rule); the owner opens the PR.
 
+## D-037 — breakra.dev landing page, static, on Vercel
+**Status:** Accepted (owner: "approve the landing page", 2026-10-09; Vercel and the brand palette chosen by the owner).
+**Context:** The owner bought `breakra.dev` (Namecheap). The API stays on Bankr x402 Cloud; the site only helps developers discover, trust and use it.
+**Decision:**
+- One static page in `site/`: header, hero with the live endpoint (copy button), the **real** request/response example from `examples/`, how it works, details, footer. Brand palette `#0D0C0A` / `#F4EFE1` / white; Geist and Geist Mono self-hosted (OFL, license file included). No framework, build step, analytics, trackers, forms, database or API proxy.
+- Hosted on **Vercel** (owner's account), root directory `site`, auto-deploy from `main`. `site/vercel.json` sets a strict CSP (`default-src 'none'`, self-only scripts/styles/fonts/images), HSTS, nosniff, referrer and permissions policies.
+- `tests/site.test.ts` keeps the endpoint, price, limits and the example in sync with the code and checks the page loads nothing from other origins.
+- After the domain is live: switch README/launch links to breakra.dev.
+**Supersedes:** CLAUDE.md's "no frontend" rule is relaxed for this one static, informational page only (no product UI).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
