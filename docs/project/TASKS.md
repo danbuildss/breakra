@@ -51,7 +51,11 @@
 - [x] Owner: GitHub About box, description, website, topics (2026-10-09).
 - [x] T-507 Contributor docs (D-035): CONTRIBUTING.md, SECURITY.md, issue templates incl. *Report a wrong finding*, PR template.
 - [x] T-508 BankrBot/skills submission folder `launch/bankr-skills/` (D-035), format verified, drift test.
-- [ ] Owner: enable **Private vulnerability reporting** (Settings → Code security); X post 1; x402scan; Bankr skills PR; awesome-x402 PR.
+- [x] D-036 A: new README + brand assets (`docs/assets/`, `bun run brand`), drift tests.
+- [x] D-036 B: Dependabot, CodeQL, Release workflows.
+- [x] D-036 C: project docs moved to `docs/project/`.
+- [ ] D-036 D: owner forks BankrBot/skills → Claude pushes `breakra/` + README row → owner opens the PR.
+- [ ] Owner: merge PR #12; enable **Private vulnerability reporting**; upload `docs/assets/social-preview.png` (Settings → General → Social preview); X post 1 with `docs/assets/x-launch.png`; x402scan; awesome-x402 PR.
 
 *History:* T-001 was prepared (plan revisions 1–4), approved for execution (D-021), deployed by Bankr's agent, and run by the owner with a burner wallet funded with 0.04 USDC. Full log: `TESTING.md` and `AUDIT.md` §16–17.
 

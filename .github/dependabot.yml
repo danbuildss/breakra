@@ -1,0 +1,25 @@
+# Monthly, grouped dependency updates: one PR per ecosystem, reviewed like any other change.
+# Real security advisories arrive separately through Dependabot security updates (Settings → Code security).
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]
+    open-pull-requests-limit: 3
+
+  - package-ecosystem: "bun" # Dependabot ecosystem for bun.lock
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+    ignore:
+      # Pinned on purpose: the engine's raw diffs (and every analysis_id) depend on its exact behaviour.
+      # Upgrade it deliberately, with an ENGINE_VERSION bump and the oasdiff oracle, never automatically.
+      - dependency-name: "api-smart-diff"
+    open-pull-requests-limit: 3

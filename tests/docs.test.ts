@@ -2,9 +2,10 @@
  * Keeps the agent-facing docs (openapi.json, SKILL.md, examples/) in sync with the code (D-032).
  * If one of these fails after a code change, update the doc, or run `bun run examples`.
  */
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { demoCardFromRepo } from "../scripts/brand";
 import { demoResponse } from "../scripts/demo";
 import { exampleResponse } from "../scripts/examples";
 import { BreakraError, type ErrorCode } from "../src/core/errors";
@@ -146,5 +147,22 @@ describe("docs/project/launch/bankr-skills (catalog submission)", () => {
       "install the breakra skill from https://github.com/BankrBot/skills/tree/main/breakra",
     );
     expect(JSON.stringify(c)).toContain("20000");
+  });
+});
+
+describe("README and brand assets", () => {
+  const readme = read("README.md");
+  it("engine badge matches ENGINE_VERSION", () => {
+    expect(readme).toContain(`badge/engine-${ENGINE_VERSION}-`);
+  });
+  it("demo card is generated from the current demo output (bun run brand)", () => {
+    expect(read("docs/assets/demo-card.svg")).toBe(demoCardFromRepo());
+  });
+  it("every relative link and image in the README exists", () => {
+    const targets = [...readme.matchAll(/(?:src|href)="([^"#]+)"|\]\(([^)#]+)\)/g)]
+      .map((m) => (m[1] ?? m[2]) as string)
+      .filter((t) => !/^(https?:|mailto:)/.test(t));
+    expect(targets.length).toBeGreaterThan(15);
+    for (const t of targets) expect(existsSync(join(root, t)), t).toBe(true);
   });
 });

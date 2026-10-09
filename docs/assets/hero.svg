@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="Breakra: know what changed before your integration breaks. OpenAPI 3.0 compatibility checks for coding agents, $0.02 USDC on Base via x402.">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#F4EFE1" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0D0C0A" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0D0C0A" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="420" fill="#0D0C0A"/>
+  <rect width="1280" height="420" fill="url(#grid)"/>
+  <!-- Wordmark -->
+  <g font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" fill="#F4EFE1">
+    <text x="80" y="196" font-size="104" font-weight="700" letter-spacing="-4">breakra</text>
+    <rect x="84" y="222" width="56" height="4" fill="#F4EFE1"/>
+    <text x="80" y="276" font-size="27" font-weight="400" fill-opacity="0.82">Know what changed before your integration breaks.</text>
+  </g>
+  <text x="80" y="330" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="17" fill="#F4EFE1" fill-opacity="0.5" letter-spacing="0.5">OpenAPI 3.0 · x402 · $0.02 USDC on Base · MIT</text>
+
+  <!-- Diff card -->
+  <g transform="translate(780 70)" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace">
+    <rect x="0.5" y="0.5" width="419" height="279" rx="14" fill="#14130F" stroke="#F4EFE1" stroke-opacity="0.22"/>
+    <circle cx="22" cy="22" r="4.5" fill="#F4EFE1" fill-opacity="0.25"/>
+    <circle cx="38" cy="22" r="4.5" fill="#F4EFE1" fill-opacity="0.25"/>
+    <circle cx="54" cy="22" r="4.5" fill="#F4EFE1" fill-opacity="0.25"/>
+    <text x="400" y="27" font-size="12" fill="#F4EFE1" fill-opacity="0.45" text-anchor="end">before.json → after.json</text>
+    <line x1="0" y1="44" x2="420" y2="44" stroke="#F4EFE1" stroke-opacity="0.12"/>
+
+    <text x="22" y="80" font-size="15" fill="#F4EFE1">− DELETE /orders/{id}</text>
+    <rect x="22" y="92" width="88" height="22" rx="11" fill="#F4EFE1"/>
+    <text x="66" y="107" font-size="11" font-weight="700" fill="#0D0C0A" text-anchor="middle" letter-spacing="1">BREAKING</text>
+
+    <text x="22" y="150" font-size="15" fill="#F4EFE1">+ GET /orders ?customer_id</text>
+    <text x="22" y="150" dx="268" font-size="13" fill="#F4EFE1" fill-opacity="0.5">required</text>
+    <rect x="22.5" y="162.5" width="196" height="21" rx="10.5" fill="none" stroke="#F4EFE1"/>
+    <text x="120.5" y="177" font-size="11" font-weight="700" fill="#F4EFE1" text-anchor="middle" letter-spacing="1">POTENTIALLY BREAKING</text>
+
+    <text x="22" y="220" font-size="15" fill="#F4EFE1" fill-opacity="0.6">+ POST /orders  note</text>
+    <text x="22" y="220" dx="210" font-size="13" fill="#F4EFE1" fill-opacity="0.4">optional</text>
+    <rect x="22.5" y="232.5" width="108" height="21" rx="10.5" fill="none" stroke="#F4EFE1" stroke-opacity="0.35"/>
+    <text x="76.5" y="247" font-size="11" font-weight="700" fill="#F4EFE1" fill-opacity="0.6" text-anchor="middle" letter-spacing="1">COMPATIBLE</text>
+
+    <rect x="140" y="236" width="9" height="15" fill="#F4EFE1">
+      <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+</svg>

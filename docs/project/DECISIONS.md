@@ -219,5 +219,13 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - A ready-to-upload folder for the BankrBot/skills catalog PR lives in `launch/bankr-skills/`, checked against their repo (`dc47eed`). The owner submits it. Their repo forbids AI-attribution lines in commits and PRs.
 - The paid hosted endpoint remains the product; self-hosting the MIT code is allowed.
 
+## D-036 — Open-source presentation: README, brand assets, workflows, repo layout, Bankr fork flow
+**Status:** Accepted (owner: "approve A B C D", 2026-10-09). Reference repos the owner chose: danbuildss/aeon, x402-foundation/x402, BankrBot/skills.
+**Decision:**
+- **A. README + brand.** A new README (banner, button row, badges, "Using a coding agent?" line, how it works, quick start, real example, finding classes, payment flow, limits and privacy, docs, contributors). Brand palette: ink `#0D0C0A`, off-white `#F4EFE1`, white. SVG assets in `docs/assets/`; the demo card is generated from the real demo output (`bun run brand`); social preview (1280×640) and X image (1600×900) as PNG. Tests keep the engine badge, the demo card and every README link in sync.
+- **B. Workflows.** Dependabot (monthly, grouped; `api-smart-diff` excluded on purpose), CodeQL (PRs, main, weekly), Release on `v*` tags (tag must equal `ENGINE_VERSION`; publishes the built handler with `SHA256SUMS`; never deploys).
+- **C. Layout.** Project-management docs moved to `docs/project/`; `CLAUDE.md` startup paths updated. The root holds only public-facing files.
+- **D. Bankr skills PR.** The owner forks BankrBot/skills; Claude pushes the prepared folder and README row to the fork without AI-attribution lines (their repo rule); the owner opens the PR.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

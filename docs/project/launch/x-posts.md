@@ -4,21 +4,25 @@ Rules: facts only, no "AI-powered", no invented users or numbers, no attribution
 
 ## Post 1 — launch (day 1)
 
-> Breakra: a pay-per-call API that tells a coding agent whether an OpenAPI change breaks its integration.
+Attach **`docs/assets/x-launch.png`** (1600×900).
+
+> Breakra tells a coding agent whether an OpenAPI change breaks its integration.
 >
-> Send the old and new contract → every change, classified breaking / potentially breaking / compatible, with the evidence and what to fix.
+> Send the old + new contract → every change labelled breaking / potentially breaking / compatible, with evidence and a fix.
 >
 > $0.02 USDC on Base via x402. Errors are free.
 >
 > github.com/danbuildss/breakra
 
-Optional reply (thread):
+Reply under it:
 
-> How an agent uses it: read SKILL.md, POST {before, after}, pay once, gate on `compatibility`, then fix each finding by operation + field.
+> How an agent uses it: read SKILL.md, POST {before, after}, pay once, gate on `compatibility`, fix each finding by operation + field.
 >
-> Deterministic: same inputs → same analysis_id → same findings.
+> Deterministic: same inputs → same analysis_id.
 >
-> Limits today: OpenAPI 3.0 JSON, ≤ 1 MB. No YAML, no 3.1 yet.
+> Open source (MIT). OpenAPI 3.0 JSON, ≤1 MB today.
+>
+> Feedback welcome, especially wrong findings.
 
 ## Post 2 — real demo (day 2–4)
 
