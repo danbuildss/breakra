@@ -26,8 +26,7 @@
       "examples/**",
       "site/**",
       "!tests/fixtures/**",
-      "!examples/*.json",
-      "!site/vercel.json"
+      "!examples/*.json"
     ]
   },
   "overrides": [
