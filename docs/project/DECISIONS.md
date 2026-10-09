@@ -247,7 +247,7 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 **Decision:**
 - `vercel.json` rewrites `/api/analyze` to the Bankr endpoint (a pure forward: no code, no storage, no secrets). Bankr still verifies, runs the handler, settles and pays the owner.
 - `openapi.json` uses `servers: https://breakra.dev`, path `/api/analyze`, and names the direct Bankr URL in its description. `site/.well-known/x402` lists the resource.
-- Register on x402scan via "Add Server: breakra.dev" **only after** one paid call through the forward succeeds.
+- Register on x402scan via "Add Server: breakra.dev" **only after** one paid call through the forward succeeds. **Verified 2026-10-09:** paid V4 through breakra.dev → 200, matching `analysis_id`, settled once on-chain.
 - **A:** ask Bankr to add `extensions.bazaar` (built from each service's `schema`) to their 402s; draft in `docs/project/launch/bankr-bazaar-request.md`.
 **Consequences:** request bodies to `/api/analyze` pass through Vercel's network. The 402's `resource` field still names the Bankr URL. If the forward ever fails, the Bankr URL keeps working.
 
