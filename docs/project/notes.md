@@ -21,6 +21,20 @@
 - **Wallets:** burner **0.004 USDC** (no paid checks left; top up before any more). Payout 0.243661 USDC.
 - **Open owner items:** domain and trademark clearance for Breakra (blocks promotion in Phase 5, not deployment). License decided: MIT (D-032).
 
+## Sprint log (Oct 16 – Nov 12, 2026)
+- **2026-10-15:** The owner opened a four-week validation sprint (audit → research → plan → approval). Claude drafted `docs/project/SPRINT-2026-10-AUDIT.md`:
+  - Product audit and experiment scorecard. The scorecard is pending owner metrics; there are 0 external wallets at the last count.
+  - Market research. Key finding: **oasdiff runs a free, keyless hosted MCP** with YAML and 3.1 support.
+  - A metrics-miscount review: other $0.02 services and unlisted owner wallets could be miscounted.
+  - Vercel terms: the Hobby plan is non-commercial; the owner must confirm the plan.
+  - Safety issues S1–S7, an owner verification guide, and the Week 1 task board.
+- **2026-10-15:** Logged feedback (relayed by the owner) in EXPERIMENT.md:
+  - Alex: installable agent skill.
+  - Story91: CashBoard interest, with integration/payment confusion; use case unconfirmed.
+  - Noaman: site colour scheme (design only).
+- Live endpoints are unreachable from Claude's sandbox (proxy 403), so live checks are the owner's to run.
+- Nothing implemented, deployed or spent. Waiting for owner approval.
+
 ## Inputs received
 
 | # | Date | What | Where |
