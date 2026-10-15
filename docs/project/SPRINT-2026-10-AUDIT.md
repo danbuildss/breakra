@@ -18,7 +18,16 @@
 | Forward | `breakra.dev/api/analyze` → Bankr (Vercel rewrite, D-038) | [recorded] paid V4 through the forward returned 200 with the matching `analysis_id` on 2026-10-09 |
 | Built handler | 90,997 bytes; smoke test passes (200 / 400 / 405) | [verified] `bun run check` today |
 
-**Live behaviour today: not verified by Claude.** From this sandbox every request to breakra.dev, x402.bankr.bot, x402scan and the Base RPCs gets a proxy 403. The last live evidence is from 2026-10-09. The owner should run the check in §11 before any of this is called "live".
+**Step 1, free live check, PASSED (owner's run, 2026-10-15 20:44 UTC; Claude decoded the `payment-required` header):**
+- `breakra.dev` `/`, `/skill.md`, `/openapi.json` and `/.well-known/x402` all returned **200**.
+- An unpaid POST through **breakra.dev/api/analyze** returned **402** (`server: Vercel`).
+- An unpaid POST **directly to Bankr** returned **402** with a body.
+- Both carry the same terms: `exact`, `eip155:8453`, USDC `0x8335…2913`, amount **20000**, payTo **`0x8AEE…01a0`** (Bankr router), `maxTimeoutSeconds` 60, facilitator `https://api.bankr.bot/facilitator`.
+- Still true: Bankr's 402 has **no `extensions.bazaar`** and **no top-level `resource`**.
+- Side note: the forwarded 402 also carries the site's security headers (CSP etc.). That's harmless for API clients.
+- **Not covered by this check:** the paid path (step 7, not approved yet) and uptime between checks (no monitoring).
+
+**Earlier note:** From this sandbox every request to breakra.dev, x402.bankr.bot, x402scan and the Base RPCs gets a proxy 403. The last live evidence is from 2026-10-09. The owner should run the check in §11 before any of this is called "live".
 
 ### 1.2 What is built and shipped
 - **API:** one paid operation, `POST` with `{before, after}` (inline OpenAPI 3.0.0–3.0.4 JSON) → deterministic findings with rule id, operation, location, evidence, reason and recommended action. `analysis_id = sha256(engine, rules, input hashes)`.
