@@ -137,6 +137,8 @@
 - A dedicated Breakra payout wallet would mean redeploying from a different wallet. That is a decision for you, not part of this sprint unless you approve it.
 
 ### 1.11 Vercel plan and commercial use
+> **RESOLVED 2026-10-15:** the owner confirmed the Vercel project is on the **Pro** plan [owner-stated]. Pro permits commercial use, so the current deployment (static site plus the `/api/analyze` forward) is compliant. No migration or spend is needed. The analysis below is kept for the record.
+
 - **Vercel's terms [evidence, search results; vercel.com itself was unreachable from Claude's fetch tool]:**
   - The Hobby plan is restricted to **non-commercial personal use**. Commercial use requires Pro or Enterprise.
   - Vercel's examples of commercial use include **"any method of requesting or processing payment from visitors of the site"** and **advertising a product or service**.
@@ -167,7 +169,7 @@
 ### 1.12 Immediate production safety issues
 | # | Issue | Severity | Evidence | Proposed action (needs approval) |
 |---|---|---|---|---|
-| S1 | **Vercel Hobby commercial-use breach** (if on Hobby): breakra.dev could be suspended | High (availability, compliance) | §1.11 | Confirm the plan; then upgrade or move |
+| S1 | ~~Vercel Hobby commercial-use breach~~ **Resolved: the plan is Pro** (owner, 2026-10-15) | — | §1.11 | None |
 | S2 | **Charged without a result on large inputs through the forward.** Bankr settles when the handler returns 200. The 940 KB case took 17.9 s end to end direct [recorded]. Via Vercel there's an extra hop under a possibly-30 s proxy timeout. If Vercel times out but Bankr completes, the caller **pays and gets a 504** | Medium (rare: needs inputs near 1 MB) | Benchmarks + Vercel limits; **not reproduced** | Owner test (paid, needs approval), or document: "for large specs (>500 KB), call the Bankr URL directly" |
 | S3 | **No uptime monitoring or alerting.** An outage of Bankr or the forward is invisible until a user complains | Medium | No monitor exists | A free external check of the 402 (no payment, no spec data) — needs approval |
 | S4 | **Metrics can overstate external demand** (§1.10 A/B) | Medium (decision quality) | Code review | Reconcile with Bankr; list owner wallets |

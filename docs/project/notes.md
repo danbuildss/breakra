@@ -34,6 +34,11 @@
   - Noaman: site colour scheme (design only).
 - Live endpoints are unreachable from Claude's sandbox (proxy 403), so live checks are the owner's to run.
 - Nothing implemented, deployed or spent. Waiting for owner approval.
+- **2026-10-15:** Owner approved Week 1 (verification, reconciliation, follow-ups, outreach planning) and item 9.
+  - Item 10, the paid check, is not approved.
+  - Safety PR opened: danbuildss/breakra#24. CI and CodeQL are green.
+- **2026-10-15, step 1 passed** (free live check): site 200 ×4; 402 with the correct terms through breakra.dev and direct.
+- **2026-10-15:** Owner confirmed the **Vercel plan is Pro**, so commercial use is permitted and S1 is resolved.
 
 ## Inputs received
 
