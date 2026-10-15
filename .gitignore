@@ -8,3 +8,10 @@ dist/
 # Copied in at deploy time by vercel.json (single source: repo root)
 site/skill.md
 site/openapi.json
+
+# Wallet keys and local owner data: never commit
+*.key
+.burner-key
+.metrics-owner.json
+.env
+.env.*

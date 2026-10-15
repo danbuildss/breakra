@@ -4,7 +4,7 @@
 
 Agent guide: [`SKILL.md`](../SKILL.md). Machine-readable contract: [`openapi.json`](../openapi.json). Example: [`examples/`](../examples/).
 
-Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unchanged to the Bankr endpoint (same 402 terms, same payment recipient, same response). This address exists so x402 directories can read `breakra.dev/openapi.json` on the same origin (D-038).
+Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unchanged to the Bankr endpoint (same 402 terms, same payment recipient, same response). This address exists so x402 directories can read `breakra.dev/openapi.json` on the same origin (D-038). **For bodies over 500 KB, use the direct Bankr URL:** the forward adds a hop with its own proxy timeout (Vercel lists 30 s for external rewrites), and the largest accepted pair already takes about 18 s end to end direct, so a slow call through the forward could time out after Bankr has charged it.
 
 ## Request
 

@@ -1,6 +1,6 @@
 # Breakra — 14-Day Experiment Log (Phase 5, D-033)
 
-**Status:** **running. Day 1 = 2026-10-09** (owner's X launch post). Day 14 = 2026-10-22. Day 1 = the day the owner publishes the first launch material, after the brand check.
+**Status:** **running (day 7 on 2026-10-15). Day 1 = 2026-10-09** (owner's X launch post). Day 14 = 2026-10-22. Day 1 = the day the owner publishes the first launch material, after the brand check.
 **Source of numbers:** `bun run metrics` (on-chain, run by the owner) cross-checked with `bankr x402 revenue breakra-analyze`. Self-paid calls (burner, payout, Rabby) are excluded from external counts.
 **Continue bar (D-033):** ≥ 3 external wallets that each paid on ≥ 2 different UTC days.
 
@@ -25,3 +25,6 @@
 ## Feedback
 | Date | Source | What they said | Implication |
 |---|---|---|---|
+| 2026-10-15 (relayed by owner) | Alex (channel not recorded) | Suggested making Breakra easier to use as an **installable agent skill**. | Install friction. Matches the market research: competitors install with one command (e.g. oasdiff's hosted MCP). A suggestion, not usage evidence. |
+| 2026-10-15 (relayed by owner) | Story91 (channel not recorded) | Interested in **connecting Breakra to CashBoard**; ran into **integration/payment confusion**. Exact intended use case **not confirmed**. | The first sign of a possible integrator, plus a concrete friction report (payment/integration). Follow up: what they tried, where it failed, what CashBoard would call Breakra for. No payment from them is confirmed. |
+| 2026-10-15 (relayed by owner) | Noaman (channel not recorded) | Questioned the human-facing website, specifically its **minimal colour scheme**. | **Design feedback on breakra.dev only**, not evidence that the API is unusable. Low priority unless it repeats or blocks understanding. |

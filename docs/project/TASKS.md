@@ -74,3 +74,18 @@ ID | Phase | Goal | Acceptance criteria | Owner approval | Branch/PR | Tests/evi
 
 ## Definition of done
 Implementation merged (if applicable), tests reported honestly, edge cases documented, security/payment implications checked, PLAN updated, next task proposed. No self-declared completion without evidence.
+
+## Sprint Oct 16 – Nov 12 (validation) — see SPRINT-2026-10-AUDIT.md
+- [x] Audit, scorecard frame, market research, Week 1 board (2026-10-15; owner approved Week 1 verification, reconciliation, feedback follow-ups and outreach planning).
+- [x] Feedback logged: Alex, Story91, Noaman (EXPERIMENT.md).
+- [ ] **Safety PR (item 9, approved to prepare; owner reviews, no merge or deploy by Claude):**
+  - `*.key`, `.metrics-owner.json` and `.env` git-ignored.
+  - Secret scan clean.
+  - Metrics: declared owner wallets excluded; $0.02 price collisions and multi-payment transactions marked ambiguous and never counted.
+  - Non-owner payers are "unconfirmed external" until reconciled with Bankr's count.
+  - Direct Bankr URL documented for bodies over 500 KB.
+- [ ] Owner verification steps 1–6, one at a time (step 1: live endpoint, free).
+- [ ] Vercel plan confirmed; compliance decision (Netlify Free vs Vercel Pro).
+- [ ] Follow-ups: Story91, Alex, Noaman. Outreach list (10–15).
+- [ ] Item 10 (paid live check): NOT approved yet.
+

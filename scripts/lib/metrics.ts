@@ -4,6 +4,16 @@
  * Each paid call is one transaction: payer → Bankr router (gross USDC), router → payout wallet (net).
  * Breakra calls are recognised by the gross amount (20000 = $0.02). The payout wallet also receives income
  * from the owner's other Bankr services; those are counted separately as "other".
+ *
+ * On-chain data carries no service id, so attribution is only as good as what the owner declares in a local,
+ * git-ignored file (`.metrics-owner.json`, see `scripts/metrics.owner.example.json`):
+ *  - `ownerWallets`: every wallet the owner controls or funded. Their payments are self-tests.
+ *  - `otherServicePrices`: the gross price (USDC base units) of each of the owner's OTHER Bankr services paid to the
+ *    same payout wallet. A $0.02 payment is ambiguous if another service also costs $0.02, and is then never
+ *    counted as Breakra.
+ *  - `bankr`: Breakra's call count from `bankr x402 revenue breakra-analyze` and the window it covers.
+ * Until all three agree with the chain, every non-owner payer is an UNCONFIRMED external wallet and the
+ * continue bar is only provisional.
  */
 import { decodeEventLog, parseAbiItem } from "viem";
 
@@ -28,6 +38,49 @@ export interface Payment {
   payer: string; // lowercase
   gross: bigint; // paid by the payer to the router
   net: bigint; // forwarded by the router to the payout wallet
+  /** Transfers into the router in this transaction. Anything but 1 means payer and amount can't be attributed. */
+  routerTransfers?: number;
+}
+
+/** What the owner declares about their wallets and services (`.metrics-owner.json`). */
+export interface OwnerConfig {
+  ownerWallets?: string[];
+  otherServicePrices?: Array<number | string>;
+  bankr?: { breakraCalls: number; since: string };
+}
+
+const ADDRESS = /^0x[0-9a-fA-F]{40}$/;
+
+/** Validates a parsed `.metrics-owner.json`. Throws on anything malformed rather than guessing. */
+export function parseOwnerConfig(raw: unknown): OwnerConfig {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw))
+    throw new Error("owner config: not an object");
+  const c = raw as Record<string, unknown>;
+  const out: OwnerConfig = {};
+  if (c.ownerWallets !== undefined) {
+    if (
+      !Array.isArray(c.ownerWallets) ||
+      !c.ownerWallets.every((a) => typeof a === "string" && ADDRESS.test(a))
+    )
+      throw new Error("owner config: ownerWallets must be a list of 0x addresses");
+    out.ownerWallets = c.ownerWallets as string[];
+  }
+  if (c.otherServicePrices !== undefined) {
+    if (!Array.isArray(c.otherServicePrices) || !c.otherServicePrices.every((v) => /^\d+$/.test(String(v))))
+      throw new Error("owner config: otherServicePrices must be USDC base units, e.g. 20000 for $0.02");
+    out.otherServicePrices = c.otherServicePrices as Array<number | string>;
+  }
+  if (c.bankr !== undefined) {
+    const b = c.bankr as Record<string, unknown>;
+    if (
+      !Number.isInteger(b?.breakraCalls) ||
+      typeof b?.since !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(b.since)
+    )
+      throw new Error('owner config: bankr must be { "breakraCalls": <integer>, "since": "YYYY-MM-DD" }');
+    out.bankr = { breakraCalls: b.breakraCalls as number, since: b.since };
+  }
+  return out;
 }
 
 type Log = { address: string; topics: readonly string[]; data: string; transactionHash: string | null };
@@ -145,7 +198,8 @@ export async function readPayments(
     for (const log of logs) {
       if (String(log.args.from ?? "").toLowerCase() !== ROUTER || !log.transactionHash) continue;
       const receipt = await client.getTransactionReceipt({ hash: log.transactionHash as `0x${string}` });
-      const toRouter = transfersIn(receipt.logs).find((t) => t.to === ROUTER);
+      const intoRouter = transfersIn(receipt.logs).filter((t) => t.to === ROUTER);
+      const toRouter = intoRouter[0];
       if (!toRouter) continue;
       const block = log.blockNumber ?? 0n;
       if (!times.has(block))
@@ -156,6 +210,7 @@ export async function readPayments(
         payer: toRouter.from,
         gross: toRouter.value,
         net: log.args.value ?? 0n,
+        routerTransfers: intoRouter.length,
       });
     }
     opts.log?.(`scanned blocks ${start}–${end}: ${payments.length} payments so far`);
@@ -183,19 +238,60 @@ export interface Report {
     externalNet: bigint;
     selfCalls: number;
     otherServiceCalls: number;
+    /** $0.02 payments that can't be attributed to Breakra (price collision or multi-payment tx). Never counted. */
+    ambiguousCalls: number;
+    /** All Breakra calls (self + external): the number Bankr's revenue count must match. */
+    breakraCalls: number;
   };
   wallets: Array<{ wallet: string; calls: number; days: number; first: string; last: string }>;
   barMet: boolean; // D-033: >= 3 external wallets, each paying on >= 2 different days
+  /** True only when the owner's declarations and Bankr's count agree with the chain (see `issues`). */
+  reconciled: boolean;
+  /** Why the report is not reconciled; empty when it is. */
+  issues: string[];
 }
 
 const day = (t: number) => new Date(t * 1000).toISOString().slice(0, 10);
 const short = (a: string) => `${a.slice(0, 6)}…${a.slice(-4)}`;
 
 /** Pure aggregation of payments into the EXPERIMENT.md daily table. */
-export function summarize(payments: Payment[], self: string[] = SELF_WALLETS): Report {
+export function summarize(
+  payments: Payment[],
+  config: OwnerConfig | null = null,
+  opts: { since?: string; self?: string[] } = {},
+): Report {
+  const self = [...(opts.self ?? SELF_WALLETS), ...(config?.ownerWallets ?? [])];
   const selfSet = new Set(self.map((a) => a.toLowerCase()));
-  const breakra = payments.filter((p) => p.gross === BREAKRA_GROSS);
+  const otherPrices = new Set((config?.otherServicePrices ?? []).map((v) => BigInt(v)));
+  const priceCollision = otherPrices.has(BREAKRA_GROSS);
+  const atPrice = payments.filter((p) => p.gross === BREAKRA_GROSS);
+  const ambiguous = atPrice.filter((p) => priceCollision || (p.routerTransfers ?? 1) !== 1);
+  const breakra = atPrice.filter((p) => !ambiguous.includes(p));
   const external = breakra.filter((p) => !selfSet.has(p.payer));
+
+  const issues: string[] = [];
+  if (!config)
+    issues.push(
+      "no owner config (.metrics-owner.json): owner wallets and other services' prices are undeclared",
+    );
+  else {
+    if (!config.ownerWallets)
+      issues.push("ownerWallets not declared (use [] if there are no other owner wallets)");
+    if (!config.otherServicePrices)
+      issues.push("otherServicePrices not declared (use [] if no other service pays this payout wallet)");
+    if (!config.bankr)
+      issues.push("Bankr's Breakra call count not declared (bankr x402 revenue breakra-analyze)");
+    else if (opts.since && config.bankr.since !== opts.since)
+      issues.push(`Bankr count covers since ${config.bankr.since}, but this run is since ${opts.since}`);
+    else if (config.bankr.breakraCalls !== breakra.length)
+      issues.push(
+        `Bankr reports ${config.bankr.breakraCalls} Breakra calls; the chain shows ${breakra.length}`,
+      );
+  }
+  if (priceCollision)
+    issues.push(`another owner service also costs $0.02: ${ambiguous.length} payment(s) can't be attributed`);
+  else if (ambiguous.length > 0)
+    issues.push(`${ambiguous.length} $0.02 payment(s) share a transaction with other payments`);
   const byDay = new Map<string, DayRow>();
   const seen = new Set<string>();
   const walletDays = new Map<string, { calls: number; days: Set<string> }>();
@@ -250,28 +346,39 @@ export function summarize(payments: Payment[], self: string[] = SELF_WALLETS): R
       externalGross: external.reduce((s, p) => s + p.gross, 0n),
       externalNet: external.reduce((s, p) => s + p.net, 0n),
       selfCalls: breakra.length - external.length,
-      otherServiceCalls: payments.length - breakra.length,
+      otherServiceCalls: payments.length - atPrice.length,
+      ambiguousCalls: ambiguous.length,
+      breakraCalls: breakra.length,
     },
     wallets,
     barMet: repeatWallets >= 3,
+    reconciled: issues.length === 0,
+    issues,
   };
 }
 
 const usdc = (v: bigint) => (Number(v) / 1e6).toFixed(2);
 
 export function formatReport(r: Report): string {
+  const ext = r.reconciled ? "External" : "Unconfirmed external";
   const lines = [
-    "| Date | External paid calls | External wallets | New wallets | Gross USDC (external) | Self-paid calls |",
+    r.reconciled
+      ? "Status: RECONCILED (owner wallets and other services declared; Bankr's count matches the chain)."
+      : `Status: NOT RECONCILED. Every non-owner payer below is an UNCONFIRMED external wallet.\n${r.issues.map((i) => `  - ${i}`).join("\n")}`,
+    "",
+    `| Date | ${ext} paid calls | ${ext} wallets | New wallets | Gross USDC (${ext.toLowerCase()}) | Self-paid calls |`,
     "|---|---|---|---|---|---|",
     ...r.days.map(
       (d) =>
         `| ${d.date} | ${d.externalCalls} | ${d.externalWallets} | ${d.newWallets} | ${usdc(d.externalGross)} | ${d.selfCalls} |`,
     ),
     "",
-    `External paid calls: ${r.totals.externalCalls} from ${r.totals.externalWallets} wallet(s); ${r.totals.repeatWallets} paid on 2+ different days.`,
-    `External gross: ${usdc(r.totals.externalGross)} USDC (net to payout ${usdc(r.totals.externalNet)}).`,
-    `Self-paid Breakra calls: ${r.totals.selfCalls}. Other services' payments to the payout wallet (not Breakra): ${r.totals.otherServiceCalls}.`,
-    `Continue bar (>= 3 external wallets paying on 2+ days): ${r.barMet ? "MET" : "not met"}.`,
+    `${ext} paid calls: ${r.totals.externalCalls} from ${r.totals.externalWallets} wallet(s); ${r.totals.repeatWallets} paid on 2+ different days.`,
+    `${ext} gross: ${usdc(r.totals.externalGross)} USDC (net to payout ${usdc(r.totals.externalNet)}).`,
+    `Breakra calls (self + external, compare with Bankr): ${r.totals.breakraCalls}. Self-paid: ${r.totals.selfCalls}.`,
+    `Other services' payments to the payout wallet (not Breakra): ${r.totals.otherServiceCalls}. Ambiguous $0.02 payments (not counted): ${r.totals.ambiguousCalls}.`,
+    `Continue bar (>= 3 external wallets paying on 2+ days): ${r.barMet ? "MET" : "not met"}${r.reconciled ? "" : " (PROVISIONAL: not reconciled)"}.`,
+    "A wallet is not a person.",
   ];
   if (r.wallets.length > 0) {
     lines.push("", "| Wallet | Calls | Days | First | Last |", "|---|---|---|---|---|");
