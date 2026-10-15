@@ -39,6 +39,10 @@
   - Safety PR opened: danbuildss/breakra#24. CI and CodeQL are green.
 - **2026-10-15, step 1 passed** (free live check): site 200 ×4; 402 with the correct terms through breakra.dev and direct.
 - **2026-10-15:** Owner confirmed the **Vercel plan is Pro**, so commercial use is permitted and S1 is resolved.
+- **2026-10-15, step 2 (Bankr records):**
+  - breakra-analyze v5: **6 paid requests all time ($0.12, $0 fees)**, the same number as the known self-paid calls, so most likely **0 external**.
+  - Other services on the same account and wallet: CORTX ×2 ($0.01, $0.001) and market data ×4 ($0.001). None at $0.02.
+  - Separation from CORTX exists only at Bankr's per-service level.
 
 ## Inputs received
 

@@ -13,6 +13,7 @@
 ## Daily metrics
 | Date | Day | Valid requests (Bankr) | Paid calls (external) | External paying wallets | Repeat paying wallets | Gross USDC (external) | Self-paid calls | Failures | Feedback / source |
 |---|---|---|---|---|---|---|---|---|---|
+| 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`; 4 in last 7 days) | likely **0** (Bankr's 6 = 6 known self-paid; on-chain confirmation pending) | likely 0 | 0 | 0.00 | 6 (all time) | none reported | Bankr CLI, owner; reconciled against recorded self-tests |
 
 ## Distribution log
 | Date | Channel | What was published | Link | Reactions / replies |
