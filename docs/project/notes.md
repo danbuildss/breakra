@@ -47,6 +47,9 @@
   - 6 Breakra calls on-chain = Bankr's 6, all self-paid (5 on Oct 8, 1 on Oct 9). **0 external paying wallets.**
   - No Breakra payment of any kind since Oct 9.
   - The continue bar is not met (0 of 3) at day 7.
+- **2026-10-15, step 6:** BankrBot/skills#771 and awesome-x402#1766 are still open with no reviews; X post 2 not posted.
+  - Verification steps 1–6 complete; the paid check (step 7) is still not approved.
+  - Drafted `docs/project/launch/outreach-week1.md` for approval: Story91/Alex/Noaman follow-ups, a 10–15 person targeted list (segments A/B/C) and measurement.
 
 ## Inputs received
 
