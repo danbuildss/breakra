@@ -18,7 +18,16 @@
 | Forward | `breakra.dev/api/analyze` → Bankr (Vercel rewrite, D-038) | [recorded] paid V4 through the forward returned 200 with the matching `analysis_id` on 2026-10-09 |
 | Built handler | 90,997 bytes; smoke test passes (200 / 400 / 405) | [verified] `bun run check` today |
 
-**Live behaviour today: not verified by Claude.** From this sandbox every request to breakra.dev, x402.bankr.bot, x402scan and the Base RPCs gets a proxy 403. The last live evidence is from 2026-10-09. The owner should run the check in §11 before any of this is called "live".
+**Step 1, free live check, PASSED (owner's run, 2026-10-15 20:44 UTC; Claude decoded the `payment-required` header):**
+- `breakra.dev` `/`, `/skill.md`, `/openapi.json` and `/.well-known/x402` all returned **200**.
+- An unpaid POST through **breakra.dev/api/analyze** returned **402** (`server: Vercel`).
+- An unpaid POST **directly to Bankr** returned **402** with a body.
+- Both carry the same terms: `exact`, `eip155:8453`, USDC `0x8335…2913`, amount **20000**, payTo **`0x8AEE…01a0`** (Bankr router), `maxTimeoutSeconds` 60, facilitator `https://api.bankr.bot/facilitator`.
+- Still true: Bankr's 402 has **no `extensions.bazaar`** and **no top-level `resource`**.
+- Side note: the forwarded 402 also carries the site's security headers (CSP etc.). That's harmless for API clients.
+- **Not covered by this check:** the paid path (step 7, not approved yet) and uptime between checks (no monitoring).
+
+**Earlier note:** From this sandbox every request to breakra.dev, x402.bankr.bot, x402scan and the Base RPCs gets a proxy 403. The last live evidence is from 2026-10-09. The owner should run the check in §11 before any of this is called "live".
 
 ### 1.2 What is built and shipped
 - **API:** one paid operation, `POST` with `{before, after}` (inline OpenAPI 3.0.0–3.0.4 JSON) → deterministic findings with rule id, operation, location, evidence, reason and recommended action. `analysis_id = sha256(engine, rules, input hashes)`.
@@ -107,6 +116,35 @@
 
 **Measurement caveat:** see §1.10. On-chain counts can be wrong in specific, checkable ways.
 
+### 1.9a Step 2: Bankr records (owner's `bankr x402 list` / `revenue`, 2026-10-15)
+
+**breakra-analyze:**
+- **Active, Bankr version v5**, $0.02.
+- **6 paid requests all time, $0.12 earned, $0.00 fees.** Last 7 days: 4 requests ($0.08). Last 30 days: 6.
+- Bankr's "reqs" equal paid requests (6 × $0.02 = $0.12), so unpaid 402s aren't counted here.
+
+**Known self-paid Breakra calls = 6:**
+- 5 by 2026-10-08 21:44 UTC (V4, V5, V6, the cold-agent run, the demo check), from `bun run metrics` [recorded].
+- The V4 check through breakra.dev on 2026-10-09 [recorded].
+- **Bankr's all-time total equals the known self-paid total, so there are most likely 0 external paid calls to date.** This is provisional until step 3 confirms each payer on-chain.
+
+**Other services on the same Bankr account and payout wallet:**
+
+| Service | Price | Base units | Reqs | Earned |
+|---|---|---|---|---|
+| cortx-reliability | $0.01 | 10000 | 0 | $0 |
+| macro-indicators | $0.001 | 1000 | 29 | $0.029 |
+| financial-markets-data | $0.001 | 1000 | 51 | $0.051 |
+| crypto-price-quote | $0.001 | 1000 | 69 | $0.069 |
+| market-sentiment | $0.001 | 1000 | 69 | $0.069 |
+| cortx-test | $0.001 | 1000 | 189 | $0.189 |
+
+**Findings:**
+1. **No other service is priced at $0.02**, so no price collision today. For `.metrics-owner.json`: `otherServicePrices: [10000, 1000]`.
+2. **Separation issue:** Breakra shares its Bankr account and payout wallet with the **CORTX** services and the market-data services. Your brief says Breakra's commercial records stay separate from CORTX. Today the separating record is **Bankr's per-service revenue**, not the wallet. A dedicated Breakra wallet would need a redeploy from another wallet: a decision for you, not proposed for this sprint.
+3. **CORTX monitors x402 endpoints by paying them.** If CORTX's monitoring wallet ever called Breakra, those calls would look external. **Any CORTX or monitoring wallet must be in `ownerWallets`.**
+4. **Version discrepancy:** the docs record Bankr **v4** (engine 0.1.1). Bankr now shows **v5**, and the 402 description links to `breakra.dev/skill.md`, consistent with the optional listing redeploy in TASKS.md. **Unverified:** which commit or engine v5 runs. Only a paid call returns `engine_version`. The owner should say when v5 was deployed and from which commit.
+
 ### 1.10 Can the on-chain metrics miscount? [verified by reading `scripts/lib/metrics.ts`]
 **How it counts:**
 1. It reads every USDC transfer **router → payout wallet** (`0xb98f…fa91`).
@@ -128,6 +166,8 @@
 - A dedicated Breakra payout wallet would mean redeploying from a different wallet. That is a decision for you, not part of this sprint unless you approve it.
 
 ### 1.11 Vercel plan and commercial use
+> **RESOLVED 2026-10-15:** the owner confirmed the Vercel project is on the **Pro** plan [owner-stated]. Pro permits commercial use, so the current deployment (static site plus the `/api/analyze` forward) is compliant. No migration or spend is needed. The analysis below is kept for the record.
+
 - **Vercel's terms [evidence, search results; vercel.com itself was unreachable from Claude's fetch tool]:**
   - The Hobby plan is restricted to **non-commercial personal use**. Commercial use requires Pro or Enterprise.
   - Vercel's examples of commercial use include **"any method of requesting or processing payment from visitors of the site"** and **advertising a product or service**.
@@ -158,7 +198,7 @@
 ### 1.12 Immediate production safety issues
 | # | Issue | Severity | Evidence | Proposed action (needs approval) |
 |---|---|---|---|---|
-| S1 | **Vercel Hobby commercial-use breach** (if on Hobby): breakra.dev could be suspended | High (availability, compliance) | §1.11 | Confirm the plan; then upgrade or move |
+| S1 | ~~Vercel Hobby commercial-use breach~~ **Resolved: the plan is Pro** (owner, 2026-10-15) | — | §1.11 | None |
 | S2 | **Charged without a result on large inputs through the forward.** Bankr settles when the handler returns 200. The 940 KB case took 17.9 s end to end direct [recorded]. Via Vercel there's an extra hop under a possibly-30 s proxy timeout. If Vercel times out but Bankr completes, the caller **pays and gets a 504** | Medium (rare: needs inputs near 1 MB) | Benchmarks + Vercel limits; **not reproduced** | Owner test (paid, needs approval), or document: "for large specs (>500 KB), call the Bankr URL directly" |
 | S3 | **No uptime monitoring or alerting.** An outage of Bankr or the forward is invisible until a user complains | Medium | No monitor exists | A free external check of the 402 (no payment, no spec data) — needs approval |
 | S4 | **Metrics can overstate external demand** (§1.10 A/B) | Medium (decision quality) | Code review | Reconcile with Bankr; list owner wallets |
@@ -176,13 +216,13 @@
 
 | Measure | Value | How it's measured |
 |---|---|---|
-| Total paid Breakra calls (all) | _pending_ | `bun run metrics -- --since 2026-10-09` |
+| Total paid Breakra calls (all) | **6 all time** (Bankr, 2026-10-15) | `bun run metrics -- --since 2026-10-09` |
 | Self-paid calls (burner, payout, Rabby) | _pending_ (≥ 6 known) | same; self wallets listed in code |
-| External paid calls | _pending_ (0 at last count) | same |
+| External paid calls | **Likely 0** (Bankr total 6 = known self-paid 6); confirm payers on-chain in step 3 | same |
 | Independent external paying wallets | _pending_ | same. **A wallet is not a person** |
 | Wallets paying on ≥ 2 UTC days | _pending_ | same |
 | Gross revenue (external) | _pending_ (= external calls × $0.02) | on-chain |
-| Net revenue | _pending_ | payout-side transfer; cross-check `bankr x402 revenue breakra-analyze` |
+| Net revenue | **$0.12 all time, $0 fees (Bankr)**, all of it believed self-paid | payout-side transfer; cross-check `bankr x402 revenue breakra-analyze` |
 | Bankr request count (incl. unpaid 402s, free errors) | _pending_ | Bankr dashboard (the only funnel data we have) |
 | Costs (cash) | domain `breakra.dev` (owner's purchase; amount not recorded), test spend ≈ $0.14 over the project, Vercel/GitHub/Bankr hosting $0 [recorded] | owner to confirm the domain cost |
 | Distribution sources | X post 1, x402scan, 2 directory PRs (pending), GitHub repo | §1.7 |
