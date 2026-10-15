@@ -1,0 +1,5 @@
+{
+  "ownerWallets": ["0x0000000000000000000000000000000000000001"],
+  "otherServicePrices": [4000, 1000],
+  "bankr": { "breakraCalls": 0, "since": "2026-10-08" }
+}

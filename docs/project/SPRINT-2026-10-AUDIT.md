@@ -137,12 +137,22 @@
   - The page advertises a paid API.
 - **Assessment [hypothesis, high confidence]:** if the project is on **Hobby**, the current deployment very likely **does not comply**. The risk is suspension of breakra.dev, which would take down the discovery URL that x402scan and openapi.json point to. The direct Bankr URL would keep working.
 - **Unknown:** which plan the project is on. **Only you can check:** Vercel dashboard → Settings → Billing, or the team name badge ("Hobby" / "Pro").
-- **Options (decision for you; none taken):**
-  1. **Upgrade to Pro.** Paid per seat; check the price on Vercel's pricing page.
-  2. **Move the static site and forward to a host whose free tier allows commercial use.** To verify before choosing.
-  3. **Remove the `/api/analyze` forward and payment wording from Vercel.** This breaks the x402scan registration (D-038).
-  4. **Ask Vercel support.**
-  - Recommendation: confirm the plan first. If it's Hobby, choose 1 or 2 this week.
+- **Lowest-cost compliant options that keep the public contract** (`https://breakra.dev/api/analyze`, same 402 terms, same response). Nothing taken; you decide:
+
+| Option | Cash cost | Change needed | Contract kept? | What's verified vs not |
+|---|---|---|---|---|
+| **A. Netlify Free**: static site + one `_redirects` proxy rule (`/api/analyze → Bankr URL 200`); no code | **$0** (credit-based free tier, 300 credits/mo) | New Netlify site from the same repo; move DNS at Namecheap; port headers/CSP to `_headers` | Yes | Commercial use on Free: **forum staff say yes** ([Netlify answers](https://answers.netlify.com/t/can-we-use-netlify-free-plan-for-commercial-purposes/41545)), but the binding Terms were not read. **Proxy timeout and credit metering for proxied requests: unverified** |
+| **B. Vercel Pro** | **$20/month** (1 seat, includes $20 usage credit) ([Vercel Pro](https://docs.vercel.com/docs/plans/pro-plan)) | Upgrade the team; nothing else | Yes | Price from Vercel docs (search summary); compliance certain |
+| C. Cloudflare Pages + a small Worker to forward | $0 (100k Worker requests/day free) | **New code** (a Worker) + DNS move | Yes | Commercial terms not found; needs code, so the most change |
+
+**Recommendation:**
+1. Confirm the plan first. If it's already Pro, there's nothing to do.
+2. If it's Hobby, **A (Netlify Free) is the lowest-cost option**, but only after two free checks:
+   - You read Netlify's Terms of Use for commercial use.
+   - An unpaid 402 test through a Netlify preview URL returns Bankr's exact `payment-required` header.
+3. Then decide on any paid check through it separately.
+4. **If either check fails, B ($20/month) is the safe fallback.** At current revenue it costs more than Breakra earns, so it is a deliberate spend for you to approve.
+5. Every option is a deployment change: nothing happens without your approval.
 - **Related limit:** Vercel's proxied (external-rewrite) request timeout is listed as **30 s** in its limits reference. A newer changelog mentions 120 s for CDN origins. Which applies to external rewrites is **unverified** ([limits](https://vercel.com/docs/limits/overview), [changelog](https://vercel.com/changelog/cdn-origin-timeout-increased-to-two-minutes)).
 
 ### 1.12 Immediate production safety issues
@@ -154,7 +164,7 @@
 | S4 | **Metrics can overstate external demand** (§1.10 A/B) | Medium (decision quality) | Code review | Reconcile with Bankr; list owner wallets |
 | S5 | **Revenue mixed with other services** in one payout wallet | Low (accounting), but conflicts with the separation goal | §1.10 | Use Bankr per-service revenue as the record; dedicated wallet later if wanted |
 | S6 | Request bodies (specs) **pass through Vercel's network** on the forward | Low (documented in D-038; Vercel isn't asked to log bodies) | D-038 | None now; keep the direct Bankr URL documented |
-| S7 | The README tells users to run `BREAKRA_KEY_FILE=./wallet.key …` inside a clone, but **`wallet.key` is not git-ignored** [verified]. A user could commit their wallet key | Low (affects users, not production) | `git check-ignore` | One-line `.gitignore` entry (`*.key`) — needs approval |
+| S7 | *(Fixed in the Week 1 safety PR)* The README tells users to run `BREAKRA_KEY_FILE=./wallet.key …` inside a clone, but **`wallet.key` is not git-ignored** [verified]. A user could commit their wallet key | Low (affects users, not production) | `git check-ignore` | One-line `.gitignore` entry (`*.key`) — needs approval |
 
 **No code-level vulnerabilities found:** `bun audit` is clean, CodeQL is green, and secrets are not in the repo (the burner key file is git-ignored [recorded]).
 

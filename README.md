@@ -114,6 +114,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 
 - OpenAPI **3.0.0–3.0.4 JSON**, inline. Not yet: OpenAPI 3.1, Swagger 2.0, YAML, URL inputs.
 - Request body ≤ **1 MB**; nesting, operation and `$ref`-expansion limits apply. Over a limit → a free 413 or 422.
+- For bodies over **500 KB**, use the direct Bankr URL above rather than `breakra.dev/api/analyze`: the forward adds a hop with its own proxy timeout.
 - External `$ref`s are **never fetched**; they're listed in `limitations`.
 - Submitted contracts are **not stored or logged**. Logs hold only outcome, size, change count, duration and the paying address.
 

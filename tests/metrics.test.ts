@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { encodeAbiParameters, encodeEventTopics } from "viem";
 import { describe, expect, it } from "vitest";
 import {
@@ -6,6 +8,7 @@ import {
   formatReport,
   PAYOUT,
   type Payment,
+  parseOwnerConfig,
   ROUTER,
   readPayments,
   SELF_WALLETS,
@@ -84,6 +87,89 @@ describe("summarize", () => {
   });
 });
 
+describe("attribution and reconciliation", () => {
+  const OWNER = "0x4444444444444444444444444444444444444444";
+  const full = (breakraCalls: number) => ({
+    ownerWallets: [OWNER],
+    otherServicePrices: [4_000],
+    bankr: { breakraCalls, since: "2026-10-08" },
+  });
+
+  it("without an owner config every non-owner payer is unconfirmed and the bar is provisional", () => {
+    const twoDays = (w: string) => [pay(w, "2026-10-10T10:00:00Z"), pay(w, "2026-10-11T10:00:00Z")];
+    const r = summarize([...twoDays(A), ...twoDays(B), ...twoDays(C)]);
+    expect(r.barMet).toBe(true);
+    expect(r.reconciled).toBe(false);
+    const text = formatReport(r);
+    expect(text).toContain("NOT RECONCILED");
+    expect(text).toContain("Unconfirmed external paid calls: 6");
+    expect(text).toContain("MET (PROVISIONAL: not reconciled)");
+  });
+
+  it("excludes every declared owner wallet as self-paid", () => {
+    const r = summarize([pay(OWNER, "2026-10-09T10:00:00Z"), pay(A, "2026-10-09T11:00:00Z")], full(2), {
+      since: "2026-10-08",
+    });
+    expect(r.totals).toMatchObject({ selfCalls: 1, externalCalls: 1, externalWallets: 1, breakraCalls: 2 });
+    expect(r.reconciled).toBe(true);
+    expect(formatReport(r)).toContain("Status: RECONCILED");
+  });
+
+  it("never counts a $0.02 payment as Breakra when another owner service also costs $0.02", () => {
+    const r = summarize(
+      [pay(A, "2026-10-09T10:00:00Z"), pay(B, "2026-10-09T11:00:00Z", 4_000n)],
+      {
+        ...full(0),
+        otherServicePrices: [20_000, 4_000],
+      },
+      { since: "2026-10-08" },
+    );
+    expect(r.totals).toMatchObject({
+      breakraCalls: 0,
+      externalCalls: 0,
+      ambiguousCalls: 1,
+      otherServiceCalls: 1,
+    });
+    expect(r.reconciled).toBe(false);
+    expect(r.issues.join()).toContain("another owner service also costs $0.02");
+  });
+
+  it("treats a transaction with several payments into the router as ambiguous", () => {
+    const multi = { ...pay(A, "2026-10-09T10:00:00Z"), routerTransfers: 2 };
+    const r = summarize([multi], full(0), { since: "2026-10-08" });
+    expect(r.totals).toMatchObject({ breakraCalls: 0, ambiguousCalls: 1 });
+    expect(r.reconciled).toBe(false);
+  });
+
+  it("is not reconciled when Bankr's count or window disagrees, or a declaration is missing", () => {
+    const one = [pay(A, "2026-10-09T10:00:00Z")];
+    expect(summarize(one, full(2), { since: "2026-10-08" }).issues.join()).toContain("Bankr reports 2");
+    expect(summarize(one, full(1), { since: "2026-10-09" }).issues.join()).toContain(
+      "covers since 2026-10-08",
+    );
+    expect(summarize(one, { ownerWallets: [] }, { since: "2026-10-08" }).issues).toHaveLength(2);
+    expect(summarize(one, full(1), { since: "2026-10-08" }).reconciled).toBe(true);
+  });
+
+  it("rejects malformed owner config instead of guessing", () => {
+    expect(() => parseOwnerConfig([])).toThrow();
+    expect(() => parseOwnerConfig({ ownerWallets: ["not-an-address"] })).toThrow();
+    expect(() => parseOwnerConfig({ otherServicePrices: [0.02] })).toThrow();
+    expect(() => parseOwnerConfig({ bankr: { breakraCalls: 3 } })).toThrow();
+    expect(parseOwnerConfig({ ownerWallets: [], otherServicePrices: ["20000"] })).toEqual({
+      ownerWallets: [],
+      otherServicePrices: ["20000"],
+    });
+  });
+
+  it("the committed example config parses", () => {
+    const example = JSON.parse(
+      readFileSync(join(__dirname, "../scripts/metrics.owner.example.json"), "utf8"),
+    );
+    expect(() => parseOwnerConfig(example)).not.toThrow();
+  });
+});
+
 // A fake chain: settlement transactions as Bankr's router performs them (payer → router → payout).
 function transferLog(from: string, to: string, value: bigint, tx: string) {
   return {
@@ -144,9 +230,9 @@ describe("readPayments", () => {
   it("resolves payers from settlement receipts and shrinks the window on RPC range errors", async () => {
     const chain = fakeChain();
     const payments = await readPayments(chain, 0n, { chunk: 20_000n, sleep: async () => {} });
-    expect(payments.map((p) => [p.tx, p.payer, p.gross, p.net])).toEqual([
-      ["0xaa", A, 20_000n, 20_000n],
-      ["0xbb", B, 20_000n, 19_000n],
+    expect(payments.map((p) => [p.tx, p.payer, p.gross, p.net, p.routerTransfers])).toEqual([
+      ["0xaa", A, 20_000n, 20_000n, 1],
+      ["0xbb", B, 20_000n, 19_000n, 1],
     ]);
     expect(payments[0]?.time).toBe(1_760_000_200);
   });
