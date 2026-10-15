@@ -84,7 +84,7 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
   - Metrics: declared owner wallets excluded; $0.02 price collisions and multi-payment transactions marked ambiguous and never counted.
   - Non-owner payers are "unconfirmed external" until reconciled with Bankr's count.
   - Direct Bankr URL documented for bodies over 500 KB.
-- [ ] Owner verification steps 1–6, one at a time. **Step 1 passed** (2026-10-15). Step 5 (Vercel) done. **Step 2 done**: 6 paid calls all time, all likely self-paid; no other $0.02 service; Bankr v5 (commit to confirm). Next: step 3, on-chain metrics with `.metrics-owner.json`.
+- [ ] Owner verification steps 1–6, one at a time. **Step 1 passed** (2026-10-15). Step 5 (Vercel) done. **Step 2 done**: 6 paid calls all time, all likely self-paid; no other $0.02 service; Bankr v5 (commit to confirm). **Step 3 done: RECONCILED, 0 external paid calls (6/6 self-paid).** Step 4 (wallet list) doesn't affect this result: every payer is already a known owner wallet. Next: step 6, distribution status.
 - [x] Vercel plan confirmed: **Pro** (owner, 2026-10-15), so commercial use is permitted and no change is needed.
 - [ ] Follow-ups: Story91, Alex, Noaman. Outreach list (10–15).
 - [ ] Item 10 (paid live check): NOT approved yet.

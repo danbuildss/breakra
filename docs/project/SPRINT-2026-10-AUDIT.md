@@ -212,23 +212,23 @@
 
 ## 2. Commercial experiment scorecard (Oct 9 – 22)
 
-**Today: day 7. The scorecard cannot be filled honestly yet:** no post-launch metrics exist in the repo. It closes on Oct 22 with the owner's outputs (§11).
+**Day 7 (2026-10-15): revenue reconciled (step 3). Zero external paid calls.** Self-tests account for all 6 paid calls. Remaining unknowns: the funnel (unpaid 402s are not visible), feedback channels and directory reviews. Earlier note: no post-launch metrics exist in the repo. It closes on Oct 22 with the owner's outputs (§11).
 
 | Measure | Value | How it's measured |
 |---|---|---|
-| Total paid Breakra calls (all) | **6 all time** (Bankr, 2026-10-15) | `bun run metrics -- --since 2026-10-09` |
+| Total paid Breakra calls (all) | **6 all time**: Bankr 6 = on-chain 6, **RECONCILED** (2026-10-15 21:02 UTC) | `bun run metrics -- --since 2026-10-09` |
 | Self-paid calls (burner, payout, Rabby) | _pending_ (≥ 6 known) | same; self wallets listed in code |
-| External paid calls | **Likely 0** (Bankr total 6 = known self-paid 6); confirm payers on-chain in step 3 | same |
-| Independent external paying wallets | _pending_ | same. **A wallet is not a person** |
-| Wallets paying on ≥ 2 UTC days | _pending_ | same |
-| Gross revenue (external) | _pending_ (= external calls × $0.02) | on-chain |
+| External paid calls | **0** (reconciled; all 6 payers are owner wallets: 5 on Oct 8, 1 on Oct 9). No Breakra payment of any kind since Oct 9 | same |
+| Independent external paying wallets | **0** | same. **A wallet is not a person** |
+| Wallets paying on ≥ 2 UTC days | **0** | same |
+| Gross revenue (external) | **$0.00** | on-chain |
 | Net revenue | **$0.12 all time, $0 fees (Bankr)**, all of it believed self-paid | payout-side transfer; cross-check `bankr x402 revenue breakra-analyze` |
 | Bankr request count (incl. unpaid 402s, free errors) | _pending_ | Bankr dashboard (the only funnel data we have) |
 | Costs (cash) | domain `breakra.dev` (owner's purchase; amount not recorded), test spend ≈ $0.14 over the project, Vercel/GitHub/Bankr hosting $0 [recorded] | owner to confirm the domain cost |
 | Distribution sources | X post 1, x402scan, 2 directory PRs (pending), GitHub repo | §1.7 |
 | Customer feedback | 3 people (Alex, Story91, Noaman), relayed 2026-10-15: install friction, integration/payment confusion, site design. **No confirmed paid use among them** | `EXPERIMENT.md` Feedback table |
 | Technical failures | _unknown_: no monitoring; Bankr logs only | owner: `bankr x402` dashboard / logs |
-| **Threshold: ≥ 3 external wallets, each paying on ≥ 2 UTC days** | **_pending_** (0 of 3 at last count) | D-033 |
+| **Threshold: ≥ 3 external wallets, each paying on ≥ 2 UTC days** | **NOT MET: 0 of 3** (day 7, reconciled) | D-033 |
 
 **Honest prior [hypothesis]:** reaching the bar needs a change from 0 external wallets to 3 repeat payers in the remaining 7 days. That is unlikely without direct outreach. Week 1 therefore pairs closing the experiment with targeted outreach. Outreach-driven payers are counted and labelled separately, so we can tell sources apart.
 

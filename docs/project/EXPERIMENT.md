@@ -13,7 +13,7 @@
 ## Daily metrics
 | Date | Day | Valid requests (Bankr) | Paid calls (external) | External paying wallets | Repeat paying wallets | Gross USDC (external) | Self-paid calls | Failures | Feedback / source |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`; 4 in last 7 days) | likely **0** (Bankr's 6 = 6 known self-paid; on-chain confirmation pending) | likely 0 | 0 | 0.00 | 6 (all time) | none reported | Bankr CLI, owner; reconciled against recorded self-tests |
+| 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`) | **0** (RECONCILED: on-chain 6 = Bankr 6, all 6 payers are owner wallets) | **0** | 0 | 0.00 | 6 (5 on 10-08, 1 on 10-09) | none reported | `bun run metrics -- --since 2026-10-08` (Alchemy) + Bankr CLI, owner, 21:02 UTC. Other services: 58 payments, 0 ambiguous |
 
 ## Distribution log
 | Date | Channel | What was published | Link | Reactions / replies |
