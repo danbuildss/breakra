@@ -50,6 +50,7 @@
 - **2026-10-15, step 6:** BankrBot/skills#771 and awesome-x402#1766 are still open with no reviews; X post 2 not posted.
   - Verification steps 1–6 complete; the paid check (step 7) is still not approved.
   - Drafted `docs/project/launch/outreach-week1.md` for approval: Story91/Alex/Noaman follow-ups, a 10–15 person targeted list (segments A/B/C) and measurement.
+- **2026-10-18:** The owner asked for "Built by SOMEHOW" (link: somehowinternet.app) at the bottom of breakra.dev. They approved option B (own line, left-aligned, below the footer) from desktop and mobile previews. Recorded as a D-019 amendment.
 
 ## Inputs received
 

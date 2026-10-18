@@ -251,5 +251,10 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - **A:** ask Bankr to add `extensions.bazaar` (built from each service's `schema`) to their 402s; draft in `docs/project/launch/bankr-bazaar-request.md`.
 **Consequences:** request bodies to `/api/analyze` pass through Vercel's network. The 402's `resource` field still names the Bankr URL. If the forward ever fails, the Bankr URL keeps working.
 
+**D-019 amendment (2026-10-18, owner: "I approve B"):**
+- breakra.dev shows **"Built by SOMEHOW"**, linking to https://somehowinternet.app. It sits on its own line at the very bottom of the page, left-aligned under the footer (option B of the previews).
+- This is the owner's explicit approval of the attribution D-019 required.
+- Breakra keeps its own brand, repo, strategy and commercial records. The site does not mention CORTX.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
