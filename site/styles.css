@@ -396,30 +396,29 @@ section {
   margin: 0;
 }
 
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.footer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
 }
 .built-by {
-  margin: 0;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 32px;
+  border-top: 1px solid var(--line);
+  text-align: center;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 14px;
 }
-.footer .built-by a {
+.wrap.built-by a {
   color: var(--muted);
   text-decoration: underline;
   text-underline-offset: 4px;
   text-decoration-thickness: 1px;
 }
-.footer .built-by a:hover {
+.wrap.built-by a:hover {
   color: var(--white);
-}
-.footer {
-  padding-top: 40px;
-  padding-bottom: 56px;
-  margin-top: 24px;
-  border-top: 1px solid var(--line);
 }
 
 @media (max-width: 760px) {
