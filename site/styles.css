@@ -396,6 +396,25 @@ section {
   margin: 0;
 }
 
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.built-by {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+.footer .built-by a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.footer .built-by a:hover {
+  color: var(--white);
+}
 .footer {
   padding-top: 40px;
   padding-bottom: 56px;
