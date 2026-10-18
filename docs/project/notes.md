@@ -51,6 +51,7 @@
   - Verification steps 1–6 complete; the paid check (step 7) is still not approved.
   - Drafted `docs/project/launch/outreach-week1.md` for approval: Story91/Alex/Noaman follow-ups, a 10–15 person targeted list (segments A/B/C) and measurement.
 - **2026-10-18:** The owner asked for "Built by SOMEHOW" (link: somehowinternet.app) at the bottom of breakra.dev. They approved option B (own line, left-aligned, below the footer) from desktop and mobile previews. Recorded as a D-019 amendment.
+- **2026-10-18:** The owner said there's no need for the outreach drafts, so they were removed from the PR; the owner handles follow-ups and outreach directly. X post 2 is still not posted.
 
 ## Inputs received
 
