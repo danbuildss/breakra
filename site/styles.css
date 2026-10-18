@@ -398,9 +398,27 @@ section {
 
 .footer {
   padding-top: 40px;
-  padding-bottom: 56px;
+  padding-bottom: 40px;
   margin-top: 24px;
   border-top: 1px solid var(--line);
+}
+.built-by {
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 32px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  color: var(--muted);
+  font-size: 14px;
+}
+.wrap.built-by a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.wrap.built-by a:hover {
+  color: var(--white);
 }
 
 @media (max-width: 760px) {

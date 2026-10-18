@@ -13,15 +13,16 @@
 ## Daily metrics
 | Date | Day | Valid requests (Bankr) | Paid calls (external) | External paying wallets | Repeat paying wallets | Gross USDC (external) | Self-paid calls | Failures | Feedback / source |
 |---|---|---|---|---|---|---|---|---|---|
-| 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`; 4 in last 7 days) | likely **0** (Bankr's 6 = 6 known self-paid; on-chain confirmation pending) | likely 0 | 0 | 0.00 | 6 (all time) | none reported | Bankr CLI, owner; reconciled against recorded self-tests |
+| 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`) | **0** (RECONCILED: on-chain 6 = Bankr 6, all 6 payers are owner wallets) | **0** | 0 | 0.00 | 6 (5 on 10-08, 1 on 10-09) | none reported | `bun run metrics -- --since 2026-10-08` (Alchemy) + Bankr CLI, owner, 21:02 UTC. Other services: 58 payments, 0 ambiguous |
 
 ## Distribution log
 | Date | Channel | What was published | Link | Reactions / replies |
 |---|---|---|---|---|
 | 2026-10-09 | X | **Launch post (day 1)** | https://x.com/danbuildss/status/2108486248004260253 | (to record) |
-| 2026-10-09 | Bankr skills catalog | PR adding `breakra/` (SKILL.md + catalog.json + README row) | https://github.com/BankrBot/skills/pull/771 | Awaiting review |
-| 2026-10-09 | awesome-x402 | PR adding Breakra to Developer Tools | https://github.com/xpaysh/awesome-x402/pull/1766 | Awaiting review (reviews are slow) |
+| 2026-10-09 | Bankr skills catalog | PR adding `breakra/` (SKILL.md + catalog.json + README row) | https://github.com/BankrBot/skills/pull/771 | **Still open, no reviews** (checked by owner 2026-10-15) |
+| 2026-10-09 | awesome-x402 | PR adding Breakra to Developer Tools | https://github.com/xpaysh/awesome-x402/pull/1766 | **Still open, no reviews** (checked by owner 2026-10-15) |
 | 2026-10-09 | x402scan | Registered `breakra.dev` (1 resource: `POST /api/analyze`, $0.02) | x402scan.com | Non-blocking warning: Bankr 402 lacks top-level `resource` |
+| 2026-10-15 | X | Post 2 (demo) | — | **Not posted yet** (planned Oct 10–12). Reactions to post 1 not recorded |
 
 ## Feedback
 | Date | Source | What they said | Implication |

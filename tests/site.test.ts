@@ -91,6 +91,9 @@ describe("agent files on breakra.dev", () => {
     expect(cfg.buildCommand).toBe("cp SKILL.md site/skill.md && cp openapi.json site/openapi.json");
     expect(cfg.redirects).toContainEqual({ source: "/SKILL.md", destination: "/skill.md", permanent: true });
     expect(html).toContain('href="/skill.md"');
+    // D-019 amendment: owner-approved credit at the bottom of the page.
+    expect(html).toContain('Built by <a href="https://somehowinternet.app" rel="noopener">SOMEHOW</a>');
+    expect(html).not.toMatch(/CORTX/i);
     expect(html).toContain('href="/openapi.json"');
   });
 });
