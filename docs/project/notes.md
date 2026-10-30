@@ -52,6 +52,15 @@
   - Drafted `docs/project/launch/outreach-week1.md` for approval: Story91/Alex/Noaman follow-ups, a 10–15 person targeted list (segments A/B/C) and measurement.
 - **2026-10-18:** The owner asked for "Built by SOMEHOW" (link: somehowinternet.app) at the bottom of breakra.dev. They approved option B (own line, left-aligned, below the footer) from desktop and mobile previews. Recorded as a D-019 amendment.
 - **2026-10-18:** The owner said there's no need for the outreach drafts, so they were removed from the PR; the owner handles follow-ups and outreach directly. X post 2 is still not posted.
+- **2026-10-29 (BankrBot reviewer on BankrBot/skills#771, changes requested):**
+  - **breakra.dev was down:** HTTPS refused, and HTTP served a Namecheap contact-verification page. Likely cause: the registrant email was never verified after the purchase around Oct 9 (inferred).
+  - **Affected:** the site, `/skill.md`, `/openapi.json`, the `/api/analyze` forward and the x402scan listing. The direct Bankr endpoint kept working (reviewer got a 402).
+  - **The outage start date is unknown.**
+  - The reviewer's other findings, both valid:
+    - SKILL.md says "any other status means you didn't [pay]", which is wrong after a gateway 5xx (double-charge risk).
+    - `examples/client.ts` doesn't check `payTo`, `maxTimeoutSeconds` or `assetTransferMethod`.
+  - Fix plan (B: client and SKILL.md PR; C: update the fork and draft a reply) proposed; **awaiting owner approval**.
+- **2026-10-30:** The owner verified the registrant email at Namecheap ("Registrant email address successfully verified"; breakra.dev and musecourt.xyz reactivate "usually within 24–48 hours"). **breakra.dev isn't confirmed back up yet**; re-run the step 1 check after reactivation.
 
 ## Inputs received
 

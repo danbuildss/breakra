@@ -14,6 +14,7 @@
 | Date | Day | Valid requests (Bankr) | Paid calls (external) | External paying wallets | Repeat paying wallets | Gross USDC (external) | Self-paid calls | Failures | Feedback / source |
 |---|---|---|---|---|---|---|---|---|---|
 | 2026-10-15 | 7 | 6 paid all time (Bankr `revenue`) | **0** (RECONCILED: on-chain 6 = Bankr 6, all 6 payers are owner wallets) | **0** | 0 | 0.00 | 6 (5 on 10-08, 1 on 10-09) | none reported | `bun run metrics -- --since 2026-10-08` (Alchemy) + Bankr CLI, owner, 21:02 UTC. Other services: 58 payments, 0 ambiguous |
+| 2026-10-30 | — | — | — | — | — | — | — | **breakra.dev down** (registrar contact-verification suspension; start date unknown, seen 2026-10-29 by the BankrBot reviewer). Direct Bankr URL unaffected. Owner verified the email on 10-30; reactivation pending | Reviewer on BankrBot/skills#771 + Namecheap |
 
 ## Distribution log
 | Date | Channel | What was published | Link | Reactions / replies |
