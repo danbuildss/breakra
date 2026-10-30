@@ -67,6 +67,9 @@
   - SKILL.md (and its launch copy) say the same.
   - 14 new tests; `bun run check` passes with 124 tests.
   - **C** (update the fork for BankrBot/skills#771 and draft the reply) follows once B merges.
+- **2026-10-30:** The owner merged PR #27 (B).
+  - **C step 1 done:** the fork branch `danbuildss/skills:add-breakra` now carries the updated `breakra/SKILL.md` (commit `86a8dc1`, author Dan, no AI attribution), so BankrBot/skills#771 shows it.
+  - The reply to the reviewer is drafted; the owner posts it after confirming breakra.dev is back.
 
 ## Inputs received
 
