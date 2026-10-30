@@ -61,6 +61,12 @@
     - `examples/client.ts` doesn't check `payTo`, `maxTimeoutSeconds` or `assetTransferMethod`.
   - Fix plan (B: client and SKILL.md PR; C: update the fork and draft a reply) proposed; **awaiting owner approval**.
 - **2026-10-30:** The owner verified the registrant email at Namecheap ("Registrant email address successfully verified"; breakra.dev and musecourt.xyz reactivate "usually within 24–48 hours"). **breakra.dev isn't confirmed back up yet**; re-run the step 1 check after reactivation.
+- **2026-10-30:** The owner approved B and C. **B is done** (PR for review):
+  - `examples/client.ts` now refuses to sign unless every term in SKILL.md's table matches. That includes `x402Version` 2, `payTo` = the router, `maxTimeoutSeconds` ≤ 60, and `assetTransferMethod` absent or `eip3009`.
+  - After signing, only Breakra's own JSON error or an x402 402 counts as "not charged". Gateway errors, non-JSON bodies, timeouts and resets count as **unknown** (don't re-sign; wait 60 s and check the wallet).
+  - SKILL.md (and its launch copy) say the same.
+  - 14 new tests; `bun run check` passes with 124 tests.
+  - **C** (update the fork for BankrBot/skills#771 and draft the reply) follows once B merges.
 
 ## Inputs received
 
