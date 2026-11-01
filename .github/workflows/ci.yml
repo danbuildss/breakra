@@ -19,7 +19,7 @@ jobs:
         with:
           bun-version: 1.4.2 # writes/reads bun.lock (lockfileVersion 2)
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
