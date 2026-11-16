@@ -96,7 +96,7 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [x] Docs: SKILL.md, API.md, RULES.md, README, site, CHANGELOG; distribution kit (`launch/distribution-v0.2.md`).
 - [x] `bun run check`: 160 tests, bundle 94.8 KB (guard raised to 99 KB; Bankr's limit is between 91 KB and 137 KB, unverified).
 - [x] **Owner:** deployed engine 0.2.0 to Bankr: **version 6** (2026-11-16, from `b150e9e`). The 94.8 KB bundle was accepted.
-- [ ] Owner: free post-deploy check (402 terms); optional paid V4 check ($0.02, needs approval); then merge; then tag `v0.2.0`.
+- [x] V0 (free) and V4 (paid $0.02) passed on v6; the live `analysis_id` matches local (engine 0.2.0). #31 merged; tag `v0.2.0` released (2026-11-16).
 - [ ] Owner: submissions from `launch/distribution-v0.2.md` (Circle, Bankr email, MCP registries, skills directories).
 - [ ] Decision: publish `breakra` to npm for the one-line `bunx breakra mcp` install (needs an npm account).
 
