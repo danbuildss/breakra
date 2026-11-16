@@ -1,13 +1,15 @@
 {
   "status": "success",
-  "analysis_id": "sha256:c17639a1f47c0d48a1dec9faac4eaf8b0f2a0ecd94dab6867a65872453faddc1",
-  "engine_version": "0.1.1",
-  "rule_set_version": "0.1.0",
+  "analysis_id": "sha256:0e85c13d9114fc2dc547219abcb93c124c4cf9046520634d50883ab2c070e078",
+  "engine_version": "0.2.0",
+  "rule_set_version": "0.2.0",
   "spec_versions": {
     "before": "3.0.3",
     "after": "3.0.3"
   },
   "compatibility": "breaking",
+  "verdict": "block",
+  "suggested_version_bump": "major",
   "summary": {
     "total_changes": 59,
     "breaking": 5,

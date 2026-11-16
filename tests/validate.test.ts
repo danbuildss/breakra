@@ -47,16 +47,16 @@ describe("request parsing", () => {
 
 describe("OpenAPI validation", () => {
   it("accepts 3.0.0 through 3.0.4", async () => {
-    for (const v of ["3.0.0", "3.0.1", "3.0.2", "3.0.3", "3.0.4"]) {
+    for (const v of ["3.0.0", "3.0.1", "3.0.2", "3.0.3", "3.0.4", "3.1.0", "3.1.1"]) {
       const s = clone(baseSpec());
       s.openapi = v;
       expect((await post({ before: s, after: s })).status).toBe(200);
     }
   });
-  it("rejects Swagger 2.0 and OpenAPI 3.1 as unsupported (422)", async () => {
+  it("rejects Swagger 2.0 and OpenAPI 3.2 as unsupported (422)", async () => {
     const swagger = { swagger: "2.0", info: { title: "t", version: "1" }, paths: {} };
-    const v31 = { ...baseSpec(), openapi: "3.1.0" };
-    for (const bad of [swagger, v31]) {
+    const v32 = { ...baseSpec(), openapi: "3.2.0" };
+    for (const bad of [swagger, v32]) {
       const r = await post({ before: baseSpec(), after: bad });
       expect(r.status).toBe(422);
       expect(code(r)).toBe("UNSUPPORTED_OPENAPI_VERSION");

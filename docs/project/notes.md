@@ -70,6 +70,19 @@
 - **2026-10-30:** The owner merged PR #27 (B).
   - **C step 1 done:** the fork branch `danbuildss/skills:add-breakra` now carries the updated `breakra/SKILL.md` (commit `86a8dc1`, author Dan, no AI attribution), so BankrBot/skills#771 shows it.
   - The reply to the reviewer is drafted; the owner posts it after confirming breakra.dev is back.
+- **2026-11-16:** The owner asked for research on upgrades and the niche, a vision, and to build everything at once.
+  - **Research** (searches; the Circle and dev.to sites were blocked from the sandbox):
+    - The problem is real. Agent-written breaking changes are now studied, and new MCP tools target them (SpecShield, OpenAPI Contract Guard).
+    - oasdiff's hosted MCP is still free and supports 3.0, 3.1 and 3.2.
+    - x402 spending is small and falling: Oct 2026 about $274k; agent payments down 94.5%; genuine share estimated at 0.6–7.5%. Search and market data dominate.
+    - Circle's marketplace (900+ endpoints) has no developer-tools category.
+  - **Verdict:** a useful niche, but generic pay-per-diff won't win. Breakra must answer "does this break me?", give a verdict, and be free to try.
+  - Owner approved everything: **D-039**.
+  - **Built:** engine 0.2.0 (verdict, semver advice, `uses` impact, YAML, OpenAPI 3.1), a free local CLI and MCP server, docs, `VISION.md`, CHANGELOG, distribution kit. 160 tests.
+  - **Found and fixed:** under 3.1 a numeric `exclusiveMinimum` was read as documentation, so a tightened request showed as "compatible".
+  - **Bundle:** 94.8 KB. The guard was raised to 99 KB; Bankr's real limit is unknown between 91 and 137 KB.
+  - **Deploy order:** Bankr first, then merge.
+- **2026-11-16:** Owner deployed engine 0.2.0 to Bankr: **v6**, same URL, $0.02. The 94.8 KB bundle was accepted. Next: V0 (free), the optional paid V4 (not yet approved), then merge PR #31.
 
 ## Inputs received
 

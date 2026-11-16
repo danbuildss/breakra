@@ -11,7 +11,7 @@ Paths: `/teams/{team_id}/discussions`, `/repos/{owner}/{repo}/tags/protection`, 
 
 ## Result
 
-`compatibility: "breaking"`, `analysis_id: sha256:c17639a1f47c0d48a1dec9faac4eaf8b0f2a0ecd94dab6867a65872453faddc1` (engine 0.1.1, rule set 0.1.0). Full output: [`response.json`](response.json).
+`compatibility: "breaking"`, `verdict: "block"`, `suggested_version_bump: "major"`, `analysis_id: sha256:0e85c13d9114fc2dc547219abcb93c124c4cf9046520634d50883ab2c070e078` (engine 0.2.0, rule set 0.2.0). Full output: [`response.json`](response.json).
 
 | Class | Count |
 |---|---|

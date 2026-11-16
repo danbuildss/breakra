@@ -51,7 +51,12 @@ describe("openapi.json", () => {
 
   it("lists exactly the fields the engine returns", () => {
     expect([...schemas.AnalysisResult.required].sort()).toEqual(Object.keys(response).sort());
-    expect(Object.keys(schemas.AnalysisResult.properties).sort()).toEqual(Object.keys(response).sort());
+    // `impact` is the one optional field: present only when the request has `uses` (tested below).
+    expect(
+      Object.keys(schemas.AnalysisResult.properties)
+        .filter((k) => k !== "impact")
+        .sort(),
+    ).toEqual(Object.keys(response).sort());
     expect(Object.keys(schemas.AnalysisResult.properties.summary.properties).sort()).toEqual(
       Object.keys(response.summary).sort(),
     );
@@ -65,6 +70,15 @@ describe("openapi.json", () => {
       }
       expect(schemas.Change.properties.direction.enum).toContain(change.direction);
     }
+  });
+
+  it("documents the impact section exactly as the engine returns it for `uses`", async () => {
+    const req = JSON.parse(read("examples/request.json"));
+    const { analyze } = await import("../src/analyze");
+    const r = await analyze({ ...req, uses: [{ method: "GET", path: "/orders" }] });
+    expect(Object.keys(schemas.Impact.properties).sort()).toEqual(Object.keys(r.impact ?? {}).sort());
+    expect(schemas.Verdict.enum).toContain(r.verdict);
+    expect(schemas.AnalysisResult.properties.suggested_version_bump.enum).toContain(r.suggested_version_bump);
   });
 
   it("lists exactly the engine's compatibility classes", () => {

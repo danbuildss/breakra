@@ -256,5 +256,31 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - This is the owner's explicit approval of the attribution D-019 required.
 - Breakra keeps its own brand, repo, strategy and commercial records. The site does not mention CORTX.
 
+## D-039 — Vision and v0.2 scope: contract-safety check for agents, open core
+**Status:** Accepted (owner: "i approve everything", 2026-11-16, after the market update and plan in notes.md).
+
+**Context:**
+- The 14-day experiment ended with 0 external paying wallets.
+- Feedback pointed at install and payment friction.
+- oasdiff offers a free, keyless hosted MCP server (YAML, 3.1).
+- Real x402 spending on developer tools is unproven.
+
+**Decision:**
+- **Vision:** `VISION.md`, linked from the README.
+- **v0.2 scope**, built together and released as engine 0.2.0:
+  1. A `verdict` (`safe` / `review` / `block`) and a `suggested_version_bump` in every result.
+  2. An optional `uses` list (the operations a caller depends on) that reports which findings affect them.
+  3. YAML input, with safe parsing limits.
+  4. OpenAPI 3.1, only as far as the diff engine supports it soundly; otherwise documented as not yet supported.
+  5. A free local CLI and stdio MCP server, MIT, running the same engine with no wallet. **This changes the model:** the engine is free locally, and the hosted API sells convenience.
+  6. Distribution drafts (Circle Agent Marketplace, the Bankr bazaar email, MCP registries, skills directories). The owner submits; Claude drafts.
+  7. A release with the vision listed.
+- **Price unchanged:** $0.02 per hosted call. Still one paid operation, deterministic, no LLM, no database.
+- **Amends** CLAUDE.md's "one paid operation, backend only" rule only to add the free local CLI and MCP server. No web UI.
+
+**Kill criterion:** by **2027-01-31**, either ≥ 3 external wallets each paying on ≥ 2 UTC days, or clear local adoption. Otherwise the hosted API pauses and Breakra stays open source.
+
+**Deploy:** a Bankr redeploy of engine 0.2.0 needs the owner's go-ahead.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

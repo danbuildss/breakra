@@ -34,7 +34,10 @@ if (/\bhandler\b/.test(code))
   throw new Error("bundle already uses the identifier `handler`; cannot add the literal export");
 if (/(^|[;}\s])import[\s{(]/.test(code) || /\brequire\(/.test(code))
   throw new Error("bundle still contains imports");
-const MAX_BYTES = 92_000; // keep the deploy request well under Bankr's ~100 KB deploy API limit
+// Bankr's deploy API accepted 91 KB (v4) and rejected 137 KB with 413 (Phase 3); the exact limit is unknown.
+// Raised from 92 KB for engine 0.2.0 (D-039); Bankr accepted the 94.8 KB bundle (v6, 2026-11-16).
+// A 413 at deploy leaves the live version untouched.
+const MAX_BYTES = 99_000;
 if (code.length > MAX_BYTES)
   throw new Error(`bundle is ${code.length} bytes; limit ${MAX_BYTES} (Bankr deploy API 413)`);
 
@@ -61,13 +64,19 @@ const config = {
       paymentScheme: "exact",
       methods: ["POST"],
       description:
-        "Compare two OpenAPI 3.0 JSON contracts (inline before/after, up to 1 MB). Returns every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with request/response direction, evidence and a recommended action. Deterministic. Only a 200 is charged; errors are free. Agent guide: https://breakra.dev/skill.md",
+        "Contract-safety check for AI agents. Compare two OpenAPI 3.0/3.1 contracts (inline before/after, JSON or YAML, up to 1 MB). Returns a verdict (safe/review/block), a suggested semver bump, and every change classified with evidence and a recommended fix. Optional `uses` shows what breaks you. Deterministic. Only a 200 is charged; errors are free. Agent guide: https://breakra.dev/skill.md",
       schema: {
         input: {
           type: "object",
           properties: {
-            before: { type: "object", description: "Previous OpenAPI 3.0.x document (inline JSON)." },
-            after: { type: "object", description: "New OpenAPI 3.0.x document (inline JSON)." },
+            before: {
+              description: "Previous OpenAPI 3.0.x/3.1.x document: a JSON object, or JSON/YAML text.",
+            },
+            after: { description: "New OpenAPI 3.0.x/3.1.x document: a JSON object, or JSON/YAML text." },
+            uses: {
+              type: "array",
+              description: 'Optional: operations you call, e.g. [{"method":"GET","path":"/orders/{id}"}].',
+            },
           },
           required: ["before", "after"],
         },
@@ -75,7 +84,10 @@ const config = {
           type: "object",
           properties: {
             analysis_id: { type: "string", description: "Same inputs give the same id and result." },
+            verdict: { type: "string", description: "safe / review / block." },
+            suggested_version_bump: { type: "string", description: "major / minor / patch / none." },
             compatibility: { type: "string", description: "Worst classification across all changes." },
+            impact: { type: "object", description: "With `uses`: the verdict for your operations." },
             summary: { type: "object", description: "Counts per classification." },
             changes: { type: "array", description: "Findings with evidence and recommended actions." },
             limitations: { type: "array", description: "What was not analysed (e.g. external $refs)." },

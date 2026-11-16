@@ -23,6 +23,6 @@
     <text x="700" y="214" font-size="14" fill="#F4EFE1"><tspan font-weight="700">− POST</tspan> /repos/{owner}/{repo}/tags/protection</text>
     <text x="700" y="246" font-size="14" fill="#F4EFE1"><tspan font-weight="700">− GET</tspan> /teams/{team_id}/discussions</text>
     <text x="700" y="278" font-size="14" fill="#F4EFE1"><tspan font-weight="700">− POST</tspan> /teams/{team_id}/discussions</text>
-    <text x="60" y="345" font-size="12" fill="#F4EFE1" fill-opacity="0.4">analysis_id sha256:c17639a1f47c0d4…faddc1 · 6 paths · demo/github-rest-api</text>
+    <text x="60" y="345" font-size="12" fill="#F4EFE1" fill-opacity="0.4">analysis_id sha256:0e85c13d9114fc2…70e078 · 6 paths · demo/github-rest-api</text>
   </g>
 </svg>
