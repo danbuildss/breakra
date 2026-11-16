@@ -83,6 +83,22 @@
   - **Bundle:** 94.8 KB. The guard was raised to 99 KB; Bankr's real limit is unknown between 91 and 137 KB.
   - **Deploy order:** Bankr first, then merge.
 - **2026-11-16:** Owner deployed engine 0.2.0 to Bankr: **v6**, same URL, $0.02. The 94.8 KB bundle was accepted. Next: V0 (free), the optional paid V4 (not yet approved), then merge PR #31.
+- **2026-11-16: v0.2.0 released.**
+  - V0 passed.
+  - **V4 passed** (paid $0.02): the live `analysis_id` equals the local one, so Bankr runs engine 0.2.0.
+  - The owner merged #31 and tagged `v0.2.0`; the Release workflow succeeded.
+  - Next: the distribution kit (Circle, Bankr email, MCP registries, skills directories) and the fork update for BankrBot/skills#771.
+- **2026-11-16:** Fork updated: BankrBot/skills#771 now carries the v0.2 SKILL.md (`34010d5`, author Dan).
+- **2026-11-16:** The owner pasted an external strategy review ("the safety layer for agent-built software"). Saved and assessed in `docs/project/STRATEGY-REVIEW-2026-11-16.md`.
+  - Its v0.2 conditions are met except **validation with 5–10 real developers**.
+  - Claude agrees **Breakra Impact** (deterministic code-aware impact for TS/JS) is the best next bet. Fix should return deterministic fix instructions, not LLM patches. Watch and Network are deferred.
+  - Wording fix proposed: `uses` is usage-based filtering, not code analysis.
+  - Kill-criterion amendment proposed. **Nothing approved yet.**
+- **2026-11-16:** Owner approved all four recommendations (**D-040**).
+  - `uses` wording fixed everywhere.
+  - VISION roadmap: v0.3 = Breakra Impact.
+  - The success test now also counts 3 of 5 developers returning unprompted.
+  - The owner recruits 5 developers; Impact starts once 2–3 real cases exist.
 
 ## Inputs received
 

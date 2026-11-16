@@ -20,7 +20,7 @@ export const TOOL = {
   name: "check_openapi_change",
   title: "Check an OpenAPI change for breaking changes",
   description:
-    "Compare two versions of an OpenAPI contract before you change an API or upgrade to a new version of one. Returns a verdict (safe / review / block), a suggested semver bump, and every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with evidence and a recommended fix. Pass `uses` (the operations your code calls) to see only what affects you. Deterministic; runs locally.",
+    "Compare two versions of an OpenAPI contract before you change an API or upgrade to a new version of one. Returns a verdict (safe / review / block), a suggested semver bump, and every change classified breaking / potentially_breaking / unknown / compatible / non_contract, with evidence and a recommended fix. Pass `uses` (the operations your code calls) to filter the findings to those operations; Breakra does not read your code. Deterministic; runs locally.",
   inputSchema: {
     type: "object",
     properties: {
