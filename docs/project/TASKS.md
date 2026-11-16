@@ -95,7 +95,7 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [x] Free local CLI (`breakra check`) and MCP server (`breakra mcp`), dependency-free.
 - [x] Docs: SKILL.md, API.md, RULES.md, README, site, CHANGELOG; distribution kit (`launch/distribution-v0.2.md`).
 - [x] `bun run check`: 160 tests, bundle 94.8 KB (guard raised to 99 KB; Bankr's limit is between 91 KB and 137 KB, unverified).
-- [ ] **Owner:** deploy engine 0.2.0 to Bankr (`bun run build`, then `bankr x402 deploy` from `dist/`) **before** merging, so the docs never describe features the live endpoint lacks. If the deploy returns 413, tell Claude (bundle size).
+- [x] **Owner:** deployed engine 0.2.0 to Bankr: **version 6** (2026-11-16, from `b150e9e`). The 94.8 KB bundle was accepted.
 - [ ] Owner: free post-deploy check (402 terms); optional paid V4 check ($0.02, needs approval); then merge; then tag `v0.2.0`.
 - [ ] Owner: submissions from `launch/distribution-v0.2.md` (Circle, Bankr email, MCP registries, skills directories).
 - [ ] Decision: publish `breakra` to npm for the one-line `bunx breakra mcp` install (needs an npm account).

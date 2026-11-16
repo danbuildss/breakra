@@ -35,7 +35,8 @@ if (/\bhandler\b/.test(code))
 if (/(^|[;}\s])import[\s{(]/.test(code) || /\brequire\(/.test(code))
   throw new Error("bundle still contains imports");
 // Bankr's deploy API accepted 91 KB (v4) and rejected 137 KB with 413 (Phase 3); the exact limit is unknown.
-// Raised from 92 KB for engine 0.2.0 (94.5 KB, D-039): a 413 at deploy leaves the live version untouched.
+// Raised from 92 KB for engine 0.2.0 (D-039); Bankr accepted the 94.8 KB bundle (v6, 2026-11-16).
+// A 413 at deploy leaves the live version untouched.
 const MAX_BYTES = 99_000;
 if (code.length > MAX_BYTES)
   throw new Error(`bundle is ${code.length} bytes; limit ${MAX_BYTES} (Bankr deploy API 413)`);

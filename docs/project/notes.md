@@ -82,6 +82,7 @@
   - **Found and fixed:** under 3.1 a numeric `exclusiveMinimum` was read as documentation, so a tightened request showed as "compatible".
   - **Bundle:** 94.8 KB. The guard was raised to 99 KB; Bankr's real limit is unknown between 91 and 137 KB.
   - **Deploy order:** Bankr first, then merge.
+- **2026-11-16:** Owner deployed engine 0.2.0 to Bankr: **v6**, same URL, $0.02. The 94.8 KB bundle was accepted. Next: V0 (free), the optional paid V4 (not yet approved), then merge PR #31.
 
 ## Inputs received
 
