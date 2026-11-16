@@ -37,7 +37,9 @@ describe("examples/response.json", () => {
 });
 
 describe("openapi.json", () => {
-  it("is a valid OpenAPI 3.0 document by Breakra's own validator", () => {
+  it("is a valid OpenAPI 3.1 document by Breakra's own validator (Circle's agent-readiness check wants 3.1)", () => {
+    expect(openapi.openapi).toBe("3.1.0");
+    expect(JSON.stringify(openapi)).not.toMatch(/"nullable"|"example":/); // 3.0-only keywords
     expect(() => validateSpec(openapi, "after")).not.toThrow();
   });
 
