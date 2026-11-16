@@ -22,7 +22,7 @@ describe("site/index.html content", () => {
     expect(text).toContain("$0.02 USDC on Base, only on a 200");
     expect(LIMITS.maxBodyBytes).toBe(1024 * 1024);
     expect(text).toContain("≤ 1 MB");
-    expect(text).toContain("OpenAPI 3.0.0–3.0.4");
+    expect(text).toContain("OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1");
   });
 
   it("the response excerpt quotes the real engine output", () => {

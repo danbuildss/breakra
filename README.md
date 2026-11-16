@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  Breakra compares two OpenAPI 3.0 contracts and tells a coding agent what may break: every change, classified, with the evidence and a recommended fix.<br/>
+  Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells a coding agent what may break, for its callers or for itself: a verdict, every change classified, the evidence and a recommended fix.<br/>
   <strong>One HTTP call. $0.02 USDC on Base via x402. Errors are free.</strong>
 </p>
 
@@ -52,6 +52,23 @@ Send the old and the new contract. Breakra validates both, diffs them, and class
 ```
 
 <details open>
+<summary><b>Free and local: CLI or MCP server (no wallet)</b></summary>
+<br/>
+
+Same engine, on your machine, nothing sent anywhere. Needs [Bun](https://bun.sh).
+
+```bash
+git clone https://github.com/danbuildss/breakra && cd breakra && bun install
+bun src/cli.ts check old.yaml new.yaml                     # verdict, findings, fixes
+bun src/cli.ts check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review   # does it break me?
+claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp        # MCP tool: check_openapi_change
+```
+
+Exit codes: `0` below `--fail-on` (default `block`), `1` at or above it, `2` error. `--json` prints the hosted API's exact result.
+
+</details>
+
+<details>
 <summary><b>With a coding agent</b></summary>
 <br/>
 
@@ -116,7 +133,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 
 ## Limits and privacy
 
-- OpenAPI **3.0.0–3.0.4 JSON**, inline. Not yet: OpenAPI 3.1, Swagger 2.0, YAML, URL inputs.
+- OpenAPI **3.0.0–3.0.4 and 3.1.0–3.1.1**, as JSON objects or JSON/YAML text, inline. Not supported: Swagger 2.0, OpenAPI 3.2, URL inputs.
 - Request body ≤ **1 MB**; nesting, operation and `$ref`-expansion limits apply. Over a limit → a free 413 or 422.
 - For bodies over **500 KB**, use the direct Bankr URL above rather than `breakra.dev/api/analyze`: the forward adds a hop with its own proxy timeout.
 - External `$ref`s are **never fetched**; they're listed in `limitations`.

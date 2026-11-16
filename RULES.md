@@ -1,4 +1,4 @@
-# Breakra — Compatibility Rule Set 0.1.0
+# Breakra — Compatibility Rule Set 0.2.0
 
 Implemented in `src/core/classify.ts`. Covered by `tests/rules.test.ts`, `tests/bakeoff.test.ts`, and cross-checked against oasdiff (`scripts/oracle.ts`).
 Every finding has `rule` = `<direction>.<kind>`. Bump `RULE_SET_VERSION` (`src/version.ts`) on **any** change to these rules.
@@ -9,7 +9,7 @@ Every finding has `rule` = `<direction>.<kind>`. Bump `RULE_SET_VERSION` (`src/v
 |---|---|
 | `breaking` | Existing callers **will** fail. Used only where that's certain (a removed operation). |
 | `potentially_breaking` | **May** break consumers depending on how they use the API. Review needed. |
-| `unknown` | Changed in a way rule set 0.1.0 doesn't evaluate. Never silently ignored. |
+| `unknown` | Changed in a way rule set 0.2.0 doesn't evaluate. Never silently ignored. |
 | `compatible` | Existing well-behaved consumers are unaffected. |
 | `non_contract` | Documentation or metadata only. |
 
@@ -76,6 +76,34 @@ Keyword effects:
 | | `info`, `openapi`, `tags`, `externalDocs`, `x-*` | non_contract |
 | | changed `$ref` that can't be resolved locally (external) | unknown (targets are never fetched) |
 | | changes to unused `components` | not reported (components affect the contract only where referenced, and are reported there) |
+
+## Rule set 0.2.0: OpenAPI 3.1 additions (engine 0.2.0)
+
+| Change | Request side | Response side |
+|---|---|---|
+| `type` list gains a type (e.g. `"string"` → `["string", "null"]`) | compatible (accepts more) | potentially_breaking (may return more) |
+| `type` list loses a type | potentially_breaking | compatible |
+| `type` list replaced by an unrelated one | potentially_breaking | potentially_breaking |
+| numeric `exclusiveMinimum` / `exclusiveMaximum` (3.1) added or tightened | potentially_breaking | compatible |
+| numeric `exclusiveMinimum` / `exclusiveMaximum` removed or loosened | compatible | potentially_breaking |
+| `const` added (removed) | potentially_breaking (compatible) | compatible (potentially_breaking) |
+| `const` changed | potentially_breaking | potentially_breaking |
+| `examples` list entries | non_contract | non_contract |
+| `webhooks`, `jsonSchemaDialect`, `$defs`, other 3.1-only document parts | unknown (document) | unknown (document) |
+
+In 3.0 documents, boolean `exclusiveMinimum` / `exclusiveMaximum` keep their 0.1.0 meaning (a modifier on `minimum` / `maximum`).
+
+## Verdict and version advice (engine 0.2.0)
+
+| Highest class present | `verdict` | `suggested_version_bump` |
+|---|---|---|
+| `breaking` | `block` | `major` |
+| `potentially_breaking` or `unknown` | `review` | `major` (conservative) |
+| `compatible` | `safe` | `minor` |
+| only `non_contract` | `safe` | `patch` |
+| no changes | `safe` | `none` |
+
+With `uses`, `impact.verdict` applies the same mapping to the changes on the listed operations, plus changes with no operation (document-wide, such as global security), which reach every caller.
 
 ## Known differences from oasdiff (documented in `tests/oracle-differences.json`)
 

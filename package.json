@@ -3,7 +3,10 @@
   "version": "0.2.0",
   "private": true,
   "license": "MIT",
-  "description": "Compare two OpenAPI 3.0 contracts and return evidence-backed compatibility findings.",
+  "description": "Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a verdict, evidence and fixes.",
+  "bin": {
+    "breakra": "src/cli.ts"
+  },
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -19,7 +22,8 @@
     "examples": "bun scripts/examples.ts",
     "demo": "bun scripts/demo.ts",
     "metrics": "bun scripts/metrics.ts",
-    "brand": "bun scripts/brand.ts"
+    "brand": "bun scripts/brand.ts",
+    "cli": "bun src/cli.ts"
   },
   "dependencies": {
     "api-smart-diff": "1.0.6"
