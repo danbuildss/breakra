@@ -99,6 +99,10 @@
   - VISION roadmap: v0.3 = Breakra Impact.
   - The success test now also counts 3 of 5 developers returning unprompted.
   - The owner recruits 5 developers; Impact starts once 2–3 real cases exist.
+- **2026-11-16:** Owner merged #32. **Circle agent-readiness score for breakra.dev: 90/100 (A)**, 10 of 12 checks pass, runtime-verified (an unpaid call returned a valid 402).
+  - **Valid OpenAPI 3.1: 0/5.** Our `openapi.json` declared 3.0.3; it's now converted to 3.1.0 (`nullable` → type lists, `example` → `examples`), expected +5.
+  - **Multi-chain payment: 0/5.** Bankr offers Base only; fixing it needs self-hosted x402 (VISION "After that").
+  - Capabilities "Schema in 402", nanopayments, wallet auth: not detected (Bankr's 402 has no Bazaar extension).
 
 ## Inputs received
 

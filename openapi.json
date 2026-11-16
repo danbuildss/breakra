@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
     "title": "Breakra",
     "version": "0.2.0",
@@ -345,8 +345,10 @@
             ]
           },
           "operation": {
-            "type": "object",
-            "nullable": true,
+            "type": [
+              "object",
+              "null"
+            ],
             "required": [
               "method",
               "path"
@@ -405,11 +407,9 @@
                 }
               },
               "before": {
-                "nullable": true,
                 "description": "Value before (null when added). Over 1,000 characters is truncated."
               },
               "after": {
-                "nullable": true,
                 "description": "Value after (null when removed)."
               },
               "truncated": {
@@ -475,12 +475,16 @@
         "properties": {
           "method": {
             "type": "string",
-            "example": "GET"
+            "examples": [
+              "GET"
+            ]
           },
           "path": {
             "type": "string",
-            "example": "/orders/{id}",
-            "description": "Path template; parameter names don't need to match."
+            "description": "Path template; parameter names don't need to match.",
+            "examples": [
+              "/orders/{id}"
+            ]
           }
         }
       },
