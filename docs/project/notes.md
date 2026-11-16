@@ -88,6 +88,12 @@
   - **V4 passed** (paid $0.02): the live `analysis_id` equals the local one, so Bankr runs engine 0.2.0.
   - The owner merged #31 and tagged `v0.2.0`; the Release workflow succeeded.
   - Next: the distribution kit (Circle, Bankr email, MCP registries, skills directories) and the fork update for BankrBot/skills#771.
+- **2026-11-16:** Fork updated: BankrBot/skills#771 now carries the v0.2 SKILL.md (`34010d5`, author Dan).
+- **2026-11-16:** The owner pasted an external strategy review ("the safety layer for agent-built software"). Saved and assessed in `docs/project/STRATEGY-REVIEW-2026-11-16.md`.
+  - Its v0.2 conditions are met except **validation with 5–10 real developers**.
+  - Claude agrees **Breakra Impact** (deterministic code-aware impact for TS/JS) is the best next bet. Fix should return deterministic fix instructions, not LLM patches. Watch and Network are deferred.
+  - Wording fix proposed: `uses` is usage-based filtering, not code analysis.
+  - Kill-criterion amendment proposed. **Nothing approved yet.**
 
 ## Inputs received
 
