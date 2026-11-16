@@ -2,9 +2,9 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Breakra",
-    "version": "0.1.1",
-    "description": "Compare two OpenAPI 3.0 JSON contracts and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md The same endpoint is also reachable directly on Bankr at https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze (identical behaviour and price). For request bodies over 500 KB use the direct Bankr URL: the breakra.dev forward has its own proxy timeout.",
-    "x-guidance": "POST {\"before\": <OpenAPI 3.0 JSON>, \"after\": <OpenAPI 3.0 JSON>} (inline, ≤ 1 MB). Pay once via x402: check scheme exact, network eip155:8453, USDC, amount 20000; sign once and never re-sign automatically. Only a 200 is charged; 4xx/5xx are free. Gate on `compatibility`; fix each breaking / potentially_breaking finding by operation + location. Full guide: https://breakra.dev/skill.md",
+    "version": "0.2.0",
+    "description": "Compare two OpenAPI 3.0/3.1 contracts (JSON objects, or JSON/YAML text) and get deterministic, evidence-backed compatibility findings. One paid operation: $0.02 USDC on Base via x402 (v2, scheme `exact`). Only a 200 response is charged; every 4xx/5xx is free. Agent guide: https://breakra.dev/skill.md The same endpoint is also reachable directly on Bankr at https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze (identical behaviour and price). For request bodies over 500 KB use the direct Bankr URL: the breakra.dev forward has its own proxy timeout.",
+    "x-guidance": "POST {\"before\": <OpenAPI 3.0/3.1 doc>, \"after\": <doc>} (inline JSON object or JSON/YAML string, ≤ 1 MB); optional \"uses\": [{\"method\",\"path\"}] for \"does this break me?\". Pay once via x402: check scheme exact, network eip155:8453, USDC, amount 20000; sign once and never re-sign automatically. Only a 200 is charged; 4xx/5xx are free. Gate on `verdict` (safe/review/block); fix each breaking / potentially_breaking finding by operation + location. Full guide: https://breakra.dev/skill.md",
     "license": {
       "name": "MIT",
       "url": "https://github.com/danbuildss/breakra/blob/main/LICENSE"
@@ -25,7 +25,7 @@
     "/api/analyze": {
       "post": {
         "operationId": "analyze",
-        "summary": "Compare two OpenAPI 3.0 contracts ($0.02 USDC on Base, x402)",
+        "summary": "Compare two OpenAPI 3.0/3.1 contracts ($0.02 USDC on Base, x402)",
         "description": "Send the previous and the new contract inline. The first unpaid request returns 402 with the x402 payment terms in the `payment-required` header (base64 JSON). Sign one USDC authorization and resend the same body with the `PAYMENT-SIGNATURE` header. Sign once per call: a reused signature is rejected, and each new signature is a separate charge. The body must be at most 1 MB.",
         "requestBody": {
           "required": true,
@@ -113,12 +113,35 @@
         ],
         "properties": {
           "before": {
-            "type": "object",
-            "description": "Previous contract: an inline OpenAPI 3.0.0–3.0.4 JSON document. URLs, YAML, OpenAPI 3.1 and Swagger 2.0 are not accepted."
+            "description": "Previous contract. An OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1 document: a JSON object, or the document as JSON or YAML text. URLs and Swagger 2.0 are not accepted.",
+            "oneOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "after": {
-            "type": "object",
-            "description": "New contract: an inline OpenAPI 3.0.0–3.0.4 JSON document."
+            "description": "New contract. An OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1 document: a JSON object, or the document as JSON or YAML text. URLs and Swagger 2.0 are not accepted.",
+            "oneOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "uses": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1000,
+            "description": "Optional: the operations your code calls. Adds an `impact` section saying which findings affect you.",
+            "items": {
+              "$ref": "#/components/schemas/UsedOperation"
+            }
           }
         }
       },
@@ -131,6 +154,8 @@
           "rule_set_version",
           "spec_versions",
           "compatibility",
+          "verdict",
+          "suggested_version_bump",
           "summary",
           "changes",
           "limitations",
@@ -145,7 +170,7 @@
           },
           "analysis_id": {
             "type": "string",
-            "description": "sha256 of engine version, rule-set version and both canonical input hashes. The same inputs always give the same id and the same result.",
+            "description": "sha256 of engine version, rule-set version, both canonical input hashes and (when given) the `uses` list. The same inputs always give the same id and the same result.",
             "pattern": "^sha256:[0-9a-f]{64}$"
           },
           "engine_version": {
@@ -171,6 +196,19 @@
           },
           "compatibility": {
             "$ref": "#/components/schemas/Compatibility"
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "suggested_version_bump": {
+            "type": "string",
+            "enum": [
+              "major",
+              "minor",
+              "patch",
+              "none"
+            ],
+            "description": "Semver advice for the API's own version. Conservative: breaking, potentially breaking or unknown changes mean major; only additive changes minor; only docs patch."
           },
           "summary": {
             "type": "object",
@@ -218,6 +256,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "impact": {
+            "$ref": "#/components/schemas/Impact"
           },
           "metadata": {
             "type": "object",
@@ -422,6 +463,87 @@
                 "type": "object"
               }
             }
+          }
+        }
+      },
+      "UsedOperation": {
+        "type": "object",
+        "required": [
+          "method",
+          "path"
+        ],
+        "properties": {
+          "method": {
+            "type": "string",
+            "example": "GET"
+          },
+          "path": {
+            "type": "string",
+            "example": "/orders/{id}",
+            "description": "Path template; parameter names don't need to match."
+          }
+        }
+      },
+      "Verdict": {
+        "type": "string",
+        "enum": [
+          "safe",
+          "review",
+          "block"
+        ],
+        "description": "block: breaking changes. review: potentially breaking or unknown changes. safe: nothing that may break callers."
+      },
+      "Impact": {
+        "type": "object",
+        "description": "Only present when the request had `uses`.",
+        "required": [
+          "verdict",
+          "uses",
+          "affecting",
+          "change_ids",
+          "not_in_before"
+        ],
+        "properties": {
+          "verdict": {
+            "$ref": "#/components/schemas/Verdict"
+          },
+          "uses": {
+            "type": "integer",
+            "description": "Distinct operations in `uses`."
+          },
+          "affecting": {
+            "type": "object",
+            "required": [
+              "breaking",
+              "potentially_breaking",
+              "unknown"
+            ],
+            "properties": {
+              "breaking": {
+                "type": "integer"
+              },
+              "potentially_breaking": {
+                "type": "integer"
+              },
+              "unknown": {
+                "type": "integer"
+              }
+            },
+            "description": "Counts over all changes that touch your operations, plus document-wide changes (which reach every caller)."
+          },
+          "change_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Ids of the listed changes that affect you."
+          },
+          "not_in_before": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsedOperation"
+            },
+            "description": "Operations you listed that the \"before\" document doesn't define (check for typos)."
           }
         }
       }

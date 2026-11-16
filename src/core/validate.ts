@@ -1,5 +1,6 @@
 import { BreakraError } from "./errors";
 import { LIMITS } from "./limits";
+import { parseUses, type UsedOperation } from "./verdict";
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 export type JsonObject = { [key: string]: Json };
@@ -7,6 +8,8 @@ export type JsonObject = { [key: string]: Json };
 export interface AnalyzeInput {
   before: JsonObject;
   after: JsonObject;
+  /** Operations the caller depends on; adds an `impact` section to the result. */
+  uses?: UsedOperation[];
 }
 
 export interface ExternalRef {
@@ -21,15 +24,53 @@ export interface ValidatedSpec {
   externalRefs: ExternalRef[];
 }
 
-const SUPPORTED_VERSION = /^3\.0\.[0-4]$/;
+const SUPPORTED_VERSION = /^3\.(0\.[0-4]|1\.[01])$/;
 const HTTP_METHODS = new Set(["get", "put", "post", "delete", "options", "head", "patch", "trace"]);
 
 export function isObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+type YamlParse = (text: string) => unknown;
+/** Bun's built-in YAML 1.2 parser (Bankr runs Bun; so do the tests and the CLI). Data only: no code, no tags. */
+const bunYaml = (globalThis as { Bun?: { YAML?: { parse?: YamlParse } } }).Bun?.YAML?.parse;
+
+/**
+ * A document sent as a string: JSON text, or YAML. The node, depth and $ref limits in validateSpec apply to
+ * the parsed result, which also bounds YAML alias expansion ("billion laughs"): aliases become shared
+ * references, and the scan counts every visit.
+ */
+export function parseSpecText(
+  text: string,
+  side: "before" | "after",
+  yamlParse: YamlParse | null = bunYaml ?? null,
+): JsonObject {
+  const fail = (what: string) =>
+    new BreakraError("INVALID_REQUEST", `"${side}" is a string but not ${what}.`, { side });
+  let parsed: unknown;
+  if (/^\s*\{/.test(text)) {
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      throw fail("valid JSON");
+    }
+  } else {
+    if (!yamlParse) throw new BreakraError("INVALID_REQUEST", "YAML input needs the Bun runtime.", { side });
+    try {
+      parsed = yamlParse(text);
+    } catch {
+      throw fail("valid YAML");
+    }
+  }
+  if (!isObject(parsed)) throw fail("a YAML or JSON object (an OpenAPI document)");
+  return parsed;
+}
+
 /** Parses and shape-checks the request body. Never echoes body content in errors. */
-export function parseRequestBody(bytes: Uint8Array): AnalyzeInput {
+export function parseRequestBody(
+  bytes: Uint8Array,
+  yamlParse: YamlParse | null = bunYaml ?? null,
+): AnalyzeInput {
   if (bytes.byteLength > LIMITS.maxBodyBytes) {
     throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 1 MB limit.", {
       limit_bytes: LIMITS.maxBodyBytes,
@@ -53,20 +94,27 @@ export function parseRequestBody(bytes: Uint8Array): AnalyzeInput {
       'Request body must be a JSON object: {"before": {...}, "after": {...}}.',
     );
   }
-  const keys = Object.keys(parsed).sort();
-  if (keys.length !== 2 || keys[0] !== "after" || keys[1] !== "before") {
+  const keys = Object.keys(parsed);
+  const allowed = new Set(["before", "after", "uses"]);
+  if (!("before" in parsed) || !("after" in parsed) || keys.some((k) => !allowed.has(k))) {
     throw new BreakraError(
       "INVALID_REQUEST",
-      'Request body must contain exactly two fields, "before" and "after", each an inline OpenAPI 3.0 JSON document. URL inputs are not supported.',
+      'Request body must contain "before" and "after" (each an OpenAPI document: a JSON object, or JSON/YAML text), and optionally "uses". URL inputs are not supported.',
     );
   }
-  if (!isObject(parsed.before) || !isObject(parsed.after)) {
+  const doc = (value: unknown, side: "before" | "after"): JsonObject => {
+    if (isObject(value)) return value;
+    if (typeof value === "string") return parseSpecText(value, side, yamlParse);
     throw new BreakraError(
       "INVALID_REQUEST",
-      '"before" and "after" must both be JSON objects (OpenAPI documents).',
+      '"before" and "after" must each be an OpenAPI document: a JSON object, or JSON/YAML text.',
     );
-  }
-  return { before: parsed.before, after: parsed.after };
+  };
+  return {
+    before: doc(parsed.before, "before"),
+    after: doc(parsed.after, "after"),
+    ...("uses" in parsed ? { uses: parseUses(parsed.uses) } : {}),
+  };
 }
 
 function escapePointer(segment: string): string {
@@ -183,12 +231,12 @@ export function expandedSize(spec: JsonObject, side: "before" | "after"): number
   }
 }
 
-/** Structural checks for an OpenAPI 3.0.x document. Lenient on optional fields, strict on shape. */
+/** Structural checks for an OpenAPI 3.0.x / 3.1.x document. Lenient on optional fields, strict on shape. */
 export function validateSpec(spec: JsonObject, side: "before" | "after"): ValidatedSpec {
   const invalid = (message: string, pointer?: string): BreakraError =>
     new BreakraError(
       "INVALID_SPECIFICATION",
-      `The "${side}" document is not a valid OpenAPI 3.0 document: ${message}`,
+      `The "${side}" document is not a valid OpenAPI 3.0/3.1 document: ${message}`,
       {
         side,
         ...(pointer ? { pointer } : {}),
@@ -198,7 +246,7 @@ export function validateSpec(spec: JsonObject, side: "before" | "after"): Valida
   if ("swagger" in spec) {
     throw new BreakraError(
       "UNSUPPORTED_OPENAPI_VERSION",
-      `The "${side}" document is Swagger 2.0. Only OpenAPI 3.0.x is supported.`,
+      `The "${side}" document is Swagger 2.0. Only OpenAPI 3.0.x and 3.1.x are supported.`,
       {
         side,
       },
@@ -209,7 +257,7 @@ export function validateSpec(spec: JsonObject, side: "before" | "after"): Valida
   if (!SUPPORTED_VERSION.test(version)) {
     throw new BreakraError(
       "UNSUPPORTED_OPENAPI_VERSION",
-      `The "${side}" document declares OpenAPI ${version.slice(0, 20)}. Only OpenAPI 3.0.0–3.0.4 is supported.`,
+      `The "${side}" document declares OpenAPI ${version.slice(0, 20)}. Only OpenAPI 3.0.0–3.0.4 and 3.1.0–3.1.1 are supported.`,
       { side },
     );
   }
@@ -217,7 +265,8 @@ export function validateSpec(spec: JsonObject, side: "before" | "after"): Valida
   if (!isObject(info) || typeof info.title !== "string" || typeof info.version !== "string") {
     throw invalid('"info" must be an object with string "title" and "version".', "/info");
   }
-  const paths = spec.paths;
+  // OpenAPI 3.1 makes "paths" optional (a document may define only webhooks or components).
+  const paths = spec.paths === undefined && version.startsWith("3.1") ? {} : spec.paths;
   if (!isObject(paths)) throw invalid('"paths" must be an object.', "/paths");
 
   let operations = 0;

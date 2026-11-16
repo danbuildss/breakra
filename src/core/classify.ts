@@ -2,7 +2,7 @@ import type { RawDiff } from "./compare";
 import { isObject, type Json, resolveLocalRef } from "./validate";
 
 /**
- * Breakra rule set 0.1.0 (RULES.md). Pure, deterministic mapping from raw structural changes to
+ * Breakra rule set 0.2.0 (RULES.md). Pure, deterministic mapping from raw structural changes to
  * findings. api-smart-diff's own labels are never consulted (D-013, D-020).
  *
  * Core principle for schemas:
@@ -153,17 +153,42 @@ function addRemoveEffect(action: RawDiff["action"], onAdd: Effect, onRemove: Eff
   return "changed";
 }
 
+/** OpenAPI 3.1 allows `type` to be a list; compares the sets of allowed types ("integer" ⊂ "number"). */
+function typeSetEffect(before: Json | undefined, after: Json | undefined): Effect {
+  const set = (v: Json | undefined) =>
+    new Set(Array.isArray(v) ? v.map(String) : typeof v === "string" ? [v] : []);
+  const b = set(before);
+  const a = set(after);
+  if (b.size === 0 || a.size === 0) return "changed";
+  const covers = (outer: Set<string>, t: string) => outer.has(t) || (t === "integer" && outer.has("number"));
+  const widened = [...b].every((t) => covers(a, t));
+  const narrowed = [...a].every((t) => covers(b, t));
+  if (widened && narrowed) return "meta";
+  if (widened) return "widen";
+  if (narrowed) return "narrow";
+  return "changed";
+}
+
 function keywordEffect(keyword: string, d: RawDiff): Effect {
   const { action, before, after } = d;
   if (MAX_KEYWORDS.has(keyword) || MIN_KEYWORDS.has(keyword))
     return numericEffect(keyword, action, before, after);
   switch (keyword) {
     case "type":
-      if (action === "replace" && before === "integer" && after === "number") return "widen";
-      if (action === "replace" && before === "number" && after === "integer") return "narrow";
+      if (action === "replace") return typeSetEffect(before, after);
+      return addRemoveEffect(action, "narrow", "widen");
+    case "const":
       return addRemoveEffect(action, "narrow", "widen");
     case "exclusiveMaximum":
     case "exclusiveMinimum":
+      // OpenAPI 3.1 (JSON Schema 2020-12): a numeric bound. OpenAPI 3.0: a boolean modifier.
+      if (typeof before === "number" || typeof after === "number") {
+        if (typeof before === "boolean" || typeof after === "boolean") return "changed";
+        return numericEffect(keyword === "exclusiveMaximum" ? "maximum" : "minimum", action, before, after);
+      }
+      if (after === true && before !== true) return "narrow";
+      if (before === true && after !== true) return "widen";
+      return "meta";
     case "uniqueItems":
       if (after === true && before !== true) return "narrow";
       if (before === true && after !== true) return "widen";
@@ -264,7 +289,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
         direction,
         operation,
         location: { ...base, field: field || undefined, keyword: "not" },
-        reason: `A schema inside \`not\` changed in ${subject}${field ? ` (field \`${field}\`)` : ""}; rule set 0.1.0 does not evaluate negated schemas.`,
+        reason: `A schema inside \`not\` changed in ${subject}${field ? ` (field \`${field}\`)` : ""}; rule set 0.2.0 does not evaluate negated schemas.`,
         action: `Review ${subject} of ${opName(operation)} manually.`,
       });
     } else {
@@ -426,6 +451,36 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
     });
   }
 
+  // OpenAPI 3.1 type lists: [..., "type", i]. A type added to the list widens the accepted values.
+  if (keyword === "type" && typeof last === "number" && terminal.length === 2) {
+    const effect: Effect = addRemoveEffect(d.action, "widen", "narrow");
+    return make(ctx, {
+      kind: effect === "changed" ? "type_changed" : effect === "widen" ? "type_widened" : "type_narrowed",
+      compatibility: effectCompatibility(effect, direction),
+      direction,
+      operation,
+      location: loc(field, "type"),
+      reason: `The allowed types of ${fieldLabel(field)} in ${subject} ${EFFECT_WORD[effect]}.`,
+      action:
+        effectCompatibility(effect, direction) === "compatible"
+          ? `No action required for ${opName(operation)}.`
+          : `Review ${fieldLabel(field)} handling in ${opName(operation)}.`,
+    });
+  }
+
+  // Entries of documentation lists such as OpenAPI 3.1 `examples`: [..., "examples", i]
+  if (typeof keyword === "string" && META_KEYWORDS.has(keyword) && typeof last === "number") {
+    return make(ctx, {
+      kind: "schema_documentation_changed",
+      compatibility: "non_contract",
+      direction,
+      operation,
+      location: loc(field, keyword),
+      reason: `Documentation (\`${keyword}\`) of ${fieldLabel(field)} in ${subject} changed.`,
+      action: "No action required.",
+    });
+  }
+
   // Any change below an enum/required/type array we did not catch above, or deeper unknown shapes.
   const kw = typeof last === "string" ? last : String(keyword ?? "");
   if (terminal.length !== 1 || typeof last !== "string") {
@@ -435,7 +490,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
       direction,
       operation,
       location: loc(field, kw || undefined),
-      reason: `A schema construct (\`${terminal.join(".")}\`) changed in ${subject}; rule set 0.1.0 does not evaluate it.`,
+      reason: `A schema construct (\`${terminal.join(".")}\`) changed in ${subject}; rule set 0.2.0 does not evaluate it.`,
       action: `Review ${subject} of ${opName(operation)} manually.`,
     });
   }
@@ -487,7 +542,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
       effect === "meta"
         ? `Documentation (\`${kw}\`) of ${fieldLabel(field)} in ${subject} changed; no contract impact.`
         : effect === "unknown"
-          ? `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed; rule set 0.1.0 does not evaluate this keyword.`
+          ? `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed; rule set 0.2.0 does not evaluate this keyword.`
           : effect === "deprecated"
             ? `${fieldLabel(field)} in ${subject} was marked deprecated.`
             : `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed (${JSON.stringify(value(d.before))?.slice(0, 60)} → ${JSON.stringify(value(d.after))?.slice(0, 60)}), so the set of ${accepted} values ${EFFECT_WORD[effect]}.`,
@@ -858,7 +913,7 @@ function classifyParameter(
     ...base,
     kind: "parameter_change_unsupported",
     compatibility: "unknown",
-    reason: `The ${label} of ${opName(operation)} changed (\`${sub.join(".")}\`); rule set 0.1.0 does not evaluate this.`,
+    reason: `The ${label} of ${opName(operation)} changed (\`${sub.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
     action: `Review the ${label} manually.`,
   });
 }
@@ -974,7 +1029,7 @@ function classifyRequestBody(
     ...base,
     kind: "request_body_change_unsupported",
     compatibility: "unknown",
-    reason: `The request body of ${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.1.0 does not evaluate this.`,
+    reason: `The request body of ${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
     action: "Review the request body manually.",
   });
 }
@@ -1148,7 +1203,7 @@ function classifyResponses(
     location: loc,
     kind: "response_change_unsupported",
     compatibility: "unknown",
-    reason: `Status ${status} of ${opName(operation)} changed (\`${rest.slice(1).join(".")}\`); rule set 0.1.0 does not evaluate this.`,
+    reason: `Status ${status} of ${opName(operation)} changed (\`${rest.slice(1).join(".")}\`); rule set 0.2.0 does not evaluate this.`,
     action: "Review the response manually.",
   });
 }
@@ -1228,7 +1283,7 @@ function classifyOperation(ctx: Ctx, pathKey: string, method: string, rest: Arra
         ...base,
         kind: "callbacks_changed",
         compatibility: "unknown",
-        reason: `Callbacks of ${opName(operation)} changed; rule set 0.1.0 does not evaluate callbacks.`,
+        reason: `Callbacks of ${opName(operation)} changed; rule set 0.2.0 does not evaluate callbacks.`,
         action: "Review callbacks manually.",
       });
     default:
@@ -1245,7 +1300,7 @@ function classifyOperation(ctx: Ctx, pathKey: string, method: string, rest: Arra
         ...base,
         kind: "operation_change_unsupported",
         compatibility: "unknown",
-        reason: `${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.1.0 does not evaluate this.`,
+        reason: `${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
         action: `Review ${opName(operation)} manually.`,
       });
   }
@@ -1430,7 +1485,7 @@ export function classify(raw: RawDiff, merged: Json): Change[] {
       compatibility: "unknown",
       direction: "document",
       operation: null,
-      reason: `\`${path.join(".")}\` changed; rule set 0.1.0 does not evaluate this.`,
+      reason: `\`${path.join(".")}\` changed; rule set 0.2.0 does not evaluate this.`,
       action: "Review manually.",
     }),
   ];

@@ -24,8 +24,8 @@
 [![license](https://img.shields.io/badge/license-MIT-F4EFE1?style=flat-square&labelColor=0d0c0a)](LICENSE)
 [![price](https://img.shields.io/badge/price-%240.02%20USDC-F4EFE1?style=flat-square&labelColor=0d0c0a)](#how-payment-works)
 [![x402](https://img.shields.io/badge/x402-Base-F4EFE1?style=flat-square&labelColor=0d0c0a)](https://www.x402.org)
-[![engine](https://img.shields.io/badge/engine-0.1.1-F4EFE1?style=flat-square&labelColor=0d0c0a)](RULES.md)
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0-F4EFE1?style=flat-square&labelColor=0d0c0a)](https://spec.openapis.org/oas/v3.0.3)
+[![engine](https://img.shields.io/badge/engine-0.2.0-F4EFE1?style=flat-square&labelColor=0d0c0a)](RULES.md)
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0%20%7C%203.1-F4EFE1?style=flat-square&labelColor=0d0c0a)](https://spec.openapis.org/oas/v3.0.3)
 
 </div>
 

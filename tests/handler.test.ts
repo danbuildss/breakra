@@ -26,11 +26,15 @@ describe("handler", () => {
         "rule_set_version",
         "spec_versions",
         "status",
+        "suggested_version_bump",
         "summary",
+        "verdict",
       ].sort(),
     );
-    expect(r.json.engine_version).toBe("0.1.1");
-    expect(r.json.rule_set_version).toBe("0.1.0");
+    expect(r.json.engine_version).toBe("0.2.0");
+    expect(r.json.verdict).toBe("block");
+    expect(r.json.suggested_version_bump).toBe("major");
+    expect(r.json.rule_set_version).toBe("0.2.0");
     expect(r.json.spec_versions).toEqual({ before: "3.0.3", after: "3.0.3" });
   });
 

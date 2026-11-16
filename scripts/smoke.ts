@@ -11,8 +11,8 @@ const fail = (msg: string): never => {
 };
 const codeOnly = source.replace(/^\/\/.*$/gm, "");
 if (/(^|[;}\s])import[\s{(]/.test(codeOnly)) fail("bundle contains import statements");
-// Bankr's deploy API rejected a 137 KB upload with 413; keep a margin under ~100 KB.
-if (source.length > 95_000) fail(`bundle is ${source.length} bytes; too large for Bankr's deploy API`);
+// Bankr's deploy API rejected a 137 KB upload with 413 and accepted 91 KB; see scripts/build.ts.
+if (source.length > 100_000) fail(`bundle is ${source.length} bytes; too large for Bankr's deploy API`);
 if (
   !/export default async function handler\(req: Request\): Promise<Response> \{\s*return [A-Za-z_$][\w$]*\(req\);\s*\}\s*$/.test(
     source,
@@ -38,6 +38,27 @@ if (
   body.compatibility !== "breaking"
 ) {
   fail(`happy path: status ${ok.status} ${JSON.stringify(body).slice(0, 300)}`);
+}
+if (body.verdict !== "block" || body.suggested_version_bump !== "major") {
+  fail(`verdict: ${body.verdict} / ${body.suggested_version_bump}`);
+}
+// Engine 0.2.0: YAML text input and the `uses` impact section, in the deployed artefact (Bun's YAML parser).
+const yaml = `openapi: 3.1.0
+info: { title: t, version: "1" }
+paths:
+  /a: { get: { responses: { "200": { description: ok } } } }
+  /b: { get: { responses: { "200": { description: ok } } } }
+`;
+const yamlAfter = yaml.replace(/ {2}\/b:.*\n/, "");
+const v02 = await handler(
+  new Request("https://smoke/", {
+    method: "POST",
+    body: JSON.stringify({ before: yaml, after: yamlAfter, uses: [{ method: "GET", path: "/a" }] }),
+  }),
+);
+const v02body = await v02.json();
+if (v02.status !== 200 || v02body.verdict !== "block" || v02body.impact?.verdict !== "safe") {
+  fail(`YAML + uses: status ${v02.status} ${JSON.stringify(v02body).slice(0, 300)}`);
 }
 const bad = await handler(new Request("https://smoke/", { method: "POST", body: "{not json" }));
 if (bad.status !== 400) fail(`invalid JSON should be 400, got ${bad.status}`);

@@ -1,6 +1,6 @@
 {
   "name": "breakra",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "license": "MIT",
   "description": "Compare two OpenAPI 3.0 contracts and return evidence-backed compatibility findings.",
@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check src tests scripts examples site",
     "format": "biome format --write src tests scripts examples site",
-    "test": "vitest run",
+    "test": "bun --bun vitest run",
     "build": "bun scripts/build.ts",
     "smoke": "bun scripts/smoke.ts",
     "oracle": "bun scripts/oracle.ts",

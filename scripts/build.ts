@@ -34,7 +34,9 @@ if (/\bhandler\b/.test(code))
   throw new Error("bundle already uses the identifier `handler`; cannot add the literal export");
 if (/(^|[;}\s])import[\s{(]/.test(code) || /\brequire\(/.test(code))
   throw new Error("bundle still contains imports");
-const MAX_BYTES = 92_000; // keep the deploy request well under Bankr's ~100 KB deploy API limit
+// Bankr's deploy API accepted 91 KB (v4) and rejected 137 KB with 413 (Phase 3); the exact limit is unknown.
+// Raised from 92 KB for engine 0.2.0 (94.5 KB, D-039): a 413 at deploy leaves the live version untouched.
+const MAX_BYTES = 99_000;
 if (code.length > MAX_BYTES)
   throw new Error(`bundle is ${code.length} bytes; limit ${MAX_BYTES} (Bankr deploy API 413)`);
 
