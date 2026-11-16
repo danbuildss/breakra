@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { LIMITS } from "../src/core/limits";
+import { ENGINE_VERSION } from "../src/version";
 
 const root = join(__dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -23,6 +24,8 @@ describe("site/index.html content", () => {
     expect(LIMITS.maxBodyBytes).toBe(1024 * 1024);
     expect(text).toContain("≤ 1 MB");
     expect(text).toContain("OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1");
+    expect(text).toContain(`Engine ${ENGINE_VERSION}`);
+    expect(text).toContain("bun src/cli.ts check"); // the free local path is on the page
   });
 
   it("the response excerpt quotes the real engine output", () => {
@@ -33,6 +36,8 @@ describe("site/index.html content", () => {
       c.compatibility,
       c.location.name,
       response.compatibility,
+      response.verdict,
+      response.suggested_version_bump,
     ]) {
       expect(text).toContain(`"${v}"`);
     }

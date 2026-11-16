@@ -35,13 +35,14 @@
   <main id="main">
     <section class="wrap hero" aria-labelledby="title">
       <p class="meta">
-        <span class="live"><span class="dot" aria-hidden="true"></span>Live on Bankr · Base</span>
-        <span class="mono muted">OpenAPI 3.0/3.1 · JSON/YAML · x402 · $0.02 / call</span>
+        <span class="live"><span class="dot" aria-hidden="true"></span>v0.2 live on Bankr · Base</span>
+        <span class="mono muted">OpenAPI 3.0/3.1 · JSON/YAML · free locally · $0.02 / hosted call</span>
       </p>
       <h1 id="title">Know what changed before your integration&nbsp;breaks.</h1>
-      <p class="lede">Compare two OpenAPI contracts. Get every breaking change, the evidence and a recommended fix. Built for coding agents.</p>
+      <p class="lede">The contract-safety check for AI agents. Compare two OpenAPI contracts and get a verdict (<code>safe</code>, <code>review</code> or <code>block</code>), every breaking change, the evidence and a recommended fix.</p>
       <p class="ctas">
         <a class="btn btn-solid" href="https://github.com/danbuildss/breakra/blob/main/SKILL.md">Read the docs</a>
+        <a class="btn" href="#run">Run it free locally</a>
         <a class="btn" href="https://github.com/danbuildss/breakra">View on GitHub <span aria-hidden="true">↗</span></a>
       </p>
       <div class="endpoint">
@@ -75,6 +76,8 @@
         <figure class="panel">
           <figcaption><span>response · 200</span><span class="muted">examples/response.json (excerpt)</span></figcaption>
 <pre><code>{
+  <span class="k">"verdict"</span>: <span class="s">"block"</span>,
+  <span class="k">"suggested_version_bump"</span>: <span class="s">"major"</span>,
   <span class="k">"compatibility"</span>: <span class="s">"breaking"</span>,
   <span class="k">"summary"</span>: { <span class="k">"total_changes"</span>: <span class="v">15</span>, <span class="k">"breaking"</span>: <span class="v">1</span>,
                <span class="k">"potentially_breaking"</span>: <span class="v">10</span>, … },
@@ -102,12 +105,41 @@
       <p class="hint muted">Without payment this returns <code>402</code> with the x402 terms. Pay with any x402 client, or the one in <a href="https://github.com/danbuildss/breakra/blob/main/examples/client.ts">examples/client.ts</a>.</p>
     </section>
 
+    <section class="wrap" aria-labelledby="run">
+      <h2 id="run" class="label">Two ways to run it</h2>
+      <div class="panels">
+        <figure class="panel">
+          <figcaption><span>free · local</span><span class="muted">CLI and MCP server, no wallet</span></figcaption>
+<pre><code><span class="c"># same engine, on your machine; nothing is sent anywhere (needs Bun)</span>
+git clone https://github.com/danbuildss/breakra
+cd breakra &amp;&amp; bun install
+bun src/cli.ts check old.yaml new.yaml
+bun src/cli.ts check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span>
+
+<span class="c"># give it to your coding agent (tool: check_openapi_change)</span>
+claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp</code></pre>
+        </figure>
+        <figure class="panel">
+          <figcaption><span>hosted · pay per call</span><span class="muted">nothing to install, no account</span></figcaption>
+<pre><code><span class="c"># $0.02 USDC on Base via x402; errors are free</span>
+POST https://breakra.dev/api/analyze
+
+{
+  <span class="k">"before"</span>: <span class="c">{ …OpenAPI object… }</span>,
+  <span class="k">"after"</span>:  <span class="s">"openapi: 3.1.0\n…"</span>,   <span class="c">// or YAML text</span>
+  <span class="k">"uses"</span>:   [ { <span class="k">"method"</span>: <span class="s">"GET"</span>, <span class="k">"path"</span>: <span class="s">"/orders/{id}"</span> } ]
+}</code></pre>
+        </figure>
+      </div>
+      <p class="hint muted">Same inputs give the same result either way: <code>--json</code> on the CLI prints exactly what the hosted API returns. <code>uses</code> filters the findings to the operations you call; Breakra doesn't read your code.</p>
+    </section>
+
     <section class="wrap" aria-labelledby="how">
       <h2 id="how" class="label">How it works</h2>
       <ol class="steps">
         <li><span class="num">01</span><h3>Send two contracts</h3><p>The old and new OpenAPI 3.0/3.1 contract, JSON or YAML, inline, in one <code>POST</code>.</p></li>
         <li><span class="num">02</span><h3>Pay $0.02 via x402</h3><p>Check the terms, sign once. Errors are never charged.</p></li>
-        <li><span class="num">03</span><h3>Fix what may break</h3><p>Every change with its rule, location, evidence and a recommended fix.</p></li>
+        <li><span class="num">03</span><h3>Act on the verdict</h3><p><code>safe</code>, <code>review</code> or <code>block</code>, a semver bump, and every change with its rule, location, evidence and a recommended fix.</p></li>
       </ol>
     </section>
 
@@ -121,6 +153,7 @@
         <div><dt>Output</dt><dd><code>breaking</code> · <code>potentially_breaking</code> · <code>unknown</code> · <code>compatible</code> · <code>non_contract</code></dd></div>
         <div><dt>Results</dt><dd>Deterministic: the same inputs always give the same findings</dd></div>
         <div><dt>Privacy</dt><dd>Specs are never stored or logged; external <code>$ref</code>s are never fetched</dd></div>
+        <div><dt>Version</dt><dd>Engine 0.2.0, rule set 0.2.0. <a href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md">What's new</a> · <a href="https://github.com/danbuildss/breakra/blob/main/VISION.md">Vision</a></dd></div>
         <div><dt>Agents</dt><dd>Point your agent at <a href="/skill.md">breakra.dev/skill.md</a>: when to call, how to pay safely, how to read results. Contract: <a href="/openapi.json">/openapi.json</a></dd></div>
       </dl>
     </section>
@@ -130,6 +163,8 @@
     <span class="wordmark small">breakra</span>
     <nav aria-label="Footer">
       <a href="https://github.com/danbuildss/breakra">GitHub</a>
+      <a href="https://github.com/danbuildss/breakra/blob/main/VISION.md">Vision</a>
+      <a href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md">Changelog</a>
       <a href="/skill.md">skill.md</a>
       <a href="/openapi.json">openapi.json</a>
       <a href="https://github.com/danbuildss/breakra/issues/new?template=wrong-finding.yml">Report a wrong finding</a>
