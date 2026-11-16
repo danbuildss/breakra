@@ -6,7 +6,7 @@ Breakra becomes the contract-safety check for AI agents ([`VISION.md`](VISION.md
 
 **Added**
 - `verdict` (`safe` / `review` / `block`) and `suggested_version_bump` (`major` / `minor` / `patch` / `none`) in every result.
-- `uses`: list the operations your code calls. The result's `impact` section tells you whether the change breaks **you**.
+- `uses`: list the operations your code calls. The result's `impact` section gives a verdict for those operations (usage-based filtering; Breakra doesn't read your code).
 - YAML input: `before` and `after` can be JSON objects, or JSON/YAML text.
 - OpenAPI 3.1.0–3.1.1. Type lists, numeric `exclusiveMinimum` / `exclusiveMaximum`, `const` and `examples` are classified (see [`RULES.md`](RULES.md)).
 - A free local CLI (`breakra check`) and MCP server (`breakra mcp`, tool `check_openapi_change`), running the same engine with no wallet and no network.

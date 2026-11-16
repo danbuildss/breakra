@@ -100,3 +100,9 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [ ] Owner: submissions from `launch/distribution-v0.2.md` (Circle, Bankr email, MCP registries, skills directories).
 - [ ] Decision: publish `breakra` to npm for the one-line `bunx breakra mcp` install (needs an npm account).
 
+## After the strategy review (D-040, approved 2026-11-16)
+- [x] Reword `uses` as usage-based filtering in every public doc, the MCP/CLI text and the Bankr listing source (listing updates at the next deploy).
+- [x] VISION roadmap and success test updated.
+- [ ] **Owner:** recruit 5 developers with real API integrations (TS/JS preferred); collect one real breakage each.
+- [ ] v0.3 Breakra Impact spike: starts once 2–3 real cases exist.
+

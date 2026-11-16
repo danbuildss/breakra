@@ -19,7 +19,7 @@ const USAGE = `breakra ${ENGINE_VERSION}: OpenAPI breaking-change checks for age
   breakra mcp
 
 <before>/<after>: OpenAPI 3.0.x or 3.1.x files, JSON or YAML.
---use       an operation your code calls; repeat it. Reports what affects you.
+--use       an operation your code calls; repeat it. Filters findings to those operations.
 --json      print the full result as JSON (same shape as the hosted API).
 --fail-on   exit 1 when the verdict reaches this level (default: block).
 Hosted API (pay per call, no install): https://breakra.dev/skill.md`;

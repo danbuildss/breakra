@@ -94,6 +94,11 @@
   - Claude agrees **Breakra Impact** (deterministic code-aware impact for TS/JS) is the best next bet. Fix should return deterministic fix instructions, not LLM patches. Watch and Network are deferred.
   - Wording fix proposed: `uses` is usage-based filtering, not code analysis.
   - Kill-criterion amendment proposed. **Nothing approved yet.**
+- **2026-11-16:** Owner approved all four recommendations (**D-040**).
+  - `uses` wording fixed everywhere.
+  - VISION roadmap: v0.3 = Breakra Impact.
+  - The success test now also counts 3 of 5 developers returning unprompted.
+  - The owner recruits 5 developers; Impact starts once 2–3 real cases exist.
 
 ## Inputs received
 

@@ -282,5 +282,27 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Deploy:** a Bankr redeploy of engine 0.2.0 needs the owner's go-ahead.
 
+## D-040 — After the strategy review: honest `uses` wording, Breakra Impact next, revised success test
+**Status:** Accepted (owner: "approve", 2026-11-16, on the four recommendations in `STRATEGY-REVIEW-2026-11-16.md`).
+
+**Decision:**
+1. **Wording.**
+   - `uses` is described everywhere as **usage-based filtering** of contract changes. Breakra doesn't read the caller's code, so it doesn't claim to know whether a change "breaks you".
+   - Updated: VISION, README, SKILL.md (and launch copy), openapi.json, the site, CHANGELOG, the MCP tool description, CLI help and the Bankr listing text.
+   - The listing text reaches Bankr at the next deploy.
+2. **Validation.** The owner recruits **5 developers** who maintain real API integrations (ideally TS/JS) and collects one real API breakage from each.
+3. **v0.3 = Breakra Impact**, a deterministic TS/JS code-impact prototype.
+   - **Starts only once 2–3 real cases exist**, so it is built and measured against real breakages (precision/recall, time saved).
+   - Estimated 1–2 weeks.
+   - No LLM. Unresolvable code is `unknown`.
+4. **Success test (amends D-039's kill criterion), by 2027-01-31:** ≥ 3 external wallets each paying on ≥ 2 UTC days, **or** ≥ 3 of the 5 developers using Breakra again unprompted on a real change. No telemetry is added to the local tools.
+
+**Deferred:**
+- "Fix" that writes code (instead: deterministic fix instructions; the user's agent writes the patch).
+- Monitoring third-party APIs (needs a scheduler and storage).
+- A shared compatibility network.
+
+**Revisit after v0.3:** MCP tool-schema compatibility.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
