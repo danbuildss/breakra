@@ -89,3 +89,14 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [ ] Follow-ups: Story91, Alex, Noaman. Outreach list (10–15).
 - [ ] Item 10 (paid live check): NOT approved yet.
 
+## v0.2 (D-039, owner: "i approve everything", 2026-11-16)
+- [x] Vision: `VISION.md`, README section, D-039.
+- [x] Engine 0.2.0 / rule set 0.2.0: `verdict`, `suggested_version_bump`, `uses` → `impact`, YAML text input (Bun's built-in parser), OpenAPI 3.1.0–3.1.1 with rules for type lists, numeric exclusive bounds, `const` and `examples`.
+- [x] Free local CLI (`breakra check`) and MCP server (`breakra mcp`), dependency-free.
+- [x] Docs: SKILL.md, API.md, RULES.md, README, site, CHANGELOG; distribution kit (`launch/distribution-v0.2.md`).
+- [x] `bun run check`: 160 tests, bundle 94.8 KB (guard raised to 99 KB; Bankr's limit is between 91 KB and 137 KB, unverified).
+- [ ] **Owner:** deploy engine 0.2.0 to Bankr (`bun run build`, then `bankr x402 deploy` from `dist/`) **before** merging, so the docs never describe features the live endpoint lacks. If the deploy returns 413, tell Claude (bundle size).
+- [ ] Owner: free post-deploy check (402 terms); optional paid V4 check ($0.02, needs approval); then merge; then tag `v0.2.0`.
+- [ ] Owner: submissions from `launch/distribution-v0.2.md` (Circle, Bankr email, MCP registries, skills directories).
+- [ ] Decision: publish `breakra` to npm for the one-line `bunx breakra mcp` install (needs an npm account).
+
