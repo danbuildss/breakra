@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://breakra.dev/</loc></url>
+  <url><loc>https://breakra.dev/integrations</loc></url>
+  <url><loc>https://breakra.dev/benchmark</loc></url>
+  <url><loc>https://breakra.dev/security</loc></url>
+  <url><loc>https://breakra.dev/compare</loc></url>
 </urlset>

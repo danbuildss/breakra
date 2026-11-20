@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare · Breakra</title>
+  <meta name="description" content="Breakra and oasdiff side by side: where each fits, and where they deliberately disagree.">
+  <link rel="canonical" href="https://breakra.dev/compare">
+  <meta name="theme-color" content="#0D0C0A">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://breakra.dev/compare">
+  <meta property="og:title" content="Compare · Breakra">
+  <meta property="og:description" content="Breakra and oasdiff side by side: where each fits, and where they deliberately disagree.">
+  <meta property="og:image" content="https://breakra.dev/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://breakra.dev/og.png">
+  <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- header:start -->
+  <header class="site-header">
+    <div class="wrap-wide header-row">
+      <a class="wordmark" href="/" aria-label="Breakra home">breakra</a>
+      <nav class="nav" aria-label="Primary">
+        <details class="menu"><summary>Product</summary><div class="menu-panel"><a class="mi" href="/#run"><span class="mi-icon" aria-hidden="true">⌘</span><span class="mi-text"><span class="mi-title">CLI</span><span class="mi-desc">Check two contracts in one command</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">⧉</span><span class="mi-text"><span class="mi-title">MCP Server</span><span class="mi-desc">check_openapi_change for Claude Code and any MCP client</span></span></a><a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">⇄</span><span class="mi-text"><span class="mi-title">Hosted API</span><span class="mi-desc">$0.02/check via x402, no account</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">⚙</span><span class="mi-text"><span class="mi-title">GitHub Action <span class="tag">roadmap</span></span><span class="mi-desc">Check spec changes in every PR</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">◈</span><span class="mi-text"><span class="mi-title">Impact <span class="tag">research</span></span><span class="mi-desc">Which code a change affects</span></span></a></div></details>
+        <details class="menu"><summary>Developers</summary><div class="menu-panel"><a class="mi" href="https://github.com/danbuildss/breakra#readme"><span class="mi-icon" aria-hidden="true">▤</span><span class="mi-text"><span class="mi-title">Docs</span><span class="mi-desc">Quickstart, CLI, API reference</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">◎</span><span class="mi-text"><span class="mi-title">For AI</span><span class="mi-desc">skill.md, llms.txt, MCP config</span></span></a><a class="mi" href="/integrations"><span class="mi-icon" aria-hidden="true">⧈</span><span class="mi-text"><span class="mi-title">Integrations</span><span class="mi-desc">Claude Code, any MCP client, CI, x402 agents</span></span></a><a class="mi" href="/openapi.json"><span class="mi-icon" aria-hidden="true">{}</span><span class="mi-text"><span class="mi-title">OpenAPI spec</span><span class="mi-desc">The API contract, machine-readable</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/RULES.md"><span class="mi-icon" aria-hidden="true">≡</span><span class="mi-text"><span class="mi-title">Rules</span><span class="mi-desc">Every classification rule</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md"><span class="mi-icon" aria-hidden="true">↻</span><span class="mi-text"><span class="mi-title">Changelog</span><span class="mi-desc">What changed in each release</span></span></a></div></details>
+        <a class="nav-link" href="/#pricing">Pricing</a>
+        <details class="menu menu-right"><summary>More</summary><div class="menu-panel"><a class="mi" href="/benchmark"><span class="mi-icon" aria-hidden="true">▦</span><span class="mi-text"><span class="mi-title">Benchmark</span><span class="mi-desc">Real API changes, measured</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/releases"><span class="mi-icon" aria-hidden="true">✎</span><span class="mi-text"><span class="mi-title">Releases</span><span class="mi-desc">Updates and release notes</span></span></a><a class="mi" href="/compare"><span class="mi-icon" aria-hidden="true">⚖</span><span class="mi-text"><span class="mi-title">Compare</span><span class="mi-desc">Breakra vs alternatives, honestly</span></span></a><a class="mi" href="/security"><span class="mi-icon" aria-hidden="true">⛨</span><span class="mi-text"><span class="mi-title">Security</span><span class="mi-desc">Privacy, scans, disclosure</span></span></a><a class="mi" href="mailto:hello.danbuilds@gmail.com?subject=Breakra"><span class="mi-icon" aria-hidden="true">✉</span><span class="mi-text"><span class="mi-title">Contact</span><span class="mi-desc">Support and partnerships</span></span></a></div></details>
+      </nav>
+      <div class="header-actions">
+        <a class="nav-link gh" href="https://github.com/danbuildss/breakra">GitHub <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-solid btn-sm" href="/#run">Get started</a>
+        <button class="theme" type="button" data-theme-toggle aria-label="Switch light or dark theme">◐</button>
+        <details class="mobile-nav">
+          <summary aria-label="Menu">☰</summary>
+          <div class="mobile-panel">
+            <p class="mobile-h">Product</p><a class="mi" href="/#run"><span class="mi-icon" aria-hidden="true">⌘</span><span class="mi-text"><span class="mi-title">CLI</span><span class="mi-desc">Check two contracts in one command</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">⧉</span><span class="mi-text"><span class="mi-title">MCP Server</span><span class="mi-desc">check_openapi_change for Claude Code and any MCP client</span></span></a><a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">⇄</span><span class="mi-text"><span class="mi-title">Hosted API</span><span class="mi-desc">$0.02/check via x402, no account</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">⚙</span><span class="mi-text"><span class="mi-title">GitHub Action <span class="tag">roadmap</span></span><span class="mi-desc">Check spec changes in every PR</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">◈</span><span class="mi-text"><span class="mi-title">Impact <span class="tag">research</span></span><span class="mi-desc">Which code a change affects</span></span></a>
+            <p class="mobile-h">Developers</p><a class="mi" href="https://github.com/danbuildss/breakra#readme"><span class="mi-icon" aria-hidden="true">▤</span><span class="mi-text"><span class="mi-title">Docs</span><span class="mi-desc">Quickstart, CLI, API reference</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">◎</span><span class="mi-text"><span class="mi-title">For AI</span><span class="mi-desc">skill.md, llms.txt, MCP config</span></span></a><a class="mi" href="/integrations"><span class="mi-icon" aria-hidden="true">⧈</span><span class="mi-text"><span class="mi-title">Integrations</span><span class="mi-desc">Claude Code, any MCP client, CI, x402 agents</span></span></a><a class="mi" href="/openapi.json"><span class="mi-icon" aria-hidden="true">{}</span><span class="mi-text"><span class="mi-title">OpenAPI spec</span><span class="mi-desc">The API contract, machine-readable</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/RULES.md"><span class="mi-icon" aria-hidden="true">≡</span><span class="mi-text"><span class="mi-title">Rules</span><span class="mi-desc">Every classification rule</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md"><span class="mi-icon" aria-hidden="true">↻</span><span class="mi-text"><span class="mi-title">Changelog</span><span class="mi-desc">What changed in each release</span></span></a>
+            <a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">$</span><span class="mi-text"><span class="mi-title">Pricing</span><span class="mi-desc">Free, hosted, teams</span></span></a>
+            <p class="mobile-h">More</p><a class="mi" href="/benchmark"><span class="mi-icon" aria-hidden="true">▦</span><span class="mi-text"><span class="mi-title">Benchmark</span><span class="mi-desc">Real API changes, measured</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/releases"><span class="mi-icon" aria-hidden="true">✎</span><span class="mi-text"><span class="mi-title">Releases</span><span class="mi-desc">Updates and release notes</span></span></a><a class="mi" href="/compare"><span class="mi-icon" aria-hidden="true">⚖</span><span class="mi-text"><span class="mi-title">Compare</span><span class="mi-desc">Breakra vs alternatives, honestly</span></span></a><a class="mi" href="/security"><span class="mi-icon" aria-hidden="true">⛨</span><span class="mi-text"><span class="mi-title">Security</span><span class="mi-desc">Privacy, scans, disclosure</span></span></a><a class="mi" href="mailto:hello.danbuilds@gmail.com?subject=Breakra"><span class="mi-icon" aria-hidden="true">✉</span><span class="mi-text"><span class="mi-title">Contact</span><span class="mi-desc">Support and partnerships</span></span></a>
+            <p class="mobile-h">Code</p><a class="mi" href="https://github.com/danbuildss/breakra"><span class="mi-icon" aria-hidden="true">↗</span><span class="mi-text"><span class="mi-title">GitHub</span><span class="mi-desc">Source, issues, releases (MIT)</span></span></a>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+  <!-- header:end -->
+
+  <main id="main">
+    <section class="wrap page-hero">
+      <p class="label">Compare</p>
+      <h1>Breakra and oasdiff, honestly.</h1>
+      <p class="lede">oasdiff is the mature open-source OpenAPI diff tool, and we use it to cross-check Breakra in CI. Here's where each one fits.</p>
+    </section>
+    <section class="wrap" id="table" aria-labelledby="table-h">
+      <h2 id="table-h" class="label">Side by side</h2>
+      <div class="table-wrap">
+        <table class="compare">
+          <thead><tr><th></th><th>Breakra</th><th>oasdiff</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Price</th><td>Free locally; $0.02 per hosted check (x402)</td><td>Free (open source; hosted MCP)</td></tr>
+            <tr><th scope="row">Account or API key</th><td>None</td><td>None for the hosted MCP</td></tr>
+            <tr><th scope="row">OpenAPI 3.0 and 3.1, JSON and YAML</th><td>Yes</td><td>Yes</td></tr>
+            <tr><th scope="row">Breaking-change rules</th><td>Focused rule set (<a href="https://github.com/danbuildss/breakra/blob/main/RULES.md">RULES.md</a>)</td><td>Larger, mature rule set</td></tr>
+            <tr><th scope="row">One decision for agents</th><td><code>safe</code> / <code>review</code> / <code>block</code> + semver bump</td><td>Severity levels per change</td></tr>
+            <tr><th scope="row">Evidence and a fix per finding</th><td>Yes: before/after values, reason, recommended action</td><td>Change descriptions</td></tr>
+            <tr><th scope="row">Filter to the operations you call</th><td>Yes (<code>--use</code>)</td><td>Yes (endpoint filtering)</td></tr>
+            <tr><th scope="row">CLI</th><td>Yes (npm)</td><td>Yes</td></tr>
+            <tr><th scope="row">MCP server</th><td>Yes, local (stdio)</td><td>Yes, hosted</td></tr>
+            <tr><th scope="row">GitHub Action</th><td>Roadmap (CLI works in any CI today)</td><td>Yes</td></tr>
+            <tr><th scope="row">Pay-per-call for autonomous agents</th><td>Yes (x402, USDC on Base)</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">oasdiff details as we understand them in November 2026; check <a href="https://www.oasdiff.com">oasdiff.com</a> for current features. Corrections welcome: <a href="mailto:hello.danbuilds@gmail.com?subject=Breakra%20compare">email us</a>.</p>
+    </section>
+    <section class="wrap" id="choose" aria-labelledby="choose-h">
+      <h2 id="choose-h" class="label">Which should you use?</h2>
+      <div class="cols-2">
+        <div class="card"><p class="card-t">Choose oasdiff</p><p class="muted">When you want the broadest rule coverage, a ready-made GitHub Action, changelogs, or a free hosted MCP server.</p></div>
+        <div class="card"><p class="card-t">Choose Breakra</p><p class="muted">When an agent needs one decision it can act on (safe/review/block), with evidence and a fix for every finding, honest <code>unknown</code>s, and pay-per-call without an account.</p></div>
+      </div>
+    </section>
+    <section class="wrap" id="differ" aria-labelledby="differ-h">
+      <h2 id="differ-h" class="label">Where they disagree, on purpose</h2>
+      <p>Our CI runs oasdiff v1.33.0 on the same cases and fails on any undocumented disagreement. Breakra is deliberately stricter in two places:</p>
+      <ul class="list">
+        <li><strong>Authentication added</strong> to an operation: oasdiff rates it INFO; Breakra rates it potentially breaking, because unauthenticated callers will be rejected.</li>
+        <li><strong>Optional response field removed:</strong> oasdiff rates it INFO; Breakra rates it potentially breaking, because consumers that read it may break.</li>
+      </ul>
+      <p class="hint muted">Every difference is listed with its reason in <a href="https://github.com/danbuildss/breakra/blob/main/tests/oracle-differences.json">tests/oracle-differences.json</a>.</p>
+    </section>
+  </main>
+
+  <!-- footer:start -->
+  <footer class="site-footer">
+    <div class="wrap-wide footer-grid">
+      <div class="footer-brand"><span class="wordmark">breakra</span><p class="muted">Know what breaks before your agent ships.</p><p class="muted mono">Engine 0.2.0 · rule set 0.2.0</p></div>
+      <nav aria-label="Product"><p class="fh">Product</p><a href="/#run">CLI</a><a href="/#agents">MCP Server</a><a href="/#pricing">Hosted API</a><a href="/#pricing">Pricing</a></nav>
+      <nav aria-label="Developers"><p class="fh">Developers</p><a href="https://github.com/danbuildss/breakra#readme">Docs</a><a href="/integrations">Integrations</a><a href="/skill.md">skill.md</a><a href="/llms.txt">llms.txt</a><a href="/openapi.json">openapi.json</a><a href="https://github.com/danbuildss/breakra/blob/main/RULES.md">Rules</a><a href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md">Changelog</a></nav>
+      <nav aria-label="Resources"><p class="fh">Resources</p><a href="/benchmark">Benchmark</a><a href="https://github.com/danbuildss/breakra/releases">Releases</a><a href="/compare">Compare</a><a href="/security">Security</a><a href="https://github.com/danbuildss/breakra/issues/new?template=wrong-finding.yml">Report a wrong finding</a></nav>
+      <nav aria-label="Company"><p class="fh">Company</p><a href="mailto:hello.danbuilds@gmail.com?subject=Breakra">Contact</a><a href="mailto:hello.danbuilds@gmail.com?subject=Breakra%20partnership">Partnerships</a><a href="https://github.com/danbuildss/breakra/tree/main/docs/assets">Brand kit</a><a href="https://github.com/danbuildss/breakra">GitHub</a></nav>
+    </div>
+    <div class="wrap-wide footer-listed muted">Listed on: <a href="https://www.npmjs.com/package/breakra">npm</a> · <a href="https://registry.modelcontextprotocol.io/v0/servers?search=io.github.danbuildss/breakra">MCP Registry</a> · <a href="https://glama.ai/mcp/servers">Glama</a> · <a href="https://tessl.io/registry">Tessl</a> · <a href="https://skills.sh/danbuildss/breakra/breakra">skills.sh</a> · <a href="https://x402scan.com">x402scan</a> · <a href="https://x402.bankr.bot">Bankr</a></div>
+    <div class="wrap-wide footer-bottom">
+      <p class="built-by">Built by <a href="https://somehowinternet.app" rel="noopener">SOMEHOW</a></p>
+      <p class="muted"><a href="https://github.com/danbuildss/breakra/blob/main/LICENSE">MIT</a> · © 2026 Breakra · breakra.dev</p>
+    </div>
+  </footer>
+  <!-- footer:end -->
+</body>
+</html>

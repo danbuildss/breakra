@@ -1375,3 +1375,9 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - `site/app.js`: menus (outside click / Escape), ARIA tabs, theme toggle (localStorage in try/catch), copy buttons. Still no inline script or style; CSP unchanged.
 - Tests: `tests/site.test.ts` adds demo = engine output, benchmark numbers, llms.txt, roadmap labels. `bun run check` passes (200 tests, smoke, npm smoke).
 - Screenshots (1440 px and 390 px, dark and light) sent to the owner. No PR until approved.
+
+### 2026-11-20: website v2 part 2a built (awaiting owner screenshot approval)
+- Owner merged PR #40 (part 1; live on breakra.dev, verified by fetching the page and /llms.txt) and approved part 2a.
+- New pages: `/integrations` (Claude Code, MCP clients, skill, a GitHub Actions workflow dry-run locally, scripts, x402, stable contract), `/benchmark` (tables generated from `benchmark/results.json`), `/security` (data flow, input limits tested against `LIMITS`, payments, supply chain, scanner fixes, reporting), `/compare` (Breakra vs oasdiff, incl. where oasdiff is stronger and the documented disagreements).
+- `scripts/site-pages.ts` copies the homepage header and footer (marker blocks) into every page; tests fail if any page drifts, if an internal link points to a missing file, or if the sitemap misses a page. Header/footer links now point to the new pages.
+- `bun run check` passes (205 tests, smoke, npm smoke). No PR until the owner approves the screenshots.
