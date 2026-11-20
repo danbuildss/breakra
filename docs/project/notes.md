@@ -1400,3 +1400,10 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - `examples/github-actions/breakra.yml` + README: compares the PR's contract with the base branch using `npx -y breakra@0.2.2`, `SPEC`/`FAIL_ON` settings, skips new contracts, read-only permissions, base ref passed via env.
 - `tests/examples.test.ts` runs the workflow's script in a temporary git repo: breaking → 1, compatible → 0, new contract → skip, `FAIL_ON: review` → 1 on a new required parameter, unreadable → 2; pinned version must equal package.json; the /integrations page must show the exact file.
 - `bun run check` passes (214 tests, smoke, npm smoke). Not run inside GitHub Actions itself.
+
+### 2026-11-20: partner proof kits (Bankr, Aeon), owner-approved plan
+- Owner merged PR #44, approved the plan: Bankr two-message proof via x402; Aeon community pack **inside the breakra repo**; Aeon test in a **new owner-created repo** (fresh copy of upstream; not the existing fork, which is 5 weeks behind and runs a CORTX skill).
+- Research: Bankr installs skills from any public GitHub repo (root SKILL.md), agents pay x402 natively under wallet spend limits, sandbox can install npm packages. Aeon (aeonfun/aeon @ 8c0bbab): community packs via `install-skill` / `bin/install-skill-pack --path`, read-only skills may run npx/curl/notify.
+- Built `integrations/`: shared fixtures + expected results (`scripts/integration-kits.ts`; analysis_id identical for YAML text, JSON text, objects), Bankr kit (README with the two messages, DEMO, FINDINGS template), Aeon pack (manifest, `breakra-check` SKILL.md, fixtures, README, DEMO, FINDINGS with local pre-checks). `tests/integrations.test.ts`.
+- Local Aeon pre-checks all pass (validator, scan, installer dry run and real install in a scratch copy, category check, demo commands with the published package: ids match). Friction found: installer doesn't update `eyebrowlock.json`, so the install PR fails Aeon's skill-integrity CI (affects every community pack).
+- Owner next: create the Aeon test repo; run the Bankr test (authorize ≤ $0.06); share transcripts.
