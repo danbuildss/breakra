@@ -115,4 +115,7 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [ ] Owner: tag `v0.2.2` (GitHub release with handler, npm tarball, SHA256SUMS).
 - [ ] Waiting: Circle Agent Marketplace review; BankrBot/skills#771 re-review (the owner posts the reply).
 - [ ] Owner: post the reply on BankrBot/skills#771; re-run the skills.sh and Tessl scans.
+- [x] **PR D (benchmark):** `benchmark/` with 11 real pairs (GitHub 7: block 2, review 4, safe 1; Stripe 4: 2 not assessed (over limits), 2 no changes), 15 curated scenarios (15/15), hand checks (3 removals confirmed against full specs; `oneOf` over-reporting noted).
+- [ ] Engine candidates from the benchmark: (1) match `oneOf`/`anyOf` variants by content, not position; (2) higher limits for the local CLI so Stripe-scale specs can be assessed.
+- [ ] Website v2 (WEBSITE-V2-PLAN.md), using the benchmark on the /benchmark page.
 
