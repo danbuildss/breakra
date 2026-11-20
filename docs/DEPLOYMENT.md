@@ -101,3 +101,22 @@ Then verify as a stranger would: `npx -y breakra@0.2.1 --version`.
 
 Never publish from a dirty working tree, and never store an npm token in the repo or in CI secrets.
 
+## 8. MCP Registry and Glama (PR C)
+
+**Order:** npm first (the registry only stores metadata pointing at the npm package), then the registry.
+
+`server.json` (repo root) is validated against `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`. Its `name` must equal `mcpName` in `package.json`, and both versions must equal the published npm version (tests enforce this).
+
+```bash
+brew install mcp-publisher            # or see modelcontextprotocol.io/registry/quickstart
+cd ~/breakra && git checkout main && git pull
+mcp-publisher login github            # opens github.com/login/device; sign in as danbuildss
+mcp-publisher validate                # if your version has it
+mcp-publisher publish
+```
+Check the result: `curl -s "https://registry.modelcontextprotocol.io/v0/servers?search=io.github.danbuildss/breakra"`.
+
+**Glama:** `glama.json` lists the maintainers. Sign in at glama.ai with GitHub (danbuildss), find or add `danbuildss/breakra`, and claim it.
+
+**Each new npm version:** bump `version` in `package.json`, `src/version.ts` (`PACKAGE_VERSION`) and both `version` fields in `server.json` together. Publish npm, then run `mcp-publisher publish`.
+

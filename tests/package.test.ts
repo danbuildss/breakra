@@ -54,3 +54,28 @@ describe("Node YAML parser (used when Bun.YAML is missing)", () => {
     setYamlParser(null);
   });
 });
+
+describe("MCP Registry metadata (server.json, PR C)", () => {
+  const server = JSON.parse(readFileSync(join(__dirname, "../server.json"), "utf8"));
+  it("matches the npm package: name = mcpName, versions = package version, runs `npx breakra mcp`", () => {
+    expect(server.name).toBe(pkg.mcpName);
+    expect(server.version).toBe(pkg.version);
+    expect(server.description.length).toBeLessThanOrEqual(100);
+    expect(server.repository).toEqual({ url: "https://github.com/danbuildss/breakra", source: "github" });
+    expect(server.packages).toEqual([
+      {
+        registryType: "npm",
+        identifier: pkg.name,
+        version: pkg.version,
+        runtimeHint: "npx",
+        transport: { type: "stdio" },
+        packageArguments: [{ type: "positional", value: "mcp" }],
+      },
+    ]);
+  });
+  it("the MCP server reports the package version", async () => {
+    const { handleMessage } = await import("../src/mcp");
+    const init = (await handleMessage({ jsonrpc: "2.0", id: 1, method: "initialize", params: {} })) as any;
+    expect(init.result.serverInfo.version).toBe(PACKAGE_VERSION);
+  });
+});

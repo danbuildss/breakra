@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
+
+- MCP server exits quietly when the client disconnects (it crashed with `EPIPE`), and `serverInfo.version` reports the package version.
+- The Node YAML parser no longer prints warnings for constructs it already ignores or refuses.
+- `server.json` for the official MCP Registry (`io.github.danbuildss/breakra`) and `glama.json`.
+- Docs: run with `npx -y breakra` (README, SKILL.md, site).
+
 ## 0.2.1 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
 
 **npm package** (`npx breakra`, once published)

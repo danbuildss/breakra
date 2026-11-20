@@ -55,14 +55,15 @@ Send the old and the new contract. Breakra validates both, diffs them, and class
 <summary><b>Free and local: CLI or MCP server (no wallet)</b></summary>
 <br/>
 
-Same engine, on your machine, nothing sent anywhere. Needs [Bun](https://bun.sh).
+Same engine, on your machine, nothing sent anywhere. Needs Node.js 20+ ([npm package](https://www.npmjs.com/package/breakra), no dependencies).
 
 ```bash
-git clone --branch v0.2.0 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install
-bun src/cli.ts check old.yaml new.yaml                     # verdict, findings, fixes
-bun src/cli.ts check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review   # does it break me?
-claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp        # MCP tool: check_openapi_change
+npx -y breakra check old.yaml new.yaml                                    # verdict, findings, fixes
+npx -y breakra check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review   # only the operations you call
+claude mcp add --scope user breakra -- npx -y breakra mcp                 # MCP tool: check_openapi_change
 ```
+
+Pin a version in CI or agent configs (`npx -y breakra@0.2.2 …`). From source instead: `git clone --branch v0.2.2 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install && bun src/cli.ts check old.yaml new.yaml`.
 
 Exit codes: `0` below `--fail-on` (default `block`), `1` at or above it, `2` error. `--json` prints the hosted API's exact result.
 

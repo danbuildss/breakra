@@ -121,6 +121,7 @@
   - **Tessl 64 / 80%:** it scored the deleted launch copy at `099ee23` (pre-PR A); re-run against the root.
 - **2026-11-20:** Owner merged #36 and redeployed Bankr **v7** (listing wording corrected; V0 pass). The catalog example now leads with the free local run. Fork for BankrBot/skills#771 synced (`98f0ad5`, author Dan): SKILL.md, `catalog.json`, README row. Next: the owner comments on #771 and requests re-review.
 - **2026-11-20:** Owner approved PR B. Built the npm package `breakra` 0.2.1 (**D-041**): Node ≥ 20, one dependency-free file, YAML via `yaml`, the engine unchanged. `npm-smoke` passes on Node 22 (clean install outside the repo: CLI + MCP; Node/Bun parity). Not published: the owner publishes.
+- **2026-11-20:** **`breakra@0.2.1` is live on npm** (owner; needed 2FA with a security key). Claude's clean `npx` test found two MCP bugs (EPIPE crash on client disconnect; `serverInfo` showed the engine version), fixed in **0.2.2**. The same PR adds `server.json` (validated against the official 2025-12-11 schema) and `glama.json`, and switches the docs to `npx -y breakra`. 178 tests pass; npm smoke includes a disconnect test.
 
 ## Inputs received
 

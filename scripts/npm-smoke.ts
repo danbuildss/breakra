@@ -129,6 +129,19 @@ if (byId[3]?.result?.structuredContent?.analysis_id !== result.analysis_id)
   fail("MCP tools/call result differs from CLI");
 if (byId[4]?.result?.isError !== true) fail("MCP bad input must be isError");
 
+// 5. A client that disconnects early must not crash the server (EPIPE): it exits quietly.
+const early = spawn("node", [bin, "mcp"], { cwd: app, stdio: ["pipe", "pipe", "pipe"] });
+let earlyErr = "";
+early.stderr.on("data", (d) => {
+  earlyErr += d.toString();
+});
+early.stdout.destroy();
+early.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: {} })}\n`);
+early.stdin.end();
+const earlyCode = await new Promise<number | null>((r) => early.on("exit", (code) => r(code)));
+if (earlyCode !== 0 || /EPIPE|Error/.test(earlyErr))
+  fail(`disconnect: exit ${earlyCode} ${earlyErr.slice(0, 200)}`);
+
 console.log(
   `npm smoke OK: ${info.filename} (${info.size} bytes packed, ${files.length} files), Node ${process.versions.node ? spawnSync("node", ["--version"], { encoding: "utf8" }).stdout.trim() : "?"}, CLI + MCP verified`,
 );
