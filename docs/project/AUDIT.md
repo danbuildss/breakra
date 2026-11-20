@@ -236,7 +236,7 @@ Three survivors:
 - **Verified conflicts:**
   - GitHub handle `delvra` is taken (inactive user).
   - delvra.nl, a Dutch household-goods shop.
-  - delvra.website, a software-license reseller.
+  - delvra[.]website, a software-license reseller.
 - **Trademark:** none found.
 - **Notes:** The meaning is abstract ("delve" / "delta"). It sounds close to "Delve", an existing startup name.
 
@@ -276,7 +276,7 @@ Three survivors:
 - [drifto-pages](https://github.com/JohnnyHowe/drifto-pages/issues)
 - [Contrava Service Ltd](https://find-and-update.company-information.service.gov.uk/company/12124254)
 - [Breaka (DJ)](https://ra.co/dj/breaka)
-- [delvra.nl](https://delvra.nl/), [delvra.website](https://delvra.website/)
+- delvra[.]nl, delvra[.]website (links removed 2026-11-20: a skill scanner flagged the second domain as suspicious; these are third-party sites from the naming research, unrelated to Breakra)
 
 ---
 

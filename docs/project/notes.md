@@ -113,6 +113,12 @@
   - **PR A done:** precise payment wording in every public file (Breakra's own errors are never charged; a gateway failure is an unknown outcome); "Safety rules for agents" block at the top of SKILL.md; one canonical SKILL.md (launch copy removed); version drift fixed (README, API.md, `openapi.json`, hero image).
   - New tests guard all of this; 163 tests pass.
   - **After merge:** sync the fork for #771; Bankr redeploy for the listing text (free V0 only).
+- **2026-11-20:** Owner merged PR A (#35) and shared the scanner reports (all audited Nov 16, before PR A).
+  - **Gen Agent Trust Hub FAIL (CRITICAL label):** every category passed; the only flag was `delvra.website`, a third-party domain linked in `AUDIT.md` naming research, which its own analysis rated SAFE. Fix: domains defanged, record kept.
+  - **Socket WARN (low):** `scripts/lib/github-slice.ts` passed an unvalidated version to a shell. Fix: semver check plus `execFileSync` with no shell; test added.
+  - **Snyk W011** (contract text echoed in `evidence`, 0.10): SKILL rule 5 now names `evidence`, `reason` and `limitations` as untrusted data.
+  - **Snyk W012** (runs code from a personal repo): the clone is pinned to the v0.2.0 tag, and SHA256SUMS is referenced. npm (PR B) is the fuller fix.
+  - **Tessl 64 / 80%:** it scored the deleted launch copy at `099ee23` (pre-PR A); re-run against the root.
 
 ## Inputs received
 
