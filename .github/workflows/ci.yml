@@ -58,3 +58,28 @@ jobs:
 
       - name: Cross-check against oasdiff
         run: OASDIFF="$(go env GOPATH)/bin/oasdiff" bun run oracle
+
+  npm-package:
+    # D-041: the published package must install and run on every supported Node version, without Bun at runtime.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install (frozen lockfile)
+        run: bun install --frozen-lockfile
+
+      - name: Pack, install outside the repo, run CLI + MCP on Node ${{ matrix.node }}
+        run: node --version && bun run npm-smoke
+

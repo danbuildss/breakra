@@ -78,3 +78,26 @@ After any redeploy, re-run **V0 and V4**. V4 costs $0.02 and proves the deployed
 
 - Bankr dashboard / `bankr x402 list`: request counts and revenue. `bankr x402 revenue breakra-analyze` gives earnings and fees.
 - Handler logs: one JSON line per request (`breakra.analyze`: outcome, status, code, bytes, change count, duration, `payer`). They contain no request body and no IP (D-026).
+
+## 7. Publishing the npm package (D-041)
+
+The npm package is the free local CLI and MCP server (`breakra check`, `breakra mcp`). It's separate from the Bankr deployment and doesn't change it.
+
+**First publish (owner, from your machine, once):**
+```bash
+git checkout main && git pull
+bun install --frozen-lockfile
+bun run check                 # includes `npm-smoke`: packs, installs outside the repo, runs CLI + MCP on Node
+npm login                     # your npm account, with 2FA
+npm publish --dry-run         # shows exactly what would be published (6 files)
+npm publish --access public   # asks for your 2FA code
+```
+Then verify as a stranger would: `npx -y breakra@0.2.1 --version`.
+
+**Later releases:**
+1. Bump `version` in `package.json` and `PACKAGE_VERSION` in `src/version.ts` (tests check that they match).
+2. Merge, then tag `v<version>` (the Release workflow attaches the handler, the npm tarball and `SHA256SUMS`).
+3. Publish, either the same way or with **Actions → Publish to npm** after setting up trusted publishing on npmjs.com (package → Settings → Trusted publishing → GitHub Actions, repo `danbuildss/breakra`, workflow `publish-npm.yml`).
+
+Never publish from a dirty working tree, and never store an npm token in the repo or in CI secrets.
+

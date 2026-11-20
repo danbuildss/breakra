@@ -1,13 +1,42 @@
 {
   "name": "breakra",
-  "version": "0.2.0",
-  "private": true,
-  "license": "MIT",
-  "description": "Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a verdict, evidence and fixes.",
-  "bin": {
-    "breakra": "src/cli.ts"
+  "version": "0.2.1",
+  "description": "Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and fixes. Free local CLI and MCP server.",
+  "keywords": [
+    "openapi",
+    "breaking-changes",
+    "api-compatibility",
+    "mcp",
+    "mcp-server",
+    "cli",
+    "ai-agents",
+    "semver",
+    "oas31",
+    "yaml"
+  ],
+  "homepage": "https://breakra.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danbuildss/breakra.git"
   },
+  "bugs": {
+    "url": "https://github.com/danbuildss/breakra/issues"
+  },
+  "license": "MIT",
+  "author": "Dan (https://github.com/danbuildss)",
   "type": "module",
+  "mcpName": "io.github.danbuildss/breakra",
+  "bin": {
+    "breakra": "dist/npm/cli.js"
+  },
+  "files": [
+    "dist/npm/cli.js",
+    "dist/npm/THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "biome check src tests scripts examples site",
@@ -17,24 +46,26 @@
     "smoke": "bun scripts/smoke.ts",
     "oracle": "bun scripts/oracle.ts",
     "bench": "bun scripts/bench.ts",
-    "check": "bun run typecheck && bun run lint && bun run test && bun run build && bun run smoke",
+    "check": "bun run typecheck && bun run lint && bun run test && bun run build && bun run smoke && bun run npm-smoke",
     "verify-live": "bun scripts/verify-live.ts",
     "examples": "bun scripts/examples.ts",
     "demo": "bun scripts/demo.ts",
     "metrics": "bun scripts/metrics.ts",
     "brand": "bun scripts/brand.ts",
-    "cli": "bun src/cli.ts"
-  },
-  "dependencies": {
-    "api-smart-diff": "1.0.6"
+    "cli": "bun src/cli.ts",
+    "build:npm": "bun scripts/build-npm.ts",
+    "prepack": "bun scripts/build-npm.ts",
+    "npm-smoke": "bun scripts/npm-smoke.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@types/bun": "1.4.2",
     "@x402/core": "2.28.0",
     "@x402/evm": "2.28.0",
+    "api-smart-diff": "1.0.6",
     "typescript": "7.0.2",
     "viem": "2.57.4",
-    "vitest": "5.0.3"
+    "vitest": "5.0.3",
+    "yaml": "2.9.1"
   }
 }

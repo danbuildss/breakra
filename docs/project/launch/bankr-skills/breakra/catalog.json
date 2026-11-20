@@ -7,7 +7,7 @@
   "demo": {
     "title": "breakra.sh",
     "language": "bash",
-    "code": "# Does this OpenAPI change break callers? ($0.02 USDC on Base via x402)\ngit clone https://github.com/danbuildss/breakra && cd breakra && bun install\n\n# Pays once after checking the terms (exact, Base USDC, <= $0.02); Breakra's own errors are never charged\nBREAKRA_KEY_FILE=./wallet.key bun examples/client.ts old.json new.json\n\n# Real example: GitHub's REST API, Dec 2025 -> Oct 2026 (5 breaking, 35 potentially breaking)\nBREAKRA_KEY_FILE=./wallet.key bun examples/client.ts demo/github-rest-api/before.json demo/github-rest-api/after.json"
+    "code": "# Free and local, no wallet: does this OpenAPI change break callers?\ngit clone --branch v0.2.0 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install\nbun src/cli.ts check old.yaml new.yaml\n\n# Hosted: $0.02 USDC on Base via x402, only with the user's authorization.\n# The client checks the terms (exact, Base USDC, <= $0.02, amount 20000) and signs once; Breakra's own errors are never charged.\nBREAKRA_KEY_FILE=./wallet.key bun examples/client.ts old.json new.json"
   },
   "setup": [
     "No signup or API key: payment via x402 is the authorization ($0.02 USDC per analysis on Base)",

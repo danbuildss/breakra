@@ -1,6 +1,6 @@
 name: Release
 
-# Push a tag like v0.1.1 (it must equal ENGINE_VERSION). The workflow runs the full check, builds the exact
+# Push a tag like v0.2.1 (it must equal the package.json version, D-041; the engine version is separate). The workflow runs the full check, builds the exact
 # single-file handler that Bankr runs, and publishes it with checksums as a GitHub Release, so every deploy
 # can be traced to a public, reproducible artifact. It never deploys: deploying stays a manual owner step.
 on:
@@ -25,11 +25,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Tag must match ENGINE_VERSION
+      - name: Tag must match the package version (D-041)
         run: |
-          engine=$(sed -n 's/^export const ENGINE_VERSION = "\(.*\)";/\1/p' src/version.ts)
-          if [ "v$engine" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::Tag $GITHUB_REF_NAME does not match ENGINE_VERSION $engine"; exit 1
+          version=$(node -p "require('./package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $version"; exit 1
           fi
 
       - name: Install, check, build
@@ -40,6 +40,7 @@ jobs:
           mkdir -p release
           cp dist/x402/breakra-analyze/index.ts "release/breakra-analyze-${GITHUB_REF_NAME}.ts"
           cp dist/bankr.x402.json "release/bankr.x402-${GITHUB_REF_NAME}.json"
+          npm pack --pack-destination release >/dev/null
           (cd release && sha256sum * > SHA256SUMS)
           cat release/SHA256SUMS
 

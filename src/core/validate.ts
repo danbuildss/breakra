@@ -34,6 +34,13 @@ export function isObject(value: unknown): value is JsonObject {
 type YamlParse = (text: string) => unknown;
 /** Bun's built-in YAML 1.2 parser (Bankr runs Bun; so do the tests and the CLI). Data only: no code, no tags. */
 const bunYaml = (globalThis as { Bun?: { YAML?: { parse?: YamlParse } } }).Bun?.YAML?.parse;
+let fallbackYaml: YamlParse | null = null;
+
+/** Registers the YAML parser to use when Bun's built-in one is missing (the npm build on Node; D-041). */
+export function setYamlParser(parse: YamlParse | null): void {
+  fallbackYaml = parse;
+}
+const defaultYaml = (): YamlParse | null => bunYaml ?? fallbackYaml;
 
 /**
  * A document sent as a string: JSON text, or YAML. The node, depth and $ref limits in validateSpec apply to
@@ -43,7 +50,7 @@ const bunYaml = (globalThis as { Bun?: { YAML?: { parse?: YamlParse } } }).Bun?.
 export function parseSpecText(
   text: string,
   side: "before" | "after",
-  yamlParse: YamlParse | null = bunYaml ?? null,
+  yamlParse: YamlParse | null = defaultYaml(),
 ): JsonObject {
   const fail = (what: string) =>
     new BreakraError("INVALID_REQUEST", `"${side}" is a string but not ${what}.`, { side });
@@ -55,7 +62,8 @@ export function parseSpecText(
       throw fail("valid JSON");
     }
   } else {
-    if (!yamlParse) throw new BreakraError("INVALID_REQUEST", "YAML input needs the Bun runtime.", { side });
+    if (!yamlParse)
+      throw new BreakraError("INVALID_REQUEST", "No YAML parser is available in this runtime.", { side });
     try {
       parsed = yamlParse(text);
     } catch {
@@ -69,7 +77,7 @@ export function parseSpecText(
 /** Parses and shape-checks the request body. Never echoes body content in errors. */
 export function parseRequestBody(
   bytes: Uint8Array,
-  yamlParse: YamlParse | null = bunYaml ?? null,
+  yamlParse: YamlParse | null = defaultYaml(),
 ): AnalyzeInput {
   if (bytes.byteLength > LIMITS.maxBodyBytes) {
     throw new BreakraError("PAYLOAD_TOO_LARGE", "Request body exceeds the 1 MB limit.", {
