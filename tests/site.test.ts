@@ -216,4 +216,17 @@ describe("logo (brand kit)", () => {
     expect(inline).toEqual([logo, logo]); // header + footer
     expect(pathOf(read("site/favicon.svg"))).toBe(mark);
   });
+
+  it("the README graphics and the social preview use the published logo", () => {
+    const logo = pathOf(read("site/logo/breakra-logo-black.svg"));
+    for (const f of [
+      "docs/assets/hero.svg",
+      "docs/assets/how-it-works.svg",
+      "docs/assets/social-preview.svg",
+    ]) {
+      expect(read(f), f).toContain(` d="${logo}"`);
+      expect(read(f), f).not.toMatch(/>breakra<\/text>/);
+    }
+    expect(read("site/og.png").length).toBe(read("docs/assets/social-preview.png").length);
+  });
 });

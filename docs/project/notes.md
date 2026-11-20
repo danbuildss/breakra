@@ -1388,3 +1388,9 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - New pages: `/pricing`, `/about`, `/contact` (email + GitHub, no forms), `/brand` (logo, downloads, colours, type, descriptions), `/blog` (releases and updates from tags and CHANGELOG). Header/footer links point to them; sitemap lists all 10 URLs.
 - Not changed: README graphics, `og.png` and docs/assets still use the old text wordmark (follow-up).
 - `bun run check` passes (206 tests, smoke, npm smoke).
+
+### 2026-11-20: README graphics and og.png use the official logo (awaiting owner approval)
+- Owner merged PR #42 and asked to update the README and og.png with the logo.
+- `docs/assets/hero.svg`, `how-it-works.svg` and `social-preview.svg`: the typed "breakra" wordmark (and its underline bar) is replaced by the logo paths from `site/logo/`. The social preview also says "OpenAPI 3.0/3.1" (it said 3.0 only).
+- `site/og.png` and `docs/assets/social-preview.png` re-rendered from the SVG (identical files). Test added: the three graphics carry the published logo path.
+- Owner action after merge: re-upload `docs/assets/social-preview.png` in GitHub Settings → General → Social preview. Not changed: `x-launch.*` and `x-demo.png` (historical launch-post images).
