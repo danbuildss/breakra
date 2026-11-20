@@ -6,7 +6,7 @@
 import { BreakraError } from "./core/errors";
 import { isObject, type JsonObject, parseSpecText } from "./core/validate";
 import { analyzeLocal, formatText } from "./local";
-import { ENGINE_VERSION } from "./version";
+import { PACKAGE_VERSION } from "./version";
 
 const PROTOCOL_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
 
@@ -92,7 +92,7 @@ export async function handleMessage(msg: Message): Promise<object | null> {
         return reply({
           protocolVersion: version,
           capabilities: { tools: {} },
-          serverInfo: { name: "breakra", title: "Breakra", version: ENGINE_VERSION },
+          serverInfo: { name: "breakra", title: "Breakra", version: PACKAGE_VERSION },
           instructions:
             "Call check_openapi_change with the old and new OpenAPI contract before changing an API or upgrading a dependency's API. Act on `verdict`: block = breaking, review = check each finding, safe = no caller impact.",
         });
@@ -117,6 +117,11 @@ export async function handleMessage(msg: Message): Promise<object | null> {
 export async function serveStdio(): Promise<void> {
   const decoder = new TextDecoder();
   let buffer = "";
+  // A client that disconnects closes our stdout: exit quietly instead of crashing with EPIPE.
+  process.stdout.on("error", (err: NodeJS.ErrnoException) => {
+    if (err.code === "EPIPE" || err.code === "ERR_STREAM_DESTROYED") process.exit(0);
+    throw err;
+  });
   const write = (obj: object) => process.stdout.write(`${JSON.stringify(obj)}\n`);
   for await (const chunk of process.stdin) {
     buffer += typeof chunk === "string" ? chunk : decoder.decode(chunk as Uint8Array, { stream: true });

@@ -109,8 +109,8 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 ## Roadmap 2026-11-20 (ROADMAP-2026-11-20.md)
 - [x] PR A: payment wording, agent safety rules, one skill, drift (#35); scanner follow-ups (#36); Bankr v7 redeploy; fork synced for #771.
 - [x] **PR B (D-041):** npm package `breakra` 0.2.1. Node-compatible single file, no runtime deps, YAML via bundled `yaml`, `--version`, clean-install smoke test (Node 20/22 in CI), release tag = package version, manual publish workflow.
-- [ ] **Owner:** `npm publish --access public` (docs/DEPLOYMENT.md §7), then `npx -y breakra@0.2.1 --version`.
-- [ ] Follow-up docs PR: README, SKILL.md, site → `npx -y breakra …`, once published.
-- [ ] PR C: MCP Registry (`server.json`), Glama.
+- [x] **Owner:** published `breakra@0.2.1` to npm (2026-11-20); verified with `npx`.
+- [x] **v0.2.2 PR:** docs → `npx -y breakra`; MCP disconnect (EPIPE) and `serverInfo.version` fixes; `server.json` (schema-valid) and `glama.json`.
+- [ ] **Owner:** after merging, publish npm 0.2.2, then `mcp-publisher login github` and `mcp-publisher publish` (DEPLOYMENT.md §8), then claim on Glama.
 - [ ] Owner: post the reply on BankrBot/skills#771; re-run the skills.sh and Tessl scans.
 

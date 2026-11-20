@@ -25,7 +25,7 @@ describe("site/index.html content", () => {
     expect(text).toContain("≤ 1 MB");
     expect(text).toContain("OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1");
     expect(text).toContain(`Engine ${ENGINE_VERSION}`);
-    expect(text).toContain("bun src/cli.ts check"); // the free local path is on the page
+    expect(text).toContain("npx -y breakra check"); // the free local path (npm) is on the page
   });
 
   it("the response excerpt quotes the real engine output", () => {

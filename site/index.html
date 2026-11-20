@@ -110,14 +110,12 @@
       <div class="panels">
         <figure class="panel">
           <figcaption><span>free · local</span><span class="muted">CLI and MCP server, no wallet</span></figcaption>
-<pre><code><span class="c"># same engine, on your machine; nothing is sent anywhere (needs Bun)</span>
-git clone https://github.com/danbuildss/breakra
-cd breakra &amp;&amp; bun install
-bun src/cli.ts check old.yaml new.yaml
-bun src/cli.ts check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span>
+<pre><code><span class="c"># same engine, on your machine; nothing is sent anywhere (Node.js 20+)</span>
+npx -y breakra check old.yaml new.yaml
+npx -y breakra check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span>
 
 <span class="c"># give it to your coding agent (tool: check_openapi_change)</span>
-claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp</code></pre>
+claude mcp add --scope user breakra -- npx -y breakra mcp</code></pre>
         </figure>
         <figure class="panel">
           <figcaption><span>hosted · pay per call</span><span class="muted">nothing to install, no account</span></figcaption>

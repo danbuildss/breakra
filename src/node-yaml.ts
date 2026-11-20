@@ -13,5 +13,6 @@ export function parseYamlForNode(text: string): unknown {
     uniqueKeys: true,
     maxAliasCount: 100,
     prettyErrors: false,
+    logLevel: "error",
   });
 }
