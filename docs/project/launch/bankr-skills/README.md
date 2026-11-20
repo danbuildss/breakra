@@ -11,7 +11,7 @@ Ready-to-upload folder for a PR to **github.com/BankrBot/skills**. Format checke
 3. Open `README.md` in your fork → ✏️ edit. Add this row in the **Available Skills** table, after the `botchan` row and before `[Capacitr]` (rows are roughly alphabetical):
 
 ```
-| [Breakra](https://breakra.dev) | [breakra](breakra/) | OpenAPI 3.0 breaking-change checks for coding agents. Send the old and new contract; get every change classified breaking / potentially breaking / compatible, with evidence and a recommended fix. Deterministic. Single x402 endpoint on Base, $0.02 USDC per analysis; errors are free. |
+| [Breakra](https://breakra.dev) | [breakra](breakra/) | OpenAPI 3.0/3.1 (JSON or YAML) breaking-change checks for coding agents. Send the old and new contract; get a verdict (safe/review/block) and every change classified, with evidence and a recommended fix. Deterministic. Free locally, or one x402 endpoint on Base, $0.02 USDC per analysis; Breakra's own errors are never charged. |
 ```
 
 4. Commit to a new branch, then **Open pull request** to `BankrBot/skills:main`.
@@ -22,9 +22,11 @@ Ready-to-upload folder for a PR to **github.com/BankrBot/skills**. Format checke
 Adds `breakra/`: a skill for checking whether an OpenAPI 3.0 change breaks API consumers.
 
 - Single x402 endpoint on Bankr x402 Cloud: https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze
-- $0.02 USDC on Base per analysis; only a 200 is charged, errors are free.
+- $0.02 USDC on Base per analysis; only a 200 is charged; Breakra's own errors are never charged (a gateway failure is an unknown outcome).
 - Deterministic findings with evidence and a recommended action; MIT-licensed source: https://github.com/danbuildss/breakra
 - SKILL.md documents the payment terms to check before signing and the one-signature-per-call rule.
 ```
 
 **Their repo rule:** no AI-attribution lines in commits or PR bodies (no "Co-Authored-By: Claude", no "Generated with Claude Code"). The texts above have none; keep it that way.
+
+**SKILL.md:** the catalog's `breakra/SKILL.md` is the repo's root `SKILL.md`, copied at submission time (`cp SKILL.md <fork>/breakra/SKILL.md`). It is no longer committed here, so skill registries find only one Breakra skill.

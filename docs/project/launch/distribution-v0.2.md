@@ -25,7 +25,7 @@ Order, best fit first:
 |---|---|
 | Service name | Breakra |
 | One-line | Contract-safety check for AI agents: is this OpenAPI change safe, and does it break *you*? |
-| Description | Send two versions of an OpenAPI 3.0/3.1 contract (JSON or YAML). You get a verdict (safe / review / block), a suggested semver bump, and every change classified with evidence and a recommended fix. Pass `uses` to see only the findings that affect the operations you call. Deterministic: the same inputs always give the same `analysis_id`. Errors are free. |
+| Description | Send two versions of an OpenAPI 3.0/3.1 contract (JSON or YAML). You get a verdict (safe / review / block), a suggested semver bump, and every change classified with evidence and a recommended fix. Pass `uses` to see only the findings that affect the operations you call. Deterministic: the same inputs always give the same `analysis_id`. Breakra's own errors are never charged. |
 | Category | Infrastructure (no "Developer tools" category exists) |
 | Endpoint | `https://breakra.dev/api/analyze` (forwards to Bankr). Direct: `https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` |
 | Method | POST, `application/json` |

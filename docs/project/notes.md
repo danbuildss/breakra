@@ -109,6 +109,10 @@
   - **Not confirmed by search:** Impact Gate, cisco mcptoolkit-contract, Settlens, x402Shield.
   - **Owner-reported:** Circle application submitted 11-16; skills.sh listing; scanner verdicts FAIL/WARN/WARN (details pending).
   - **Proposed first task:** PR A (docs and agent safety). Awaiting approval.
+- **2026-11-20:** Owner approved PR A and confirmed **the Circle Agent Marketplace listing is submitted**; awaiting Circle's review.
+  - **PR A done:** precise payment wording in every public file (Breakra's own errors are never charged; a gateway failure is an unknown outcome); "Safety rules for agents" block at the top of SKILL.md; one canonical SKILL.md (launch copy removed); version drift fixed (README, API.md, `openapi.json`, hero image).
+  - New tests guard all of this; 163 tests pass.
+  - **After merge:** sync the fork for #771; Bankr redeploy for the listing text (free V0 only).
 
 ## Inputs received
 

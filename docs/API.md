@@ -1,4 +1,4 @@
-# Breakra — API Contract (engine 0.1.1, rule set 0.1.0)
+# Breakra — API Contract (engine 0.2.0, rule set 0.2.0)
 
 **Status:** **LIVE** on Bankr x402 Cloud (Phase 3, 2026-10-08): `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` (one URL per deployment; there is no `/v1/analyze` path on Bankr). Price: $0.02 USDC on Base, paid via x402.
 
@@ -61,7 +61,9 @@ Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unc
 | `evidence.path` | The location in the **dereferenced** document; parameter indexes are shown as `in:name`. Values over 1,000 characters are truncated (`evidence.truncated: true`). |
 | `analysis_id` | sha256 of the engine version, rule-set version and both canonical input hashes. **Every field except `metadata.duration_ms` is deterministic.** Key order and formatting don't affect results. |
 
-## Errors (all non-2xx, so **never charged**; verified on-chain in T-001)
+## Breakra's errors (all non-2xx, so **never charged**; verified on-chain in T-001)
+
+Only a response in this shape proves nothing was charged. A gateway error (502/503/504), a non-JSON body, a timeout or a reset comes from outside Breakra and is an **unknown outcome**: don't re-sign; wait 60 s and check transfers to `payTo` first.
 
 ```json
 { "status": "error", "error": { "code": "UNSUPPORTED_OPENAPI_VERSION", "message": "…", "retryable": false, "details": { "side": "after" } } }
@@ -81,12 +83,12 @@ Error messages never echo submitted content or internal details.
 
 ## Rate limits
 
-Breakra sets no rate limit of its own: every successful call is paid ($0.02), which bounds abuse, and every error is free. Bankr's gateway may apply platform limits (a 30 s request cap and a ~5 MB body cap were observed in T-001).
+Breakra sets no rate limit of its own: every successful call is paid ($0.02), which bounds abuse, and Breakra's own errors are free. Bankr's gateway may apply platform limits (a 30 s request cap and a ~5 MB body cap were observed in T-001).
 
 ## Payment notes (from T-001, Bankr x402 Cloud)
 
 - Unpaid requests receive HTTP 402 with x402 v2 requirements: `exact` scheme, `eip155:8453`, USDC, amount `20000` ($0.02; **verified live** in Phase 3 V0).
-- **Only 2xx responses are settled.** 4xx/5xx are free, verified on-chain.
+- **Only 2xx responses are settled.** Breakra's own errors (4xx/5xx with a JSON `error.code`) are never charged (verified on-chain). A gateway error, timeout or reset from outside Breakra is an unknown outcome: don't re-sign automatically.
 - Each new authorization is a separate charge; a reused payment is rejected (`402 Payment already used`).
 - **No settlement receipt header is returned** to the buyer.
 - Client caution: `@x402/fetch`'s wrapper can automatically re-sign and re-send a fresh payment in some recovery paths. Agents should use one signature per logical call.

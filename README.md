@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="Breakra: know what changed before your integration breaks. OpenAPI 3.0 compatibility checks for coding agents, $0.02 USDC on Base via x402." width="100%">
+  <img src="docs/assets/hero.svg" alt="Breakra: know what changed before your integration breaks. OpenAPI 3.0/3.1 compatibility checks for coding agents: free locally, or $0.02 USDC on Base via x402." width="100%">
 </p>
 
 <p align="center">
@@ -13,7 +13,7 @@
 
 <p align="center">
   Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells a coding agent what may break for its callers, or for the operations it depends on: a verdict, every change classified, the evidence and a recommended fix.<br/>
-  <strong>One HTTP call. $0.02 USDC on Base via x402. Errors are free.</strong>
+  <strong>Free locally, or one HTTP call at $0.02 USDC on Base via x402. Breakra's own errors are never charged.</strong>
 </p>
 
 > **🤖 Using a coding agent?** Point it here: **read https://breakra.dev/skill.md and follow it to check an OpenAPI change.**
@@ -124,11 +124,12 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 ## How payment works
 
 <p align="center">
-  <img src="docs/assets/payment-flow.svg" alt="The first request returns 402 with the terms; the agent checks them and signs once; the paid request returns 200 and is charged $0.02; any error is never charged." width="100%">
+  <img src="docs/assets/payment-flow.svg" alt="The first request returns 402 with the terms; the agent checks them and signs once; the paid request returns 200 and is charged $0.02; a Breakra error is never charged; a gateway failure is an unknown outcome." width="100%">
 </p>
 
 - Paid with [x402](https://www.x402.org) on Base: `exact` scheme, USDC, `20000` ($0.02), to Bankr's fee router. Hosted on Bankr x402 Cloud.
-- **Only a 200 is charged.** Invalid input, oversize specs and errors return 4xx/5xx and are free.
+- **Only a 200 is charged.** Breakra's own errors (invalid input, oversize specs, a JSON `error.code`) are never charged.
+- **A gateway error, timeout or reset is an unknown outcome, not a free error:** don't re-sign; wait 60 s and check your wallet's transfers first.
 - **Sign once per call.** A reused signature is rejected; a new signature is a new charge.
 
 ## Limits and privacy
@@ -149,7 +150,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 | [`SKILL.md`](SKILL.md) | Agent guide: when to call, payment terms, reading results |
 | [`docs/API.md`](docs/API.md) | Request, response and error reference |
 | [`openapi.json`](openapi.json) | Machine-readable contract of the endpoint |
-| [`RULES.md`](RULES.md) | Every classification rule (rule set 0.1.0) |
+| [`RULES.md`](RULES.md) | Every classification rule (rule set 0.2.0) |
 | [`examples/`](examples/) | Sample request and response, paying client, curl |
 | [`demo/github-rest-api/`](demo/github-rest-api/) | Real-world run on GitHub's API description |
 | [`SECURITY.md`](SECURITY.md) | Reporting vulnerabilities privately |
