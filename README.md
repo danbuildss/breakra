@@ -58,7 +58,7 @@ Send the old and the new contract. Breakra validates both, diffs them, and class
 Same engine, on your machine, nothing sent anywhere. Needs [Bun](https://bun.sh).
 
 ```bash
-git clone https://github.com/danbuildss/breakra && cd breakra && bun install
+git clone --branch v0.2.0 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install
 bun src/cli.ts check old.yaml new.yaml                     # verdict, findings, fixes
 bun src/cli.ts check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review   # does it break me?
 claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp        # MCP tool: check_openapi_change

@@ -1,17 +1,26 @@
 /** Real-world spec source for benchmarks and live verification: GitHub's OpenAPI spec via @octokit/openapi. */
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const dir = join(import.meta.dir, "../../.bench");
+const dir = fileURLToPath(new URL("../../.bench", import.meta.url));
+
+/** Only plain semver versions reach the filesystem and the commands below (no shell is used either). */
+export function checkVersion(version: string): string {
+  if (!/^\d{1,4}\.\d{1,4}\.\d{1,4}$/.test(version)) throw new Error("version must look like 22.0.0");
+  return version;
+}
 
 export function loadGithubSpec(version: string): Record<string, any> {
+  checkVersion(version);
   mkdirSync(dir, { recursive: true });
   const file = join(dir, version, "package/generated/api.github.com.json");
   if (!existsSync(file)) {
-    execSync(`npm pack @octokit/openapi@${version} --silent`, { cwd: dir });
+    // npm verifies the tarball against the registry's integrity hash; arguments are passed without a shell.
+    execFileSync("npm", ["pack", `@octokit/openapi@${version}`, "--silent"], { cwd: dir });
     mkdirSync(join(dir, version), { recursive: true });
-    execSync(`tar -xzf octokit-openapi-${version}.tgz -C ${version}`, { cwd: dir });
+    execFileSync("tar", ["-xzf", `octokit-openapi-${version}.tgz`, "-C", version], { cwd: dir });
   }
   return JSON.parse(readFileSync(file, "utf8"));
 }
