@@ -1407,3 +1407,6 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - Built `integrations/`: shared fixtures + expected results (`scripts/integration-kits.ts`; analysis_id identical for YAML text, JSON text, objects), Bankr kit (README with the two messages, DEMO, FINDINGS template), Aeon pack (manifest, `breakra-check` SKILL.md, fixtures, README, DEMO, FINDINGS with local pre-checks). `tests/integrations.test.ts`.
 - Local Aeon pre-checks all pass (validator, scan, installer dry run and real install in a scratch copy, category check, demo commands with the published package: ids match). Friction found: installer doesn't update `eyebrowlock.json`, so the install PR fails Aeon's skill-integrity CI (affects every community pack).
 - Owner next: create the Aeon test repo; run the Bankr test (authorize ≤ $0.06); share transcripts.
+
+### 2026-11-20: Bankr proof verified
+- Owner merged PR #45, ran the Bankr test in their account: skill installed from GitHub (message 1); message 2 → 2 paid hosted checks at $0.02 each ($0.04 total, owner-authorized). Change 1 `block`/major and change 2 `safe`/minor, both `analysis_id`s identical to `integrations/fixtures/*/expected.json`. Recorded in `integrations/bankr/FINDINGS.md`. No friction reported; recording pending. Aeon test still pending.
