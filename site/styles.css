@@ -990,3 +990,70 @@ section.hero {
     margin-top: 16px;
   }
 }
+
+/* ---------- Website v2 (part 2): inner pages ---------- */
+.page-hero {
+  padding-top: 64px;
+  padding-bottom: 8px;
+}
+.page-hero h1 {
+  margin: 0 0 16px;
+}
+.small {
+  font-size: 14px;
+}
+.list {
+  padding-left: 20px;
+  margin: 0;
+}
+.list li {
+  margin: 10px 0;
+}
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  margin-bottom: 12px;
+}
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table-wrap th,
+.table-wrap td {
+  text-align: left;
+  vertical-align: top;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.table-wrap thead th {
+  font: 600 12px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.table-wrap tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.table-wrap tbody th {
+  font-weight: 550;
+}
+.compare td {
+  width: 38%;
+}
+section.wrap > .stats {
+  margin-bottom: 32px;
+}
+@media (max-width: 520px) {
+  .table-wrap table {
+    min-width: 640px;
+  }
+  .table-wrap .compare {
+    min-width: 0;
+  }
+}
+.wrap.wide {
+  max-width: 1200px;
+}

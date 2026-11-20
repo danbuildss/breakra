@@ -140,3 +140,66 @@ describe("website v2 homepage", () => {
     expect(html).toMatch(/Impact <span class="tag">research<\/span>/);
   });
 });
+
+describe("website v2 inner pages", async () => {
+  const { PAGES, block, renderPage, benchmarkHtml } = await import("../scripts/site-pages");
+  const pages = Object.fromEntries(PAGES.map((p) => [p, read(`site/${p}.html`)])) as Record<
+    (typeof PAGES)[number],
+    string
+  >;
+
+  it("every page is exactly what scripts/site-pages.ts renders (shared header and footer, benchmark tables)", () => {
+    for (const p of PAGES) expect(pages[p], p).toBe(renderPage(p, pages[p]));
+    for (const p of PAGES) {
+      expect(block(pages[p], "header")).toBe(block(html, "header"));
+      expect(block(pages[p], "footer")).toBe(block(html, "footer"));
+    }
+    expect(block(pages.benchmark, "bench")).toBe(benchmarkHtml());
+  });
+
+  it("each page is CSP-safe, has its own canonical URL and is in the sitemap", () => {
+    const sitemap = read("site/sitemap.xml");
+    for (const p of PAGES) {
+      const page = pages[p];
+      for (const m of page.matchAll(
+        /<(?:script|link(?![^>]*rel="canonical")|img)\b[^>]*(?:src|href)="([^"]+)"/g,
+      ))
+        expect(m[1], `${p}: ${m[1]}`).toMatch(/^\//);
+      expect(page).not.toMatch(/<script(?![^>]*\bsrc=)[^>]*>/);
+      expect(page).not.toMatch(/\sstyle="/);
+      expect(page).not.toMatch(/<style\b/);
+      expect(page).not.toMatch(/CORTX/i);
+      expect(page).toContain(`<link rel="canonical" href="https://breakra.dev/${p}">`);
+      expect(sitemap).toContain(`<loc>https://breakra.dev/${p}</loc>`);
+    }
+  });
+
+  it("every internal link on every page resolves to a file in site/ (or a file copied in at deploy)", () => {
+    const atDeploy = new Set(["/skill.md", "/openapi.json", "/api/analyze"]);
+    const all: Array<[string, string]> = [["index", html], ...Object.entries(pages)];
+    for (const [name, page] of all) {
+      for (const m of page.matchAll(/href="(\/[^"#?]*)/g)) {
+        const path = m[1] ?? "";
+        if (path === "/" || atDeploy.has(path)) continue;
+        const file = /\.[a-z0-9]+$/.test(path) ? path : `${path}.html`; // cleanUrls
+        expect(() => read(`site${file}`), `${name}: ${path}`).not.toThrow();
+      }
+    }
+  });
+
+  it("the compare page states the documented oasdiff differences", () => {
+    const diffs = JSON.parse(read("tests/oracle-differences.json"));
+    expect(diffs.length).toBe(3); // 2 behaviours (authentication added, optional response field removed)
+    expect(pages.compare).toContain("Authentication added");
+    expect(pages.compare).toContain("Optional response field removed");
+  });
+
+  it("the security page states the real limits", () => {
+    const t = pages.security.replace(/<[^>]*>/g, "");
+    expect(t).toContain("≤ 1 MB");
+    expect(t).toContain(`nesting depth ${LIMITS.maxDepth}`);
+    expect(t).toContain(`${LIMITS.maxNodes.toLocaleString("en-US")} nodes`);
+    expect(t).toContain(`${LIMITS.maxOperations.toLocaleString("en-US")} operations`);
+    expect(t).toContain(`${LIMITS.maxExpandedNodes.toLocaleString("en-US")} nodes after expanding`);
+  });
+});

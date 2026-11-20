@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benchmark · Breakra</title>
+  <meta name="description" content="Breakra measured on real GitHub and Stripe API history and curated scenarios with expected outcomes.">
+  <link rel="canonical" href="https://breakra.dev/benchmark">
+  <meta name="theme-color" content="#0D0C0A">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://breakra.dev/benchmark">
+  <meta property="og:title" content="Benchmark · Breakra">
+  <meta property="og:description" content="Breakra measured on real GitHub and Stripe API history and curated scenarios with expected outcomes.">
+  <meta property="og:image" content="https://breakra.dev/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://breakra.dev/og.png">
+  <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- header:start -->
+  <header class="site-header">
+    <div class="wrap-wide header-row">
+      <a class="wordmark" href="/" aria-label="Breakra home">breakra</a>
+      <nav class="nav" aria-label="Primary">
+        <details class="menu"><summary>Product</summary><div class="menu-panel"><a class="mi" href="/#run"><span class="mi-icon" aria-hidden="true">⌘</span><span class="mi-text"><span class="mi-title">CLI</span><span class="mi-desc">Check two contracts in one command</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">⧉</span><span class="mi-text"><span class="mi-title">MCP Server</span><span class="mi-desc">check_openapi_change for Claude Code and any MCP client</span></span></a><a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">⇄</span><span class="mi-text"><span class="mi-title">Hosted API</span><span class="mi-desc">$0.02/check via x402, no account</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">⚙</span><span class="mi-text"><span class="mi-title">GitHub Action <span class="tag">roadmap</span></span><span class="mi-desc">Check spec changes in every PR</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">◈</span><span class="mi-text"><span class="mi-title">Impact <span class="tag">research</span></span><span class="mi-desc">Which code a change affects</span></span></a></div></details>
+        <details class="menu"><summary>Developers</summary><div class="menu-panel"><a class="mi" href="https://github.com/danbuildss/breakra#readme"><span class="mi-icon" aria-hidden="true">▤</span><span class="mi-text"><span class="mi-title">Docs</span><span class="mi-desc">Quickstart, CLI, API reference</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">◎</span><span class="mi-text"><span class="mi-title">For AI</span><span class="mi-desc">skill.md, llms.txt, MCP config</span></span></a><a class="mi" href="/integrations"><span class="mi-icon" aria-hidden="true">⧈</span><span class="mi-text"><span class="mi-title">Integrations</span><span class="mi-desc">Claude Code, any MCP client, CI, x402 agents</span></span></a><a class="mi" href="/openapi.json"><span class="mi-icon" aria-hidden="true">{}</span><span class="mi-text"><span class="mi-title">OpenAPI spec</span><span class="mi-desc">The API contract, machine-readable</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/RULES.md"><span class="mi-icon" aria-hidden="true">≡</span><span class="mi-text"><span class="mi-title">Rules</span><span class="mi-desc">Every classification rule</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md"><span class="mi-icon" aria-hidden="true">↻</span><span class="mi-text"><span class="mi-title">Changelog</span><span class="mi-desc">What changed in each release</span></span></a></div></details>
+        <a class="nav-link" href="/#pricing">Pricing</a>
+        <details class="menu menu-right"><summary>More</summary><div class="menu-panel"><a class="mi" href="/benchmark"><span class="mi-icon" aria-hidden="true">▦</span><span class="mi-text"><span class="mi-title">Benchmark</span><span class="mi-desc">Real API changes, measured</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/releases"><span class="mi-icon" aria-hidden="true">✎</span><span class="mi-text"><span class="mi-title">Releases</span><span class="mi-desc">Updates and release notes</span></span></a><a class="mi" href="/compare"><span class="mi-icon" aria-hidden="true">⚖</span><span class="mi-text"><span class="mi-title">Compare</span><span class="mi-desc">Breakra vs alternatives, honestly</span></span></a><a class="mi" href="/security"><span class="mi-icon" aria-hidden="true">⛨</span><span class="mi-text"><span class="mi-title">Security</span><span class="mi-desc">Privacy, scans, disclosure</span></span></a><a class="mi" href="mailto:hello.danbuilds@gmail.com?subject=Breakra"><span class="mi-icon" aria-hidden="true">✉</span><span class="mi-text"><span class="mi-title">Contact</span><span class="mi-desc">Support and partnerships</span></span></a></div></details>
+      </nav>
+      <div class="header-actions">
+        <a class="nav-link gh" href="https://github.com/danbuildss/breakra">GitHub <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-solid btn-sm" href="/#run">Get started</a>
+        <button class="theme" type="button" data-theme-toggle aria-label="Switch light or dark theme">◐</button>
+        <details class="mobile-nav">
+          <summary aria-label="Menu">☰</summary>
+          <div class="mobile-panel">
+            <p class="mobile-h">Product</p><a class="mi" href="/#run"><span class="mi-icon" aria-hidden="true">⌘</span><span class="mi-text"><span class="mi-title">CLI</span><span class="mi-desc">Check two contracts in one command</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">⧉</span><span class="mi-text"><span class="mi-title">MCP Server</span><span class="mi-desc">check_openapi_change for Claude Code and any MCP client</span></span></a><a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">⇄</span><span class="mi-text"><span class="mi-title">Hosted API</span><span class="mi-desc">$0.02/check via x402, no account</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">⚙</span><span class="mi-text"><span class="mi-title">GitHub Action <span class="tag">roadmap</span></span><span class="mi-desc">Check spec changes in every PR</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/VISION.md#roadmap"><span class="mi-icon" aria-hidden="true">◈</span><span class="mi-text"><span class="mi-title">Impact <span class="tag">research</span></span><span class="mi-desc">Which code a change affects</span></span></a>
+            <p class="mobile-h">Developers</p><a class="mi" href="https://github.com/danbuildss/breakra#readme"><span class="mi-icon" aria-hidden="true">▤</span><span class="mi-text"><span class="mi-title">Docs</span><span class="mi-desc">Quickstart, CLI, API reference</span></span></a><a class="mi" href="/#agents"><span class="mi-icon" aria-hidden="true">◎</span><span class="mi-text"><span class="mi-title">For AI</span><span class="mi-desc">skill.md, llms.txt, MCP config</span></span></a><a class="mi" href="/integrations"><span class="mi-icon" aria-hidden="true">⧈</span><span class="mi-text"><span class="mi-title">Integrations</span><span class="mi-desc">Claude Code, any MCP client, CI, x402 agents</span></span></a><a class="mi" href="/openapi.json"><span class="mi-icon" aria-hidden="true">{}</span><span class="mi-text"><span class="mi-title">OpenAPI spec</span><span class="mi-desc">The API contract, machine-readable</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/RULES.md"><span class="mi-icon" aria-hidden="true">≡</span><span class="mi-text"><span class="mi-title">Rules</span><span class="mi-desc">Every classification rule</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md"><span class="mi-icon" aria-hidden="true">↻</span><span class="mi-text"><span class="mi-title">Changelog</span><span class="mi-desc">What changed in each release</span></span></a>
+            <a class="mi" href="/#pricing"><span class="mi-icon" aria-hidden="true">$</span><span class="mi-text"><span class="mi-title">Pricing</span><span class="mi-desc">Free, hosted, teams</span></span></a>
+            <p class="mobile-h">More</p><a class="mi" href="/benchmark"><span class="mi-icon" aria-hidden="true">▦</span><span class="mi-text"><span class="mi-title">Benchmark</span><span class="mi-desc">Real API changes, measured</span></span></a><a class="mi" href="https://github.com/danbuildss/breakra/releases"><span class="mi-icon" aria-hidden="true">✎</span><span class="mi-text"><span class="mi-title">Releases</span><span class="mi-desc">Updates and release notes</span></span></a><a class="mi" href="/compare"><span class="mi-icon" aria-hidden="true">⚖</span><span class="mi-text"><span class="mi-title">Compare</span><span class="mi-desc">Breakra vs alternatives, honestly</span></span></a><a class="mi" href="/security"><span class="mi-icon" aria-hidden="true">⛨</span><span class="mi-text"><span class="mi-title">Security</span><span class="mi-desc">Privacy, scans, disclosure</span></span></a><a class="mi" href="mailto:hello.danbuilds@gmail.com?subject=Breakra"><span class="mi-icon" aria-hidden="true">✉</span><span class="mi-text"><span class="mi-title">Contact</span><span class="mi-desc">Support and partnerships</span></span></a>
+            <p class="mobile-h">Code</p><a class="mi" href="https://github.com/danbuildss/breakra"><span class="mi-icon" aria-hidden="true">↗</span><span class="mi-text"><span class="mi-title">GitHub</span><span class="mi-desc">Source, issues, releases (MIT)</span></span></a>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+  <!-- header:end -->
+
+  <main id="main">
+    <section class="wrap page-hero">
+      <p class="label">Benchmark</p>
+      <h1>Measured on real API history.</h1>
+      <p class="lede">Breakra run on real version pairs of GitHub's and Stripe's published API descriptions, plus small curated scenarios with expected outcomes. Deterministic: reproduce it with <code>bun run benchmark</code> from the same public sources.</p>
+    </section>
+    <section class="wrap wide" aria-label="Results">
+      <!-- bench:start -->
+      <div class="stats card">
+        <div><p class="stat">7</p><p class="muted">GitHub API version pairs</p></div>
+        <div><p class="stat">2 · 4 · 1</p><p class="muted">block · review · safe</p></div>
+        <div><p class="stat">15/15</p><p class="muted">curated scenarios as expected</p></div>
+      </div>
+
+      <h2 class="label" id="real">Real API history</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source</th><th>Versions</th><th>Changed paths (compared / skipped)</th><th>Verdict</th><th>Breaking</th><th>Potentially breaking</th><th>Unknown</th><th>Compatible</th><th>Docs-only</th></tr></thead>
+          <tbody>
+            <tr><td>github</td><td class="mono">17.0.0..18.0.0</td><td>666 (25 / 0)</td><td><span class="verdict verdict-review">review</span></td><td>0</td><td>4</td><td>0</td><td>46</td><td>16</td></tr>
+            <tr><td>github</td><td class="mono">18.0.0..19.0.0</td><td>683 (25 / 0)</td><td><span class="verdict verdict-review">review</span></td><td>0</td><td>39</td><td>6</td><td>32</td><td>34</td></tr>
+            <tr><td>github</td><td class="mono">19.0.0..20.0.0</td><td>721 (25 / 0)</td><td><span class="verdict verdict-review">review</span></td><td>0</td><td>6</td><td>0</td><td>15</td><td>14</td></tr>
+            <tr><td>github</td><td class="mono">20.0.0..21.0.0</td><td>745 (25 / 0)</td><td><span class="verdict verdict-block">block</span></td><td>1</td><td>0</td><td>0</td><td>50</td><td>2</td></tr>
+            <tr><td>github</td><td class="mono">21.0.0..22.0.0</td><td>753 (25 / 0)</td><td><span class="verdict verdict-safe">safe</span></td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+            <tr><td>github</td><td class="mono">22.0.0..23.0.0</td><td>832 (25 / 0)</td><td><span class="verdict verdict-block">block</span></td><td>2</td><td>4</td><td>0</td><td>82</td><td>13</td></tr>
+            <tr><td>github</td><td class="mono">23.0.0..24.0.0</td><td>828 (25 / 0)</td><td><span class="verdict verdict-review">review</span></td><td>0</td><td>0</td><td>4</td><td>8</td><td>2</td></tr>
+            <tr><td>stripe</td><td class="mono">v2400..v2450</td><td>419 (0 / 419)</td><td>not assessed</td><td colspan="5" class="muted">—</td></tr>
+            <tr><td>stripe</td><td class="mono">v2450..v2500</td><td>0 (0 / 0)</td><td>no changes</td><td colspan="5" class="muted">—</td></tr>
+            <tr><td>stripe</td><td class="mono">v2500..v2550</td><td>431 (0 / 431)</td><td>not assessed</td><td colspan="5" class="muted">—</td></tr>
+            <tr><td>stripe</td><td class="mono">v2550..v2602</td><td>0 (0 / 0)</td><td>no changes</td><td colspan="5" class="muted">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted small">All 382 changes found: breaking 3 (1%), potentially breaking 53 (14%), unknown 10 (3%), compatible 234 (61%), docs-only 82 (21%).</p>
+
+      <h2 class="label" id="curated">Curated scenarios: expected vs Breakra</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Scenario</th><th>Expected</th><th>Got</th><th>Pass</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td>API-key authentication becomes required for every operation.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Unauthenticated callers will be rejected (Breakra is stricter than oasdiff here, by design).</td></tr>
+            <tr><td>Only a description changes.</td><td class="mono">safe</td><td class="mono">safe</td><td>✓</td><td class="muted">Documentation doesn't change the contract.</td></tr>
+            <tr><td>A new operation GET /customers.</td><td class="mono">safe</td><td class="mono">safe</td><td>✓</td><td class="muted">Additive.</td></tr>
+            <tr><td>An operation (POST /orders) is removed.</td><td class="mono">block</td><td class="mono">block</td><td>✓</td><td class="muted">Callers of a removed operation fail: the only certain break.</td></tr>
+            <tr><td>The response schema becomes an external $ref.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">External refs are never fetched; the change can't be cleared as safe.</td></tr>
+            <tr><td><code>total</code> keeps its name but changes from number to string.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">A same-name field with a new type breaks typed clients (raised on X by @sreecharantwts).</td></tr>
+            <tr><td>The new contract is not a valid OpenAPI document (paths is a list).</td><td class="mono">error INVALID_SPECIFICATION</td><td class="mono">error INVALID_SPECIFICATION</td><td>✓</td><td class="muted">Must fail closed: an error, never a verdict (raised on X by @Steven7FGC).</td></tr>
+            <tr><td>OpenAPI 3.1: request <code>qty</code> gains exclusiveMinimum: 5 (minimum 1 removed).</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">A tightened bound: the case rule set 0.1.0 missed (fixed in 0.2.0).</td></tr>
+            <tr><td>OpenAPI 3.1: response <code>email</code> may now be null.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Clients that assume a string may crash on null.</td></tr>
+            <tr><td>An optional request field <code>note</code> is added.</td><td class="mono">safe</td><td class="mono">safe</td><td>✓</td><td class="muted">Additive and optional: existing callers are unaffected.</td></tr>
+            <tr><td>Request <code>qty</code> gains maximum: 10.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Callers sending larger values may now be rejected.</td></tr>
+            <tr><td>A new required query parameter on GET /orders/{id}.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Existing calls don't send it and may be rejected.</td></tr>
+            <tr><td>Response enum <code>status</code> gains <code>cancelled</code>.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Exhaustive switch statements may not handle the new value.</td></tr>
+            <tr><td>Response field <code>email</code> removed.</td><td class="mono">review</td><td class="mono">review</td><td>✓</td><td class="muted">Consumers that read it may break.</td></tr>
+            <tr><td>The new contract is Swagger 2.0.</td><td class="mono">error UNSUPPORTED_OPENAPI_VERSION</td><td class="mono">error UNSUPPORTED_OPENAPI_VERSION</td><td>✓</td><td class="muted">Unsupported input is an error, never 'safe'.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- bench:end -->
+    </section>
+    <section class="wrap" id="method" aria-labelledby="method-h">
+      <h2 id="method-h" class="label">How it's measured</h2>
+      <ul class="list">
+        <li><strong>Sources:</strong> consecutive major versions of GitHub's REST API description (<code>@octokit/openapi</code> on npm, MIT) and tagged versions of Stripe's OpenAPI spec (MIT).</li>
+        <li><strong>What counts as changed:</strong> a path counts as changed if it, or any schema it references, changed.</li>
+        <li><strong>Sampling:</strong> for each pair, an evenly spaced sample of up to 25 changed paths, so no alphabetical slice dominates.</li>
+        <li><strong>Limits:</strong> paths that exceed Breakra's limits (1 MB, 75,000 expanded nodes) are counted as skipped, never reported as safe.</li>
+        <li><strong>Reproducible:</strong> <a href="https://github.com/danbuildss/breakra/blob/main/benchmark/results.json">results.json</a> records each input's SHA-256.</li>
+      </ul>
+    </section>
+    <section class="wrap" id="checked" aria-labelledby="checked-h">
+      <h2 id="checked-h" class="label">Hand-checked findings</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Pair</th><th>Finding</th><th>Check</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub 20→21</td><td><code>operation_removed</code>: GET /users/{user_id}/projectsV2/{project_number}/fields/{field_id}</td><td>Absent from the full v21 spec?</td><td>✓ Confirmed</td></tr>
+            <tr><td>GitHub 22→23</td><td><code>operation_removed</code>: GET and PATCH /organizations/{org}/dependabot/repository-access</td><td>Absent from the full v23 spec?</td><td>✓ Confirmed (both)</td></tr>
+            <tr><td>GitHub 18→19</td><td><code>response.property_removed</code> inside <code>oneOf</code> branches of GET /orgs/{org}/rulesets</td><td>Real removal, or reordered variants?</td><td>⚠ Likely over-reporting: variants are compared by position. It errs toward "review", never toward "safe".</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="wrap" id="limits" aria-labelledby="limits-h">
+      <h2 id="limits-h" class="label">Known limits</h2>
+      <ul class="list">
+        <li><strong>Very large APIs (Stripe) are not assessed.</strong> Every changed Stripe operation expands past 75,000 nodes once <code>$ref</code>s are resolved. Breakra refuses such input rather than risk a timeout. Higher limits for the local CLI are a roadmap candidate.</li>
+        <li><strong><code>oneOf</code>/<code>anyOf</code> variants are compared by position,</strong> so reordered variants can be over-reported. Matching by content is a roadmap candidate.</li>
+        <li><strong>Curated expectations are written by the maintainer,</strong> so they test intended behaviour. For real pairs, only hand-checked findings are claimed as correct.</li>
+      </ul>
+      <p class="hint muted">Found a wrong finding? <a href="https://github.com/danbuildss/breakra/issues/new?template=wrong-finding.yml">Report it</a> with a minimal before/after pair.</p>
+    </section>
+  </main>
+
+  <!-- footer:start -->
+  <footer class="site-footer">
+    <div class="wrap-wide footer-grid">
+      <div class="footer-brand"><span class="wordmark">breakra</span><p class="muted">Know what breaks before your agent ships.</p><p class="muted mono">Engine 0.2.0 · rule set 0.2.0</p></div>
+      <nav aria-label="Product"><p class="fh">Product</p><a href="/#run">CLI</a><a href="/#agents">MCP Server</a><a href="/#pricing">Hosted API</a><a href="/#pricing">Pricing</a></nav>
+      <nav aria-label="Developers"><p class="fh">Developers</p><a href="https://github.com/danbuildss/breakra#readme">Docs</a><a href="/integrations">Integrations</a><a href="/skill.md">skill.md</a><a href="/llms.txt">llms.txt</a><a href="/openapi.json">openapi.json</a><a href="https://github.com/danbuildss/breakra/blob/main/RULES.md">Rules</a><a href="https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md">Changelog</a></nav>
+      <nav aria-label="Resources"><p class="fh">Resources</p><a href="/benchmark">Benchmark</a><a href="https://github.com/danbuildss/breakra/releases">Releases</a><a href="/compare">Compare</a><a href="/security">Security</a><a href="https://github.com/danbuildss/breakra/issues/new?template=wrong-finding.yml">Report a wrong finding</a></nav>
+      <nav aria-label="Company"><p class="fh">Company</p><a href="mailto:hello.danbuilds@gmail.com?subject=Breakra">Contact</a><a href="mailto:hello.danbuilds@gmail.com?subject=Breakra%20partnership">Partnerships</a><a href="https://github.com/danbuildss/breakra/tree/main/docs/assets">Brand kit</a><a href="https://github.com/danbuildss/breakra">GitHub</a></nav>
+    </div>
+    <div class="wrap-wide footer-listed muted">Listed on: <a href="https://www.npmjs.com/package/breakra">npm</a> · <a href="https://registry.modelcontextprotocol.io/v0/servers?search=io.github.danbuildss/breakra">MCP Registry</a> · <a href="https://glama.ai/mcp/servers">Glama</a> · <a href="https://tessl.io/registry">Tessl</a> · <a href="https://skills.sh/danbuildss/breakra/breakra">skills.sh</a> · <a href="https://x402scan.com">x402scan</a> · <a href="https://x402.bankr.bot">Bankr</a></div>
+    <div class="wrap-wide footer-bottom">
+      <p class="built-by">Built by <a href="https://somehowinternet.app" rel="noopener">SOMEHOW</a></p>
+      <p class="muted"><a href="https://github.com/danbuildss/breakra/blob/main/LICENSE">MIT</a> · © 2026 Breakra · breakra.dev</p>
+    </div>
+  </footer>
+  <!-- footer:end -->
+</body>
+</html>
