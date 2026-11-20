@@ -1394,3 +1394,9 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - `docs/assets/hero.svg`, `how-it-works.svg` and `social-preview.svg`: the typed "breakra" wordmark (and its underline bar) is replaced by the logo paths from `site/logo/`. The social preview also says "OpenAPI 3.0/3.1" (it said 3.0 only).
 - `site/og.png` and `docs/assets/social-preview.png` re-rendered from the SVG (identical files). Test added: the three graphics carry the published logo path.
 - Owner action after merge: re-upload `docs/assets/social-preview.png` in GitHub Settings → General → Social preview. Not changed: `x-launch.*` and `x-demo.png` (historical launch-post images).
+
+### 2026-11-20: GitHub Actions example (developer assets, step 1)
+- Owner merged PR #43 and uploaded the social preview; live site verified (og.png identical to main, logo, all new pages 200). Owner approved the next task.
+- `examples/github-actions/breakra.yml` + README: compares the PR's contract with the base branch using `npx -y breakra@0.2.2`, `SPEC`/`FAIL_ON` settings, skips new contracts, read-only permissions, base ref passed via env.
+- `tests/examples.test.ts` runs the workflow's script in a temporary git repo: breaking → 1, compatible → 0, new contract → skip, `FAIL_ON: review` → 1 on a new required parameter, unreadable → 2; pinned version must equal package.json; the /integrations page must show the exact file.
+- `bun run check` passes (214 tests, smoke, npm smoke). Not run inside GitHub Actions itself.
