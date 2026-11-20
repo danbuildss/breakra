@@ -1,0 +1,80 @@
+{
+  "status": "success",
+  "analysis_id": "sha256:f32d9a2fc36710002398255d53271d91cf6ccc7a208122d6afdab81058769d68",
+  "engine_version": "0.2.0",
+  "rule_set_version": "0.2.0",
+  "spec_versions": {
+    "before": "3.0.3",
+    "after": "3.0.3"
+  },
+  "compatibility": "compatible",
+  "verdict": "safe",
+  "suggested_version_bump": "minor",
+  "summary": {
+    "total_changes": 2,
+    "breaking": 0,
+    "potentially_breaking": 0,
+    "unknown": 0,
+    "compatible": 1,
+    "non_contract": 1
+  },
+  "changes": [
+    {
+      "id": "change-001",
+      "rule": "operation.operation_added",
+      "kind": "operation_added",
+      "compatibility": "compatible",
+      "direction": "operation",
+      "operation": {
+        "method": "GET",
+        "path": "/customers"
+      },
+      "location": {},
+      "reason": "New operation GET /customers.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/customers",
+          "get"
+        ],
+        "before": null,
+        "after": {
+          "responses": {
+            "200": {
+              "description": "The customers"
+            }
+          },
+          "summary": "List customers"
+        }
+      }
+    },
+    {
+      "id": "change-002",
+      "rule": "document.document_metadata_changed",
+      "kind": "document_metadata_changed",
+      "compatibility": "non_contract",
+      "direction": "document",
+      "operation": null,
+      "location": {},
+      "reason": "Document metadata (`info.version`) changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "info",
+          "version"
+        ],
+        "before": "1.0.0",
+        "after": "1.1.0"
+      }
+    }
+  ],
+  "limitations": [],
+  "metadata": {
+    "input_hashes": {
+      "before": "sha256:04adb3ac0f6cad7fbc4836f1540fb61ea10a808f030b828f570eecd12a64d6fc",
+      "after": "sha256:027eabf65fee903fcb7943792f3684212680505677cf1fd30e6cfc6228e4c721"
+    },
+    "changes_omitted": 0
+  }
+}

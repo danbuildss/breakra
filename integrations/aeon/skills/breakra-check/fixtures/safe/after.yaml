@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: "1.1.0"
+paths:
+  /orders:
+    get:
+      summary: List orders
+      responses:
+        "200":
+          description: The orders
+    post:
+      summary: Create an order
+      responses:
+        "201":
+          description: Created
+  /customers:
+    get:
+      summary: List customers
+      responses:
+        "200":
+          description: The customers
