@@ -1369,3 +1369,9 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 5. **x402 env vars are a separate scope** from agent/tool env vars. Use `bankr x402 env set` or the x402 dashboard.
 6. **Platform fee is taken from revenue**: net per call is less than $0.02.
 7. **`api-smart-diff` version**: pin the exact version you tested against.
+
+### 2026-11-20: website v2 part 1 built (awaiting owner screenshot approval)
+- New `site/index.html`: 1Claw-style header (Product / Developers / More menus, Pricing, GitHub, Get started, theme toggle), hero with two copy boxes, "See it work" tabs generated from six curated benchmark cases by `scripts/site-demo.ts`, before/after, use cases, benchmark proof (numbers tested against `benchmark/results.json`), For AI agents, pricing, FAQ, column footer with "Listed on" and "Built by SOMEHOW". New `site/llms.txt`. Light theme optional; dark default.
+- `site/app.js`: menus (outside click / Escape), ARIA tabs, theme toggle (localStorage in try/catch), copy buttons. Still no inline script or style; CSP unchanged.
+- Tests: `tests/site.test.ts` adds demo = engine output, benchmark numbers, llms.txt, roadmap labels. `bun run check` passes (200 tests, smoke, npm smoke).
+- Screenshots (1440 px and 390 px, dark and light) sent to the owner. No PR until approved.
