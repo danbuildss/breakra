@@ -111,3 +111,32 @@ describe("breakra.dev/api/analyze (D-038)", () => {
     expect(wellKnown).toEqual({ version: 1, resources: ["https://breakra.dev/api/analyze"] });
   });
 });
+
+describe("website v2 homepage", () => {
+  it('"See it work" is exactly the engine output for the curated cases (scripts/site-demo.ts)', async () => {
+    const { demoHtml, START, END } = await import("../scripts/site-demo");
+    const block = html.slice(html.indexOf(START) + START.length, html.indexOf(END)).trim();
+    expect(block).toBe((await demoHtml()).trim());
+  });
+
+  it("the benchmark numbers match benchmark/results.json", () => {
+    const bench = JSON.parse(read("benchmark/results.json"));
+    const gh = bench.real.cases.filter((c: { source: string }) => c.source === "github");
+    const n = (v: string) => gh.filter((c: { verdict: string }) => c.verdict === v).length;
+    expect(text).toContain(`${gh.length}GitHub API version pairs compared`);
+    expect(text).toContain(`${n("block")} · ${n("review")} · ${n("safe")}block · review · safe`);
+    expect(text).toContain(`${bench.curated.passed}/${bench.curated.total}curated scenarios as expected`);
+  });
+
+  it("publishes /llms.txt and links it", () => {
+    const llms = read("site/llms.txt");
+    expect(llms).toMatch(/^# Breakra\n/);
+    expect(llms).toContain("https://breakra.dev/skill.md");
+    expect(html).toContain('href="/llms.txt"');
+  });
+
+  it("labels unbuilt products as roadmap or research, never as shipped", () => {
+    expect(html).toMatch(/GitHub Action <span class="tag">roadmap<\/span>/);
+    expect(html).toMatch(/Impact <span class="tag">research<\/span>/);
+  });
+});

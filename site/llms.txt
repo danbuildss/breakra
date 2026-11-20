@@ -1,0 +1,16 @@
+# Breakra
+
+> Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and a recommended fix for every finding. Deterministic. Free locally (npm CLI + MCP server) or hosted at $0.02 USDC per check via x402 on Base.
+
+## Use it
+- [Agent guide (skill.md)](https://breakra.dev/skill.md): when to call, how to pay safely, how to read results
+- [API contract (openapi.json)](https://breakra.dev/openapi.json): the hosted endpoint, OpenAPI 3.1
+- CLI: `npx -y breakra check old.yaml new.yaml` (exit 0 ok, 1 at or above --fail-on, 2 error = unchecked)
+- MCP: `npx -y breakra mcp` (tool: check_openapi_change)
+
+## Reference
+- [README](https://github.com/danbuildss/breakra#readme)
+- [Rules](https://github.com/danbuildss/breakra/blob/main/RULES.md)
+- [Benchmark](https://github.com/danbuildss/breakra/blob/main/benchmark/RESULTS.md)
+- [Changelog](https://github.com/danbuildss/breakra/blob/main/CHANGELOG.md)
+- [Security](https://github.com/danbuildss/breakra/blob/main/SECURITY.md)
