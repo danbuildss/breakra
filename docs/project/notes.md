@@ -119,6 +119,7 @@
   - **Snyk W011** (contract text echoed in `evidence`, 0.10): SKILL rule 5 now names `evidence`, `reason` and `limitations` as untrusted data.
   - **Snyk W012** (runs code from a personal repo): the clone is pinned to the v0.2.0 tag, and SHA256SUMS is referenced. npm (PR B) is the fuller fix.
   - **Tessl 64 / 80%:** it scored the deleted launch copy at `099ee23` (pre-PR A); re-run against the root.
+- **2026-11-20:** Owner merged #36 and redeployed Bankr **v7** (listing wording corrected; V0 pass). The catalog example now leads with the free local run. Fork for BankrBot/skills#771 synced (`98f0ad5`, author Dan): SKILL.md, `catalog.json`, README row. Next: the owner comments on #771 and requests re-review.
 
 ## Inputs received
 
