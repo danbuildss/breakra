@@ -122,6 +122,7 @@
 - **2026-11-20:** Owner merged #36 and redeployed Bankr **v7** (listing wording corrected; V0 pass). The catalog example now leads with the free local run. Fork for BankrBot/skills#771 synced (`98f0ad5`, author Dan): SKILL.md, `catalog.json`, README row. Next: the owner comments on #771 and requests re-review.
 - **2026-11-20:** Owner approved PR B. Built the npm package `breakra` 0.2.1 (**D-041**): Node ≥ 20, one dependency-free file, YAML via `yaml`, the engine unchanged. `npm-smoke` passes on Node 22 (clean install outside the repo: CLI + MCP; Node/Bun parity). Not published: the owner publishes.
 - **2026-11-20:** **`breakra@0.2.1` is live on npm** (owner; needed 2FA with a security key). Claude's clean `npx` test found two MCP bugs (EPIPE crash on client disconnect; `serverInfo` showed the engine version), fixed in **0.2.2**. The same PR adds `server.json` (validated against the official 2025-12-11 schema) and `glama.json`, and switches the docs to `npx -y breakra`. 178 tests pass; npm smoke includes a disconnect test.
+- **2026-11-20:** #38 merged. **npm 0.2.2 live; official MCP Registry `io.github.danbuildss/breakra@0.2.2` published and active** (verified via the registry API). The owner reports **Glama, Tessl and skills.sh approved**. Pending: Circle review and the Bankr PR #771. Distribution Stage 1 (roadmap) is essentially done except tagging v0.2.2.
 
 ## Inputs received
 
