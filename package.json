@@ -55,7 +55,8 @@
     "cli": "bun src/cli.ts",
     "build:npm": "bun scripts/build-npm.ts",
     "prepack": "bun scripts/build-npm.ts",
-    "npm-smoke": "bun scripts/npm-smoke.ts"
+    "npm-smoke": "bun scripts/npm-smoke.ts",
+    "benchmark": "bun scripts/benchmark.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

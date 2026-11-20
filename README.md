@@ -148,6 +148,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 | [breakra.dev](https://breakra.dev) | Website; agents can fetch [`/skill.md`](https://breakra.dev/skill.md) and [`/openapi.json`](https://breakra.dev/openapi.json) there |
 | [`VISION.md`](VISION.md) | Where Breakra is going, and how we'll judge it |
 | [`CHANGELOG.md`](CHANGELOG.md) | What changed in each release |
+| [`benchmark/`](benchmark/) | Benchmark on real API history (GitHub, Stripe) and curated scenarios: how often it blocks, hand-checked findings, known limits |
 | [`SKILL.md`](SKILL.md) | Agent guide: when to call, payment terms, reading results |
 | [`docs/API.md`](docs/API.md) | Request, response and error reference |
 | [`openapi.json`](openapi.json) | Machine-readable contract of the endpoint |

@@ -25,6 +25,11 @@
 | 2026-10-09 | x402scan | Registered `breakra.dev` (1 resource: `POST /api/analyze`, $0.02) | x402scan.com | Non-blocking warning: Bankr 402 lacks top-level `resource` |
 | 2026-10-15 | X | Post 2 (demo) | — | **Not posted yet** (planned Oct 10–12). Reactions to post 1 not recorded |
 | 2026-11-16 | Circle Agent Marketplace | Listing application submitted (owner); agent-readiness 90/100 (A), 95 expected after the OpenAPI 3.1 fix | agents.circle.com/services | Awaiting review |
+| 2026-11-20 | npm | Package `breakra` 0.2.1, then 0.2.2 (free CLI + MCP server) | npmjs.com/package/breakra | Live |
+| 2026-11-20 | Official MCP Registry | `io.github.danbuildss/breakra@0.2.2` | registry.modelcontextprotocol.io | **Active** (verified via API) |
+| 2026-11-20 | Glama | MCP server listing | glama.ai/mcp/servers | **Approved** (owner) |
+| 2026-11-20 | Tessl | Skill listing | tessl.io/registry | **Approved** (owner) |
+| 2026-11-20 | skills.sh | Skill listing (scanner follow-ups in #35/#36) | skills.sh/danbuildss/breakra/breakra | **Approved/listed** (owner) |
 
 ## Feedback
 | Date | Source | What they said | Implication |

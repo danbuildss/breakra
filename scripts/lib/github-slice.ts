@@ -27,8 +27,13 @@ export function loadGithubSpec(version: string): Record<string, any> {
 
 /** Keeps the first `n` paths and only the components they (transitively) reference. */
 export function slice(spec: Record<string, any>, n: number): Record<string, any> {
+  return sliceKeys(spec, Object.keys(spec.paths).sort().slice(0, n));
+}
+
+/** Keeps the given paths (those that exist) and only the components they (transitively) reference. */
+export function sliceKeys(spec: Record<string, any>, keys: string[]): Record<string, any> {
   const paths: Record<string, any> = {};
-  for (const key of Object.keys(spec.paths).sort().slice(0, n)) paths[key] = spec.paths[key];
+  for (const key of keys) if (spec.paths?.[key] !== undefined) paths[key] = spec.paths[key];
   const keep = new Set<string>();
   const queue: any[] = [paths];
   while (queue.length) {

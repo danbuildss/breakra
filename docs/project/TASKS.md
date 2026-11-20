@@ -111,6 +111,11 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [x] **PR B (D-041):** npm package `breakra` 0.2.1. Node-compatible single file, no runtime deps, YAML via bundled `yaml`, `--version`, clean-install smoke test (Node 20/22 in CI), release tag = package version, manual publish workflow.
 - [x] **Owner:** published `breakra@0.2.1` to npm (2026-11-20); verified with `npx`.
 - [x] **v0.2.2 PR:** docs → `npx -y breakra`; MCP disconnect (EPIPE) and `serverInfo.version` fixes; `server.json` (schema-valid) and `glama.json`.
-- [ ] **Owner:** after merging, publish npm 0.2.2, then `mcp-publisher login github` and `mcp-publisher publish` (DEPLOYMENT.md §8), then claim on Glama.
+- [x] **Owner:** npm 0.2.2 published; **MCP Registry `io.github.danbuildss/breakra@0.2.2` active**; Glama, Tessl and skills.sh approved (2026-11-20).
+- [ ] Owner: tag `v0.2.2` (GitHub release with handler, npm tarball, SHA256SUMS).
+- [ ] Waiting: Circle Agent Marketplace review; BankrBot/skills#771 re-review (the owner posts the reply).
 - [ ] Owner: post the reply on BankrBot/skills#771; re-run the skills.sh and Tessl scans.
+- [x] **PR D (benchmark):** `benchmark/` with 11 real pairs (GitHub 7: block 2, review 4, safe 1; Stripe 4: 2 not assessed (over limits), 2 no changes), 15 curated scenarios (15/15), hand checks (3 removals confirmed against full specs; `oneOf` over-reporting noted).
+- [ ] Engine candidates from the benchmark: (1) match `oneOf`/`anyOf` variants by content, not position; (2) higher limits for the local CLI so Stripe-scale specs can be assessed.
+- [ ] Website v2 (WEBSITE-V2-PLAN.md), using the benchmark on the /benchmark page.
 

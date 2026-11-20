@@ -122,6 +122,15 @@
 - **2026-11-20:** Owner merged #36 and redeployed Bankr **v7** (listing wording corrected; V0 pass). The catalog example now leads with the free local run. Fork for BankrBot/skills#771 synced (`98f0ad5`, author Dan): SKILL.md, `catalog.json`, README row. Next: the owner comments on #771 and requests re-review.
 - **2026-11-20:** Owner approved PR B. Built the npm package `breakra` 0.2.1 (**D-041**): Node ≥ 20, one dependency-free file, YAML via `yaml`, the engine unchanged. `npm-smoke` passes on Node 22 (clean install outside the repo: CLI + MCP; Node/Bun parity). Not published: the owner publishes.
 - **2026-11-20:** **`breakra@0.2.1` is live on npm** (owner; needed 2FA with a security key). Claude's clean `npx` test found two MCP bugs (EPIPE crash on client disconnect; `serverInfo` showed the engine version), fixed in **0.2.2**. The same PR adds `server.json` (validated against the official 2025-12-11 schema) and `glama.json`, and switches the docs to `npx -y breakra`. 178 tests pass; npm smoke includes a disconnect test.
+- **2026-11-20:** #38 merged. **npm 0.2.2 live; official MCP Registry `io.github.danbuildss/breakra@0.2.2` published and active** (verified via the registry API). The owner reports **Glama, Tessl and skills.sh approved**. Pending: Circle review and the Bankr PR #771. Distribution Stage 1 (roadmap) is essentially done except tagging v0.2.2.
+- **2026-11-20:** The owner tagged v0.2.2, posted the reply on #771 and contacted the Bankr team; X launch post drafted with 2 images. The owner wants a website upgrade modelled on **1claw.co** (header mega-menus + footer); ratspeak.org and aeon.fun are secondary. Plan saved: `docs/project/WEBSITE-V2-PLAN.md`, including 1Claw-inspired roadmap items (examples/CI recipes, docs site, library export, agent-framework plugins, llms.txt). **Order: PR D (benchmark) first, then website v2.**
+- **2026-11-20, PR D (benchmark) built:**
+  - GitHub 17→24 (7 pairs): block 2, review 4, safe 1.
+  - Stripe (4 pairs): 2 not assessed (every changed path exceeds 75k expanded nodes), 2 no changes.
+  - 382 changes: 1% breaking, 14% potentially breaking, 3% unknown, 61% compatible, 21% docs-only.
+  - Curated: 15/15 as expected.
+  - Hand-checked: all 3 operation removals confirmed absent from the full later specs; `oneOf` property removals in GitHub 18→19 are likely over-reporting (position-based variant comparison).
+  - First selection rule was wrong (it reported Stripe as "safe" with 0 paths compared): fixed before publishing.
 
 ## Inputs received
 

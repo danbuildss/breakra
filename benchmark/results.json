@@ -1,0 +1,520 @@
+{
+  "engine_version": "0.2.0",
+  "rule_set_version": "0.2.0",
+  "rule": "per version pair, an evenly spaced sample of up to 25 changed paths (sorted; a path counts as changed if it or any schema it references changed) that fit the request limits; paths over the limits are counted, not hidden",
+  "real": {
+    "cases": [
+      {
+        "id": "github-17.0.0..18.0.0",
+        "source": "github",
+        "versions": "17.0.0..18.0.0",
+        "changed_paths_total": 666,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 855461,
+        "verdict": "review",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 66,
+          "breaking": 0,
+          "potentially_breaking": 4,
+          "unknown": 0,
+          "compatible": 46,
+          "non_contract": 16
+        },
+        "top_rules": {
+          "response.constraint_widened": 2,
+          "request.constraint_narrowed": 1,
+          "response.enum_value_added": 1
+        },
+        "analysis_id": "sha256:8f1da5798eaa9c71cad2d164e977f4edf527bc03e44e17fc458217094df67cb5",
+        "input_hashes": {
+          "before": "sha256:ee14ca2655260d0b94cd62bc43766015489f743755c0a54a52b482286656455c",
+          "after": "sha256:e3e62b95fb59805609a2d6c53dccc64dde3c377ca3439837365e907a8d088f08"
+        }
+      },
+      {
+        "id": "github-18.0.0..19.0.0",
+        "source": "github",
+        "versions": "18.0.0..19.0.0",
+        "changed_paths_total": 683,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 492784,
+        "verdict": "review",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 111,
+          "breaking": 0,
+          "potentially_breaking": 39,
+          "unknown": 6,
+          "compatible": 32,
+          "non_contract": 34
+        },
+        "top_rules": {
+          "response.property_removed": 16,
+          "response.property_became_optional": 9,
+          "request.property_removed": 8,
+          "document.reference_changed": 4,
+          "request.constraint_narrowed": 4
+        },
+        "analysis_id": "sha256:3ca299a4919f458a45a7aae6ca8c7f9871234762612819d64181dd4f7623ff44",
+        "input_hashes": {
+          "before": "sha256:3b47657d799941a520d9c63c54b8689e1b82b8465b88493abd2cdd80825bcb46",
+          "after": "sha256:1c85b8f24aa711501dcea03cbb4a9dab9b8c194cfee744fc726e120622fcee17"
+        }
+      },
+      {
+        "id": "github-19.0.0..20.0.0",
+        "source": "github",
+        "versions": "19.0.0..20.0.0",
+        "changed_paths_total": 721,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 288286,
+        "verdict": "review",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 35,
+          "breaking": 0,
+          "potentially_breaking": 6,
+          "unknown": 0,
+          "compatible": 15,
+          "non_contract": 14
+        },
+        "top_rules": {
+          "response.enum_value_added": 4,
+          "operation.operation_id_changed": 2
+        },
+        "analysis_id": "sha256:23b687e3cbe3be4dd1e2a95617f01c515ef2736f1af1e85d49f0aa43dd662024",
+        "input_hashes": {
+          "before": "sha256:25ff0332edf6f3e8e130b2e11d8f0e68e5fadd412ff0c2747457be6ac7cfe535",
+          "after": "sha256:ffa7b3ed4dff83685108d9325620329250a9e7fdac00920d794447a729c00b08"
+        }
+      },
+      {
+        "id": "github-20.0.0..21.0.0",
+        "source": "github",
+        "versions": "20.0.0..21.0.0",
+        "changed_paths_total": 745,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 569856,
+        "verdict": "block",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 53,
+          "breaking": 1,
+          "potentially_breaking": 0,
+          "unknown": 0,
+          "compatible": 50,
+          "non_contract": 2
+        },
+        "top_rules": {
+          "operation.operation_removed": 1
+        },
+        "analysis_id": "sha256:1951092d64dd25a0079c4d49a0a649eaa9e4c1c58ee6df9b16c35bec518900a7",
+        "input_hashes": {
+          "before": "sha256:a70281692bcda23f80c565c1461b8298149fcf114126f8d6ca2ecb73144cf1df",
+          "after": "sha256:27ee4d1a28d8d2e50e54dbeea3aa286ffd382390f12d0d5f396db960ee187dc9"
+        }
+      },
+      {
+        "id": "github-21.0.0..22.0.0",
+        "source": "github",
+        "versions": "21.0.0..22.0.0",
+        "changed_paths_total": 753,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 478969,
+        "verdict": "safe",
+        "suggested_version_bump": "minor",
+        "summary": {
+          "total_changes": 2,
+          "breaking": 0,
+          "potentially_breaking": 0,
+          "unknown": 0,
+          "compatible": 1,
+          "non_contract": 1
+        },
+        "top_rules": {},
+        "analysis_id": "sha256:bbe36fea59461a46aafdd8eb8bd8c83f1d9aa2da4b5f1afae0232c47d8513f99",
+        "input_hashes": {
+          "before": "sha256:9d6f68e426e9bee790248f0ea3d9c759bf50ff166423eb0f07a6b1c66e41a9da",
+          "after": "sha256:cf3ef95929111dea357658ee9aab374079b40ec515efd5d95ebf119213d0aa35"
+        }
+      },
+      {
+        "id": "github-22.0.0..23.0.0",
+        "source": "github",
+        "versions": "22.0.0..23.0.0",
+        "changed_paths_total": 832,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 375149,
+        "verdict": "block",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 101,
+          "breaking": 2,
+          "potentially_breaking": 4,
+          "unknown": 0,
+          "compatible": 82,
+          "non_contract": 13
+        },
+        "top_rules": {
+          "response.constraint_widened": 4,
+          "operation.operation_removed": 2
+        },
+        "analysis_id": "sha256:a7e43b6d12e8b0a62feea200846b4d2e51ada345e3f6fa4d7aee880327fccb58",
+        "input_hashes": {
+          "before": "sha256:24b53d96e5b2122c5682a108ed0b32a7fc543b3cc3183e17a71f151901d38a11",
+          "after": "sha256:3738a52c1c828c4a6400ed10cd7bbed16247dac736c9efb6b0537fc3e6b2ae55"
+        }
+      },
+      {
+        "id": "github-23.0.0..24.0.0",
+        "source": "github",
+        "versions": "23.0.0..24.0.0",
+        "changed_paths_total": 828,
+        "paths_compared": 25,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 577104,
+        "verdict": "review",
+        "suggested_version_bump": "major",
+        "summary": {
+          "total_changes": 14,
+          "breaking": 0,
+          "potentially_breaking": 0,
+          "unknown": 4,
+          "compatible": 8,
+          "non_contract": 2
+        },
+        "top_rules": {
+          "document.reference_changed": 4
+        },
+        "analysis_id": "sha256:639d111e3a6294507ed181a4f2f2226bb973402a487baa75d7f09decb2bd9676",
+        "input_hashes": {
+          "before": "sha256:5c2cf0d271d5dc352a7e4b961d90391db5183119d543d360dce443959491c5db",
+          "after": "sha256:1e9b76cbc16ce6f5d84b4198bc3e7e70d38a39a72cbb3a640e3442d084972ddb"
+        }
+      },
+      {
+        "id": "stripe-v2400..v2450",
+        "source": "stripe",
+        "versions": "v2400..v2450",
+        "changed_paths_total": 419,
+        "paths_compared": 0,
+        "paths_skipped_over_limits": 419,
+        "request_bytes": 792,
+        "verdict": "not_assessed"
+      },
+      {
+        "id": "stripe-v2450..v2500",
+        "source": "stripe",
+        "versions": "v2450..v2500",
+        "changed_paths_total": 0,
+        "paths_compared": 0,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 792,
+        "verdict": "no_changes"
+      },
+      {
+        "id": "stripe-v2500..v2550",
+        "source": "stripe",
+        "versions": "v2500..v2550",
+        "changed_paths_total": 431,
+        "paths_compared": 0,
+        "paths_skipped_over_limits": 431,
+        "request_bytes": 792,
+        "verdict": "not_assessed"
+      },
+      {
+        "id": "stripe-v2550..v2602",
+        "source": "stripe",
+        "versions": "v2550..v2602",
+        "changed_paths_total": 0,
+        "paths_compared": 0,
+        "paths_skipped_over_limits": 0,
+        "request_bytes": 792,
+        "verdict": "no_changes"
+      }
+    ],
+    "verdicts": {
+      "block": 2,
+      "review": 4,
+      "safe": 1,
+      "error": 0,
+      "not_assessed": 2,
+      "no_changes": 2
+    },
+    "totals": {
+      "total_changes": 382,
+      "breaking": 3,
+      "potentially_breaking": 53,
+      "unknown": 10,
+      "compatible": 234,
+      "non_contract": 82
+    }
+  },
+  "curated": {
+    "cases": [
+      {
+        "id": "auth-added",
+        "description": "API-key authentication becomes required for every operation.",
+        "why": "Unauthenticated callers will be rejected (Breakra is stricter than oasdiff here, by design).",
+        "expected": {
+          "verdict": "review"
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "security.security_requirement_added",
+            "security.security_scheme_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "docs-only",
+        "description": "Only a description changes.",
+        "why": "Documentation doesn't change the contract.",
+        "expected": {
+          "verdict": "safe"
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "endpoint-added",
+        "description": "A new operation GET /customers.",
+        "why": "Additive.",
+        "expected": {
+          "verdict": "safe",
+          "rules": [
+            "operation.operation_added"
+          ]
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [
+            "operation.operation_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "endpoint-removed",
+        "description": "An operation (POST /orders) is removed.",
+        "why": "Callers of a removed operation fail: the only certain break.",
+        "expected": {
+          "verdict": "block",
+          "rules": [
+            "operation.operation_removed"
+          ]
+        },
+        "got": {
+          "verdict": "block",
+          "rules": [
+            "operation.operation_removed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "external-ref-not-fetched",
+        "description": "The response schema becomes an external $ref.",
+        "why": "External refs are never fetched; the change can't be cleared as safe.",
+        "expected": {
+          "verdict": "review",
+          "limitation": true
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "response.constraint_narrowed",
+            "response.constraint_widened",
+            "response.property_became_optional",
+            "response.type_changed"
+          ],
+          "limitation": true
+        },
+        "pass": true
+      },
+      {
+        "id": "field-type-changed-same-name",
+        "description": "`total` keeps its name but changes from number to string.",
+        "why": "A same-name field with a new type breaks typed clients (raised on X by @sreecharantwts).",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "response.type_changed"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "response.type_changed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "malformed-contract",
+        "description": "The new contract is not a valid OpenAPI document (paths is a list).",
+        "why": "Must fail closed: an error, never a verdict (raised on X by @Steven7FGC).",
+        "expected": {
+          "error": "INVALID_SPECIFICATION"
+        },
+        "got": {
+          "error": "INVALID_SPECIFICATION"
+        },
+        "pass": true
+      },
+      {
+        "id": "oas31-exclusive-minimum-request",
+        "description": "OpenAPI 3.1: request `qty` gains exclusiveMinimum: 5 (minimum 1 removed).",
+        "why": "A tightened bound: the case rule set 0.1.0 missed (fixed in 0.2.0).",
+        "expected": {
+          "verdict": "review"
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "request.constraint_narrowed",
+            "request.constraint_widened"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "oas31-response-may-be-null",
+        "description": "OpenAPI 3.1: response `email` may now be null.",
+        "why": "Clients that assume a string may crash on null.",
+        "expected": {
+          "verdict": "review"
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "response.type_changed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "optional-request-field-added",
+        "description": "An optional request field `note` is added.",
+        "why": "Additive and optional: existing callers are unaffected.",
+        "expected": {
+          "verdict": "safe"
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [
+            "request.property_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "request-constraint-tightened",
+        "description": "Request `qty` gains maximum: 10.",
+        "why": "Callers sending larger values may now be rejected.",
+        "expected": {
+          "verdict": "review"
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "request.constraint_narrowed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "required-param-added",
+        "description": "A new required query parameter on GET /orders/{id}.",
+        "why": "Existing calls don't send it and may be rejected.",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "request.required_parameter_added"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "request.required_parameter_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "response-enum-value-added",
+        "description": "Response enum `status` gains `cancelled`.",
+        "why": "Exhaustive switch statements may not handle the new value.",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "response.enum_value_added"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "response.enum_value_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "response-field-removed",
+        "description": "Response field `email` removed.",
+        "why": "Consumers that read it may break.",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "response.property_removed"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "response.property_removed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "swagger-2-unsupported",
+        "description": "The new contract is Swagger 2.0.",
+        "why": "Unsupported input is an error, never 'safe'.",
+        "expected": {
+          "error": "UNSUPPORTED_OPENAPI_VERSION"
+        },
+        "got": {
+          "error": "UNSUPPORTED_OPENAPI_VERSION"
+        },
+        "pass": true
+      }
+    ],
+    "passed": 15,
+    "total": 15
+  }
+}
