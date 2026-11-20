@@ -203,3 +203,17 @@ describe("website v2 inner pages", async () => {
     expect(t).toContain(`${LIMITS.maxExpandedNodes.toLocaleString("en-US")} nodes after expanding`);
   });
 });
+
+describe("logo (brand kit)", () => {
+  const pathOf = (svg: string) => svg.match(/ d="([^"]+)"/)?.[1];
+  it("the header and footer logo is the published logo, and the favicon is the published mark", () => {
+    const logo = pathOf(read("site/logo/breakra-logo-black.svg"));
+    const mark = pathOf(read("site/logo/breakra-mark-black.svg"));
+    expect(logo).toBeTruthy();
+    expect(pathOf(read("site/logo/breakra-logo-offwhite.svg"))).toBe(logo);
+    expect(pathOf(read("site/logo/breakra-mark-offwhite.svg"))).toBe(mark);
+    const inline = [...html.matchAll(/<svg class="logo"[^>]*><path[^>]* d="([^"]+)"/g)].map((m) => m[1]);
+    expect(inline).toEqual([logo, logo]); // header + footer
+    expect(pathOf(read("site/favicon.svg"))).toBe(mark);
+  });
+});

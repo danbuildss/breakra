@@ -13,7 +13,17 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 
-export const PAGES = ["integrations", "benchmark", "security", "compare"] as const;
+export const PAGES = [
+  "integrations",
+  "benchmark",
+  "security",
+  "compare",
+  "pricing",
+  "about",
+  "contact",
+  "brand",
+  "blog",
+] as const;
 
 /** The text between <!-- name:start --> and <!-- name:end --> (exclusive), or null when the markers are missing. */
 export function block(html: string, name: string): string | null {

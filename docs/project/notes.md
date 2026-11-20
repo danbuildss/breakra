@@ -1381,3 +1381,10 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - New pages: `/integrations` (Claude Code, MCP clients, skill, a GitHub Actions workflow dry-run locally, scripts, x402, stable contract), `/benchmark` (tables generated from `benchmark/results.json`), `/security` (data flow, input limits tested against `LIMITS`, payments, supply chain, scanner fixes, reporting), `/compare` (Breakra vs oasdiff, incl. where oasdiff is stronger and the documented disagreements).
 - `scripts/site-pages.ts` copies the homepage header and footer (marker blocks) into every page; tests fail if any page drifts, if an internal link points to a missing file, or if the sitemap misses a page. Header/footer links now point to the new pages.
 - `bun run check` passes (205 tests, smoke, npm smoke). No PR until the owner approves the screenshots.
+
+### 2026-11-20: website v2 part 2b built, with the official logo (awaiting owner screenshot approval)
+- Owner merged PR #41 (CodeQL fixed by replacing a regex tag-strip in a test) and supplied the official logo (two raster images) with "start part 2b".
+- Logo: traced to vector with potrace (pure-Python port, scratch virtualenv, not a repo dependency); compared side by side with the originals. `site/logo/`: logo and mark, SVG + transparent PNG, black and off-white. Inline in the header and footer (follows the theme); new favicon from the mark. Tests tie the inline logo and favicon to the published files.
+- New pages: `/pricing`, `/about`, `/contact` (email + GitHub, no forms), `/brand` (logo, downloads, colours, type, descriptions), `/blog` (releases and updates from tags and CHANGELOG). Header/footer links point to them; sitemap lists all 10 URLs.
+- Not changed: README graphics, `og.png` and docs/assets still use the old text wordmark (follow-up).
+- `bun run check` passes (206 tests, smoke, npm smoke).
