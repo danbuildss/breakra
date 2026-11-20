@@ -7,7 +7,7 @@
    - **What counts as changed:** a path counts as changed if it, or any schema it references, changed.
    - **Sampling:** for each pair, an **evenly spaced sample of up to 25 changed paths** is compared. The rule is deterministic, so no alphabetical slice dominates.
    - **Limits:** paths that exceed Breakra's request limits (1 MB, 75,000 expanded nodes) are **counted as skipped, never reported as safe**.
-   - **Reproducing:** the specs aren't committed because of their size. `results.json` records each input's SHA-256, so anyone can reproduce the results from the same sources.
+   - **Reproducing:** the specs aren't committed because of their size (GitHub tarballs are cached in `.bench/`; Stripe specs are kept in memory only, never written to disk). `results.json` records each input's SHA-256, so anyone can reproduce the results from the same sources.
 2. **Curated scenarios** (`curated/*.json`). One small contract pair per scenario, each with the **expected** outcome:
    - a removed endpoint;
    - a new required parameter;

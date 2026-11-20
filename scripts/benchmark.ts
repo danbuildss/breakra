@@ -5,12 +5,12 @@
  *     a deterministic rule) are sliced from both versions, kept under the 1 MB request limit, and analysed.
  *  2. Curated cases (benchmark/curated/*.json): one scenario each, with the EXPECTED verdict or error.
  *
- *   bun run benchmark            # downloads sources into .bench/ (cached), writes benchmark/results.json + RESULTS.md
+ *   bun run benchmark            # GitHub specs cached in .bench/ (npm tarballs), Stripe kept in memory; writes benchmark/results.json + RESULTS.md
  *
  * Results are deterministic (no timings in the output). Real-world specs aren't committed (size); results.json
  * records the input hashes, so anyone can reproduce them from the same sources.
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { analyze } from "../src/analyze";
 import { BreakraError } from "../src/core/errors";
@@ -20,7 +20,6 @@ import { ENGINE_VERSION, RULE_SET_VERSION } from "../src/version";
 import { loadGithubSpec, sliceKeys } from "./lib/github-slice";
 
 const root = join(import.meta.dir, "..");
-const bench = join(root, ".bench");
 const out = join(root, "benchmark");
 
 const GITHUB_PAIRS: Array<[string, string]> = [
@@ -40,16 +39,17 @@ const STRIPE_PAIRS: Array<[string, string]> = [
 ];
 const MAX_PATHS = 25;
 
+/** Stripe's spec at a release tag, kept in memory only (downloaded content is never written to disk). */
+const stripeCache = new Map<string, Record<string, any>>();
 async function loadStripe(tag: string): Promise<Record<string, any>> {
   if (!/^v\d{1,5}$/.test(tag)) throw new Error("bad stripe tag");
-  mkdirSync(bench, { recursive: true });
-  const file = join(bench, `stripe-${tag}.json`);
-  if (!existsSync(file)) {
-    const res = await fetch(`https://raw.githubusercontent.com/stripe/openapi/${tag}/openapi/spec3.json`);
-    if (!res.ok) throw new Error(`stripe ${tag}: HTTP ${res.status}`);
-    writeFileSync(file, await res.text());
-  }
-  return JSON.parse(readFileSync(file, "utf8"));
+  const cached = stripeCache.get(tag);
+  if (cached) return cached;
+  const res = await fetch(`https://raw.githubusercontent.com/stripe/openapi/${tag}/openapi/spec3.json`);
+  if (!res.ok) throw new Error(`stripe ${tag}: HTTP ${res.status}`);
+  const spec = (await res.json()) as Record<string, any>;
+  stripeCache.set(tag, spec);
+  return spec;
 }
 
 /**
