@@ -195,7 +195,7 @@ describe("website v2 inner pages", async () => {
   });
 
   it("the security page states the real limits", () => {
-    const t = pages.security.replace(/<[^>]*>/g, "");
+    const t = pages.security.split(/<[^>]*>/).join(""); // visible text, for assertions only
     expect(t).toContain("≤ 1 MB");
     expect(t).toContain(`nesting depth ${LIMITS.maxDepth}`);
     expect(t).toContain(`${LIMITS.maxNodes.toLocaleString("en-US")} nodes`);
