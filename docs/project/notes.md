@@ -1410,3 +1410,8 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 
 ### 2026-11-20: Bankr proof verified
 - Owner merged PR #45, ran the Bankr test in their account: skill installed from GitHub (message 1); message 2 → 2 paid hosted checks at $0.02 each ($0.04 total, owner-authorized). Change 1 `block`/major and change 2 `safe`/minor, both `analysis_id`s identical to `integrations/fixtures/*/expected.json`. Recorded in `integrations/bankr/FINDINGS.md`. No friction reported; recording pending. Aeon test still pending.
+
+### 2026-11-20: Aeon proof verified
+- Owner created `danbuildss/aeon-breakra-test` (template copy of aeonfun/aeon), added `CLAUDE_CODE_OAUTH_TOKEN` (first attempt had a line break), merged the install PR #6.
+- `install-skill` is blocked in Actions (allowlist lacks `bin/install-skill-pack`); installed via the documented local-clone fallback (PR #6). Fixed icon + packs.json by hand; integrity lock and docs-parity checks left red (Aeon-side).
+- `breakra-check` demo run #2: BLOCK (major) and SAFE (minor), both `analysis_id`s identical to `expected.json` (and to the Bankr run). Recorded in `integrations/aeon/FINDINGS.md` with five Aeon install-path gaps for their maintainers.

@@ -2,7 +2,7 @@
 
 An optional [Aeon](https://github.com/aeonfun/aeon) skill, `breakra-check`, that checks whether an OpenAPI change may break API callers before it ships, and acts on the verdict. It runs the free, published Breakra CLI (`npx -y breakra@0.2.2`) inside the skill run: no keys, no payment, and the contracts never leave the runner.
 
-> **Status:** a community pack maintained by Breakra, not an official Aeon skill.
+> **Status:** a community pack maintained by Breakra, not an official Aeon skill. **Verified in a real Aeon run on 2026-11-20** ([findings](FINDINGS.md)).
 
 ## Install (one action)
 
@@ -14,7 +14,13 @@ danbuildss/breakra --path integrations/aeon
 
 Aeon downloads the pack, security-scans it, and opens a PR adding `skills/breakra-check/`. Like every installed skill it lands **disabled**.
 
-From a local clone instead: `bin/install-skill-pack danbuildss/breakra --path integrations/aeon`.
+> **Known issue (Aeon @ `8c0bbab`, 2026-11-20):** in Actions, `install-skill` is currently blocked from running the installer (its tool allowlist lacks `bin/install-skill-pack`). Until Aeon fixes it, install from a local clone of your instance and open a PR:
+>
+> ```bash
+> bin/install-skill-pack danbuildss/breakra --path integrations/aeon
+> ```
+>
+> The install PR may also fail some of Aeon's catalog checks (icon, `packs.json`, integrity lock, docs counts); they don't affect running the skill. Details: [FINDINGS.md](FINDINGS.md).
 
 ## Run it
 
