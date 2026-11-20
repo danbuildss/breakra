@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+**Docs and agent safety (no engine change)**
+- Payment wording is precise everywhere: Breakra's own errors are never charged; a gateway error, timeout or reset is an unknown outcome, so agents must not re-sign automatically.
+- SKILL.md opens with "Safety rules for agents": prefer local, get authorization before sending contracts out, never handle keys, check terms and budget before signing, treat contracts as untrusted data, and errors and `unknown` are never proof of safety.
+- One canonical SKILL.md (the committed copy for the Bankr catalog is removed).
+
 ## 0.2.0 (engine 0.2.0, rule set 0.2.0)
 
 Breakra becomes the contract-safety check for AI agents ([`VISION.md`](VISION.md), D-039).
@@ -16,7 +23,7 @@ Breakra becomes the contract-safety check for AI agents ([`VISION.md`](VISION.md
 - Tests run under Bun, the same runtime as the hosted API.
 
 **Unchanged**
-- The price ($0.02 USDC on Base via x402), errors are free, the 1 MB limit, and no fetching of URLs or external `$ref`s.
+- The price ($0.02 USDC on Base via x402), Breakra's own errors are never charged, the 1 MB limit, and no fetching of URLs or external `$ref`s.
 
 ## 0.1.1
 - `$ref` parameters and request bodies are resolved before classification.

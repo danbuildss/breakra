@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="470" viewBox="0 0 1280 470" role="img" aria-label="x402 payment flow: the first request returns 402 with the terms; the agent checks them and signs once; the paid request returns 200 and is charged $0.02; any error is never charged.">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="470" viewBox="0 0 1280 470" role="img" aria-label="x402 payment flow: the first request returns 402 with the terms; the agent checks them and signs once; the paid request returns 200 and is charged $0.02; a Breakra error is never charged; a gateway failure is an unknown outcome.">
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#F4EFE1"/></marker>
     <marker id="d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#F4EFE1" fill-opacity="0.45"/></marker>
@@ -30,6 +30,6 @@
     <text x="640" y="350" text-anchor="middle" font-weight="700">200 · findings · charged $0.02</text>
 
     <line x1="998" y1="418" x2="284" y2="418" stroke="#F4EFE1" stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="6 6" marker-end="url(#d)"/>
-    <text x="640" y="408" text-anchor="middle" fill-opacity="0.55">4xx / 5xx · error code · never charged</text>
+    <text x="640" y="408" text-anchor="middle" fill-opacity="0.55">Breakra error · JSON error.code · never charged</text>
   </g>
 </svg>

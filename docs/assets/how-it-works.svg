@@ -50,7 +50,7 @@
   <!-- captions -->
   <g font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="17" fill="#F4EFE1">
     <text x="70" y="318"><tspan font-weight="700">1</tspan><tspan dx="10" fill-opacity="0.8">Send the old + new contract</tspan></text>
-    <text x="490" y="318"><tspan font-weight="700">2</tspan><tspan dx="10" fill-opacity="0.8">Pay $0.02 once, errors are free</tspan></text>
+    <text x="490" y="318"><tspan font-weight="700">2</tspan><tspan dx="10" fill-opacity="0.8">Pay $0.02 once; Breakra errors free</tspan></text>
     <text x="920" y="318"><tspan font-weight="700">3</tspan><tspan dx="10" fill-opacity="0.8">Fix what may break</tspan></text>
   </g>
 </svg>

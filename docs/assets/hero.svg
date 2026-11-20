@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="Breakra: know what changed before your integration breaks. OpenAPI 3.0 compatibility checks for coding agents, $0.02 USDC on Base via x402.">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-label="Breakra: know what changed before your integration breaks. OpenAPI 3.0/3.1 compatibility checks for coding agents: free locally, or $0.02 USDC on Base via x402.">
   <defs>
     <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0H0V40" fill="none" stroke="#F4EFE1" stroke-opacity="0.045" stroke-width="1"/>
@@ -16,7 +16,7 @@
     <rect x="84" y="222" width="56" height="4" fill="#F4EFE1"/>
     <text x="80" y="276" font-size="27" font-weight="400" fill-opacity="0.82">Know what changed before your integration breaks.</text>
   </g>
-  <text x="80" y="330" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="17" fill="#F4EFE1" fill-opacity="0.5" letter-spacing="0.5">OpenAPI 3.0 · x402 · $0.02 USDC on Base · MIT</text>
+  <text x="80" y="330" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace" font-size="17" fill="#F4EFE1" fill-opacity="0.5" letter-spacing="0.5">OpenAPI 3.0/3.1 · free locally · x402 $0.02 · MIT</text>
 
   <!-- Diff card -->
   <g transform="translate(780 70)" font-family="ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace">

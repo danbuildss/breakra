@@ -121,7 +121,7 @@ claude mcp add breakra -- bun "$PWD/src/cli.ts" mcp</code></pre>
         </figure>
         <figure class="panel">
           <figcaption><span>hosted · pay per call</span><span class="muted">nothing to install, no account</span></figcaption>
-<pre><code><span class="c"># $0.02 USDC on Base via x402; errors are free</span>
+<pre><code><span class="c"># $0.02 USDC on Base via x402; Breakra's own errors are free</span>
 POST https://breakra.dev/api/analyze
 
 {
@@ -138,7 +138,7 @@ POST https://breakra.dev/api/analyze
       <h2 id="how" class="label">How it works</h2>
       <ol class="steps">
         <li><span class="num">01</span><h3>Send two contracts</h3><p>The old and new OpenAPI 3.0/3.1 contract, JSON or YAML, inline, in one <code>POST</code>.</p></li>
-        <li><span class="num">02</span><h3>Pay $0.02 via x402</h3><p>Check the terms, sign once. Errors are never charged.</p></li>
+        <li><span class="num">02</span><h3>Pay $0.02 via x402</h3><p>Check the terms, sign once. Breakra's own errors are never charged; a gateway failure is an unknown outcome, so never re-sign blindly.</p></li>
         <li><span class="num">03</span><h3>Act on the verdict</h3><p><code>safe</code>, <code>review</code> or <code>block</code>, a semver bump, and every change with its rule, location, evidence and a recommended fix.</p></li>
       </ol>
     </section>

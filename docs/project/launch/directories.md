@@ -43,7 +43,7 @@ Browser-only steps (GitHub forks automatically):
 3. Put the cursor at the end of that BountyVerdict line, press Enter, paste:
 
 ```
-- [Breakra](https://breakra.dev) - OpenAPI 3.0 breaking-change checks for coding agents: send the old and new contract, get every change classified with evidence and a recommended fix. Single x402 endpoint, $0.02 USDC per call on Base; errors are free. ([OpenAPI](https://breakra.dev/openapi.json)) ([GitHub](https://github.com/danbuildss/breakra))
+- [Breakra](https://breakra.dev) - OpenAPI 3.0/3.1 breaking-change checks for coding agents: send the old and new contract (JSON or YAML), get a safe/review/block verdict and every change classified with evidence and a recommended fix. Free locally; hosted x402 endpoint at $0.02 USDC per call on Base. ([OpenAPI](https://breakra.dev/openapi.json)) ([GitHub](https://github.com/danbuildss/breakra))
 ```
 
 4. **Commit changes…** → message `Add Breakra to Developer Tools` → **Propose changes** → **Create pull request**. PR body: `Adds Breakra (OpenAPI breaking-change checks, x402 on Base) to Developer Tools. Live, MIT-licensed, listed on x402scan.`

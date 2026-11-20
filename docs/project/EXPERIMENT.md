@@ -24,6 +24,7 @@
 | 2026-10-09 | awesome-x402 | PR adding Breakra to Developer Tools | https://github.com/xpaysh/awesome-x402/pull/1766 | **Still open, no reviews** (checked by owner 2026-10-15) |
 | 2026-10-09 | x402scan | Registered `breakra.dev` (1 resource: `POST /api/analyze`, $0.02) | x402scan.com | Non-blocking warning: Bankr 402 lacks top-level `resource` |
 | 2026-10-15 | X | Post 2 (demo) | — | **Not posted yet** (planned Oct 10–12). Reactions to post 1 not recorded |
+| 2026-11-16 | Circle Agent Marketplace | Listing application submitted (owner); agent-readiness 90/100 (A), 95 expected after the OpenAPI 3.1 fix | agents.circle.com/services | Awaiting review |
 
 ## Feedback
 | Date | Source | What they said | Implication |

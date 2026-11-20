@@ -46,3 +46,5 @@ Reply under it:
 - *"Why pay, oasdiff is free?"* → "oasdiff is great if you can run a Go binary. Breakra is one HTTP call an agent can make from anywhere, with a recommended action per finding and the same rules every time. $0.02, and nothing to install."
 - *"Do you store my spec?"* → "No. Breakra doesn't store or log submitted contracts; logs hold only outcome, size, change count, duration and the paying wallet. Requests do pass through Bankr's x402 hosting."
 - *"OpenAPI 3.1 / YAML?"* → "Not yet. That's exactly the kind of feedback I'm collecting this month."
+
+> **Note (2026-11-20, PR A):** post 1 as published said "Errors are free". Future posts use the precise wording: "Breakra's own errors are never charged." (A gateway failure after payment is an unknown outcome.)

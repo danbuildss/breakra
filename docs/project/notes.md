@@ -103,6 +103,16 @@
   - **Valid OpenAPI 3.1: 0/5.** Our `openapi.json` declared 3.0.3; it's now converted to 3.1.0 (`nullable` → type lists, `example` → `examples`), expected +5.
   - **Multi-chain payment: 0/5.** Bankr offers Base only; fixing it needs self-hosted x402 (VISION "After that").
   - Capabilities "Schema in 402", nanopayments, wallet auth: not detected (Bankr's 402 has no Bazaar extension).
+- **2026-11-20:** The owner sent a master handoff (strategy, distribution, roadmap), a self-maintaining-APIs memo, a BlockRun note and an MCP/x402 security addendum. Claude audited them against the repo: `docs/project/ROADMAP-2026-11-20.md`.
+  - **Confirmed:** blanket "errors are free" claims in 15+ public files (a double-charge risk for agents); version and 3.0 drift; a duplicate SKILL.md; the npm name `breakra` is free; `package.json` isn't publishable (private, TS bin, `Bun.YAML`).
+  - **New:** MendAPI (npm v0.5.0) already ships code-impact scanning + an MCP server + migration diffs, so Breakra Impact needs a teardown before any build.
+  - **Not confirmed by search:** Impact Gate, cisco mcptoolkit-contract, Settlens, x402Shield.
+  - **Owner-reported:** Circle application submitted 11-16; skills.sh listing; scanner verdicts FAIL/WARN/WARN (details pending).
+  - **Proposed first task:** PR A (docs and agent safety). Awaiting approval.
+- **2026-11-20:** Owner approved PR A and confirmed **the Circle Agent Marketplace listing is submitted**; awaiting Circle's review.
+  - **PR A done:** precise payment wording in every public file (Breakra's own errors are never charged; a gateway failure is an unknown outcome); "Safety rules for agents" block at the top of SKILL.md; one canonical SKILL.md (launch copy removed); version drift fixed (README, API.md, `openapi.json`, hero image).
+  - New tests guard all of this; 163 tests pass.
+  - **After merge:** sync the fork for #771; Bankr redeploy for the listing text (free V0 only).
 
 ## Inputs received
 

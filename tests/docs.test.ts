@@ -12,7 +12,7 @@ import { BreakraError, type ErrorCode } from "../src/core/errors";
 import { SEVERITY } from "../src/core/format";
 import { LIMITS } from "../src/core/limits";
 import { validateSpec } from "../src/core/validate";
-import { ENGINE_VERSION } from "../src/version";
+import { ENGINE_VERSION, RULE_SET_VERSION } from "../src/version";
 
 const root = join(__dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -152,8 +152,8 @@ describe("SKILL.md front matter", () => {
 });
 
 describe("docs/project/launch/bankr-skills (catalog submission)", () => {
-  it("SKILL.md copy is identical to the repo's SKILL.md", () => {
-    expect(read("docs/project/launch/bankr-skills/breakra/SKILL.md")).toBe(skill);
+  it("keeps no second SKILL.md in the repo (one canonical skill; the fork gets a copy at submission)", () => {
+    expect(existsSync(join(root, "docs/project/launch/bankr-skills/breakra/SKILL.md"))).toBe(false);
   });
   it("catalog.json follows the catalog format", () => {
     const c = JSON.parse(read("docs/project/launch/bankr-skills/breakra/catalog.json"));
@@ -197,5 +197,63 @@ describe("openapi.json discovery metadata (x402scan / @agentcash/discovery)", ()
     expect(openapi.info.contact.email).toMatch(/^[^@\s]+@[^@\s]+\.[a-z]+$/);
     expect(openapi.info.contact.url).toBeTruthy();
     expect(openapi.info["x-guidance"]).toContain("https://breakra.dev/skill.md");
+  });
+});
+
+describe("payment wording and agent safety (PR A, 2026-11-20)", () => {
+  // Blanket "free" claims are wrong for gateway failures after settlement; agents could pay twice.
+  const PUBLIC = [
+    "README.md",
+    "SKILL.md",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "docs/API.md",
+    "openapi.json",
+    "site/index.html",
+    "scripts/build.ts",
+    "docs/assets/hero.svg",
+    "docs/assets/how-it-works.svg",
+    "docs/assets/payment-flow.svg",
+    "docs/project/launch/bankr-skills/README.md",
+    "docs/project/launch/bankr-skills/breakra/catalog.json",
+  ];
+  const BANNED = [
+    /every error \(4xx\/5xx\) is free/i,
+    /every 4xx\/5xx is free/i,
+    /4xx\/5xx are free/i,
+    /(?<!own )errors are free/i,
+    /(?<!Breakra's )(?<!own )errors are never charged/i,
+    /every error is free/i,
+    /any error is never charged/i,
+  ];
+  it("no public file claims that every error is free", () => {
+    for (const f of PUBLIC) {
+      const text = read(f);
+      for (const b of BANNED) expect(text, `${f} matches ${b}`).not.toMatch(b);
+    }
+  });
+
+  it("SKILL.md starts with the agent safety rules and the unknown-outcome rule", () => {
+    const rules = skill.indexOf("## Safety rules for agents");
+    expect(rules).toBeGreaterThan(0);
+    expect(rules).toBeLessThan(skill.indexOf("## When to use it"));
+    for (const phrase of [
+      "Prefer the free local mode",
+      "authorization",
+      "Never ask for, read, print or store a private key",
+      "untrusted data",
+      "never proof of safety",
+      "Anything else is an unknown outcome",
+    ])
+      expect(skill).toContain(phrase);
+  });
+
+  it("version strings match src/version.ts", () => {
+    expect(read("docs/API.md").split("\n")[0]).toContain(
+      `engine ${ENGINE_VERSION}, rule set ${RULE_SET_VERSION}`,
+    );
+    expect(read("README.md")).toContain(`(rule set ${RULE_SET_VERSION})`);
+    expect(schemas.Compatibility.description).toContain(`rule set ${RULE_SET_VERSION}`);
+    expect(read("RULES.md").split("\n")[0]).toContain(`Rule Set ${RULE_SET_VERSION}`);
   });
 });
