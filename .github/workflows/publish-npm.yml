@@ -1,0 +1,45 @@
+name: Publish to npm
+
+# D-041. MANUAL ONLY: run it from the Actions tab after the owner approves a release. It never runs on push.
+# Requires npm "trusted publishing" to be configured for the `breakra` package (npmjs.com → package → Settings →
+# Trusted publishing → GitHub Actions: repo danbuildss/breakra, workflow publish-npm.yml). No npm token is stored.
+# The first version (0.2.1) is published by the owner from their machine; this workflow is for later releases.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type the exact package version to publish (must equal package.json "version")'
+        required: true
+
+permissions:
+  contents: read
+  id-token: write # npm provenance + trusted publishing (OIDC)
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Confirm version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$version" != "${{ inputs.confirm }}" ]; then
+            echo "::error::Typed version ${{ inputs.confirm }} does not match package.json $version"; exit 1
+          fi
+
+      - name: Install and run the full check (includes the npm clean-install smoke test)
+        run: bun install --frozen-lockfile && bun run check
+
+      - name: Publish with provenance
+        run: npx -y npm@11.6.0 publish --provenance --access public

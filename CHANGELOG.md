@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.2.1 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
+
+**npm package** (`npx breakra`, once published)
+- One self-contained file for Node ≥ 20 with no runtime dependencies: `breakra check`, `breakra mcp`, `breakra --version`.
+- YAML on Node via the bundled `yaml` parser (alias, duplicate-key and tag limits); results are identical to the hosted API.
+- Tested by installing the packed tarball outside the repo on Node 20 and 22 (CLI exit codes, YAML, MCP stdio).
+- Scanner follow-ups: benchmark tooling no longer passes versions through a shell; the local install is pinned to a release.
+
 
 **Docs and agent safety (no engine change)**
 - Payment wording is precise everywhere: Breakra's own errors are never charged; a gateway error, timeout or reset is an unknown outcome, so agents must not re-sign automatically.

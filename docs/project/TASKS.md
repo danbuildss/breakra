@@ -106,3 +106,11 @@ Implementation merged (if applicable), tests reported honestly, edge cases docum
 - [ ] **Owner:** recruit 5 developers with real API integrations (TS/JS preferred); collect one real breakage each.
 - [ ] v0.3 Breakra Impact spike: starts once 2–3 real cases exist.
 
+## Roadmap 2026-11-20 (ROADMAP-2026-11-20.md)
+- [x] PR A: payment wording, agent safety rules, one skill, drift (#35); scanner follow-ups (#36); Bankr v7 redeploy; fork synced for #771.
+- [x] **PR B (D-041):** npm package `breakra` 0.2.1. Node-compatible single file, no runtime deps, YAML via bundled `yaml`, `--version`, clean-install smoke test (Node 20/22 in CI), release tag = package version, manual publish workflow.
+- [ ] **Owner:** `npm publish --access public` (docs/DEPLOYMENT.md §7), then `npx -y breakra@0.2.1 --version`.
+- [ ] Follow-up docs PR: README, SKILL.md, site → `npx -y breakra …`, once published.
+- [ ] PR C: MCP Registry (`server.json`), Glama.
+- [ ] Owner: post the reply on BankrBot/skills#771; re-run the skills.sh and Tessl scans.
+

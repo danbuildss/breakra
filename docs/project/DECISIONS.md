@@ -304,5 +304,30 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Revisit after v0.3:** MCP tool-schema compatibility.
 
+## D-041 — npm package `breakra` (v0.2.1): Node-compatible, dependency-free, publish by the owner
+**Status:** Accepted (owner: "i approve PR B", 2026-11-20). Implements roadmap PR B (`ROADMAP-2026-11-20.md`).
+
+**Decision:**
+- **Package and runtime.** The npm package `breakra` ships one self-contained, unminified ESM file, `dist/npm/cli.js` (`scripts/build-npm.ts`, `target: node`), for **Node ≥ 20**.
+  - It bundles api-smart-diff, allof-merge, json-crawl and yaml (all MIT/ISC); licences are in `THIRD_PARTY_NOTICES.md`.
+  - **No runtime dependencies** (api-smart-diff moved to devDependencies; it is bundled everywhere).
+- **YAML on Node.** `yaml` 2.9.1 is the fallback parser when `Bun.YAML` is absent: YAML 1.2 core schema, no custom tags, unique keys, `maxAliasCount: 100`. It is registered only by the npm entry (`src/bin.ts`). **The Bankr handler is unchanged** (Bun's parser, same bundle).
+  - A parity check proves Node and Bun give the same `analysis_id`.
+- **Versioning.**
+  - `PACKAGE_VERSION` (package.json, git tags, GitHub releases) is separate from `ENGINE_VERSION`. Packaging-only releases bump the package (0.2.1); the engine stays 0.2.0, so `analysis_id`s stay identical to the hosted API.
+  - **Amends D-036:** the release tag must equal the **package** version (it was ENGINE_VERSION). Releases also attach the npm tarball.
+- **Verification.** `bun run npm-smoke` packs the tarball, checks its exact file list, installs it into an empty folder outside the repo, and runs it with plain Node:
+  - `--version`;
+  - JSON and YAML checks with exit codes 0/1/2;
+  - an alias-bomb refusal;
+  - a full MCP stdio session (stdout = JSON-RPC only, `isError` on bad input).
+
+  It runs in `bun run check` and in CI on Node 20 and 22.
+- **Publishing.**
+  - The owner publishes 0.2.1 from their machine (npm 2FA).
+  - Later releases can use `.github/workflows/publish-npm.yml`: manual only, trusted publishing with provenance, no stored token.
+- **Docs.** Public docs mention `npx breakra` only **after** the package is published and verified (a follow-up PR).
+- `mcpName: io.github.danbuildss/breakra` is set for the MCP Registry (PR C).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
