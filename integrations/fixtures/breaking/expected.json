@@ -1,0 +1,80 @@
+{
+  "status": "success",
+  "analysis_id": "sha256:31f82ae74e79415f71c30fc6e0fa961c22a3ac16f941be5d6ddccd983909cb39",
+  "engine_version": "0.2.0",
+  "rule_set_version": "0.2.0",
+  "spec_versions": {
+    "before": "3.0.3",
+    "after": "3.0.3"
+  },
+  "compatibility": "breaking",
+  "verdict": "block",
+  "suggested_version_bump": "major",
+  "summary": {
+    "total_changes": 2,
+    "breaking": 1,
+    "potentially_breaking": 0,
+    "unknown": 0,
+    "compatible": 0,
+    "non_contract": 1
+  },
+  "changes": [
+    {
+      "id": "change-001",
+      "rule": "operation.operation_removed",
+      "kind": "operation_removed",
+      "compatibility": "breaking",
+      "direction": "operation",
+      "operation": {
+        "method": "POST",
+        "path": "/orders"
+      },
+      "location": {},
+      "reason": "Operation POST /orders was removed. Callers of it will receive errors.",
+      "recommended_action": "Find and replace all calls to POST /orders.",
+      "evidence": {
+        "path": [
+          "paths",
+          "/orders",
+          "post"
+        ],
+        "before": {
+          "responses": {
+            "201": {
+              "description": "Created"
+            }
+          },
+          "summary": "Create an order"
+        },
+        "after": null
+      }
+    },
+    {
+      "id": "change-002",
+      "rule": "document.document_metadata_changed",
+      "kind": "document_metadata_changed",
+      "compatibility": "non_contract",
+      "direction": "document",
+      "operation": null,
+      "location": {},
+      "reason": "Document metadata (`info.version`) changed; no contract impact.",
+      "recommended_action": "No action required.",
+      "evidence": {
+        "path": [
+          "info",
+          "version"
+        ],
+        "before": "1.0.0",
+        "after": "1.1.0"
+      }
+    }
+  ],
+  "limitations": [],
+  "metadata": {
+    "input_hashes": {
+      "before": "sha256:04adb3ac0f6cad7fbc4836f1540fb61ea10a808f030b828f570eecd12a64d6fc",
+      "after": "sha256:197f07d25e4304018632f68f19e78167392dfcc17aa3debaa249bfdad3aa7d76"
+    },
+    "changes_omitted": 0
+  }
+}
