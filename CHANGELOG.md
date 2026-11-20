@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **GitHub Actions example** (`examples/github-actions/breakra.yml`): fail a pull request when its OpenAPI contract may break callers, using the free CLI. Tested end to end in a temporary git repository (`tests/examples.test.ts`); the same file is shown on breakra.dev/integrations.
 - **Benchmark** (`benchmark/`, `bun run benchmark`): 11 real version pairs of GitHub's and Stripe's API specs plus 15 curated scenarios with expected outcomes (15/15 pass). Hand-checked findings and known limits (Stripe-scale schemas exceed the limits; position-based `oneOf` comparison can over-report) are documented.
 
 ## 0.2.2 (package; engine 0.2.0 and rule set 0.2.0 unchanged)

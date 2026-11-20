@@ -84,14 +84,28 @@
     </section>
     <section class="wrap" id="ci" aria-labelledby="ci-h">
       <h2 id="ci-h" class="label">GitHub Actions</h2>
-      <p>Fail a pull request when its OpenAPI file breaks callers. This is a plain workflow using the CLI; an official GitHub Action is on the roadmap. Exit codes: <code>0</code> below <code>--fail-on</code>, <code>1</code> at or above it, <code>2</code> error (unchecked, never "safe").</p>
+      <p>Fail a pull request when its OpenAPI file breaks callers. This is a plain workflow using the CLI; an official GitHub Action is on the roadmap. The same file, tested, is in <a href="https://github.com/danbuildss/breakra/tree/main/examples/github-actions">examples/github-actions</a>. Exit codes: <code>0</code> below <code>--fail-on</code>, <code>1</code> at or above it, <code>2</code> error (unchecked, never "safe").</p>
       <figure class="panel">
-        <figcaption><span>.github/workflows/api-contract.yml</span><span class="muted">pin the version</span></figcaption>
-<pre><code>name: API contract
-on: pull_request
+        <figcaption><span>.github/workflows/breakra.yml</span><span class="muted">pin the version</span></figcaption>
+<pre><code># Breakra: fail a pull request when its OpenAPI contract may break callers.
+# Copy this file to .github/workflows/breakra.yml, then set SPEC (and the paths filter) to your contract.
+# Free: runs the npm CLI on the runner; nothing is sent anywhere. Docs: https://breakra.dev/integrations
+name: API contract
+
+on:
+  pull_request:
+    paths:
+      - openapi.yaml # keep in sync with SPEC
+
+permissions:
+  contents: read
+
 jobs:
   breakra:
     runs-on: ubuntu-latest
+    env:
+      SPEC: openapi.yaml # your OpenAPI 3.0/3.1 contract, JSON or YAML
+      FAIL_ON: block # block: fail on breaking changes; review: also on potentially breaking and unknown
     steps:
       - uses: actions/checkout@v4
         with:
@@ -99,12 +113,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Compare openapi.yaml with the base branch
+      - name: Compare the contract with the base branch
         env:
           BASE: ${{ github.base_ref }}
         run: |
-          git show "origin/$BASE:openapi.yaml" &gt; "$RUNNER_TEMP/base.yaml"
-          npx -y breakra@0.2.2 check "$RUNNER_TEMP/base.yaml" openapi.yaml --fail-on block</code></pre>
+          if ! git cat-file -e "origin/$BASE:$SPEC" 2&gt;/dev/null; then
+            echo "$SPEC is new on this branch: nothing to compare."
+            exit 0
+          fi
+          git show "origin/$BASE:$SPEC" &gt; "$RUNNER_TEMP/base-contract"
+          npx -y breakra@0.2.2 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"</code></pre>
       </figure>
     </section>
     <section class="wrap" id="scripts" aria-labelledby="scripts-h">

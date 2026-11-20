@@ -153,7 +153,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 | [`docs/API.md`](docs/API.md) | Request, response and error reference |
 | [`openapi.json`](openapi.json) | Machine-readable contract of the endpoint |
 | [`RULES.md`](RULES.md) | Every classification rule (rule set 0.2.0) |
-| [`examples/`](examples/) | Sample request and response, paying client, curl |
+| [`examples/`](examples/) | Sample request and response, paying client, curl, [GitHub Actions workflow](examples/github-actions/) |
 | [`demo/github-rest-api/`](demo/github-rest-api/) | Real-world run on GitHub's API description |
 | [`SECURITY.md`](SECURITY.md) | Reporting vulnerabilities privately |
 

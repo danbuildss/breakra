@@ -1,0 +1,36 @@
+# Breakra: fail a pull request when its OpenAPI contract may break callers.
+# Copy this file to .github/workflows/breakra.yml, then set SPEC (and the paths filter) to your contract.
+# Free: runs the npm CLI on the runner; nothing is sent anywhere. Docs: https://breakra.dev/integrations
+name: API contract
+
+on:
+  pull_request:
+    paths:
+      - openapi.yaml # keep in sync with SPEC
+
+permissions:
+  contents: read
+
+jobs:
+  breakra:
+    runs-on: ubuntu-latest
+    env:
+      SPEC: openapi.yaml # your OpenAPI 3.0/3.1 contract, JSON or YAML
+      FAIL_ON: block # block: fail on breaking changes; review: also on potentially breaking and unknown
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Compare the contract with the base branch
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          if ! git cat-file -e "origin/$BASE:$SPEC" 2>/dev/null; then
+            echo "$SPEC is new on this branch: nothing to compare."
+            exit 0
+          fi
+          git show "origin/$BASE:$SPEC" > "$RUNNER_TEMP/base-contract"
+          npx -y breakra@0.2.2 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"
