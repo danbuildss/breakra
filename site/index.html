@@ -18,6 +18,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://breakra.dev/og.png">
   <link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/boot.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <script src="/app.js" defer></script>
 </head>
@@ -56,14 +57,33 @@
   <main id="main">
     <section class="wrap hero" aria-labelledby="title">
       <p class="meta"><span class="live"><span class="dot" aria-hidden="true"></span>v0.2 · live on npm, MCP Registry &amp; Bankr</span></p>
-      <h1 id="title">The API safety layer<br>for developers and AI&nbsp;agents.</h1>
+      <h1 id="title"><span class="ln"><span>The API safety layer</span></span><span class="ln"><span>for developers and AI&nbsp;agents.</span></span></h1>
       <p class="subline">Catch breaking API changes before they ship.</p>
       <p class="lede">Developers run it from the terminal or CI; coding agents call it through the CLI, MCP or the x402 API. Every check compares two OpenAPI contracts and returns a verdict (<code>safe</code> · <code>review</code> · <code>block</code>), the evidence and a fix for every finding. Deterministic, and free to run locally.</p>
       <div class="copies">
         <div class="copybox"><code id="cmd-npx"><span class="p">$</span> npx -y breakra check old.yaml new.yaml</code><button class="copy" type="button" data-copy="#cmd-npx" data-strip="$ " aria-label="Copy the command">Copy</button></div>
         <div class="copybox"><span class="cb-label">Give your agent</span><code id="cmd-skill">read breakra.dev/skill.md</code><button class="copy" type="button" data-copy="#cmd-skill" aria-label="Copy the agent instruction">Copy</button></div>
       </div>
-      <p class="ctas"><a class="btn btn-solid" href="#run">Get started</a><a class="btn" href="#demo">See it work <span aria-hidden="true">↓</span></a><span class="muted works">Works with Claude Code and any MCP client</span></p>
+      <p class="ctas"><a class="btn btn-solid" href="#run">Get started</a><a class="btn" href="#demo">See it work <span aria-hidden="true">↓</span></a></p>
+      <section class="works" aria-labelledby="works-h">
+        <p class="works-label" id="works-h">Works with</p>
+        <div class="marquee">
+          <ul class="marquee-track">
+            <li><img src="/logos/works/claude.svg" alt="" width="18" height="18">Claude Code</li>
+            <li><img src="/logos/works/github-actions.svg" alt="" width="18" height="18">GitHub Actions</li>
+            <li><img class="mono" src="/logos/works/bankr.svg" alt="" width="18" height="18">Bankr agents</li>
+            <li><img class="wordmark-x402" src="/logos/works/x402.svg" alt="x402" width="40" height="12"> agents</li>
+            <li><img src="/logos/works/mcp.svg" alt="" width="18" height="18">Any MCP client</li>
+          </ul>
+          <ul class="marquee-track" aria-hidden="true">
+            <li><img src="/logos/works/claude.svg" alt="" width="18" height="18">Claude Code</li>
+            <li><img src="/logos/works/github-actions.svg" alt="" width="18" height="18">GitHub Actions</li>
+            <li><img class="mono" src="/logos/works/bankr.svg" alt="" width="18" height="18">Bankr agents</li>
+            <li><img class="wordmark-x402" src="/logos/works/x402.svg" alt="" width="40" height="12"> agents</li>
+            <li><img src="/logos/works/mcp.svg" alt="" width="18" height="18">Any MCP client</li>
+          </ul>
+        </div>
+      </section>
     </section>
 
     <section class="wrap" id="demo" aria-labelledby="demo-h">
@@ -102,7 +122,7 @@
 
     <section class="wrap" aria-labelledby="ba-h">
       <h2 id="ba-h" class="label">Before / after</h2>
-      <div class="cols-2">
+      <div class="cols-2" data-reveal>
         <div class="card card-dim"><p class="card-k">Without Breakra</p><ol class="flow"><li>Agent renames a response field</li><li>Tests pass ✓</li><li>Merged and deployed</li><li class="bad">Every client that read it breaks ✗</li></ol></div>
         <div class="card"><p class="card-k">With Breakra</p><ol class="flow"><li>Agent runs <code>breakra</code> before merging</li><li>verdict: <span class="verdict verdict-block">block</span>, field removed</li><li>The exact fix, before anything ships</li><li class="good">Clients keep working ✓</li></ol></div>
       </div>
@@ -110,7 +130,7 @@
 
     <section class="wrap" aria-labelledby="stack-h">
       <h2 id="stack-h" class="label">Built for developers and their agents</h2>
-      <div class="cols-4">
+      <div class="cols-4" data-reveal>
         <div class="card"><p class="card-t">Coding agents</p><p class="muted">Check spec changes inside the PR loop, with the CLI or the MCP tool.</p></div>
         <div class="card"><p class="card-t">SDK &amp; integration maintainers</p><p class="muted">See what an upstream change means for the endpoints you call (<code>--use</code>).</p></div>
         <div class="card"><p class="card-t">API platform teams</p><p class="muted">Gate releases on the verdict, with semver advice for every change.</p></div>
@@ -120,16 +140,28 @@
 
     <section class="wrap" id="run" aria-labelledby="run-h">
       <h2 id="run-h" class="label">Get started</h2>
-      <div class="panels">
+      <div class="tabbox" data-tabs data-reveal>
+        <div class="tabbar" role="tablist" aria-label="Get started"><button type="button" role="tab" id="gs-tab-terminal" aria-controls="gs-terminal" aria-selected="true" tabindex="0">Terminal</button><button type="button" role="tab" id="gs-tab-mcp" aria-controls="gs-mcp" aria-selected="false" tabindex="-1">Claude Code / MCP</button><button type="button" role="tab" id="gs-tab-ci" aria-controls="gs-ci" aria-selected="false" tabindex="-1">GitHub Actions</button><button type="button" role="tab" id="gs-tab-x402" aria-controls="gs-x402" aria-selected="false" tabindex="-1">Agents (x402)</button></div>
+                <div class="tabpane" role="tabpanel" id="gs-terminal" aria-labelledby="gs-tab-terminal">
         <figure class="panel">
-          <figcaption><span>free · local</span><span class="muted">CLI and MCP server, no wallet</span></figcaption>
-<pre><code><span class="c"># same engine, on your machine; nothing is sent anywhere (Node.js 20+)</span>
+          <figcaption><span>free · local</span><span class="muted">Node.js 20+, nothing sent anywhere</span></figcaption>
+<pre><code><span class="c"># same engine, on your machine</span>
 npx -y breakra check old.yaml new.yaml
 npx -y breakra check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span>
-
-<span class="c"># give it to your coding agent (tool: check_openapi_change)</span>
-claude mcp add --scope user breakra -- npx -y breakra mcp</code></pre>
+npx -y breakra check old.yaml new.yaml --json   <span class="c"># the hosted API's exact result</span></code></pre>
         </figure>
+        </div>
+        <div class="tabpane" role="tabpanel" id="gs-mcp" aria-labelledby="gs-tab-mcp" hidden>
+        <figure class="panel">
+          <figcaption><span>MCP server</span><span class="muted">tool: check_openapi_change</span></figcaption>
+<pre><code><span class="c"># Claude Code</span>
+claude mcp add --scope user breakra -- npx -y breakra mcp
+
+<span class="c"># any MCP client (e.g. Cursor: ~/.cursor/mcp.json)</span>
+{ <span class="s">"mcpServers"</span>: { <span class="s">"breakra"</span>: { <span class="s">"command"</span>: <span class="s">"npx"</span>, <span class="s">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"breakra"</span>, <span class="s">"mcp"</span>] } } }</code></pre>
+        </figure>
+        </div>
+        <div class="tabpane" role="tabpanel" id="gs-ci" aria-labelledby="gs-tab-ci" hidden>
         <figure class="panel">
           <figcaption><span>in CI</span><span class="muted">exit 0 ok · 1 fail · 2 error</span></figcaption>
 <pre><code><span class="c"># fail the build on breaking changes (2 = unchecked, never "safe")</span>
@@ -138,12 +170,24 @@ npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on block
 <span class="c"># stricter: also stop on potentially breaking / unknown</span>
 npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
         </figure>
+        <p class="hint muted">A complete, tested workflow: <a href="/integrations#ci">Integrations → GitHub Actions</a>.</p>
+        </div>
+        <div class="tabpane" role="tabpanel" id="gs-x402" aria-labelledby="gs-tab-x402" hidden>
+        <figure class="panel">
+          <figcaption><span>hosted · pay per check</span><span class="muted">$0.02 USDC on Base, no account</span></figcaption>
+<pre><code><span class="c"># give your agent the guide: when to call, how to pay safely</span>
+read breakra.dev/skill.md
+
+<span class="c"># the hosted check (x402: only a 200 is charged)</span>
+POST https://breakra.dev/api/analyze</code></pre>
+        </figure>
+        </div>
       </div>
     </section>
 
     <section class="wrap" aria-labelledby="proof-h">
       <h2 id="proof-h" class="label">Measured on real API history</h2>
-      <div class="proof card">
+      <div class="proof card" data-reveal>
         <div class="stats">
           <div><p class="stat">7</p><p class="muted">GitHub API version pairs compared</p></div>
           <div><p class="stat">2 · 4 · 1</p><p class="muted">block · review · safe</p></div>
@@ -157,6 +201,9 @@ npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
 
     <section class="wrap" id="agents" aria-labelledby="agents-h">
       <h2 id="agents-h" class="label">For AI agents</h2>
+      <div class="tabbox" data-tabs data-reveal>
+        <div class="tabbar" role="tablist" aria-label="For AI agents"><button type="button" role="tab" id="ai-tab-files" aria-controls="ai-files" aria-selected="true" tabindex="0">skill.md &amp; files</button><button type="button" role="tab" id="ai-tab-mcpcfg" aria-controls="ai-mcpcfg" aria-selected="false" tabindex="-1">MCP config</button><button type="button" role="tab" id="ai-tab-response" aria-controls="ai-response" aria-selected="false" tabindex="-1">API response</button></div>
+                <div class="tabpane" role="tabpanel" id="ai-files" aria-labelledby="ai-tab-files">
       <dl class="details">
         <div><dt>skill.md</dt><dd><a href="/skill.md">breakra.dev/skill.md</a>: when to call, how to pay safely, how to read results</dd></div>
         <div><dt>llms.txt</dt><dd><a href="/llms.txt">breakra.dev/llms.txt</a>: a map of this site for language models</dd></div>
@@ -165,7 +212,18 @@ npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
         <div><dt>Hosted API</dt><dd><code class="break">POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze</code></dd></div>
         <div><dt>Input</dt><dd>OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1, JSON or YAML, inline, ≤ 1 MB</dd></div>
       </dl>
-      <div class="panels one">
+        </div>
+        <div class="tabpane" role="tabpanel" id="ai-mcpcfg" aria-labelledby="ai-tab-mcpcfg" hidden>
+        <figure class="panel">
+          <figcaption><span>mcp.json</span><span class="muted">stdio, no key or wallet</span></figcaption>
+<pre><code>{
+  <span class="s">"mcpServers"</span>: {
+    <span class="s">"breakra"</span>: { <span class="s">"command"</span>: <span class="s">"npx"</span>, <span class="s">"args"</span>: [<span class="s">"-y"</span>, <span class="s">"breakra"</span>, <span class="s">"mcp"</span>] }
+  }
+}</code></pre>
+        </figure>
+        </div>
+        <div class="tabpane" role="tabpanel" id="ai-response" aria-labelledby="ai-tab-response" hidden>
         <figure class="panel">
           <figcaption><span>response · 200</span><span class="muted">examples/response.json (excerpt)</span></figcaption>
 <pre><code>{
@@ -184,12 +242,13 @@ npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
   }, … ]
 }</code></pre>
         </figure>
+        </div>
       </div>
     </section>
 
     <section class="wrap" id="pricing" aria-labelledby="pricing-h">
       <h2 id="pricing-h" class="label">Pricing</h2>
-      <div class="cols-3">
+      <div class="cols-3" data-reveal>
         <div class="card price"><p class="card-t">Free</p><p class="amount">$0</p><p class="muted">CLI and MCP server on your machine. Nothing leaves it.</p><p><code>npx -y breakra</code></p></div>
         <div class="card price"><p class="card-t">Hosted</p><p class="amount">$0.02 <span class="muted">/ check</span></p><p class="muted">$0.02 USDC on Base, only on a 200. Breakra's own errors are never charged. No account.</p><p><a href="/skill.md">Read skill.md →</a></p></div>
         <div class="card price"><p class="card-t">Teams</p><p class="amount">Let's talk</p><p class="muted">CI at scale, support and partnerships.</p><p><a href="mailto:hello.danbuilds@gmail.com?subject=Breakra%20for%20teams">Contact →</a></p></div>
@@ -198,7 +257,7 @@ npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
 
     <section class="wrap" id="faq" aria-labelledby="faq-h">
       <h2 id="faq-h" class="label">FAQ</h2>
-      <div class="faq">
+      <div class="faq" data-reveal>
         <details><summary>Is it really deterministic?</summary><p>Yes. Findings come from versioned rules and the evidence in your contracts; there's no AI in the check. The same inputs always give the same result and <code>analysis_id</code>.</p></details>
         <details><summary>Where do my contracts go?</summary><p>Locally (CLI or MCP): nowhere. Hosted: to Bankr x402 Cloud (and Vercel for the breakra.dev forward). Contracts are never stored or logged. Don't send contracts you aren't allowed to share.</p></details>
         <details><summary>What does "unknown" mean?</summary><p>A change the rules don't evaluate. It's never treated as safe: the verdict becomes <code>review</code>.</p></details>

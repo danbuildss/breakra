@@ -1,0 +1,40 @@
+# Breakra checks Breakra: fail a pull request whose openapi.json change may break callers of the hosted API.
+# Same recipe as examples/github-actions/breakra.yml, using the published CLI (free; nothing leaves the runner).
+name: API contract (Breakra)
+
+on:
+  pull_request:
+    paths:
+      - openapi.json
+      - .github/workflows/contract-check.yml
+
+permissions:
+  contents: read
+
+jobs:
+  breakra:
+    runs-on: ubuntu-latest
+    env:
+      SPEC: openapi.json
+      FAIL_ON: block
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Compare the contract with the base branch
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          if ! git cat-file -e "origin/$BASE:$SPEC" 2>/dev/null; then
+            echo "$SPEC is new on this branch: nothing to compare."
+            exit 0
+          fi
+          git show "origin/$BASE:$SPEC" > "$RUNNER_TEMP/base-contract"
+          cp "$SPEC" "$RUNNER_TEMP/pr-contract"
+          # Run from outside the checkout: this repo's own package.json is named "breakra", and npx would
+          # resolve that unbuilt local package instead of downloading the published one.
+          cd "$RUNNER_TEMP"
+          npx -y breakra@0.2.2 check base-contract pr-contract --fail-on "$FAIL_ON"
