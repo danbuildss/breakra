@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Breakra: the API safety layer for developers and AI agents</title>
-  <meta name="description" content="The API safety layer for developers and AI agents. Compare two OpenAPI 3.0/3.1 contracts (JSON or YAML): a safe/review/block verdict, the evidence and a fix for every finding. Free locally, or $0.02 USDC per hosted call via x402.">
+  <meta name="description" content="The API safety layer for developers and AI agents. Catch breaking API changes before they ship. Compare two OpenAPI 3.0/3.1 contracts (JSON or YAML): a safe/review/block verdict, the evidence and a fix for every finding. Free locally, or $0.02 USDC per hosted call via x402.">
   <link rel="canonical" href="https://breakra.dev/">
   <meta name="theme-color" content="#0D0C0A">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -57,7 +57,8 @@
     <section class="wrap hero" aria-labelledby="title">
       <p class="meta"><span class="live"><span class="dot" aria-hidden="true"></span>v0.2 · live on npm, MCP Registry &amp; Bankr</span></p>
       <h1 id="title">The API safety layer<br>for developers and AI&nbsp;agents.</h1>
-      <p class="lede">Check whether an API contract change will break existing integrations before it ships. Developers run it from the terminal or CI; coding agents call it through the CLI, MCP or the x402 API. Every check returns a verdict (<code>safe</code> · <code>review</code> · <code>block</code>), the evidence and a fix for every finding. Deterministic, and free to run locally.</p>
+      <p class="subline">Catch breaking API changes before they ship.</p>
+      <p class="lede">Developers run it from the terminal or CI; coding agents call it through the CLI, MCP or the x402 API. Every check compares two OpenAPI contracts and returns a verdict (<code>safe</code> · <code>review</code> · <code>block</code>), the evidence and a fix for every finding. Deterministic, and free to run locally.</p>
       <div class="copies">
         <div class="copybox"><code id="cmd-npx"><span class="p">$</span> npx -y breakra check old.yaml new.yaml</code><button class="copy" type="button" data-copy="#cmd-npx" data-strip="$ " aria-label="Copy the command">Copy</button></div>
         <div class="copybox"><span class="cb-label">Give your agent</span><code id="cmd-skill">read breakra.dev/skill.md</code><button class="copy" type="button" data-copy="#cmd-skill" aria-label="Copy the agent instruction">Copy</button></div>

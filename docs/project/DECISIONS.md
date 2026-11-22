@@ -350,7 +350,7 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Decision:**
 - **Primary tagline:** "The API safety layer for developers and AI agents." Used as the homepage headline, page titles and social previews, package and registry descriptions, the README, `VISION.md`, the SKILL.md title and the brand kit.
-- **Supporting line:** check whether an API contract change will break existing integrations before it ships; developers run it from the terminal or CI, agents call it through the CLI, MCP or the x402 API.
+- **Subline (always paired with the tagline where space allows):** "Catch breaking API changes before they ship." It answers "safety from what?" and keeps the searched-for words at the top. Then: developers run it from the terminal or CI; agents call it through the CLI, MCP or the x402 API.
 - **Scope stated plainly:** "safety" means **compatibility** of OpenAPI contracts. Breakra is not a security vulnerability scanner, doesn't test running APIs and doesn't read code. The homepage FAQ, README and `llms.txt` say so.
 - **Unchanged:** functionality, the engine, prices, the SKILL.md frontmatter description (functional text that skill directories match on), and the public API contract (only `openapi.json`'s introductory sentence changed).
 
