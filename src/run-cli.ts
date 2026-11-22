@@ -16,7 +16,7 @@ import { ENGINE_VERSION, PACKAGE_VERSION, RULE_SET_VERSION } from "./version";
 
 export const VERSION_TEXT = `breakra ${PACKAGE_VERSION} (engine ${ENGINE_VERSION}, rule set ${RULE_SET_VERSION})`;
 
-const USAGE = `breakra ${PACKAGE_VERSION}: OpenAPI breaking-change checks for agents (free, local)
+const USAGE = `breakra ${PACKAGE_VERSION}: the API safety layer for developers and AI agents (free, local)
 
   breakra check <before> <after> [--use "METHOD /path"]... [--json] [--fail-on block|review]
   breakra mcp

@@ -1419,3 +1419,8 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 ### 2026-11-22: $BRKR launch material, D-042
 - Owner is launching $BRKR on Base via Bankr; approved D-042 (optional token, separate from the product, not on breakra.dev/README/SKILL/package; disclaimers; no partner endorsement claims; Claude never handles keys, trades or deployment).
 - Approved launch creative: accent option B (one red-orange accent, BLOCK only), the token as an end-card line only, square + 16:9 video and three cards. Built outside the repo with Playwright + ffmpeg; sound effects from earshot 1.0.0 (MIT, public-domain-learned designs) in a scratch environment.
+
+### 2026-11-22: positioning update (D-043)
+- Owner adopted the primary tagline "The API safety layer for developers and AI agents." Applied to site (homepage title, hero, lede, footer, FAQ "Is Breakra a security scanner?", About, Brand, llms.txt), README (banner, intro, vision, scope note), VISION.md, SKILL.md title, package.json, server.json, CLI usage, Bankr listing text, openapi.json intro, hero.svg, social preview + og.png.
+- Owner actions: redeploy Bankr (listing text), next MCP Registry publish (server.json), re-upload the GitHub social preview.
+- Also delivered earlier today, outside the repo (D-042): the $BRKR launch video (square + wide; lo-fi bed; the owner's voice-over, 31 s) and three cards.

@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.danbuildss/breakra",
   "title": "Breakra",
-  "description": "OpenAPI 3.0/3.1 breaking-change checks for agents: safe/review/block verdict, evidence, fixes.",
+  "description": "The API safety layer for developers and AI agents: OpenAPI breaking-change checks with fixes.",
   "websiteUrl": "https://breakra.dev",
   "repository": {
     "url": "https://github.com/danbuildss/breakra",

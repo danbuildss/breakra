@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="Breakra: know what changed before your integration breaks. OpenAPI 3.0/3.1 compatibility checks for coding agents: free locally, or $0.02 USDC on Base via x402." width="100%">
+  <img src="docs/assets/hero.svg" alt="Breakra: the API safety layer for developers and AI agents. OpenAPI 3.0/3.1 compatibility checks: free locally, or $0.02 USDC on Base via x402." width="100%">
 </p>
 
 <p align="center">
@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells a coding agent what may break for its callers, or for the operations it depends on: a verdict, every change classified, the evidence and a recommended fix.<br/>
+  Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells a developer, or a coding agent, what may break for its callers, or for the operations it depends on: a verdict, every change classified, the evidence and a recommended fix.<br/>
   <strong>Free locally, or one HTTP call at $0.02 USDC on Base via x402. Breakra's own errors are never charged.</strong>
 </p>
 
@@ -33,7 +33,9 @@
 
 ## Vision
 
-**Breakra is the contract-safety check for AI agents.** Before an agent changes an API, or upgrades to someone else's, Breakra tells it whether the change may break **your callers** or **the operations you depend on**, with evidence, a clear verdict and a recommended fix. It is deterministic and verifiable, free to run locally, and pay-per-use with no account when hosted. Read the full vision and roadmap in [`VISION.md`](VISION.md).
+**Breakra is the API safety layer for developers and AI agents.** Before you or your coding agent change an API, or upgrade to someone else's, Breakra tells you whether the change may break **your callers** or **the operations you depend on**, with evidence, a clear verdict and a recommended fix. It is deterministic and verifiable, free to run locally, and pay-per-use with no account when hosted. Read the full vision and roadmap in [`VISION.md`](VISION.md).
+
+"Safety" here means compatibility: Breakra checks whether a contract change may break existing integrations. It isn't a security vulnerability scanner, and it doesn't read your code.
 
 ## How it works
 

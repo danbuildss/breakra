@@ -1,8 +1,8 @@
 # Breakra vision
 
-**Breakra is the contract-safety check for AI agents.**
+**Breakra is the API safety layer for developers and AI agents.**
 
-Before an agent changes an API, or upgrades to someone else's, Breakra tells it whether the change may break **your callers** or **the operations you depend on**. Every answer comes with the evidence, a clear verdict and a recommended fix. Results are deterministic and verifiable. Breakra is free to run locally, and the hosted API is pay-per-use with no account, for agents that already hold a wallet.
+Before a developer or a coding agent changes an API, or upgrades to someone else's, Breakra tells them whether the change may break **your callers** or **the operations you depend on**. Every answer comes with the evidence, a clear verdict and a recommended fix. Results are deterministic and verifiable. Breakra is free to run locally, and the hosted API is pay-per-use with no account, for agents that already hold a wallet.
 
 ## Why
 Coding agents now edit API contracts constantly, and a change that passes the service's own tests can still break everyone who calls it. A breaking-change check has to be:

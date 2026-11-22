@@ -1,6 +1,6 @@
 # Breakra
 
-> Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and a recommended fix for every finding. Deterministic. Free locally (npm CLI + MCP server) or hosted at $0.02 USDC per check via x402 on Base.
+> The API safety layer for developers and AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and a recommended fix for every finding. Deterministic. Free locally (npm CLI + MCP server) or hosted at $0.02 USDC per check via x402 on Base. It checks API contract compatibility; it is not a security vulnerability scanner.
 
 ## Use it
 - [Agent guide (skill.md)](https://breakra.dev/skill.md): when to call, how to pay safely, how to read results

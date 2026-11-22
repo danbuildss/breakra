@@ -3,7 +3,7 @@ name: breakra
 description: Check whether an OpenAPI 3.0/3.1 change (JSON or YAML) may break API consumers, or the operations you depend on. Send the old and new contract; get a verdict (safe/review/block), a semver bump, and every change classified with evidence and a recommended fix. Free and local (CLI/MCP, nothing leaves the machine), or hosted at $0.02 USDC on Base via x402 with the user's authorization.
 ---
 
-# Breakra: contract-safety check for agents
+# Breakra: the API safety layer for developers and AI agents
 
 Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells you whether the change is **safe**, needs **review**, or should be **blocked**. It also lists which changes may break callers (or, with `uses`, the operations you list), where they are, and what to do about them. Results are deterministic: the same inputs always give the same `analysis_id` and the same findings.
 
