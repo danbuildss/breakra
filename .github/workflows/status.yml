@@ -4,7 +4,8 @@ name: Status checks
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    # Off the busy :00/:15 minutes (GitHub delays or drops those most); still every 15 minutes.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
 
 permissions:
