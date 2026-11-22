@@ -389,5 +389,20 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - **Mascot:** an original geometric owl (its body cut diagonally like the Breakra B mark), black and white; Lens and Scout were the alternatives.
 - **Before any public Orric release:** a separate technical decision (model and data handling, rate limits and respectful crawling, the disclosure process, and how findings are reviewed).
 
+## D-046 — Public status page and private visitor analytics
+**Status:** Accepted (owner, 2026-11-22: "approve all, yes footer link, npm stats only, yes speed insights").
+
+**Context:** the owner asked for a status page like 1claw.co/status, an About section listing the products, and private visitor numbers like Vercel's.
+
+**Decision:**
+- **Status checks:** a GitHub Actions workflow (`.github/workflows/status.yml`) runs `scripts/status-check.mjs` (plain Node, no dependencies) every 15 minutes. It checks the hosted x402 API and the breakra.dev forward (unpaid: they must answer 402 with exactly the approved terms, $0.02 USDC on Base to Bankr's router; nothing is signed or paid), the website, the agent files, the npm package and the MCP Registry entry.
+- **Storage:** results go to a `status` branch only (never `main`), as one `status.json` with the latest results, 24 recent runs, daily counts for up to 90 days, and npm stats (weekly downloads and latest version). Vercel doesn't deploy that branch.
+- **Page:** `/status` reads that file from GitHub (the only cross-origin request on the site; the CSP allows it on `/status` alone). It shows only what the data says; before the first run it says no checks are recorded. Orric is listed as not publicly monitored while in private preview. The footer links to it as "System status" (a neutral label: the static footer can't know live state).
+- **Public stats:** npm numbers only. No visitor counts are published.
+- **Visitor analytics:** Vercel Web Analytics and Speed Insights, first-party scripts (`/_vercel/...`), no cookies, no personal data; the numbers stay private in the owner's Vercel dashboard. The site's CSP changes `connect-src` from `'none'` to `'self'` so the scripts can report. The Security page says so.
+- **About:** a "What we build" section (Breakra Core live: CLI, MCP server, hosted API, GitHub Actions; Orric private preview) and a links row.
+
+**Consequences:** "no continuous monitoring in V0" concerns the product (`/v1/analyze`); this is health monitoring of Breakra's own services, not a product feature. The owner enables Web Analytics and Speed Insights in the Vercel project settings; until then the two scripts 404 harmlessly.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

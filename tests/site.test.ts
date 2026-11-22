@@ -1,5 +1,5 @@
 /** Keeps breakra.dev (site/) truthful: every number and example on the page must match the code (D-037). */
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { LIMITS } from "../src/core/limits";
@@ -298,5 +298,63 @@ describe("Orric (D-045)", () => {
       expect(main.slice(Math.max(0, m.index - 20), m.index)).toMatch(/not security\s*$/);
     }
     expect(main).toContain("never from the model");
+  });
+});
+
+describe("status page and analytics (D-046)", () => {
+  const vercel = JSON.parse(read("vercel.json"));
+  const status = read("site/status.html");
+  const pages = readdirSync(join(root, "site")).filter((f) => f.endsWith(".html"));
+
+  it("allows the GitHub status data only on /status, and never deploys the status branch", () => {
+    const rules = vercel.headers as Array<{ source: string; headers: Array<{ key: string; value: string }> }>;
+    const csp = (r: (typeof rules)[number]) =>
+      r.headers.find((h) => h.key === "Content-Security-Policy")?.value;
+    for (const r of rules) {
+      const v = csp(r);
+      if (!v) continue;
+      if (r.source === "/status") expect(v).toContain("connect-src 'self' https://raw.githubusercontent.com");
+      else expect(v).not.toContain("raw.githubusercontent.com");
+    }
+    expect(vercel.git.deploymentEnabled.status).toBe(false);
+    expect(read(".github/workflows/status.yml")).toMatch(/git push[^\n]*status/);
+  });
+
+  it("loads first-party Vercel analytics on every page, and nothing third-party", () => {
+    for (const p of pages) {
+      const h = read(`site/${p}`);
+      expect(h, p).toContain('<script src="/_vercel/insights/script.js" defer></script>');
+      expect(h, p).toContain('<script src="/_vercel/speed-insights/script.js" defer></script>');
+      for (const m of h.matchAll(/<script[^>]*src="([^"]+)"/g)) expect(m[1], p).toMatch(/^\//);
+    }
+  });
+
+  it("makes no static health claim: status comes only from the stored data", () => {
+    const main = status.slice(status.indexOf('<main id="main">'), status.indexOf("</main>"));
+    expect(main).not.toMatch(/operational|uptime \d|100%/i);
+    expect(status).toContain(
+      'data-status-src="https://raw.githubusercontent.com/danbuildss/breakra/status/status.json"',
+    );
+    expect(read("site/status.js")).toContain("No checks recorded yet");
+  });
+
+  it("folds checks into 24 recent runs and at most 90 days", async () => {
+    const { fold, SERVICES } = await import("../scripts/status-check.mjs");
+    const results = Object.fromEntries(
+      SERVICES.map((s: { id: string }) => [s.id, { ok: true, ms: 1, detail: "ok" }]),
+    );
+    results.website = { ok: false, ms: 1, detail: "HTTP 500" };
+    let doc: any = null;
+    const start = Date.parse("2026-01-01T00:00:00Z");
+    for (let i = 0; i < 100; i++) doc = fold(doc, new Date(start + i * 86400000).toISOString(), results, 7);
+    doc = fold(doc, new Date(start + 99 * 86400000 + 60000).toISOString(), results, 7);
+    expect(doc.recent).toHaveLength(24);
+    expect(Object.keys(doc.daily)).toHaveLength(90);
+    expect(doc.recent[0]).toMatchObject({ ok: SERVICES.length - 1, total: SERVICES.length });
+    const last = doc.daily[new Date(start + 99 * 86400000).toISOString().slice(0, 10)];
+    expect(last.website).toEqual([0, 2]);
+    expect(last.npm).toEqual([2, 2]);
+    expect(doc.started).toBe("2026-01-01");
+    expect(doc.stats.npm_downloads_last_week).toBe(7);
   });
 });

@@ -1,0 +1,53 @@
+# breakra.dev/status (D-046): read-only checks every 15 minutes. Results go to the `status` branch only
+# (never main); the /status page reads status.json from there. No secrets beyond the default token.
+name: Status checks
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: status-checks
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: scripts/status-check.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Fetch the previous results
+        run: |
+          if git fetch --depth 1 origin status 2>/dev/null; then
+            git show FETCH_HEAD:status.json > "$RUNNER_TEMP/prev.json" || echo '{}' > "$RUNNER_TEMP/prev.json"
+          else
+            echo '{}' > "$RUNNER_TEMP/prev.json"
+          fi
+      - name: Run the checks
+        run: node scripts/status-check.mjs "$RUNNER_TEMP/prev.json" "$RUNNER_TEMP/status.json"
+      - name: Publish to the status branch
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          cd "$RUNNER_TEMP"
+          rm -rf out && mkdir out && cd out
+          git init -q -b status
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${TOKEN}@github.com/${REPO}.git"
+          if git fetch -q --depth 1 origin status; then git reset -q --soft FETCH_HEAD; fi
+          cp "$RUNNER_TEMP/status.json" status.json
+          git add status.json
+          git commit -q -m "status: $(date -u +%Y-%m-%dT%H:%MZ)" || exit 0
+          git push -q origin status
