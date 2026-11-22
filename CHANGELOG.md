@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Orric** (D-045): a Products section on the homepage and a new `/orric` page introducing Orric, an AI research agent for API compatibility built on Breakra, in private preview.
 - **Website:** a moving "Works with" row of proven integrations (Claude Code, GitHub Actions, Bankr agents, x402 agents, any MCP client), tabs for Get started and For AI agents, and motion throughout (respects reduced-motion; works without JavaScript) (D-044).
 - **CI:** Breakra checks its own `openapi.json` on pull requests (`.github/workflows/contract-check.yml`).
 - **Positioning** (D-043): "The API safety layer for developers and AI agents." Updated the website, README, `VISION.md`, SKILL.md title, `llms.txt`, package, MCP Registry and Bankr listing descriptions, the CLI usage line and the social preview. The docs state that "safety" means contract compatibility, not security scanning. No functional change.

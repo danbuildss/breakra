@@ -1479,3 +1479,175 @@ section.wrap .cols-2 + .table-wrap {
     transform: none !important;
   }
 }
+
+/* ---------- Products and Orric (D-045) ---------- */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 3px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font: 600 12px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.sdot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--paper);
+  background: var(--paper);
+}
+.status-preview .sdot {
+  background: linear-gradient(90deg, var(--paper) 50%, transparent 50%);
+}
+.product .card-t {
+  font-size: 22px;
+  margin: 0;
+}
+.product-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mascot-sm {
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+.mascot-sm path,
+.mascot-sm circle,
+.mascot path,
+.mascot circle {
+  transition: fill 0.2s;
+}
+:root[data-theme="light"] .mascot [fill="#F4EFE1"],
+:root[data-theme="light"] .mascot-sm [fill="#F4EFE1"] {
+  fill: #0d0c0a;
+}
+:root[data-theme="light"] .mascot [fill="#0D0C0A"],
+:root[data-theme="light"] .mascot-sm [fill="#0D0C0A"] {
+  fill: #f4efe1;
+}
+.orric-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.orric-hero .lede {
+  max-width: 640px;
+}
+.mascot {
+  width: 128px;
+  height: 128px;
+  margin-bottom: 22px;
+  animation: lift-in 0.8s cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+.mascot .eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 0.32s ease-in-out 1.3s 1 both;
+}
+@keyframes blink {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+}
+.orric-hero .status {
+  animation: lift-in 0.6s ease both 0.2s;
+}
+.orric-hero h1 {
+  animation: lift-in 0.7s cubic-bezier(0.2, 0.9, 0.25, 1) both 0.3s;
+}
+.orric-hero .subline {
+  animation: lift-in 0.7s ease both 0.42s;
+}
+.orric-hero .lede {
+  animation: lift-in 0.7s ease both 0.52s;
+}
+.statement {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  max-width: 820px;
+  margin: 0;
+}
+.steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.steps-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+}
+.steps-list .num {
+  color: var(--faint);
+}
+.steps-list p {
+  margin: 0 0 6px;
+}
+.relation {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+}
+.rel-node {
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--card);
+}
+.rel-node p {
+  margin: 0 0 6px;
+}
+.rel-arrow {
+  font-size: 34px;
+  color: var(--muted);
+}
+.links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+}
+@media (max-width: 860px) {
+  .steps-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 520px) {
+  .steps-list {
+    grid-template-columns: 1fr;
+  }
+  .relation {
+    grid-template-columns: 1fr;
+  }
+  .rel-arrow {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mascot,
+  .mascot .eye {
+    animation: none;
+  }
+}

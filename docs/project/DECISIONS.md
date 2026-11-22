@@ -373,5 +373,21 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - **Motion:** a CSS-first hero intro, a marquee, scroll reveals, demo autoplay with a progress bar (stops on first interaction), count-up numbers that end on the real values, smooth tabs and FAQ. All of it is off under `prefers-reduced-motion`; hidden-until-revealed states apply only when JS runs (`boot.js`); no third-party script, the CSP is unchanged.
 - **Tabs:** "Get started" (Terminal, Claude Code / MCP, GitHub Actions, Agents (x402)) and "For AI agents" (skill.md & files, MCP config, API response).
 
+## D-045 — Orric: an AI research agent in the Breakra ecosystem (private preview)
+**Status:** Accepted (owner, 2026-11-22: "approve"; the owner says Orric already runs privately for them).
+
+**Decision:**
+- **Products:** the site shows two products. **Breakra Core** (live): the engine, CLI, MCP server, GitHub Actions recipe and x402 API. **Orric** (private preview): an AI research agent for API compatibility, built on Breakra.
+- **What Orric does:** studies changes in public API repositories, checks them with Breakra, verifies findings, and prepares research for maintainers.
+- **Rules:**
+  - **Breakra decides:** verdicts always come from Breakra's deterministic engine, never from a model. Breakra Core stays deterministic and LLM-free (the V0 rule is unchanged for the product).
+  - **Verified before shared:** nothing is published until it has been re-checked and is reproducible with the free CLI.
+  - **Maintainers first:** findings go to the maintainers privately first; no automated issue spam.
+  - **Honest scope:** compatibility risks in API contracts, not security vulnerabilities.
+  - **Honest status:** Orric is described as a private preview (owner's statement: running privately, not open). No findings, statistics, activity or signup are shown until they exist and are verified; no non-functional buttons.
+- **Separate from the token (D-042):** the Orric page doesn't mention $BRKR. The "Research Desk" from the launch post is not named on the site.
+- **Mascot:** an original geometric owl (its body cut diagonally like the Breakra B mark), black and white; Lens and Scout were the alternatives.
+- **Before any public Orric release:** a separate technical decision (model and data handling, rate limits and respectful crawling, the disclosure process, and how findings are reviewed).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

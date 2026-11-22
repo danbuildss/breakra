@@ -8,6 +8,10 @@
 - CLI: `npx -y breakra check old.yaml new.yaml` (exit 0 ok, 1 at or above --fail-on, 2 error = unchecked)
 - MCP: `npx -y breakra mcp` (tool: check_openapi_change)
 
+## Products
+- Breakra Core (live): the CLI, MCP server, GitHub Actions recipe and hosted x402 API above.
+- [Orric](https://breakra.dev/orric) (private preview, not open yet): an AI research agent for API compatibility, built on Breakra. Its verdicts come from Breakra's deterministic engine.
+
 ## Reference
 - [README](https://github.com/danbuildss/breakra#readme)
 - [Rules](https://github.com/danbuildss/breakra/blob/main/RULES.md)

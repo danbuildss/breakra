@@ -267,3 +267,34 @@ describe("works-with row and motion (D-044)", () => {
     expect(read("site/app.js")).toContain('matchMedia("(prefers-reduced-motion: reduce)")');
   });
 });
+
+describe("Orric (D-045)", () => {
+  const orric = read("site/orric.html");
+  const text = (h: string) =>
+    h
+      .split(/<[^>]*>/)
+      .join(" ")
+      .replace(/\s+/g, " ");
+  it("is labelled private preview everywhere it appears, with Breakra Core as the live product", () => {
+    expect(html).toContain('Orric <span class="tag">private preview</span>');
+    const products = html.slice(
+      html.indexOf('id="products"'),
+      html.indexOf("</section>", html.indexOf('id="products"')),
+    );
+    expect(text(products)).toContain("Live Breakra Core");
+    expect(text(products)).toContain("Private preview");
+    expect(text(orric)).toContain("Private preview");
+    expect(text(orric)).toContain("isn't open yet");
+  });
+
+  it("makes no unverified claims: no forms, no findings or numbers, and security only as out of scope", () => {
+    expect(orric).not.toMatch(/<form\b/i);
+    expect(orric).not.toMatch(/<button\b(?![^>]*data-theme-toggle)(?![^>]*class="copy")/i);
+    const main = text(orric.slice(orric.indexOf('<main id="main">'), orric.indexOf("</main>")));
+    expect(main).not.toMatch(/\b\d{2,}\s*(repos|repositories|findings|issues|scans|vulnerabilities)/i);
+    for (const m of main.matchAll(/vulnerabilit\w*/gi)) {
+      expect(main.slice(Math.max(0, m.index - 20), m.index)).toMatch(/not security\s*$/);
+    }
+    expect(main).toContain("never from the model");
+  });
+});
