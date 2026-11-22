@@ -1415,3 +1415,7 @@ The payer wallet is available in your handler via `req.headers.get("x-402-payer"
 - Owner created `danbuildss/aeon-breakra-test` (template copy of aeonfun/aeon), added `CLAUDE_CODE_OAUTH_TOKEN` (first attempt had a line break), merged the install PR #6.
 - `install-skill` is blocked in Actions (allowlist lacks `bin/install-skill-pack`); installed via the documented local-clone fallback (PR #6). Fixed icon + packs.json by hand; integrity lock and docs-parity checks left red (Aeon-side).
 - `breakra-check` demo run #2: BLOCK (major) and SAFE (minor), both `analysis_id`s identical to `expected.json` (and to the Bankr run). Recorded in `integrations/aeon/FINDINGS.md` with five Aeon install-path gaps for their maintainers.
+
+### 2026-11-22: $BRKR launch material, D-042
+- Owner is launching $BRKR on Base via Bankr; approved D-042 (optional token, separate from the product, not on breakra.dev/README/SKILL/package; disclaimers; no partner endorsement claims; Claude never handles keys, trades or deployment).
+- Approved launch creative: accent option B (one red-orange accent, BLOCK only), the token as an end-card line only, square + 16:9 video and three cards. Built outside the repo with Playwright + ffmpeg; sound effects from earshot 1.0.0 (MIT, public-domain-learned designs) in a scratch environment.

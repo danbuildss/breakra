@@ -10,7 +10,7 @@
 4. **Do not implement until the owner approves the next phase/task.** If the owner explicitly assigns a bounded task, that counts as approval for that task only.
 
 ## Permanent operating rules
-- Backend first. No frontend, dashboards, user accounts, token, separate SaaS platform or unrelated product integrations.
+- Backend first. No frontend, dashboards, user accounts, separate SaaS platform or unrelated product integrations. The community token $BRKR is separate from the product and stays off its surfaces (D-042).
 - One core paid operation: `POST /v1/analyze`, comparing two OpenAPI contracts. No continuous monitoring in V0.
 - V0 deterministic; no LLM or database unless a documented need is approved.
 - Prefer well-maintained libraries; evaluate licenses and compatibility before adopting.
