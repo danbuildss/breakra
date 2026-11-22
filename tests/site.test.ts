@@ -358,3 +358,11 @@ describe("status page and analytics (D-046)", () => {
     expect(doc.stats.npm_downloads_last_week).toBe(7);
   });
 });
+
+describe("status uptime label (D-046)", () => {
+  it("shows the number of checks until a week of data exists", () => {
+    const js = read("site/status.js");
+    expect(js).toContain("const FULL = 7 * 96;");
+    expect(js).toMatch(/total < FULL \? `\$\{pct\} · \$\{total\} check/);
+  });
+});

@@ -1714,7 +1714,7 @@ section.wrap .cols-2 + .table-wrap {
 }
 .st-row {
   display: grid;
-  grid-template-columns: 1fr 140px 80px 150px;
+  grid-template-columns: 1fr 140px 80px 170px;
   align-items: center;
   gap: 12px;
   padding: 14px 18px;

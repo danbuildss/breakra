@@ -4,6 +4,7 @@
   const banner = document.getElementById("st-banner");
   if (!banner) return;
   const SRC = banner.dataset.statusSrc;
+  const FULL = 7 * 96; // one week of 15-minute checks
   const $ = (id) => document.getElementById(id);
   const esc = (s) =>
     String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -47,7 +48,10 @@
           total += v[1];
         }
       }
-      return total ? `${((ok / total) * 100).toFixed(total > ok ? 2 : 1)}% (30 d)` : "no data";
+      if (!total) return "no data";
+      const pct = `${((ok / total) * 100).toFixed(total > ok ? 2 : 1)}%`;
+      // Until a week of checks exists, show how many the percentage rests on.
+      return total < FULL ? `${pct} · ${total} check${total === 1 ? "" : "s"}` : `${pct} (30 d)`;
     };
     $("st-list").innerHTML = ids
       .map((id) => {
