@@ -23,6 +23,7 @@ export const PAGES = [
   "contact",
   "brand",
   "blog",
+  "orric",
 ] as const;
 
 /** The text between <!-- name:start --> and <!-- name:end --> (exclusive), or null when the markers are missing. */
