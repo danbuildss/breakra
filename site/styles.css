@@ -1151,3 +1151,15 @@ section.wrap .cols-2 + .table-wrap {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Positioning subline under the homepage headline (D-043) */
+.subline {
+  margin: 18px 0 0;
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.hero .subline + .lede {
+  margin-top: 18px;
+}

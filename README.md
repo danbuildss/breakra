@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="Breakra: the API safety layer for developers and AI agents. OpenAPI 3.0/3.1 compatibility checks: free locally, or $0.02 USDC on Base via x402." width="100%">
+  <img src="docs/assets/hero.svg" alt="Breakra: the API safety layer for developers and AI agents. Catch breaking API changes before they ship. OpenAPI 3.0/3.1 compatibility checks: free locally, or $0.02 USDC on Base via x402." width="100%">
 </p>
 
 <p align="center">
