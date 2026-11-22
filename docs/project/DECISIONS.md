@@ -359,5 +359,19 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - `og.png` and `docs/assets/social-preview.png` were re-rendered; the GitHub social preview must be re-uploaded by the owner.
 - Historical launch images (`x-launch.*`, `x-demo.png`) keep their old text.
 
+## D-044 — Website motion, tabs and a "Works with" row of proven integrations
+**Status:** Accepted (owner, 2026-11-22: "i approve all, yes x402 agents, build it").
+
+**Decision:**
+- **Works with** (homepage, a moving logo row): only integrations proven to work, each with recorded evidence:
+  - **Claude Code:** `claude mcp add --scope local breakra -- npx -y breakra@0.2.2 mcp`, then `claude mcp list` reported "Connected" (2026-11-22).
+  - **Any MCP client:** the official MCP Inspector 2.16.0 listed `check_openapi_change` and called it on `integrations/fixtures/breaking`: `verdict: block`, `analysis_id` `…09cb39` (2026-11-22).
+  - **GitHub Actions:** a real run of `.github/workflows/contract-check.yml` on PR #52 (`verdict: safe`, 0 changes). The first run found that `npx breakra` can't run inside Breakra's own repo (its package.json is named `breakra`), so that workflow runs from `$RUNNER_TEMP`; other repos are unaffected.
+  - **Bankr agents:** `integrations/bankr/FINDINGS.md` (2026-11-20). **x402 agents:** the live hosted API (v8, V0 pass 2026-11-22).
+  - Not listed until proven: Cursor, Codex, Windsurf; Aeon (its pack install is broken on Aeon's side).
+- **Logos:** official marks only (Simple Icons CC0 data for Claude, GitHub Actions, MCP; the x402 wordmark from its Apache-2.0 repo; Bankr's logo from its docs), shown in monochrome, served from `site/logos/works/` with credits; nominative use, no endorsement implied. Bankr was told it may ask for removal.
+- **Motion:** a CSS-first hero intro, a marquee, scroll reveals, demo autoplay with a progress bar (stops on first interaction), count-up numbers that end on the real values, smooth tabs and FAQ. All of it is off under `prefers-reduced-motion`; hidden-until-revealed states apply only when JS runs (`boot.js`); no third-party script, the CSP is unchanged.
+- **Tabs:** "Get started" (Terminal, Claude Code / MCP, GitHub Actions, Agents (x402)) and "For AI agents" (skill.md & files, MCP config, API response).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

@@ -230,3 +230,40 @@ describe("logo (brand kit)", () => {
     expect(read("site/og.png").length).toBe(read("docs/assets/social-preview.png").length);
   });
 });
+
+describe("works-with row and motion (D-044)", () => {
+  it("lists only integrations proven to work, each with a local logo file", () => {
+    const items = [...html.matchAll(/<ul class="marquee-track">([\s\S]*?)<\/ul>/g)][0]?.[1] ?? "";
+    const names = [...items.matchAll(/<li>[\s\S]*?>\s*([^<]+?)\s*<\/li>/g)].map((m) => m[1]);
+    // Proof for each: Claude Code (claude mcp list: Connected), GitHub Actions (contract-check.yml run),
+    // Bankr agents (integrations/bankr/FINDINGS.md), x402 agents (live hosted API), MCP (official Inspector).
+    expect(names).toEqual(["Claude Code", "GitHub Actions", "Bankr agents", "agents", "Any MCP client"]);
+    for (const m of items.matchAll(/src="(\/logos\/works\/[^"]+)"/g)) {
+      expect(() => read(`site${m[1]}`), m[1]).not.toThrow();
+    }
+    expect(read("site/logos/works/CREDITS.md")).toContain("no endorsement implied");
+  });
+
+  it("motion is progressive and respects reduced motion", () => {
+    expect(read("site/boot.js").trim()).toBe('document.documentElement.classList.add("js");');
+    const { PAGES } = {
+      PAGES: [
+        "index",
+        "integrations",
+        "benchmark",
+        "security",
+        "compare",
+        "pricing",
+        "about",
+        "contact",
+        "brand",
+        "blog",
+      ],
+    };
+    for (const p of PAGES) expect(read(`site/${p}.html`), p).toContain('<script src="/boot.js"></script>');
+    const css = read("site/styles.css");
+    expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(css).toMatch(/\.js \[data-reveal\] \{/); // hidden states only apply when JS runs
+    expect(read("site/app.js")).toContain('matchMedia("(prefers-reduced-motion: reduce)")');
+  });
+});

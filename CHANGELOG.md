@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **Website:** a moving "Works with" row of proven integrations (Claude Code, GitHub Actions, Bankr agents, x402 agents, any MCP client), tabs for Get started and For AI agents, and motion throughout (respects reduced-motion; works without JavaScript) (D-044).
+- **CI:** Breakra checks its own `openapi.json` on pull requests (`.github/workflows/contract-check.yml`).
 - **Positioning** (D-043): "The API safety layer for developers and AI agents." Updated the website, README, `VISION.md`, SKILL.md title, `llms.txt`, package, MCP Registry and Bankr listing descriptions, the CLI usage line and the social preview. The docs state that "safety" means contract compatibility, not security scanning. No functional change.
 - **Partner proof kits** (`integrations/`): a Bankr kit (install the skill from GitHub, two-message hosted check) and an Aeon community skill pack (`breakra-check`, read-only, pinned to `breakra@0.2.2`), with shared fixtures and engine-generated expected results.
 - **GitHub Actions example** (`examples/github-actions/breakra.yml`): fail a pull request when its OpenAPI contract may break callers, using the free CLI. Tested end to end in a temporary git repository (`tests/examples.test.ts`); the same file is shown on breakra.dev/integrations.
