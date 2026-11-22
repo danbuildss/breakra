@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Status page** (D-046): breakra.dev/status shows the health of the hosted API, the breakra.dev forward, the website, agent files, npm package and MCP Registry entry, checked every 15 minutes by GitHub Actions (unpaid checks; results stored on a `status` branch). Also npm downloads, a "What we build" section on About, and private, cookieless Vercel Web Analytics and Speed Insights.
 - **Orric** (D-045): a Products section on the homepage and a new `/orric` page introducing Orric, an AI research agent for API compatibility built on Breakra, in private preview.
 - **Website:** a moving "Works with" row of proven integrations (Claude Code, GitHub Actions, Bankr agents, x402 agents, any MCP client), tabs for Get started and For AI agents, and motion throughout (respects reduced-motion; works without JavaScript) (D-044).
 - **CI:** Breakra checks its own `openapi.json` on pull requests (`.github/workflows/contract-check.yml`).

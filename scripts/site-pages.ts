@@ -24,6 +24,7 @@ export const PAGES = [
   "brand",
   "blog",
   "orric",
+  "status",
 ] as const;
 
 /** The text between <!-- name:start --> and <!-- name:end --> (exclusive), or null when the markers are missing. */
