@@ -329,5 +329,19 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 - **Docs.** Public docs mention `npx breakra` only **after** the package is published and verified (a follow-up PR).
 - `mcpName: io.github.danbuildss/breakra` is set for the MCP Registry (PR C).
 
+## D-042 — $BRKR: an optional community token, separate from the product
+**Status:** Accepted (owner: "yes to D-042", 2026-11-22). **Amends** the permanent rule "no … token" in `CLAUDE.md` and the website plan's "no tokens".
+
+**Context:** the owner is launching $BRKR on Base through Bankr to explore a community around open-source API safety, contributions and public research (the planned "Breakra Research Desk", not yet built).
+
+**Decision:**
+- **Separate from the product.** $BRKR is optional. Using Breakra never requires it: the free CLI and MCP server stay free, and the hosted API keeps charging USDC via x402 ($0.02 per check). Holding it gives no equity, no API revenue rights and no guaranteed returns.
+- **Not on the product surfaces for now.** No $BRKR on breakra.dev, in the README, SKILL.md, package, API or engine. The token lives on X and Bankr. Changing that needs a new decision.
+- **Launch material** (video, graphics) is produced outside the repo and shown to the owner before posting. It states the disclaimers, makes no price or return claims, and names no partner (Bankr, Aeon) as an endorser unless they agree.
+- **Claude never handles token keys, wallets, trades or the contract deployment;** the owner does all of that. The contract address is published by the owner only.
+- **Research Desk:** described as planned until something exists; it gets its own decision before any build.
+
+**Consequences:** `CLAUDE.md`'s "no … token" rule now points here. The product roadmap and the D-040 success test are unchanged.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
