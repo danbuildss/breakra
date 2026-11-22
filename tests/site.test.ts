@@ -245,7 +245,9 @@ describe("works-with row and motion (D-044)", () => {
   });
 
   it("motion is progressive and respects reduced motion", () => {
-    expect(read("site/boot.js").trim()).toBe('document.documentElement.classList.add("js");');
+    const bootJs = read("site/boot.js").trim();
+    expect(bootJs).toContain('document.documentElement.classList.add("js");');
+    expect(bootJs).toContain("Vercel Web Analytics");
     const { PAGES } = {
       PAGES: [
         "index",
