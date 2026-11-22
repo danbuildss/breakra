@@ -33,4 +33,8 @@ jobs:
             exit 0
           fi
           git show "origin/$BASE:$SPEC" > "$RUNNER_TEMP/base-contract"
-          npx -y breakra@0.2.2 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"
+          cp "$SPEC" "$RUNNER_TEMP/pr-contract"
+          # Run from outside the checkout: this repo's own package.json is named "breakra", and npx would
+          # resolve that unbuilt local package instead of downloading the published one.
+          cd "$RUNNER_TEMP"
+          npx -y breakra@0.2.2 check base-contract pr-contract --fail-on "$FAIL_ON"
