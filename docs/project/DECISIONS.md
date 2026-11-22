@@ -343,5 +343,21 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Consequences:** `CLAUDE.md`'s "no … token" rule now points here. The product roadmap and the D-040 success test are unchanged.
 
+## D-043 — Positioning: "The API safety layer for developers and AI agents"
+**Status:** Accepted (owner, 2026-11-22: "We're adopting this as our primary tagline").
+
+**Context:** since D-039 the messaging said "the contract-safety check for AI agents" and "Know what breaks before your agent ships", which reads as agents only. Breakra serves two audiences: developers building software (terminal, CI) and AI coding agents writing or modifying it (CLI, MCP, x402 API).
+
+**Decision:**
+- **Primary tagline:** "The API safety layer for developers and AI agents." Used as the homepage headline, page titles and social previews, package and registry descriptions, the README, `VISION.md`, the SKILL.md title and the brand kit.
+- **Supporting line:** check whether an API contract change will break existing integrations before it ships; developers run it from the terminal or CI, agents call it through the CLI, MCP or the x402 API.
+- **Scope stated plainly:** "safety" means **compatibility** of OpenAPI contracts. Breakra is not a security vulnerability scanner, doesn't test running APIs and doesn't read code. The homepage FAQ, README and `llms.txt` say so.
+- **Unchanged:** functionality, the engine, prices, the SKILL.md frontmatter description (functional text that skill directories match on), and the public API contract (only `openapi.json`'s introductory sentence changed).
+
+**Consequences:**
+- The Bankr listing text (`scripts/build.ts`) and `server.json` take effect only at the next Bankr redeploy and the next MCP Registry publish, both done by the owner.
+- `og.png` and `docs/assets/social-preview.png` were re-rendered; the GitHub social preview must be re-uploaded by the owner.
+- Historical launch images (`x-launch.*`, `x-demo.png`) keep their old text.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

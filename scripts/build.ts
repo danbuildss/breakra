@@ -64,7 +64,7 @@ const config = {
       paymentScheme: "exact",
       methods: ["POST"],
       description:
-        "Contract-safety check for AI agents. Compare two OpenAPI 3.0/3.1 contracts (inline before/after, JSON or YAML, up to 1 MB). Returns a verdict (safe/review/block), a suggested semver bump, and every change classified with evidence and a recommended fix. Optional `uses` filters findings to the operations you call. Deterministic. Only a 200 is charged; Breakra's own errors are never charged. Agent guide: https://breakra.dev/skill.md",
+        "The API safety layer for developers and AI agents. Compare two OpenAPI 3.0/3.1 contracts (inline before/after, JSON or YAML, up to 1 MB). Returns a verdict (safe/review/block), a suggested semver bump, and every change classified with evidence and a recommended fix. Optional `uses` filters findings to the operations you call. Deterministic. Only a 200 is charged; Breakra's own errors are never charged. Agent guide: https://breakra.dev/skill.md",
       schema: {
         input: {
           type: "object",

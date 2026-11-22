@@ -1,7 +1,7 @@
 {
   "name": "breakra",
   "version": "0.2.2",
-  "description": "Contract-safety checks for AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and fixes. Free local CLI and MCP server.",
+  "description": "The API safety layer for developers and AI agents: compare two OpenAPI 3.0/3.1 contracts (JSON or YAML) and get a safe/review/block verdict, evidence and fixes. Free local CLI and MCP server; hosted API via x402.",
   "keywords": [
     "openapi",
     "breaking-changes",
