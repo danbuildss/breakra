@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: danbuildss/breakra-action@v1.0.0
+      - uses: danbuildss/breakra-action@v1.1.0
         with:
           spec: openapi.yaml
-          fail-on: block # or review: also fail on potentially breaking changes
+          fail-on: review # default; block fails only when an operation is removed

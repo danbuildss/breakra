@@ -191,10 +191,10 @@ claude mcp add --scope user breakra -- npx -y breakra mcp
         <figure class="panel">
           <figcaption><span>.github/workflows/api-contract.yml</span><span class="muted">comments on the pull request</span></figcaption>
 <pre><code><span class="c"># the official action: a pass/fail check plus one comment with each change and its fix</span>
-- uses: danbuildss/breakra-action@v1.0.0
+- uses: danbuildss/breakra-action@v1.1.0
   with:
     spec: openapi.yaml
-    fail-on: block <span class="c"># or review</span></code></pre>
+    fail-on: review <span class="c"># default; or block</span></code></pre>
         </figure>
         <p class="hint muted">Full workflow and options: <a href="/integrations#ci">Integrations → GitHub Actions</a>.</p>
         </div>

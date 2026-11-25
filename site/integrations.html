@@ -99,12 +99,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: danbuildss/breakra-action@v1.0.0
+      - uses: danbuildss/breakra-action@v1.1.0
         with:
           spec: openapi.yaml
-          fail-on: block # or review</code></pre>
+          fail-on: review # default; or block</code></pre>
       </figure>
-      <p><code>block</code> fails when an operation is removed; <code>review</code> also fails on changes that may break callers, such as a new required parameter or a removed response field. Full options: <a href="https://github.com/danbuildss/breakra-action">breakra-action</a>.</p>
+      <p><code>review</code> (the default) fails on changes that may break callers, such as a new required parameter or a removed response field; <code>block</code> fails only when an operation is removed. Full options: <a href="https://github.com/danbuildss/breakra-action">breakra-action</a>.</p>
       <p>Prefer no third-party action? The same check as a plain workflow, tested, is in <a href="https://github.com/danbuildss/breakra/tree/main/examples/github-actions">examples/github-actions</a>. Exit codes: <code>0</code> below <code>--fail-on</code>, <code>1</code> at or above it, <code>2</code> error (unchecked, never "safe").</p>
       <figure class="panel">
         <figcaption><span>.github/workflows/breakra.yml</span><span class="muted">pin the version</span></figcaption>
