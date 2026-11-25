@@ -189,14 +189,14 @@ claude mcp add --scope user breakra -- npx -y breakra mcp
         </div>
         <div class="tabpane" role="tabpanel" id="gs-ci" aria-labelledby="gs-tab-ci" hidden>
         <figure class="panel">
-          <figcaption><span>in CI</span><span class="muted">exit 0 ok · 1 fail · 2 error</span></figcaption>
-<pre><code><span class="c"># fail the build on breaking changes (2 = unchecked, never "safe")</span>
-npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on block
-
-<span class="c"># stricter: also stop on potentially breaking / unknown</span>
-npx -y breakra@0.2.2 check main.yaml pr.yaml --fail-on review</code></pre>
+          <figcaption><span>.github/workflows/api-contract.yml</span><span class="muted">comments on the pull request</span></figcaption>
+<pre><code><span class="c"># the official action: a pass/fail check plus one comment with each change and its fix</span>
+- uses: danbuildss/breakra-action@v1.0.0
+  with:
+    spec: openapi.yaml
+    fail-on: block <span class="c"># or review</span></code></pre>
         </figure>
-        <p class="hint muted">A complete, tested workflow: <a href="/integrations#ci">Integrations → GitHub Actions</a>.</p>
+        <p class="hint muted">Full workflow and options: <a href="/integrations#ci">Integrations → GitHub Actions</a>.</p>
         </div>
         <div class="tabpane" role="tabpanel" id="gs-x402" aria-labelledby="gs-tab-x402" hidden>
         <figure class="panel">

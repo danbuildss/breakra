@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **GitHub Action** (D-047): [`danbuildss/breakra-action`](https://github.com/danbuildss/breakra-action) `v1.0.0` on the GitHub Marketplace. One step checks every pull request that changes your OpenAPI contract, keeps one comment with each change, its reason and fix, and fails the check at `block` or `review`. Breakra's own contract check uses it; the site and examples show it.
 - **Status page** (D-046): breakra.dev/status shows the health of the hosted API, the breakra.dev forward, the website, agent files, npm package and MCP Registry entry, checked every 15 minutes by GitHub Actions (unpaid checks; results stored on a `status` branch). Also npm downloads, a "What we build" section on About, and private, cookieless Vercel Web Analytics and Speed Insights.
 - **Orric** (D-045): a Products section on the homepage and a new `/orric` page introducing Orric, an AI research agent for API compatibility built on Breakra, in private preview.
 - **Website:** a moving "Works with" row of proven integrations (Claude Code, GitHub Actions, Bankr agents, x402 agents, any MCP client), tabs for Get started and For AI agents, and motion throughout (respects reduced-motion; works without JavaScript) (D-044).

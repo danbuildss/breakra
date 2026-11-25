@@ -105,3 +105,27 @@ describe("the workflow on breakra.dev/integrations", () => {
     expect(page).toContain(`<pre><code>${escaped}</code></pre>`);
   });
 });
+
+describe("the official action (D-047)", () => {
+  const ACTION = "danbuildss/breakra-action@v1.0.0";
+  const example = parse(read("examples/github-actions/breakra-action.yml"));
+  const self = parse(read(".github/workflows/contract-check.yml"));
+  const actionStep = (wf: any) =>
+    wf.jobs.breakra.steps.find((s: { uses?: string }) => s.uses?.includes("breakra-action"));
+
+  it("the example and Breakra's own check use the same pinned release", () => {
+    expect(actionStep(example).uses).toBe(ACTION);
+    expect(actionStep(self).uses).toBe(ACTION);
+    expect(actionStep(self).with).toEqual({ spec: "openapi.json", "fail-on": "block" });
+  });
+
+  it("the example asks only for what the action needs, and watches the file it checks", () => {
+    expect(example.permissions).toEqual({ contents: "read", "pull-requests": "write" });
+    expect(example.on.pull_request.paths).toEqual([actionStep(example).with.spec]);
+    expect(Object.keys(example.on)).toEqual(["pull_request"]); // never pull_request_target
+  });
+
+  it("breakra.dev shows the same pinned release", () => {
+    for (const page of ["site/index.html", "site/integrations.html"]) expect(read(page)).toContain(ACTION);
+  });
+});
