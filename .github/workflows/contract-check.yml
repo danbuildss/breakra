@@ -10,15 +10,31 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   breakra:
     runs-on: ubuntu-latest
+    env:
+      SPEC: openapi.json
+      FAIL_ON: block
     steps:
-      - uses: actions/checkout@v4
-      # TEST ONLY (throwaway PR, not for merge): the new action, pinned to its PR commit.
-      - uses: danbuildss/breakra-action@88908561eb95f5d9b9646eaec4e4b5315328e515
+      - uses: actions/checkout@v7
         with:
-          spec: openapi.json
-          fail-on: review
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Compare the contract with the base branch
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          if ! git cat-file -e "origin/$BASE:$SPEC" 2>/dev/null; then
+            echo "$SPEC is new on this branch: nothing to compare."
+            exit 0
+          fi
+          git show "origin/$BASE:$SPEC" > "$RUNNER_TEMP/base-contract"
+          cp "$SPEC" "$RUNNER_TEMP/pr-contract"
+          # Run from outside the checkout: this repo's own package.json is named "breakra", and npx would
+          # resolve that unbuilt local package instead of downloading the published one.
+          cd "$RUNNER_TEMP"
+          npx -y breakra@0.2.2 check base-contract pr-contract --fail-on "$FAIL_ON"
