@@ -87,7 +87,25 @@
     </section>
     <section class="wrap" id="ci" aria-labelledby="ci-h">
       <h2 id="ci-h" class="label">GitHub Actions</h2>
-      <p>Fail a pull request when its OpenAPI file breaks callers. This is a plain workflow using the CLI; an official GitHub Action is on the roadmap. The same file, tested, is in <a href="https://github.com/danbuildss/breakra/tree/main/examples/github-actions">examples/github-actions</a>. Exit codes: <code>0</code> below <code>--fail-on</code>, <code>1</code> at or above it, <code>2</code> error (unchecked, never "safe").</p>
+      <p>Fail a pull request when its OpenAPI file may break callers. The official <a href="https://github.com/danbuildss/breakra-action">Breakra action</a> adds one step: a comment on the pull request with every change, why it matters and how to fix it (updated on each push), and a pass/fail check. Free; it runs the open-source CLI on the runner, so nothing is sent anywhere.</p>
+      <figure class="panel">
+        <figcaption><span>.github/workflows/api-contract.yml</span><span class="muted">official action</span></figcaption>
+<pre><code>permissions:
+  contents: read
+  pull-requests: write # for the comment
+
+jobs:
+  breakra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: danbuildss/breakra-action@v1.0.0
+        with:
+          spec: openapi.yaml
+          fail-on: block # or review</code></pre>
+      </figure>
+      <p><code>block</code> fails when an operation is removed; <code>review</code> also fails on changes that may break callers, such as a new required parameter or a removed response field. Full options: <a href="https://github.com/danbuildss/breakra-action">breakra-action</a>.</p>
+      <p>Prefer no third-party action? The same check as a plain workflow, tested, is in <a href="https://github.com/danbuildss/breakra/tree/main/examples/github-actions">examples/github-actions</a>. Exit codes: <code>0</code> below <code>--fail-on</code>, <code>1</code> at or above it, <code>2</code> error (unchecked, never "safe").</p>
       <figure class="panel">
         <figcaption><span>.github/workflows/breakra.yml</span><span class="muted">pin the version</span></figcaption>
 <pre><code># Breakra: fail a pull request when its OpenAPI contract may break callers.

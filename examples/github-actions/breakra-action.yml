@@ -1,0 +1,23 @@
+# Breakra GitHub Action: check every pull request that changes your OpenAPI contract.
+# Copy to .github/workflows/api-contract.yml and set `spec` (and the paths filter) to your contract.
+# Free: runs the open-source CLI on the runner; nothing is sent anywhere. https://github.com/danbuildss/breakra-action
+name: API contract
+
+on:
+  pull_request:
+    paths:
+      - openapi.yaml
+
+permissions:
+  contents: read
+  pull-requests: write # for the result comment; without it the result is in the job summary
+
+jobs:
+  breakra:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: danbuildss/breakra-action@v1.0.0
+        with:
+          spec: openapi.yaml
+          fail-on: block # or review: also fail on potentially breaking changes

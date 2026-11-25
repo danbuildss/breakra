@@ -404,5 +404,21 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Consequences:** "no continuous monitoring in V0" concerns the product (`/v1/analyze`); this is health monitoring of Breakra's own services, not a product feature. The owner enables Web Analytics and Speed Insights in the Vercel project settings; until then the two scripts 404 harmlessly.
 
+## D-047 — Official Breakra GitHub Action
+**Status:** Accepted (owner, 2026-11-25: "i approve" the plan, created `danbuildss/breakra-action`, made it public, published `v1.0.0` on the GitHub Marketplace).
+
+**Context:** repeat usage is the goal for the 2027-01-31 test; a check that runs on every pull request is the most direct path. Copying a plain workflow was the only CI option.
+
+**Decision:**
+- **Where:** a separate public repo, `danbuildss/breakra-action` (GitHub requires a Marketplace action's metadata at the repo root; the main repo stays as is). MIT.
+- **What:** a composite action with one dependency-free Node script. It fetches the pull request's base commit, runs the **pinned** `breakra` CLI (`0.2.2`) with npx outside the checkout, writes the report to the job summary, and keeps **one pull-request comment per contract** (updated on each push; a SAFE result never opens one). Inputs: `spec`, `fail-on`, `use`, `comment`, `base`, `version`, `github-token`. Outputs: `verdict`, `breaking_count`, `analysis_id`, `result_file`.
+- **Honest results:** a contract that can't be checked fails as "unchecked" (exit 2), never passes. The default stays `fail-on: block` (as approved); the docs say plainly that only a removed operation is BLOCK and that most real breakages are REVIEW.
+- **Security:** `pull_request` only (not `pull_request_target`), the job token only, contract text escaped before it reaches Markdown, inputs validated, no shell interpolation.
+- **Free and private:** nothing is sent to Breakra; it doesn't use x402. Breakra's own `contract-check.yml` uses it; the plain workflow example stays for people who prefer no third-party action.
+
+**Evidence:** 11/11 action tests (including end-to-end runs with the published CLI); a real run on a throwaway pull request (danbuildss/breakra#58, closed unmerged) posted the REVIEW comment, failed the check, and its `analysis_id` matched a local run.
+
+**Open:** the floating `v1` tag (this session can't push tags); the default `fail-on` (owner to decide before many people adopt it).
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

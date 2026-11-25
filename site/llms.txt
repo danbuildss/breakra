@@ -9,7 +9,7 @@
 - MCP: `npx -y breakra mcp` (tool: check_openapi_change)
 
 ## Products
-- Breakra Core (live): the CLI, MCP server, GitHub Actions recipe and hosted x402 API above.
+- Breakra Core (live): the CLI, MCP server, GitHub Action (danbuildss/breakra-action) and hosted x402 API above.
 - [Orric](https://breakra.dev/orric) (private preview, not open yet): an AI research agent for API compatibility, built on Breakra. Its verdicts come from Breakra's deterministic engine.
 
 ## Reference
