@@ -420,5 +420,18 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Open:** the floating `v1` tag (this session can't push tags); the default `fail-on` (owner to decide before many people adopt it).
 
+## D-048 — Private Orric desk at breakra.dev/orric/desk
+**Status:** Accepted (owner, 2026-11-25: approved the design (Orric Dashboard Sketch) and handed over the files to add).
+
+**Context:** the owner wants one place to see Orric's weekly output (Shiplog draft, opportunities, counter, Breakra issues, to-dos). The permanent rules say "no dashboards"; this is an owner-only page, approved explicitly, with no accounts and no data on the site.
+
+**Decision:**
+- Three static files in `site/orric/` (`desk.html`, `desk.css`, `desk.js`), from Orric's handoff, unchanged except: formatting, a default `href` on one link (lint), and links from the feed accepted only if they start with `https://`.
+- The page holds no data. It asks for the owner's fine-grained GitHub key (Contents: read-only on the private `danbuildss/breakra-research`) and reads `desk/desk.json` from the GitHub API. Without a valid key it shows only the sign-in box and makes no request. The key is kept in the browser's session storage, or local storage only if the owner ticks "Remember on this device".
+- Feed values are inserted with `textContent` (the feed contains third-party issue text). The page can't post, comment or contact anyone.
+- A route-specific header block for `/orric/(.*)`: CSP allowing `connect-src https://api.github.com` (only there), `X-Robots-Tag: noindex, nofollow`, `Cache-Control: no-store`. `robots.txt` disallows `/orric/`; not in the sitemap. The public `/orric` page keeps the site-wide policy.
+
+**Consequences:** the desk's script names the private repo (`danbuildss/breakra-research`), so the repo's name is visible to anyone who opens `/orric/desk`; its contents are not. If a key leaks, deleting it on GitHub ends access, and it could only ever read that repo.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.

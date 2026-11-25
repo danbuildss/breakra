@@ -366,3 +366,32 @@ describe("status uptime label (D-046)", () => {
     expect(js).toMatch(/total < FULL \? `\$\{pct\} · \$\{total\} check/);
   });
 });
+
+describe("Orric desk (D-048)", () => {
+  const vercel = JSON.parse(read("vercel.json"));
+  const rule = vercel.headers.find((r: { source: string }) => r.source === "/orric/(.*)");
+  const header = (k: string) => rule.headers.find((h: { key: string }) => h.key === k)?.value;
+  const js = read("site/orric/desk.js");
+
+  it("is private: noindex, no-store, kept out of robots and the sitemap", () => {
+    expect(header("X-Robots-Tag")).toBe("noindex, nofollow");
+    expect(header("Cache-Control")).toBe("no-store");
+    expect(read("site/robots.txt")).toContain("Disallow: /orric/");
+    expect(read("site/sitemap.xml")).not.toContain("/orric/desk");
+    expect(read("site/orric/desk.html")).toContain('<meta name="robots" content="noindex, nofollow">');
+  });
+
+  it("only the desk may call api.github.com; the public /orric page keeps the strict policy", () => {
+    expect(header("Content-Security-Policy")).toContain("connect-src 'self' https://api.github.com");
+    for (const r of vercel.headers) {
+      const csp = r.headers.find((h: { key: string }) => h.key === "Content-Security-Policy")?.value ?? "";
+      if (r.source !== "/orric/(.*)") expect(csp).not.toContain("api.github.com");
+    }
+  });
+
+  it("treats the feed as untrusted: textContent only, https links only, no inline code", () => {
+    expect(js).not.toMatch(/innerHTML|outerHTML|insertAdjacentHTML|document\.write|eval\(/);
+    expect(js).toMatch(/\^https:\\\/\\\//);
+    expect(read("site/orric/desk.html")).not.toMatch(/<script(?![^>]*\bsrc=)|<style|\son\w+=/i);
+  });
+});

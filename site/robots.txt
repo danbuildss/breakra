@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /orric/
 
 Sitemap: https://breakra.dev/sitemap.xml

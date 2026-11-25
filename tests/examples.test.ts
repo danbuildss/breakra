@@ -107,7 +107,7 @@ describe("the workflow on breakra.dev/integrations", () => {
 });
 
 describe("the official action (D-047)", () => {
-  const ACTION = "danbuildss/breakra-action@v1.0.0";
+  const ACTION = "danbuildss/breakra-action@v1.1.0";
   const example = parse(read("examples/github-actions/breakra-action.yml"));
   const self = parse(read(".github/workflows/contract-check.yml"));
   const actionStep = (wf: any) =>
@@ -116,7 +116,7 @@ describe("the official action (D-047)", () => {
   it("the example and Breakra's own check use the same pinned release", () => {
     expect(actionStep(example).uses).toBe(ACTION);
     expect(actionStep(self).uses).toBe(ACTION);
-    expect(actionStep(self).with).toEqual({ spec: "openapi.json", "fail-on": "block" });
+    expect(actionStep(self).with).toEqual({ spec: "openapi.json", "fail-on": "review" });
   });
 
   it("the example asks only for what the action needs, and watches the file it checks", () => {
