@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Orric desk</title>
+<link rel="stylesheet" href="/orric/desk.css">
+<script src="/orric/desk.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-row">
+    <div class="brand"><span class="mark" aria-hidden="true"></span><b>Orric desk</b><span class="muted-inv">private · by Breakra</span></div>
+    <nav aria-label="Sections" class="nav" id="nav" hidden>
+      <a href="#week">This week</a><a href="#opps">Opportunities</a><a href="#counter">Counter</a><a href="#breakra">Breakra issues</a><a href="#todo">Your to-dos</a>
+    </nav>
+    <button type="button" class="btn-ghost-inv" id="signout" hidden>Sign out</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="signin" class="signin" hidden>
+    <h1>Private. Sign in to continue.</h1>
+    <p>Paste your read-only GitHub key. Only a key with access to the private research repository can load anything; everyone else sees nothing.</p>
+    <form id="signin-form">
+      <label for="token">GitHub key (fine-grained, read-only)</label>
+      <input id="token" type="password" autocomplete="off" spellcheck="false" required placeholder="github_pat_…">
+      <label class="check"><input type="checkbox" id="remember"> Remember on this device</label>
+      <button type="submit" class="btn">Open the desk</button>
+      <p class="error" id="signin-error" role="alert"></p>
+    </form>
+    <p class="small">This page stores no research data. It reads the private repo with your key, straight from GitHub, and it can't post, comment or contact anyone.</p>
+  </section>
+
+  <div id="desk" hidden>
+    <div class="head">
+      <div><div class="muted" id="when"></div><h1>This week, in one look</h1></div>
+      <div class="chips" id="status-chips"></div>
+    </div>
+
+    <section id="week" class="row">
+      <div class="card grow">
+        <div class="card-head"><h2>Shiplog draft</h2><div class="chips" id="ship-chips"></div></div>
+        <div class="post" id="ship-post"></div>
+        <div class="callout" id="ship-rec"></div>
+        <div class="actions">
+          <button type="button" class="btn" id="copy-post">Copy post</button>
+          <a class="btn-ghost" id="ship-link" href="https://github.com/danbuildss/breakra-research" target="_blank" rel="noopener">Open on GitHub</a>
+        </div>
+        <details><summary>Thread</summary><ol class="thread" id="ship-thread"></ol></details>
+        <details><summary>Sources for each claim</summary><pre class="pre" id="ship-sources"></pre></details>
+        <details><summary>Full recommendation</summary><pre class="pre" id="ship-rec-full"></pre></details>
+      </div>
+      <div class="card side">
+        <h2>Waiting on you</h2>
+        <ul class="waits" id="waits"></ul>
+        <div class="muted" id="health"></div>
+      </div>
+    </section>
+
+    <section id="opps" class="card">
+      <div class="card-head"><h2>Developer opportunities</h2><div class="muted" id="opp-meta"></div></div>
+      <div class="opps" id="opp-list"></div>
+    </section>
+
+    <section id="counter">
+      <div class="card-head"><h2>Research counter</h2><div class="muted" id="counter-meta"></div></div>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section class="row">
+      <div class="card grow" id="breakra">
+        <h2>Breakra issues found by Orric</h2>
+        <div class="bar" id="bar" role="img"></div>
+        <div class="legend" id="legend"></div>
+        <ul class="plain" id="top-issues"></ul>
+      </div>
+      <div class="card side" id="todo">
+        <h2>Your to-dos</h2>
+        <ul class="todos" id="todos"></ul>
+      </div>
+    </section>
+  </div>
+  <p class="error" id="load-error" role="alert"></p>
+</main>
+</body>
+</html>

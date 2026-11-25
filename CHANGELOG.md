@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **GitHub Action v1.1.0:** `fail-on` defaults to `review`, so new required fields and removed response fields fail the check; `block` keeps the old behaviour. Breakra's own check and the site use it.
 - **GitHub Action** (D-047): [`danbuildss/breakra-action`](https://github.com/danbuildss/breakra-action) `v1.0.0` on the GitHub Marketplace. One step checks every pull request that changes your OpenAPI contract, keeps one comment with each change, its reason and fix, and fails the check at `block` or `review`. Breakra's own contract check uses it; the site and examples show it.
 - **Status page** (D-046): breakra.dev/status shows the health of the hosted API, the breakra.dev forward, the website, agent files, npm package and MCP Registry entry, checked every 15 minutes by GitHub Actions (unpaid checks; results stored on a `status` branch). Also npm downloads, a "What we build" section on About, and private, cookieless Vercel Web Analytics and Speed Insights.
 - **Orric** (D-045): a Products section on the homepage and a new `/orric` page introducing Orric, an AI research agent for API compatibility built on Breakra, in private preview.
