@@ -40,7 +40,12 @@ function silenced<T>(fn: () => T): T {
  * without touching classification (D-013). The library's own breaking/non-breaking labels are discarded.
  */
 export function compareSpecs(before: JsonObject, after: JsonObject): CompareResult {
-  const result = silenced(() => compareOpenApi(structuredClone(before), structuredClone(after)));
+  const result = silenced(() =>
+    compareOpenApi(
+      inlineLeafVariantRefs(structuredClone(before)),
+      inlineLeafVariantRefs(structuredClone(after)),
+    ),
+  );
   const diffs: RawDiff[] = result.diffs.map((d) => ({
     action: d.action as RawDiff["action"],
     path: [...(d.path as Array<string | number>)],
@@ -48,4 +53,53 @@ export function compareSpecs(before: JsonObject, after: JsonObject): CompareResu
     after: d.after as Json | undefined,
   }));
   return { diffs, merged: result.merged as Json };
+}
+
+/**
+ * D-050 (Orric #2): api-smart-diff wraps a bare `{"$ref": …}` option of `anyOf`/`oneOf` in an `allOf` without
+ * resolving it, so an inline enum refactored into a shared component reads as values removed. Replace such an
+ * option with a copy of its target, but only when the target holds no `$ref` itself (no recursion, no growth
+ * beyond one level). Applied to both documents, so it is symmetric. Mutates and returns the given clone.
+ */
+export function inlineLeafVariantRefs(doc: JsonObject): JsonObject {
+  const containsRef = (node: Json): boolean =>
+    Array.isArray(node)
+      ? node.some(containsRef)
+      : node !== null && typeof node === "object"
+        ? typeof node.$ref === "string" || Object.values(node).some(containsRef)
+        : false;
+  const target = (ref: string): Json | undefined => {
+    if (!ref.startsWith("#/")) return undefined;
+    let node: Json | undefined = doc;
+    for (const raw of ref.slice(2).split("/")) {
+      const key = raw.replace(/~1/g, "/").replace(/~0/g, "~");
+      if (node === null || typeof node !== "object" || Array.isArray(node)) return undefined;
+      node = node[key];
+      if (node === undefined) return undefined;
+    }
+    return node;
+  };
+  const visit = (node: Json): void => {
+    if (Array.isArray(node)) {
+      for (const child of node) visit(child);
+      return;
+    }
+    if (node === null || typeof node !== "object") return;
+    for (const kw of ["anyOf", "oneOf"] as const) {
+      const variants = node[kw];
+      if (!Array.isArray(variants)) continue;
+      variants.forEach((v, i) => {
+        if (v === null || typeof v !== "object" || Array.isArray(v)) return;
+        const keys = Object.keys(v);
+        if (keys.length !== 1 || typeof v.$ref !== "string") return;
+        const t = target(v.$ref);
+        if (t !== undefined && t !== null && typeof t === "object" && !Array.isArray(t) && !containsRef(t)) {
+          variants[i] = structuredClone(t);
+        }
+      });
+    }
+    for (const child of Object.values(node)) visit(child);
+  };
+  visit(doc);
+  return doc;
 }

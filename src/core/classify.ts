@@ -325,6 +325,22 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
     ...(keyword ? { keyword } : {}),
   });
 
+  // Anything changed *inside* a documentation keyword or an `x-*` extension at a schema keyword position is
+  // documentation (D-050, Orric #3/#4): e.g. `example: {k: "a"}` → `{k: "b"}`, `x-acme-values: [a]` → `[a, b]`.
+  // A property *named* `x-…` never reaches here as `terminal[0]`: the `properties` step above consumes it.
+  const head = terminal[0];
+  if (terminal.length >= 2 && typeof head === "string" && (META_KEYWORDS.has(head) || isExtension(head))) {
+    return make(ctx, {
+      kind: "schema_documentation_changed",
+      compatibility: "non_contract",
+      direction,
+      operation,
+      location: loc(field, head),
+      reason: `Documentation (\`${head}\`) of ${fieldLabel(field)} in ${subject} changed; no contract impact.`,
+      action: "No action required.",
+    });
+  }
+
   // Whole schema added/removed.
   if (terminal.length === 0) {
     const effect: Effect = addRemoveEffect(d.action, "narrow", "widen");

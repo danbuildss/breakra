@@ -1,0 +1,82 @@
+{
+  "description": "A value inside a schema's example object changes.",
+  "why": "Examples are documentation; found by Orric on OpenAI's spec (D-050).",
+  "before": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/x": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "k": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "k": "a"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "after": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/x": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "k": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "k": "b"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "expect": {
+    "verdict": "safe",
+    "rules": [
+      "response.schema_documentation_changed"
+    ]
+  }
+}
