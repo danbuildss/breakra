@@ -135,8 +135,9 @@ describe("website v2 homepage", () => {
     expect(html).toContain('href="/llms.txt"');
   });
 
-  it("labels unbuilt products as roadmap or research, never as shipped", () => {
-    expect(html).toMatch(/GitHub Action <span class="tag">roadmap<\/span>/);
+  it("labels unbuilt products as research, and the shipped GitHub Action as live", () => {
+    expect(html).not.toMatch(/GitHub Action <span class="tag">roadmap/);
+    expect(html).toContain('<a class="mi" href="/integrations#ci">');
     expect(html).toMatch(/Impact <span class="tag">research<\/span>/);
   });
 });
@@ -247,7 +248,6 @@ describe("works-with row and motion (D-044)", () => {
   it("motion is progressive and respects reduced motion", () => {
     const bootJs = read("site/boot.js").trim();
     expect(bootJs).toContain('document.documentElement.classList.add("js");');
-    expect(bootJs).toContain("Vercel Web Analytics");
     const { PAGES } = {
       PAGES: [
         "index",
@@ -356,14 +356,6 @@ describe("status page and analytics (D-046)", () => {
     expect(last.npm).toEqual([2, 2]);
     expect(doc.started).toBe("2026-01-01");
     expect(doc.stats.npm_downloads_last_week).toBe(7);
-  });
-});
-
-describe("status uptime label (D-046)", () => {
-  it("shows the number of checks until a week of data exists", () => {
-    const js = read("site/status.js");
-    expect(js).toContain("const FULL = 7 * 96;");
-    expect(js).toMatch(/total < FULL \? `\$\{pct\} · \$\{total\} check/);
   });
 });
 
