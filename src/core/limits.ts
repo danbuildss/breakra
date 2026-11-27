@@ -28,6 +28,15 @@ export const LIMITS = {
   maxChanges: 500,
   /** Maximum serialized size of each evidence value (before/after). */
   maxEvidenceChars: 1_000,
+  /**
+   * Largest `oneOf`/`anyOf` that may *change* between the two documents (D-050, Orric #16). The diff library
+   * matches the options of a changed union pairwise: measured locally on WorkOS GET /events, 16 options 1.1 s,
+   * 32 → 2.5 s, 64 → 13.8 s, 96 → 48 s, 128→138 → about 120 s (the same 138-option union unchanged: 1.5 s).
+   * Only unions with options both removed/edited and added count: one edited option in 138 already takes 5 s, while
+   * pure additions stay cheap (GitHub's 22 → 35-option anyOf). Bankr runs about 9× slower than local, so the hosted
+   * bound keeps that well under the 30 s gateway cap.
+   */
+  maxChangedUnionOptions: 24,
 } as const;
 
 /** The hosted limits under the name the local profile is compared with. */
@@ -52,4 +61,5 @@ export const LOCAL_LIMITS: Limits = {
   maxNodes: 2_000_000,
   maxOperations: 20_000,
   maxExpandedNodes: 5_000_000,
+  maxChangedUnionOptions: 64,
 };

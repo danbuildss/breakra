@@ -323,3 +323,54 @@ export function validateSpec(
   expandedSize(spec, side, limits);
   return { spec, version, externalRefs };
 }
+
+/**
+ * True when a union has options only in `before` *and* options only in `after` (edited or replaced options), which
+ * the diff library has to match against each other pairwise. Pure additions or pure removals stay cheap: on the
+ * GitHub demo a 22 → 35-option anyOf that only gains options compares in well under a second.
+ */
+function rematched(before: Json[], after: Json[]): boolean {
+  const b = new Set(before.map((o) => JSON.stringify(o)));
+  const a = new Set(after.map((o) => JSON.stringify(o)));
+  return [...b].some((o) => !a.has(o)) && [...a].some((o) => !b.has(o));
+}
+
+/**
+ * Refuses a pair whose largest *changed* `oneOf`/`anyOf` (same location in both documents, different content)
+ * has more options than the bound and both lost and gained options: the diff library then matches options pairwise,
+ * which grows far faster than the union (D-050, Orric #16). Unchanged unions, and unions that only gain or only lose
+ * options, are cheap and allowed.
+ */
+export function checkChangedUnions(
+  before: JsonObject,
+  after: JsonObject,
+  limits: Limits = HOSTED_LIMITS,
+): void {
+  let largest = 0;
+  const walk = (b: Json | undefined, a: Json | undefined): void => {
+    if (b === null || a === null || typeof b !== "object" || typeof a !== "object") return;
+    if (Array.isArray(b) || Array.isArray(a)) {
+      if (Array.isArray(b) && Array.isArray(a))
+        for (let i = 0; i < Math.min(b.length, a.length); i++) walk(b[i], a[i]);
+      return;
+    }
+    for (const kw of ["oneOf", "anyOf"] as const) {
+      const vb = b[kw];
+      const va = a[kw];
+      if (Array.isArray(vb) && Array.isArray(va)) {
+        const options = Math.max(vb.length, va.length);
+        if (options > largest && options > limits.maxChangedUnionOptions && rematched(vb, va))
+          largest = options;
+      }
+    }
+    for (const key of Object.keys(b)) if (key in a) walk(b[key], a[key]);
+  };
+  walk(before, after);
+  if (largest > 0) {
+    throw new BreakraError(
+      "SPEC_TOO_COMPLEX",
+      `A oneOf/anyOf with ${largest} options had options both replaced and added between the documents; Breakra matches such unions option by option, which takes too long above ${limits.maxChangedUnionOptions} options. Compare only the paths you use: extract them, with the components they reference, into smaller files.`,
+      { limit_changed_union_options: limits.maxChangedUnionOptions, union_options: largest },
+    );
+  }
+}
