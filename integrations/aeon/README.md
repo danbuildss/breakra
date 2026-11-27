@@ -1,6 +1,6 @@
 # Breakra × Aeon: skill pack
 
-An optional [Aeon](https://github.com/aeonfun/aeon) skill, `breakra-check`, that checks whether an OpenAPI change may break API callers before it ships, and acts on the verdict. It runs the free, published Breakra CLI (`npx -y breakra@0.3.0`) inside the skill run: no keys, no payment, and the contracts never leave the runner.
+An optional [Aeon](https://github.com/aeonfun/aeon) skill, `breakra-check`, that checks whether an OpenAPI change may break API callers before it ships, and acts on the verdict. It runs the free, published Breakra CLI (`npx -y breakra@0.3.1`) inside the skill run: no keys, no payment, and the contracts never leave the runner.
 
 > **Status:** a community pack maintained by Breakra, not an official Aeon skill. **Verified in a real Aeon run on 2026-11-20** ([findings](FINDINGS.md)).
 

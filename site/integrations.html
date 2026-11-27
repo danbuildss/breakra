@@ -143,7 +143,7 @@ jobs:
             exit 0
           fi
           git show "origin/$BASE:$SPEC" &gt; "$RUNNER_TEMP/base-contract"
-          npx -y breakra@0.3.0 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"</code></pre>
+          npx -y breakra@0.3.1 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"</code></pre>
       </figure>
     </section>
     <section class="wrap" id="scripts" aria-labelledby="scripts-h">
@@ -151,8 +151,8 @@ jobs:
       <p><code>--json</code> prints exactly what the hosted API returns, so scripts, pre-commit hooks and other CI systems can read one stable shape. <code>--use</code> limits the verdict to the operations your code calls.</p>
       <figure class="panel">
         <figcaption><span>shell</span><span class="muted">any CI</span></figcaption>
-<pre><code>npx -y breakra@0.3.0 check old.yaml new.yaml --json &gt; result.json
-npx -y breakra@0.3.0 check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span> --fail-on review</code></pre>
+<pre><code>npx -y breakra@0.3.1 check old.yaml new.yaml --json &gt; result.json
+npx -y breakra@0.3.1 check old.yaml new.yaml --use <span class="s">"GET /orders/{id}"</span> --fail-on review</code></pre>
       </figure>
     </section>
     <section class="wrap" id="x402" aria-labelledby="x402-h">

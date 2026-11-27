@@ -1,6 +1,6 @@
 # Integrations
 
-Small, reproducible proofs that Breakra works inside partner platforms. Each kit uses the published package (`breakra@0.3.0`) or the live hosted API, never a modified engine.
+Small, reproducible proofs that Breakra works inside partner platforms. Each kit uses the published package (`breakra@0.3.1`) or the live hosted API, never a modified engine.
 
 | Kit | How a partner tries it | Status |
 |---|---|---|
