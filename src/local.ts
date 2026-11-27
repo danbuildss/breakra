@@ -2,7 +2,7 @@
  * Free local mode (D-039): the same engine as the hosted API, run on your own machine with no wallet and no
  * network access. Shared by the CLI and the MCP server.
  */
-import { readFileSync, statSync } from "node:fs";
+import { closeSync, fstatSync, openSync, readFileSync } from "node:fs";
 import { type AnalysisResult, analyze } from "./analyze";
 import { BreakraError } from "./core/errors";
 import { LOCAL_LIMITS } from "./core/limits";
@@ -29,24 +29,30 @@ export function readSpecFile(path: string, side: "before" | "after"): JsonObject
       reason,
     });
   };
-  let stat: ReturnType<typeof statSync>;
+  // Open once and check the opened file (fstat), so it can't change between the check and the read.
+  let fd: number;
   try {
-    stat = statSync(path);
+    fd = openSync(path, "r");
   } catch (e) {
     throw unreadable(e);
-  }
-  if (stat.isDirectory()) throw unreadable({ code: "EISDIR" });
-  if (stat.size > LOCAL_LIMITS.maxBodyBytes) {
-    throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file ${label} exceeds 25 MB.`, {
-      side,
-      path: label,
-    });
   }
   let text: string;
   try {
-    text = readFileSync(path, "utf8");
-  } catch (e) {
-    throw unreadable(e);
+    const stat = fstatSync(fd);
+    if (stat.isDirectory()) throw unreadable({ code: "EISDIR" });
+    if (stat.size > LOCAL_LIMITS.maxBodyBytes) {
+      throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file ${label} exceeds 25 MB.`, {
+        side,
+        path: label,
+      });
+    }
+    try {
+      text = readFileSync(fd, "utf8");
+    } catch (e) {
+      throw unreadable(e);
+    }
+  } finally {
+    closeSync(fd);
   }
   return parseWithLocation(text, side, label);
 }
