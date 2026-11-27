@@ -4,6 +4,7 @@
  * stdout carries only protocol messages.
  */
 import { BreakraError } from "./core/errors";
+import { LOCAL_LIMITS } from "./core/limits";
 import { isObject, type JsonObject, parseSpecText } from "./core/validate";
 import { analyzeLocal, formatText } from "./local";
 import { PACKAGE_VERSION } from "./version";
@@ -46,7 +47,12 @@ type Message = { jsonrpc: "2.0"; id?: string | number | null; method?: string; p
 
 function asDoc(value: unknown, side: "before" | "after"): JsonObject {
   if (isObject(value)) return value;
-  if (typeof value === "string") return parseSpecText(value, side);
+  if (typeof value === "string") {
+    if (Buffer.byteLength(value, "utf8") > LOCAL_LIMITS.maxBodyBytes) {
+      throw new BreakraError("PAYLOAD_TOO_LARGE", `"${side}" exceeds 25 MB.`, { side });
+    }
+    return parseSpecText(value, side);
+  }
   throw new BreakraError(
     "INVALID_REQUEST",
     `"${side}" must be an OpenAPI document (object or JSON/YAML text).`,

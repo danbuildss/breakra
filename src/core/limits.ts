@@ -29,3 +29,27 @@ export const LIMITS = {
   /** Maximum serialized size of each evidence value (before/after). */
   maxEvidenceChars: 1_000,
 } as const;
+
+/** The hosted limits under the name the local profile is compared with. */
+export const HOSTED_LIMITS = LIMITS;
+
+/** A set of input bounds: the hosted API's, or the local tools'. */
+export type Limits = { readonly [K in keyof typeof LIMITS]: number };
+
+/**
+ * Local profile (D-049): the CLI, MCP server and GitHub Action run on the caller's own machine, where
+ * Bankr's 30 s gateway cap doesn't apply, so they accept GitHub-scale specs. Measured locally: GitHub's full
+ * REST description (6.3–7 MB, 234k nodes, 1.7M expanded) compares in about 7 s and 400 MB. The expanded-node
+ * bound still stops $ref bombs and pathological sharing: Stripe's spec (150k nodes) expands to about 1.3e12
+ * and is rejected, because the engine would report each shared-schema change once per use (26 s, 4.3 GB,
+ * 280k changes for one release). Output bounds (maxChanges, maxEvidenceChars) and depth stay as hosted, so
+ * the result has the same shape everywhere; analysis_id never depends on limits.
+ */
+export const LOCAL_LIMITS: Limits = {
+  ...LIMITS,
+  /** Per document (one file, or one inline text), not per request. */
+  maxBodyBytes: 25 * 1024 * 1024,
+  maxNodes: 2_000_000,
+  maxOperations: 20_000,
+  maxExpandedNodes: 5_000_000,
+};

@@ -2,6 +2,7 @@ import { canonicalize, canonicalJson, sha256Hex } from "./core/canonical";
 import { type Change, classify } from "./core/classify";
 import { compareSpecs } from "./core/compare";
 import { finalizeChanges, summarize } from "./core/format";
+import { HOSTED_LIMITS, type Limits } from "./core/limits";
 import { type AnalyzeInput, isObject, type JsonObject, validateSpec } from "./core/validate";
 import {
   type Impact,
@@ -48,10 +49,11 @@ export interface AnalysisResult {
 export async function analyze(
   input: AnalyzeInput,
   now: () => number = () => performance.now(),
+  limits: Limits = HOSTED_LIMITS,
 ): Promise<AnalysisResult> {
   const started = now();
-  const before = validateSpec(input.before, "before");
-  const after = validateSpec(input.after, "after");
+  const before = validateSpec(input.before, "before", limits);
+  const after = validateSpec(input.after, "after", limits);
 
   const beforeCanonical = canonicalize(before.spec) as JsonObject;
   const afterCanonical = canonicalize(after.spec) as JsonObject;

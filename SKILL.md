@@ -30,7 +30,7 @@ Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells you whet
 - When upgrading to a new version of a third-party API: "what changed that affects my integration?"
 - When writing release notes or a migration guide: you get a list of changes with reasons and actions, and a suggested semver bump.
 
-Don't use it for: Swagger 2.0, OpenAPI 3.2, contracts given only as URLs (fetch them yourself), or a combined request body over 1 MB.
+Don't use it for: Swagger 2.0, OpenAPI 3.2, contracts given only as URLs (fetch them yourself), or a combined request body over 1 MB on the hosted API (the free local CLI and MCP server accept up to 25 MB per file).
 
 ## Request
 

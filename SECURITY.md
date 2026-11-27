@@ -23,5 +23,5 @@ You'll get an acknowledgement as soon as the maintainer sees it. Please allow ti
 
 - Requests to `https://breakra.dev/api/analyze` are forwarded by Vercel, unchanged, to the Bankr endpoint (D-038); Breakra does not store them there either.
 - Submitted specifications are never stored or logged; logs hold only outcome, size, change count, duration and the paying address.
-- External `$ref`s are never fetched. Inputs are bounded (1 MB, nesting, node, operation and `$ref`-expansion limits).
+- External `$ref`s are never fetched. Inputs are bounded before the diff runs: the hosted API at 1 MB per request, the local tools at 25 MB per file, both with nesting, node, operation and `$ref`-expansion limits (which also stop "ref bombs").
 - Every Breakra error is a non-2xx response with a JSON `error.code`, so Bankr never settles it. A gateway error, timeout or reset (outside Breakra) is an unknown outcome: clients must not re-sign automatically (see SKILL.md and `examples/client.ts`).

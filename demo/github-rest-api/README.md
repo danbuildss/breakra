@@ -50,6 +50,6 @@ A new optional `exclude` query parameter on the timeline; `consumed_amount` and 
 
 ## Limits shown here
 
-- Only six paths. The full GitHub description (about 13 MB) is far over Breakra's 1 MB limit; compare the paths you use.
+- Only six paths, so it fits the hosted API's 1 MB limit. The free local CLI compares the full description: `@octokit/openapi` 22.0.0 → 24.0.0 (about 7 MB each) takes about 8 s, with 3,178 changes (57 breaking).
 - Findings are about the contract, not runtime behaviour.
 - GitHub's API description: © GitHub, distributed by [`github/rest-api-description`](https://github.com/github/rest-api-description) and `@octokit/openapi` under the MIT license.
