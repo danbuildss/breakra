@@ -107,7 +107,7 @@ describe("the workflow on breakra.dev/integrations", () => {
 });
 
 describe("the official action (D-047)", () => {
-  const ACTION = "danbuildss/breakra-action@v1.3.0";
+  const ACTION = "danbuildss/breakra-action@v1.4.0";
   const example = parse(read("examples/github-actions/breakra-action.yml"));
   const self = parse(read(".github/workflows/contract-check.yml"));
   const actionStep = (wf: any) =>
