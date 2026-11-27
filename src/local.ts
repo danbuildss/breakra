@@ -2,31 +2,80 @@
  * Free local mode (D-039): the same engine as the hosted API, run on your own machine with no wallet and no
  * network access. Shared by the CLI and the MCP server.
  */
-import { readFileSync, statSync } from "node:fs";
+import { closeSync, fstatSync, openSync, readFileSync } from "node:fs";
 import { type AnalysisResult, analyze } from "./analyze";
 import { BreakraError } from "./core/errors";
 import { LOCAL_LIMITS } from "./core/limits";
-import { type JsonObject, parseSpecText } from "./core/validate";
+import type { JsonObject } from "./core/validate";
 import { parseUses, type UsedOperation } from "./core/verdict";
+import { parseWithLocation, safeLabel } from "./hints";
 
-/** Reads a local OpenAPI file (JSON or YAML). Same size limit as the hosted API, per document. */
+/** Reads a local OpenAPI file (JSON or YAML), up to 25 MB (D-049). Errors name the file and say why. */
 export function readSpecFile(path: string, side: "before" | "after"): JsonObject {
-  let size: number;
+  const label = safeLabel(path);
+  const unreadable = (e: unknown): BreakraError => {
+    const code = (e as NodeJS.ErrnoException | undefined)?.code;
+    const [reason, why] =
+      code === "ENOENT" || code === "ENOTDIR"
+        ? ["not_found", "no such file"]
+        : code === "EACCES" || code === "EPERM"
+          ? ["permission_denied", "permission denied"]
+          : code === "EISDIR"
+            ? ["is_directory", "it is a folder"]
+            : ["unreadable", "it could not be read"];
+    return new BreakraError("INVALID_REQUEST", `Cannot read the "${side}" file ${label}: ${why}.`, {
+      side,
+      path: label,
+      reason,
+    });
+  };
+  // Open once and check the opened file (fstat), so it can't change between the check and the read.
+  let fd: number;
   try {
-    size = statSync(path).size;
-  } catch {
-    throw new BreakraError("INVALID_REQUEST", `Cannot read the "${side}" file.`, { side });
+    fd = openSync(path, "r");
+  } catch (e) {
+    throw unreadable(e);
   }
-  if (size > LOCAL_LIMITS.maxBodyBytes) {
-    throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file exceeds 25 MB.`, { side });
+  let text: string;
+  try {
+    const stat = fstatSync(fd);
+    if (stat.isDirectory()) throw unreadable({ code: "EISDIR" });
+    if (stat.size > LOCAL_LIMITS.maxBodyBytes) {
+      throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file ${label} exceeds 25 MB.`, {
+        side,
+        path: label,
+      });
+    }
+    try {
+      text = readFileSync(fd, "utf8");
+    } catch (e) {
+      throw unreadable(e);
+    }
+  } finally {
+    closeSync(fd);
   }
-  return parseSpecText(readFileSync(path, "utf8"), side);
+  return parseWithLocation(text, side, label);
 }
 
 /** "GET /orders/{id}" → { method, path }. */
 export function parseUseFlag(text: string): UsedOperation {
   const [method, path, ...rest] = text.trim().split(/\s+/);
-  return parseUses([{ method, path: rest.length ? `${path} ${rest.join(" ")}` : path }])[0] as UsedOperation;
+  try {
+    return parseUses([
+      { method, path: rest.length ? `${path} ${rest.join(" ")}` : path },
+    ])[0] as UsedOperation;
+  } catch (e) {
+    if (e instanceof BreakraError) {
+      throw new BreakraError(
+        "INVALID_REQUEST",
+        `--use "${safeLabel(text).slice(0, 80)}" is not METHOD and path.`,
+        {
+          reason: "use",
+        },
+      );
+    }
+    throw e;
+  }
 }
 
 export async function analyzeLocal(

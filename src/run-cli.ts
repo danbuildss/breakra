@@ -10,6 +10,7 @@
  */
 import { BreakraError } from "./core/errors";
 import type { UsedOperation } from "./core/verdict";
+import { describeError, errorJson } from "./hints";
 import { analyzeLocal, formatText, parseUseFlag, readSpecFile } from "./local";
 import { serveStdio } from "./mcp";
 import { ENGINE_VERSION, PACKAGE_VERSION, RULE_SET_VERSION } from "./version";
@@ -46,7 +47,7 @@ export async function runCli(argv: string[], out = console.log, err = console.er
   }
   const files: string[] = [];
   const uses: UsedOperation[] = [];
-  let json = false;
+  let json = rest.includes("--json");
   let failOn: keyof typeof RANK = "block";
   try {
     for (let i = 0; i < rest.length; i++) {
@@ -56,14 +57,18 @@ export async function runCli(argv: string[], out = console.log, err = console.er
       else if (a === "--fail-on") {
         const v = rest[++i];
         if (v !== "block" && v !== "review")
-          throw new BreakraError("INVALID_REQUEST", "--fail-on must be block or review.");
+          throw new BreakraError("INVALID_REQUEST", "--fail-on must be block or review.", {
+            reason: "usage",
+          });
         failOn = v;
       } else if (a.startsWith("--"))
-        throw new BreakraError("INVALID_REQUEST", `Unknown option ${a.slice(0, 40)}.`);
+        throw new BreakraError("INVALID_REQUEST", `Unknown option ${a.slice(0, 40)}.`, { reason: "usage" });
       else files.push(a);
     }
     if (files.length !== 2)
-      throw new BreakraError("INVALID_REQUEST", "Give exactly two files: <before> <after>.");
+      throw new BreakraError("INVALID_REQUEST", "Give exactly two files: <before> <after>.", {
+        reason: "usage",
+      });
     const result = await analyzeLocal(
       readSpecFile(files[0] as string, "before"),
       readSpecFile(files[1] as string, "after"),
@@ -73,11 +78,13 @@ export async function runCli(argv: string[], out = console.log, err = console.er
     const verdict = result.impact ? result.impact.verdict : result.verdict;
     return RANK[verdict] >= RANK[failOn] ? 1 : 0;
   } catch (e) {
-    err(
+    const be =
       e instanceof BreakraError
-        ? `${e.code}: ${e.message}`
-        : "ANALYSIS_FAILED: the analysis failed unexpectedly.",
-    );
+        ? e
+        : new BreakraError("ANALYSIS_FAILED", "The analysis failed unexpectedly.");
+    // With --json, agents get the hosted API's error body (plus a hint) on stdout; exit 2 means unchecked.
+    if (json) out(errorJson(be));
+    else err(describeError(be));
     return 2;
   }
 }

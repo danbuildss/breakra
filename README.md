@@ -69,6 +69,15 @@ Pin a version in CI or agent configs (`npx -y breakra@0.3.0 …`). From source i
 
 Exit codes: `0` below `--fail-on` (default `block`), `1` at or above it, `2` error. `--json` prints the hosted API's exact result.
 
+Errors say what went wrong, where, and what to do next, without echoing your contract:
+
+```
+INVALID_REQUEST: "after" (new.yaml) is not valid YAML at line 12, column 4.
+→ Fix the syntax at that position and run again.
+```
+
+With `--json`, an error is printed on stdout as the hosted API's error body plus `error.hint` (still exit `2`), so agents can act on the code and the hint.
+
 </details>
 
 <details>
