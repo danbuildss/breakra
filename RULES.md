@@ -26,6 +26,7 @@ Wording rule: findings say "may break", never "will break" (except `operation_re
 Keyword effects:
 - **Narrowing:** adding or tightening `maximum`, `maxLength`, `maxItems`, `maxProperties`, `minimum`, `minLength`, `minItems`, `minProperties`; adding `pattern`, `format`, `multipleOf`, `enum`, `exclusiveMaximum/Minimum: true`, `uniqueItems: true` or `additionalProperties: false`; removing an enum value; removing a `oneOf`/`anyOf` branch; adding an `allOf` branch; `nullable` true → false; `number` → `integer`.
 - **Widening:** the reverse of each of the above, including `integer` → `number`.
+- **A whole `enum` introduced or dropped** is one finding, not one per value (D-050): `enum_introduced` (request: potentially_breaking, the field accepted any value; response: compatible) and `enum_removed` (request: compatible; response: potentially_breaking). Values added to or removed from an existing `enum` are still reported one by one.
 - **Changed (potentially breaking both ways):** any other `type` change; `pattern`, `format` or `multipleOf` replaced; `readOnly`/`writeOnly` changed.
 
 ## Rules

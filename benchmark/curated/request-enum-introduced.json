@@ -1,0 +1,86 @@
+{
+  "description": "A request field that accepted any string now accepts only listed values (an enum is introduced).",
+  "why": "Callers sending other values will be rejected. Found by Orric on a real API (Outline); Breakra 0.3.1 and earlier rated it safe (D-050).",
+  "before": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/documents.viewed": {
+        "post": {
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sort": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "after": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/documents.viewed": {
+        "post": {
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sort": {
+                      "type": "string",
+                      "enum": [
+                        "updatedAt",
+                        "createdAt"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "expect": {
+    "verdict": "review",
+    "rules": [
+      "request.enum_introduced"
+    ]
+  }
+}

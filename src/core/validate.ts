@@ -24,7 +24,7 @@ export interface ValidatedSpec {
   externalRefs: ExternalRef[];
 }
 
-const SUPPORTED_VERSION = /^3\.(0\.[0-4]|1\.[01])$/;
+const SUPPORTED_VERSION = /^3\.(0\.[0-4]|1\.[0-2])$/;
 const HTTP_METHODS = new Set(["get", "put", "post", "delete", "options", "head", "patch", "trace"]);
 
 export function isObject(value: unknown): value is JsonObject {
@@ -274,7 +274,7 @@ export function validateSpec(
   if (!SUPPORTED_VERSION.test(version)) {
     throw new BreakraError(
       "UNSUPPORTED_OPENAPI_VERSION",
-      `The "${side}" document declares OpenAPI ${version.slice(0, 20)}. Only OpenAPI 3.0.0–3.0.4 and 3.1.0–3.1.1 are supported.`,
+      `The "${side}" document declares OpenAPI ${version.slice(0, 20)}. Only OpenAPI 3.0.0–3.0.4 and 3.1.0–3.1.2 are supported.`,
       { side },
     );
   }

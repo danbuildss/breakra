@@ -451,5 +451,20 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Consequences:** a local check of a GitHub-scale pair can use about 400 MB and several seconds; ref bombs are still refused. Release as npm 0.3.0 (owner publishes), then bump the action's default `version`.
 
+## D-050 — Fixing the Breakra issues Orric found
+**Status:** Accepted (owner, 2026-11-27: "approve", after the three-PR plan).
+
+**Context:** Orric (D-045) ran Breakra on real public API histories (30 comparisons, 17 APIs) and confirmed 6 engine issues, each with a self-contained repro (`danbuildss/breakra-research`, `handoff/breakra-engine-fixes.md`). All 6 reproduced on 0.3.1 on 2026-11-27.
+
+**Decision:** fix them in three PRs, most serious first.
+- **PR 1:** #14, a **false SAFE**: an `enum` introduced on a request field that accepted any value was reported as values added. Now one `request.enum_introduced` finding, potentially breaking (one compatible `response.enum_introduced` on the response side). The mirror case, a whole `enum` dropped, which was a false REVIEW on requests, is fixed in the same place (`enum_removed`). Also #1: accept OpenAPI **3.1.2** (3.1.0–3.1.2 explicitly; later versions keep failing closed).
+- **PR 2:** #3 and #4, changes nested in `x-*` extensions or `example` become documentation-only (a property *named* `x-…` is still a contract change); #2, resolve `$ref`s inside `anyOf`/`oneOf` options before comparing.
+- **PR 3:** #16, the 115 s WorkOS `/events` case: make it fast, or refuse such input up front (the hosted API has a 30 s cap).
+- Each fix gets Orric's repro as a curated benchmark case with its expected verdict and rule, plus unit tests.
+
+**Versioning:** these change classifications, so the rule set and engine go to **0.3.0**. The bump, the regenerated outputs (examples, demo, partner-kit ids, site demo, benchmark summary), the 3.1.2 doc updates, npm 0.4.0 and the Bankr redeploy happen **together in one release PR after PR 3**. Until then `main` carries the fixes under the 0.2.0 labels, so no published doc or hosted endpoint claims a version that isn't live. That release changes every `analysis_id`.
+
+**Then:** Orric re-runs its comparisons to confirm the fixes ("6 → 0").
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
