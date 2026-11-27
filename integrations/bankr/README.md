@@ -124,9 +124,9 @@ A matching `analysis_id` proves the answer came from a real Breakra call on exac
 
 ```bash
 git clone --depth 1 https://github.com/danbuildss/breakra && cd breakra/integrations/fixtures
-npx -y breakra@0.2.2 check breaking/before.yaml breaking/after.yaml   # verdict: block, exit 1
-npx -y breakra@0.2.2 check safe/before.yaml safe/after.yaml           # verdict: safe, exit 0
-npx -y breakra@0.2.2 check breaking/before.yaml breaking/after.yaml --json | grep analysis_id
+npx -y breakra@0.3.0 check breaking/before.yaml breaking/after.yaml   # verdict: block, exit 1
+npx -y breakra@0.3.0 check safe/before.yaml safe/after.yaml           # verdict: safe, exit 0
+npx -y breakra@0.3.0 check breaking/before.yaml breaking/after.yaml --json | grep analysis_id
 ```
 
 ## Files

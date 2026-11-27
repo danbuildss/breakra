@@ -65,7 +65,7 @@ npx -y breakra check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review
 claude mcp add --scope user breakra -- npx -y breakra mcp                 # MCP tool: check_openapi_change
 ```
 
-Pin a version in CI or agent configs (`npx -y breakra@0.2.2 …`). From source instead: `git clone --branch v0.2.2 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install && bun src/cli.ts check old.yaml new.yaml`.
+Pin a version in CI or agent configs (`npx -y breakra@0.3.0 …`). From source instead: `git clone --branch v0.3.0 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install && bun src/cli.ts check old.yaml new.yaml`.
 
 Exit codes: `0` below `--fail-on` (default `block`), `1` at or above it, `2` error. `--json` prints the hosted API's exact result.
 
