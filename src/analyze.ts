@@ -3,7 +3,13 @@ import { type Change, classify } from "./core/classify";
 import { compareSpecs } from "./core/compare";
 import { finalizeChanges, summarize } from "./core/format";
 import { HOSTED_LIMITS, type Limits } from "./core/limits";
-import { type AnalyzeInput, isObject, type JsonObject, validateSpec } from "./core/validate";
+import {
+  type AnalyzeInput,
+  checkChangedUnions,
+  isObject,
+  type JsonObject,
+  validateSpec,
+} from "./core/validate";
 import {
   type Impact,
   impactFor,
@@ -62,6 +68,7 @@ export async function analyze(
     sha256Hex(canonicalJson(afterCanonical)),
   ]);
 
+  checkChangedUnions(beforeCanonical, afterCanonical, limits);
   const { diffs, merged } = compareSpecs(beforeCanonical, afterCanonical);
   const all: Change[] = diffs.flatMap((d) => classify(d, merged));
 

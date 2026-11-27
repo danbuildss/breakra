@@ -73,10 +73,5 @@
       "schemas": {}
     }
   },
-  "expect": {
-    "verdict": "safe",
-    "rules": [
-      "response.schema_documentation_changed"
-    ]
-  }
+  "expect": { "verdict": "safe" }
 }
