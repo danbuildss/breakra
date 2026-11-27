@@ -5,7 +5,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { type AnalysisResult, analyze } from "./analyze";
 import { BreakraError } from "./core/errors";
-import { LIMITS } from "./core/limits";
+import { LOCAL_LIMITS } from "./core/limits";
 import { type JsonObject, parseSpecText } from "./core/validate";
 import { parseUses, type UsedOperation } from "./core/verdict";
 
@@ -17,8 +17,8 @@ export function readSpecFile(path: string, side: "before" | "after"): JsonObject
   } catch {
     throw new BreakraError("INVALID_REQUEST", `Cannot read the "${side}" file.`, { side });
   }
-  if (size > LIMITS.maxBodyBytes) {
-    throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file exceeds 1 MB.`, { side });
+  if (size > LOCAL_LIMITS.maxBodyBytes) {
+    throw new BreakraError("PAYLOAD_TOO_LARGE", `The "${side}" file exceeds 25 MB.`, { side });
   }
   return parseSpecText(readFileSync(path, "utf8"), side);
 }
@@ -34,7 +34,11 @@ export async function analyzeLocal(
   after: JsonObject,
   uses?: unknown,
 ): Promise<AnalysisResult> {
-  return analyze({ before, after, ...(uses === undefined ? {} : { uses: parseUses(uses) }) });
+  return analyze(
+    { before, after, ...(uses === undefined ? {} : { uses: parseUses(uses) }) },
+    undefined,
+    LOCAL_LIMITS,
+  );
 }
 
 /** A short human summary: the verdict first, then what to do about each finding that matters. */

@@ -79,6 +79,7 @@
       <ul class="list">
         <li><strong>No fetching.</strong> URLs and external <code>$ref</code>s are never fetched; they're listed in <code>limitations</code>, and the change can't be cleared as safe.</li>
         <li><strong>Bounded before the diff runs:</strong> request ≤ 1 MB, nesting depth 64, 300,000 nodes, 5,000 operations, and 75,000 nodes after expanding local <code>$ref</code>s (stops "ref bombs").</li>
+        <li><strong>Local tools:</strong> the free CLI, MCP server and GitHub Action run on your machine, so they accept up to 25 MB per file, 20,000 operations and 5,000,000 expanded nodes; ref bombs are still refused.</li>
         <li><strong>YAML</strong> is parsed with limits on aliases, duplicate keys and tags.</li>
         <li><strong>Fails closed:</strong> an invalid or unsupported contract is an error, never a verdict; <code>unknown</code> is never treated as safe.</li>
         <li><strong>Untrusted output:</strong> <code>evidence</code>, <code>reason</code> and <code>limitations</code> can quote contract text. Agents must treat them as data, never instructions (<a href="/skill.md">skill.md</a>).</li>

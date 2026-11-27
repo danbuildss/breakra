@@ -1,5 +1,5 @@
 import { BreakraError } from "./errors";
-import { LIMITS } from "./limits";
+import { HOSTED_LIMITS, LIMITS, type Limits } from "./limits";
 import { parseUses, type UsedOperation } from "./verdict";
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
@@ -156,6 +156,7 @@ export function resolveLocalRef(root: JsonObject, ref: string): Json | undefined
 function scan(
   spec: JsonObject,
   side: "before" | "after",
+  limits: Limits = HOSTED_LIMITS,
 ): { localRefs: string[]; externalRefs: ExternalRef[] } {
   const localRefs: string[] = [];
   const externalRefs: ExternalRef[] = [];
@@ -166,14 +167,14 @@ function scan(
   while (stack.length > 0) {
     const { node, depth, pointer } = stack.pop() as { node: Json; depth: number; pointer: string };
     nodes += 1;
-    if (nodes > LIMITS.maxNodes) {
+    if (nodes > limits.maxNodes) {
       throw new BreakraError("SPEC_TOO_COMPLEX", `The "${side}" document has too many elements.`, {
-        limit_nodes: LIMITS.maxNodes,
+        limit_nodes: limits.maxNodes,
       });
     }
-    if (depth > LIMITS.maxDepth) {
+    if (depth > limits.maxDepth) {
       throw new BreakraError("SPEC_TOO_COMPLEX", `The "${side}" document is nested too deeply.`, {
-        limit_depth: LIMITS.maxDepth,
+        limit_depth: limits.maxDepth,
       });
     }
     if (Array.isArray(node)) {
@@ -199,7 +200,11 @@ function scan(
  * Size of the document if every local $ref were inlined, computed without inlining
  * (memoized per node; a $ref cycle counts once). Rejects "ref bombs" before the diff runs.
  */
-export function expandedSize(spec: JsonObject, side: "before" | "after"): number {
+export function expandedSize(
+  spec: JsonObject,
+  side: "before" | "after",
+  limits: Limits = HOSTED_LIMITS,
+): number {
   const memo = new Map<object, number>();
   const inProgress = new Set<object>();
   const sizeOf = (node: Json): number => {
@@ -217,11 +222,11 @@ export function expandedSize(spec: JsonObject, side: "before" | "after"): number
     } else {
       for (const child of Object.values(node)) total += sizeOf(child);
     }
-    if (total > LIMITS.maxExpandedNodes) {
+    if (total > limits.maxExpandedNodes) {
       throw new BreakraError(
         "SPEC_TOO_COMPLEX",
-        `The "${side}" document expands to too many elements once $refs are resolved.`,
-        { limit_expanded_nodes: LIMITS.maxExpandedNodes },
+        `The "${side}" document expands to too many elements once $refs are resolved. Compare only the paths you use: extract them, with the components they reference, into smaller files.`,
+        { limit_expanded_nodes: limits.maxExpandedNodes },
       );
     }
     inProgress.delete(node);
@@ -240,7 +245,11 @@ export function expandedSize(spec: JsonObject, side: "before" | "after"): number
 }
 
 /** Structural checks for an OpenAPI 3.0.x / 3.1.x document. Lenient on optional fields, strict on shape. */
-export function validateSpec(spec: JsonObject, side: "before" | "after"): ValidatedSpec {
+export function validateSpec(
+  spec: JsonObject,
+  side: "before" | "after",
+  limits: Limits = HOSTED_LIMITS,
+): ValidatedSpec {
   const invalid = (message: string, pointer?: string): BreakraError =>
     new BreakraError(
       "INVALID_SPECIFICATION",
@@ -299,18 +308,18 @@ export function validateSpec(spec: JsonObject, side: "before" | "after"): Valida
       }
     }
   }
-  if (operations > LIMITS.maxOperations) {
+  if (operations > limits.maxOperations) {
     throw new BreakraError("SPEC_TOO_COMPLEX", `The "${side}" document has too many operations.`, {
-      limit_operations: LIMITS.maxOperations,
+      limit_operations: limits.maxOperations,
     });
   }
 
-  const { localRefs, externalRefs } = scan(spec, side);
+  const { localRefs, externalRefs } = scan(spec, side, limits);
   for (const ref of new Set(localRefs)) {
     if (resolveLocalRef(spec, ref) === undefined) {
       throw invalid(`$ref "${ref.slice(0, 200)}" does not resolve.`);
     }
   }
-  expandedSize(spec, side);
+  expandedSize(spec, side, limits);
   return { spec, version, externalRefs };
 }

@@ -138,7 +138,8 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 ## Limits and privacy
 
 - OpenAPI **3.0.0–3.0.4 and 3.1.0–3.1.1**, as JSON objects or JSON/YAML text, inline. Not supported: Swagger 2.0, OpenAPI 3.2, URL inputs.
-- Request body ≤ **1 MB**; nesting, operation and `$ref`-expansion limits apply. Over a limit → a free 413 or 422.
+- Hosted API: request body ≤ **1 MB**; nesting, operation and `$ref`-expansion limits apply. Over a limit → a free 413 or 422.
+- Free local CLI, MCP server and GitHub Action: up to **25 MB per file**, 20,000 operations and 5,000,000 nodes once `$ref`s are expanded, so whole GitHub-scale contracts work (GitHub's full REST description: about 8 s). Contracts whose shared schemas expand far beyond that (Stripe's) are refused with a hint to compare only the paths you use.
 - For bodies over **500 KB**, use the direct Bankr URL above rather than `breakra.dev/api/analyze`: the forward adds a hop with its own proxy timeout.
 - External `$ref`s are **never fetched**; they're listed in `limitations`.
 - Submitted contracts are **not stored or logged**. Logs hold only outcome, size, change count, duration and the paying address.

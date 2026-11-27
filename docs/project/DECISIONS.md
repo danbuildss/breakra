@@ -433,5 +433,23 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Consequences:** the desk's script names the private repo (`danbuildss/breakra-research`), so the repo's name is visible to anyone who opens `/orric/desk`; its contents are not. If a key leaks, deleting it on GitHub ends access, and it could only ever read that repo.
 
+## D-049 — Local limits for the CLI, MCP server and GitHub Action
+**Status:** Accepted (owner, 2026-11-27: "approve A", after the measurements below).
+
+**Context:** the input bounds (D-024, D-031) were sized for Bankr's 30 s gateway cap, but the free local tools used the same values, so whole GitHub-scale contracts were refused on the caller's own machine, where no such cap exists (review action #2, 2026-11-25).
+
+**Measured locally (limits lifted, scratch copy):**
+- GitHub's full REST description, `@octokit/openapi` 22.0.0 → 24.0.0 (6.3–7 MB, 234k nodes, 1.7M expanded, 733 paths): 7.2 s, 400 MB, 3,178 changes, verdict block.
+- Stripe, one real release (v2441 → v2442, 8 MB, 150k nodes but about 1.3e12 nodes expanded): 26 s, 4.3 GB, 280,440 changes, because each shared-schema change is reported once per use. Raising limits makes this run, not useful.
+
+**Decision:**
+- Two profiles in `src/core/limits.ts`. **Hosted (unchanged):** 1 MB per request, 300k nodes, 5,000 operations, 75k expanded nodes. **Local:** 25 MB per document, 2M nodes, 20,000 operations, 5M expanded nodes. Depth, `maxChanges` and `maxEvidenceChars` stay the same, so results have one shape everywhere.
+- The checks take the profile as a parameter, defaulting to hosted; only `src/local.ts` (CLI, MCP, Action) passes the local profile. The hosted handler is untouched.
+- `analysis_id` never depends on limits, so results under both profiles are identical.
+- Over the expanded bound, the error now adds a next step: compare only the paths you use.
+- Stripe-scale contracts stay refused (in about 0.6 s). Proper support means reporting each changed shared schema once with the operations it affects: a separate proposal (Part B).
+
+**Consequences:** a local check of a GitHub-scale pair can use about 400 MB and several seconds; ref bombs are still refused. Release as npm 0.3.0 (owner publishes), then bump the action's default `version`.
+
 ## New decision template
 `D-### — Title` | Status | Date | Context | Options | Decision | Rationale | Consequences | Owner approval/evidence.
