@@ -59,14 +59,14 @@
     "benchmark": "bun scripts/benchmark.ts"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.15",
-    "@types/bun": "1.4.2",
+    "@biomejs/biome": "2.6.8",
+    "@types/bun": "1.4.5",
     "@x402/core": "2.32.0",
     "@x402/evm": "2.32.0",
     "api-smart-diff": "1.0.6",
     "typescript": "7.0.2",
-    "viem": "2.57.4",
-    "vitest": "5.0.3",
+    "viem": "2.58.6",
+    "vitest": "5.1.1",
     "yaml": "2.9.1"
   }
 }
