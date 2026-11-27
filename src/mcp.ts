@@ -5,7 +5,8 @@
  */
 import { BreakraError } from "./core/errors";
 import { LOCAL_LIMITS } from "./core/limits";
-import { isObject, type JsonObject, parseSpecText } from "./core/validate";
+import { isObject, type JsonObject } from "./core/validate";
+import { describeError, parseWithLocation } from "./hints";
 import { analyzeLocal, formatText } from "./local";
 import { PACKAGE_VERSION } from "./version";
 
@@ -51,7 +52,7 @@ function asDoc(value: unknown, side: "before" | "after"): JsonObject {
     if (Buffer.byteLength(value, "utf8") > LOCAL_LIMITS.maxBodyBytes) {
       throw new BreakraError("PAYLOAD_TOO_LARGE", `"${side}" exceeds 25 MB.`, { side });
     }
-    return parseSpecText(value, side);
+    return parseWithLocation(value, side);
   }
   throw new BreakraError(
     "INVALID_REQUEST",
@@ -76,7 +77,7 @@ async function callTool(params: unknown) {
       err instanceof BreakraError
         ? err
         : new BreakraError("ANALYSIS_FAILED", "The analysis failed unexpectedly.");
-    return { content: [{ type: "text", text: `${e.code}: ${e.message}` }], isError: true };
+    return { content: [{ type: "text", text: describeError(e) }], isError: true };
   }
 }
 
