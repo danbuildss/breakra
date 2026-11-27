@@ -2,7 +2,6 @@
 
 ## Unreleased
 
-- **Clearer local errors** (review #4): the CLI and MCP server say which file, why (missing, a folder, no permission), where a JSON/YAML syntax error is (line and column), and where an invalid OpenAPI document is wrong (JSON pointer), and end every error with a `→` next step. With `--json`, errors are the hosted API's error body plus `error.hint` on stdout (exit 2). Contract content is never echoed. The hosted API is unchanged.
 - **GitHub Action v1.1.0:** `fail-on` defaults to `review`, so new required fields and removed response fields fail the check; `block` keeps the old behaviour. Breakra's own check and the site use it.
 - **GitHub Action** (D-047): [`danbuildss/breakra-action`](https://github.com/danbuildss/breakra-action) `v1.0.0` on the GitHub Marketplace. One step checks every pull request that changes your OpenAPI contract, keeps one comment with each change, its reason and fix, and fails the check at `block` or `review`. Breakra's own contract check uses it; the site and examples show it.
 - **Status page** (D-046): breakra.dev/status shows the health of the hosted API, the breakra.dev forward, the website, agent files, npm package and MCP Registry entry, checked every 15 minutes by GitHub Actions (unpaid checks; results stored on a `status` branch). Also npm downloads, a "What we build" section on About, and private, cookieless Vercel Web Analytics and Speed Insights.
@@ -13,6 +12,12 @@
 - **Partner proof kits** (`integrations/`): a Bankr kit (install the skill from GitHub, two-message hosted check) and an Aeon community skill pack (`breakra-check`, read-only, pinned to `breakra@0.2.2`), with shared fixtures and engine-generated expected results.
 - **GitHub Actions example** (`examples/github-actions/breakra.yml`): fail a pull request when its OpenAPI contract may break callers, using the free CLI. Tested end to end in a temporary git repository (`tests/examples.test.ts`); the same file is shown on breakra.dev/integrations.
 - **Benchmark** (`benchmark/`, `bun run benchmark`): 11 real version pairs of GitHub's and Stripe's API specs plus 15 curated scenarios with expected outcomes (15/15 pass). Hand-checked findings and known limits (Stripe-scale schemas exceed the limits; position-based `oneOf` comparison can over-report) are documented.
+
+## 0.3.1 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
+
+- **Clearer errors** (review #4): the CLI and MCP server say which file and why (missing, a folder, no permission), where a JSON/YAML syntax error is (line and column), and where an invalid OpenAPI document is wrong (JSON pointer), and end every error with a `→` next step. Contract content is never echoed.
+- `--json` errors: the hosted API's error body plus `error.hint`, on stdout, exit 2.
+- Local files are opened once and checked on that handle, so a file can't change between the size check and the read (CodeQL `js/file-system-race`).
 
 ## 0.3.0 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
 

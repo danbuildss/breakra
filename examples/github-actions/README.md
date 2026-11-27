@@ -28,7 +28,7 @@
 - The log shows the verdict, each finding, its reason and the recommended fix.
 
 ### Notes
-- The version is pinned (`breakra@0.3.0`). Update it deliberately: a new rule set can change verdicts.
+- The version is pinned (`breakra@0.3.1`). Update it deliberately: a new rule set can change verdicts.
 - Pull requests from forks work too: the workflow needs only `contents: read`.
 - Several contracts? Duplicate the step with a different `SPEC`.
 
