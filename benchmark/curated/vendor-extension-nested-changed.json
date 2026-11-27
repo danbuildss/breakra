@@ -1,0 +1,83 @@
+{
+  "description": "A value inside an x-* vendor extension on a response schema changes.",
+  "why": "Extensions carry no contract; found by Orric on OpenAI's spec (975 such changes in one diff) (D-050).",
+  "before": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/x": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "k": {
+                        "type": "string"
+                      }
+                    },
+                    "x-acme-values": [
+                      "a"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "after": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/x": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "k": {
+                        "type": "string"
+                      }
+                    },
+                    "x-acme-values": [
+                      "a",
+                      "b"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "expect": {
+    "verdict": "safe",
+    "rules": [
+      "response.schema_documentation_changed"
+    ]
+  }
+}

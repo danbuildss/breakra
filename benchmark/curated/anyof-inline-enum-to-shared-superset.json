@@ -1,0 +1,111 @@
+{
+  "description": "An inline enum inside anyOf is moved to a shared component that adds a value.",
+  "why": "A common refactor that only widens the request; found by Orric on OpenAI's images endpoints (D-050).",
+  "before": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/img": {
+        "post": {
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fmt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "png",
+                            "jpeg"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": "png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {}
+    }
+  },
+  "after": {
+    "openapi": "3.0.3",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/img": {
+        "post": {
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "fmt": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/Fmt"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": "png"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Fmt": {
+          "type": "string",
+          "enum": [
+            "png",
+            "jpeg",
+            "svg"
+          ]
+        }
+      }
+    }
+  },
+  "expect": {
+    "verdict": "safe",
+    "rules": [
+      "request.enum_value_added"
+    ]
+  }
+}

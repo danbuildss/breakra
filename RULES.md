@@ -27,6 +27,8 @@ Keyword effects:
 - **Narrowing:** adding or tightening `maximum`, `maxLength`, `maxItems`, `maxProperties`, `minimum`, `minLength`, `minItems`, `minProperties`; adding `pattern`, `format`, `multipleOf`, `enum`, `exclusiveMaximum/Minimum: true`, `uniqueItems: true` or `additionalProperties: false`; removing an enum value; removing a `oneOf`/`anyOf` branch; adding an `allOf` branch; `nullable` true → false; `number` → `integer`.
 - **Widening:** the reverse of each of the above, including `integer` → `number`.
 - **A whole `enum` introduced or dropped** is one finding, not one per value (D-050): `enum_introduced` (request: potentially_breaking, the field accepted any value; response: compatible) and `enum_removed` (request: compatible; response: potentially_breaking). Values added to or removed from an existing `enum` are still reported one by one.
+- **Documentation nested in a schema** (D-050): any change inside `example`, `examples`, `description`, `externalDocs`, `xml` or an `x-*` extension at a schema keyword position is `non_contract`. A property *named* `x-…` (under `properties`) is still part of the contract.
+- **`$ref` options of `anyOf`/`oneOf`** (D-050): an option that is only a local `$ref` to a schema with no further `$ref`s is compared as that schema, so moving an inline enum into a shared component is reported by its real effect.
 - **Changed (potentially breaking both ways):** any other `type` change; `pattern`, `format` or `multipleOf` replaced; `readOnly`/`writeOnly` changed.
 
 ## Rules
