@@ -21,7 +21,7 @@ bun run check        # typecheck + lint + 65+ tests + build + smoke test of the 
 ```
 
 `bun run check` writes:
-- `dist/x402/breakra-analyze/index.ts`: one self-contained **minified** file, about 90 KB, no imports (Bankr's deploy API rejected the 137 KB unminified file with 413);
+- `dist/x402/breakra-analyze/index.ts`: one self-contained file, about 97 KB, no imports, minified by Bun and then by terser with single-quoted strings. Bankr's deploy API sends the file inside a JSON body and returns 413 above about 100 KiB of it, so the build fails if the JSON-encoded file is over 100,000 bytes (accepted: 98,572 encoded, v8; rejected: 102,582, the first v9 attempt, and 137 KB unminified);
 - `dist/bankr.x402.json`: service `breakra-analyze`, price `0.02` USDC on Base, POST only, with description and schema.
 
 ## 2b. Tag a release (recommended)

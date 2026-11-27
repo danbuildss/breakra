@@ -6,6 +6,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { minify } from "terser";
 
 const root = join(import.meta.dir, "..");
 const outFile = join(root, "dist/x402/breakra-analyze/index.ts");
@@ -24,6 +25,19 @@ if (!result.success) {
 }
 let code = await (result.outputs[0] as Blob).text();
 
+// Second pass with terser, writing strings in single quotes (D-050 release, Bankr v9). The Bankr CLI uploads the
+// handler inside a JSON body, so every `"` costs two bytes: Bun's output (98,955 bytes, 102,582 JSON-encoded) got
+// a 413, while v8 (95,039 bytes, 98,572 encoded) was accepted, which points at a 100 KiB request limit. Same code,
+// same behaviour; only the encoding of literals and some local names change.
+const tersed = await minify(code, {
+  module: true,
+  compress: { passes: 2 },
+  mangle: true,
+  format: { quote_style: 1 },
+});
+if (!tersed.code) throw new Error("terser produced no output");
+code = tersed.code;
+
 // The minifier renames the handler; re-export it in the literal form Bankr's wrapper recognises (D-025).
 const tail = /export\s*\{\s*([A-Za-z_$][\w$]*)\s+as\s+default\s*\};?\s*$/;
 const match = code.match(tail);
@@ -34,12 +48,6 @@ if (/\bhandler\b/.test(code))
   throw new Error("bundle already uses the identifier `handler`; cannot add the literal export");
 if (/(^|[;}\s])import[\s{(]/.test(code) || /\brequire\(/.test(code))
   throw new Error("bundle still contains imports");
-// Bankr's deploy API accepted 91 KB (v4) and rejected 137 KB with 413 (Phase 3); the exact limit is unknown.
-// Raised from 92 KB for engine 0.2.0 (D-039); Bankr accepted the 94.8 KB bundle (v6, 2026-11-16).
-// A 413 at deploy leaves the live version untouched.
-const MAX_BYTES = 99_000;
-if (code.length > MAX_BYTES)
-  throw new Error(`bundle is ${code.length} bytes; limit ${MAX_BYTES} (Bankr deploy API 413)`);
 
 const header = [
   "// @ts-nocheck",
@@ -49,8 +57,19 @@ const header = [
 ].join("\n");
 const footer = `\nexport default async function handler(req: Request): Promise<Response> {\n  return ${inner}(req);\n}\n`;
 
+const file = header + code + footer;
+// Bankr's deploy API returns 413 above about 100 KiB of request body, which carries the file JSON-encoded:
+// accepted 98,572 encoded bytes (v8), rejected 102,582 (first v9 attempt) and 137 KB (Phase 3). The exact limit is
+// unpublished, so keep a margin. A 413 at deploy leaves the live version untouched.
+const MAX_ENCODED_BYTES = 100_000;
+const encoded = JSON.stringify(file).length;
+if (encoded > MAX_ENCODED_BYTES)
+  throw new Error(
+    `handler is ${encoded} bytes JSON-encoded; limit ${MAX_ENCODED_BYTES} (Bankr deploy API 413)`,
+  );
+
 mkdirSync(dirname(outFile), { recursive: true });
-writeFileSync(outFile, header + code + footer);
+writeFileSync(outFile, file);
 
 // Bankr service config and listing text (deployed only by the owner via the CLI; never by this script).
 const config = {
