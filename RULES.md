@@ -1,4 +1,4 @@
-# Breakra — Compatibility Rule Set 0.2.0
+# Breakra — Compatibility Rule Set 0.3.0
 
 Implemented in `src/core/classify.ts`. Covered by `tests/rules.test.ts`, `tests/bakeoff.test.ts`, and cross-checked against oasdiff (`scripts/oracle.ts`).
 Every finding has `rule` = `<direction>.<kind>`. Bump `RULE_SET_VERSION` (`src/version.ts`) on **any** change to these rules.
@@ -9,7 +9,7 @@ Every finding has `rule` = `<direction>.<kind>`. Bump `RULE_SET_VERSION` (`src/v
 |---|---|
 | `breaking` | Existing callers **will** fail. Used only where that's certain (a removed operation). |
 | `potentially_breaking` | **May** break consumers depending on how they use the API. Review needed. |
-| `unknown` | Changed in a way rule set 0.2.0 doesn't evaluate. Never silently ignored. |
+| `unknown` | Changed in a way rule set 0.3.0 doesn't evaluate. Never silently ignored. |
 | `compatible` | Existing well-behaved consumers are unaffected. |
 | `non_contract` | Documentation or metadata only. |
 
@@ -95,6 +95,16 @@ Keyword effects:
 | `webhooks`, `jsonSchemaDialect`, `$defs`, other 3.1-only document parts | unknown (document) | unknown (document) |
 
 In 3.0 documents, boolean `exclusiveMinimum` / `exclusiveMaximum` keep their 0.1.0 meaning (a modifier on `minimum` / `maximum`).
+
+## Rule set 0.3.0 (engine 0.3.0, D-050)
+
+Fixes from issues found by Orric on public APIs; the rules themselves are listed above.
+
+- A whole `enum` introduced (dropped) is one `enum_introduced` (`enum_removed`) finding: potentially_breaking on the request side and compatible on the response side (the reverse for dropped). Before, an introduced request enum read as values added (a false safe).
+- Changes inside `example`, `examples`, `description`, `externalDocs`, `xml` and `x-*` anywhere in a schema are `non_contract` (they were `unknown`).
+- A leaf `$ref` option of `anyOf`/`oneOf` is compared as the schema it points to, so moving an inline option to a shared component is not reported as values removed.
+- OpenAPI 3.1.2 is accepted (3.1.0–3.1.2).
+- Engine limit: a `oneOf`/`anyOf` over 24 options (64 in the local tools) whose options are both replaced and added is refused with `SPEC_TOO_COMPLEX`, because comparing it takes minutes. Unchanged unions, and unions that only gain or only lose options, are compared normally.
 
 ## Verdict and version advice (engine 0.2.0)
 

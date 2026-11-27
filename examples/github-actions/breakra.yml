@@ -33,4 +33,4 @@ jobs:
             exit 0
           fi
           git show "origin/$BASE:$SPEC" > "$RUNNER_TEMP/base-contract"
-          npx -y breakra@0.3.1 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"
+          npx -y breakra@0.4.0 check "$RUNNER_TEMP/base-contract" "$SPEC" --fail-on "$FAIL_ON"

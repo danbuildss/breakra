@@ -1,8 +1,9 @@
+import { RULE_SET_VERSION } from "../version";
 import type { RawDiff } from "./compare";
 import { isObject, type Json, resolveLocalRef } from "./validate";
 
 /**
- * Breakra rule set 0.2.0 (RULES.md). Pure, deterministic mapping from raw structural changes to
+ * Breakra rule set (RULE_SET_VERSION, RULES.md). Pure, deterministic mapping from raw structural changes to
  * findings. api-smart-diff's own labels are never consulted (D-013, D-020).
  *
  * Core principle for schemas:
@@ -310,7 +311,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
         direction,
         operation,
         location: { ...base, field: field || undefined, keyword: "not" },
-        reason: `A schema inside \`not\` changed in ${subject}${field ? ` (field \`${field}\`)` : ""}; rule set 0.2.0 does not evaluate negated schemas.`,
+        reason: `A schema inside \`not\` changed in ${subject}${field ? ` (field \`${field}\`)` : ""}; rule set ${RULE_SET_VERSION} does not evaluate negated schemas.`,
         action: `Review ${subject} of ${opName(operation)} manually.`,
       });
     } else {
@@ -583,7 +584,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
       direction,
       operation,
       location: loc(field, kw || undefined),
-      reason: `A schema construct (\`${terminal.join(".")}\`) changed in ${subject}; rule set 0.2.0 does not evaluate it.`,
+      reason: `A schema construct (\`${terminal.join(".")}\`) changed in ${subject}; rule set ${RULE_SET_VERSION} does not evaluate it.`,
       action: `Review ${subject} of ${opName(operation)} manually.`,
     });
   }
@@ -635,7 +636,7 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
       effect === "meta"
         ? `Documentation (\`${kw}\`) of ${fieldLabel(field)} in ${subject} changed; no contract impact.`
         : effect === "unknown"
-          ? `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed; rule set 0.2.0 does not evaluate this keyword.`
+          ? `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed; rule set ${RULE_SET_VERSION} does not evaluate this keyword.`
           : effect === "deprecated"
             ? `${fieldLabel(field)} in ${subject} was marked deprecated.`
             : `\`${kw}\` of ${fieldLabel(field)} in ${subject} changed (${JSON.stringify(value(d.before))?.slice(0, 60)} → ${JSON.stringify(value(d.after))?.slice(0, 60)}), so the set of ${accepted} values ${EFFECT_WORD[effect]}.`,
@@ -1006,7 +1007,7 @@ function classifyParameter(
     ...base,
     kind: "parameter_change_unsupported",
     compatibility: "unknown",
-    reason: `The ${label} of ${opName(operation)} changed (\`${sub.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
+    reason: `The ${label} of ${opName(operation)} changed (\`${sub.join(".")}\`); rule set ${RULE_SET_VERSION} does not evaluate this.`,
     action: `Review the ${label} manually.`,
   });
 }
@@ -1122,7 +1123,7 @@ function classifyRequestBody(
     ...base,
     kind: "request_body_change_unsupported",
     compatibility: "unknown",
-    reason: `The request body of ${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
+    reason: `The request body of ${opName(operation)} changed (\`${rest.join(".")}\`); rule set ${RULE_SET_VERSION} does not evaluate this.`,
     action: "Review the request body manually.",
   });
 }
@@ -1296,7 +1297,7 @@ function classifyResponses(
     location: loc,
     kind: "response_change_unsupported",
     compatibility: "unknown",
-    reason: `Status ${status} of ${opName(operation)} changed (\`${rest.slice(1).join(".")}\`); rule set 0.2.0 does not evaluate this.`,
+    reason: `Status ${status} of ${opName(operation)} changed (\`${rest.slice(1).join(".")}\`); rule set ${RULE_SET_VERSION} does not evaluate this.`,
     action: "Review the response manually.",
   });
 }
@@ -1376,7 +1377,7 @@ function classifyOperation(ctx: Ctx, pathKey: string, method: string, rest: Arra
         ...base,
         kind: "callbacks_changed",
         compatibility: "unknown",
-        reason: `Callbacks of ${opName(operation)} changed; rule set 0.2.0 does not evaluate callbacks.`,
+        reason: `Callbacks of ${opName(operation)} changed; rule set ${RULE_SET_VERSION} does not evaluate callbacks.`,
         action: "Review callbacks manually.",
       });
     default:
@@ -1393,7 +1394,7 @@ function classifyOperation(ctx: Ctx, pathKey: string, method: string, rest: Arra
         ...base,
         kind: "operation_change_unsupported",
         compatibility: "unknown",
-        reason: `${opName(operation)} changed (\`${rest.join(".")}\`); rule set 0.2.0 does not evaluate this.`,
+        reason: `${opName(operation)} changed (\`${rest.join(".")}\`); rule set ${RULE_SET_VERSION} does not evaluate this.`,
         action: `Review ${opName(operation)} manually.`,
       });
   }
@@ -1578,7 +1579,7 @@ export function classify(raw: RawDiff, merged: Json): Change[] {
       compatibility: "unknown",
       direction: "document",
       operation: null,
-      reason: `\`${path.join(".")}\` changed; rule set 0.2.0 does not evaluate this.`,
+      reason: `\`${path.join(".")}\` changed; rule set ${RULE_SET_VERSION} does not evaluate this.`,
       action: "Review manually.",
     }),
   ];

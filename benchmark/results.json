@@ -1,6 +1,6 @@
 {
-  "engine_version": "0.2.0",
-  "rule_set_version": "0.2.0",
+  "engine_version": "0.3.0",
+  "rule_set_version": "0.3.0",
   "rule": "per version pair, an evenly spaced sample of up to 25 changed paths (sorted; a path counts as changed if it or any schema it references changed) that fit the request limits; paths over the limits are counted, not hidden",
   "real": {
     "cases": [
@@ -15,11 +15,11 @@
         "verdict": "review",
         "suggested_version_bump": "major",
         "summary": {
-          "total_changes": 66,
+          "total_changes": 67,
           "breaking": 0,
           "potentially_breaking": 4,
           "unknown": 0,
-          "compatible": 46,
+          "compatible": 47,
           "non_contract": 16
         },
         "top_rules": {
@@ -27,7 +27,7 @@
           "request.constraint_narrowed": 1,
           "response.enum_value_added": 1
         },
-        "analysis_id": "sha256:8f1da5798eaa9c71cad2d164e977f4edf527bc03e44e17fc458217094df67cb5",
+        "analysis_id": "sha256:55a714b39b9d990191fb68442af0d83914417cfb50ba0df9b2c9625bb474684e",
         "input_hashes": {
           "before": "sha256:ee14ca2655260d0b94cd62bc43766015489f743755c0a54a52b482286656455c",
           "after": "sha256:e3e62b95fb59805609a2d6c53dccc64dde3c377ca3439837365e907a8d088f08"
@@ -44,21 +44,19 @@
         "verdict": "review",
         "suggested_version_bump": "major",
         "summary": {
-          "total_changes": 111,
+          "total_changes": 47,
           "breaking": 0,
-          "potentially_breaking": 39,
-          "unknown": 6,
-          "compatible": 32,
-          "non_contract": 34
+          "potentially_breaking": 6,
+          "unknown": 0,
+          "compatible": 29,
+          "non_contract": 18
         },
         "top_rules": {
-          "response.property_removed": 16,
-          "response.property_became_optional": 9,
-          "request.property_removed": 8,
-          "document.reference_changed": 4,
-          "request.constraint_narrowed": 4
+          "response.schema_variant_added": 2,
+          "request.enum_introduced": 1,
+          "response.property_became_optional": 1
         },
-        "analysis_id": "sha256:3ca299a4919f458a45a7aae6ca8c7f9871234762612819d64181dd4f7623ff44",
+        "analysis_id": "sha256:946335b1581d4b2716a24354c6df66fc4b7d9ed830e0226049704498909f82f0",
         "input_hashes": {
           "before": "sha256:3b47657d799941a520d9c63c54b8689e1b82b8465b88493abd2cdd80825bcb46",
           "after": "sha256:1c85b8f24aa711501dcea03cbb4a9dab9b8c194cfee744fc726e120622fcee17"
@@ -86,7 +84,7 @@
           "response.enum_value_added": 4,
           "operation.operation_id_changed": 2
         },
-        "analysis_id": "sha256:23b687e3cbe3be4dd1e2a95617f01c515ef2736f1af1e85d49f0aa43dd662024",
+        "analysis_id": "sha256:97d6f724826f1b9230f56b901972df29a9a82ef79d2c297d746b140ec1622a33",
         "input_hashes": {
           "before": "sha256:25ff0332edf6f3e8e130b2e11d8f0e68e5fadd412ff0c2747457be6ac7cfe535",
           "after": "sha256:ffa7b3ed4dff83685108d9325620329250a9e7fdac00920d794447a729c00b08"
@@ -113,7 +111,7 @@
         "top_rules": {
           "operation.operation_removed": 1
         },
-        "analysis_id": "sha256:1951092d64dd25a0079c4d49a0a649eaa9e4c1c58ee6df9b16c35bec518900a7",
+        "analysis_id": "sha256:1496d3afe4a94d43799a74d5f7eb3348eaaee7e6b29dadc2b000cb385d28963f",
         "input_hashes": {
           "before": "sha256:a70281692bcda23f80c565c1461b8298149fcf114126f8d6ca2ecb73144cf1df",
           "after": "sha256:27ee4d1a28d8d2e50e54dbeea3aa286ffd382390f12d0d5f396db960ee187dc9"
@@ -138,7 +136,7 @@
           "non_contract": 1
         },
         "top_rules": {},
-        "analysis_id": "sha256:bbe36fea59461a46aafdd8eb8bd8c83f1d9aa2da4b5f1afae0232c47d8513f99",
+        "analysis_id": "sha256:2371bdae6cda4d1d819041212e1932db474671359945fbc32387dfd3ada0bf47",
         "input_hashes": {
           "before": "sha256:9d6f68e426e9bee790248f0ea3d9c759bf50ff166423eb0f07a6b1c66e41a9da",
           "after": "sha256:cf3ef95929111dea357658ee9aab374079b40ec515efd5d95ebf119213d0aa35"
@@ -166,7 +164,7 @@
           "response.constraint_widened": 4,
           "operation.operation_removed": 2
         },
-        "analysis_id": "sha256:a7e43b6d12e8b0a62feea200846b4d2e51ada345e3f6fa4d7aee880327fccb58",
+        "analysis_id": "sha256:dd171bb771c800372ae10190e27101c52bcdfcb20c91c562aa9280cda2927d99",
         "input_hashes": {
           "before": "sha256:24b53d96e5b2122c5682a108ed0b32a7fc543b3cc3183e17a71f151901d38a11",
           "after": "sha256:3738a52c1c828c4a6400ed10cd7bbed16247dac736c9efb6b0537fc3e6b2ae55"
@@ -193,7 +191,7 @@
         "top_rules": {
           "document.reference_changed": 4
         },
-        "analysis_id": "sha256:639d111e3a6294507ed181a4f2f2226bb973402a487baa75d7f09decb2bd9676",
+        "analysis_id": "sha256:7fbb550959037e995463296c179d975dbdfbc85aa2086d292611b239773615d0",
         "input_hashes": {
           "before": "sha256:5c2cf0d271d5dc352a7e4b961d90391db5183119d543d360dce443959491c5db",
           "after": "sha256:1e9b76cbc16ce6f5d84b4198bc3e7e70d38a39a72cbb3a640e3442d084972ddb"
@@ -249,16 +247,35 @@
       "no_changes": 2
     },
     "totals": {
-      "total_changes": 382,
+      "total_changes": 319,
       "breaking": 3,
-      "potentially_breaking": 53,
-      "unknown": 10,
-      "compatible": 234,
-      "non_contract": 82
+      "potentially_breaking": 20,
+      "unknown": 4,
+      "compatible": 232,
+      "non_contract": 66
     }
   },
   "curated": {
     "cases": [
+      {
+        "id": "anyof-inline-enum-to-shared-superset",
+        "description": "An inline enum inside anyOf is moved to a shared component that adds a value.",
+        "why": "A common refactor that only widens the request; found by Orric on OpenAI's images endpoints (D-050).",
+        "expected": {
+          "verdict": "safe",
+          "rules": [
+            "request.enum_value_added"
+          ]
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [
+            "request.enum_value_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
       {
         "id": "auth-added",
         "description": "API-key authentication becomes required for every operation.",
@@ -324,6 +341,20 @@
           "rules": [
             "operation.operation_removed"
           ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "example-nested-changed",
+        "description": "A value inside a schema's example object changes.",
+        "why": "Examples are documentation; found by Orric on OpenAI's spec (D-050).",
+        "expected": {
+          "verdict": "safe"
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [],
           "limitation": false
         },
         "pass": true
@@ -413,6 +444,25 @@
         "pass": true
       },
       {
+        "id": "oas312-accepted",
+        "description": "Two OpenAPI 3.1.2 documents; one operation added.",
+        "why": "3.1.2 is a clarification-only patch with no new keywords, so the 3.1 rules apply (D-050).",
+        "expected": {
+          "verdict": "safe",
+          "rules": [
+            "operation.operation_added"
+          ]
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [
+            "operation.operation_added"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
         "id": "optional-request-field-added",
         "description": "An optional request field `note` is added.",
         "why": "Additive and optional: existing callers are unaffected.",
@@ -439,6 +489,44 @@
           "verdict": "review",
           "rules": [
             "request.constraint_narrowed"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "request-enum-introduced-allof",
+        "description": "The same enum introduction, inside an allOf composition.",
+        "why": "Same breakage as the plain case; the composition must not hide it (D-050).",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "request.enum_introduced"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "request.enum_introduced"
+          ],
+          "limitation": false
+        },
+        "pass": true
+      },
+      {
+        "id": "request-enum-introduced",
+        "description": "A request field that accepted any string now accepts only listed values (an enum is introduced).",
+        "why": "Callers sending other values will be rejected. Found by Orric on a real API (Outline); Breakra 0.3.1 and earlier rated it safe (D-050).",
+        "expected": {
+          "verdict": "review",
+          "rules": [
+            "request.enum_introduced"
+          ]
+        },
+        "got": {
+          "verdict": "review",
+          "rules": [
+            "request.enum_introduced"
           ],
           "limitation": false
         },
@@ -512,9 +600,23 @@
           "error": "UNSUPPORTED_OPENAPI_VERSION"
         },
         "pass": true
+      },
+      {
+        "id": "vendor-extension-nested-changed",
+        "description": "A value inside an x-* vendor extension on a response schema changes.",
+        "why": "Extensions carry no contract; found by Orric on OpenAI's spec (975 such changes in one diff) (D-050).",
+        "expected": {
+          "verdict": "safe"
+        },
+        "got": {
+          "verdict": "safe",
+          "rules": [],
+          "limitation": false
+        },
+        "pass": true
       }
     ],
-    "passed": 15,
-    "total": 15
+    "passed": 21,
+    "total": 21
   }
 }

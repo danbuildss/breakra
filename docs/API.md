@@ -1,4 +1,4 @@
-# Breakra — API Contract (engine 0.2.0, rule set 0.2.0)
+# Breakra — API Contract (engine 0.3.0, rule set 0.3.0)
 
 **Status:** **LIVE** on Bankr x402 Cloud (Phase 3, 2026-10-08): `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` (one URL per deployment; there is no `/v1/analyze` path on Bankr). Price: $0.02 USDC on Base, paid via x402.
 
@@ -16,7 +16,7 @@ Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unc
   "uses":   [{ "method": "GET", "path": "/orders/{id}" }] }
 ```
 
-- `before` / `after`: inline **OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1** documents, each a JSON object **or** JSON/YAML text (engine 0.2.0). Swagger 2.0, OpenAPI 3.2 and URL inputs are not supported.
+- `before` / `after`: inline **OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.2** documents, each a JSON object **or** JSON/YAML text (engine 0.3.0). Swagger 2.0, OpenAPI 3.2 and URL inputs are not supported.
 - `uses` (optional, 1–1,000 entries): the operations the caller depends on. Adds `impact` to the result. Path parameter names don't need to match.
 - Body ≤ **1 MB** total (D-031: Bankr's runtime is about 9× slower than local; this keeps the worst case well under Bankr's 30 s cap). Other bounds are listed in `BENCHMARKS.md`.
 - Local `$ref`s (`#/…`) are resolved, including circular ones. **External `$ref`s are never fetched**; they're reported in `limitations` and as `unknown` changes.
@@ -27,8 +27,8 @@ Also reachable as `POST https://breakra.dev/api/analyze`: Vercel forwards it unc
 {
   "status": "success",
   "analysis_id": "sha256:…",
-  "engine_version": "0.2.0",
-  "rule_set_version": "0.2.0",
+  "engine_version": "0.3.0",
+  "rule_set_version": "0.3.0",
   "spec_versions": { "before": "3.0.3", "after": "3.0.3" },
   "compatibility": "potentially_breaking",
   "summary": { "total_changes": 2, "breaking": 0, "potentially_breaking": 1, "unknown": 0, "compatible": 1, "non_contract": 0 },
@@ -76,7 +76,7 @@ Only a response in this shape proves nothing was charged. A gateway error (502/5
 | 413 | `PAYLOAD_TOO_LARGE` | Body > **1 MB** (D-031; Bankr's gateway also rejects > ~5 MB before payment) | no |
 | 422 | `INVALID_SPECIFICATION` | Missing or invalid `openapi`/`info`/`paths`, a malformed path or operation, a dangling local `$ref` | no |
 | 422 | `UNSUPPORTED_OPENAPI_VERSION` | Swagger 2.0, OpenAPI 3.2+ | no |
-| 422 | `SPEC_TOO_COMPLEX` | Nesting, node, operation or expanded-size (`$ref` amplification) limits exceeded | no |
+| 422 | `SPEC_TOO_COMPLEX` | Nesting, node, operation or expanded-size (`$ref` amplification) limits exceeded, or a `oneOf`/`anyOf` over 24 options had options both replaced and added | no |
 | 500 | `ANALYSIS_FAILED` | Unexpected internal error (sanitized; nothing internal is exposed) | yes |
 
 Error messages never echo submitted content or internal details.
