@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: danbuildss/breakra-action@v1.1.0
+      - uses: danbuildss/breakra-action@v1.3.0
         with:
           spec: openapi.json
           fail-on: review
