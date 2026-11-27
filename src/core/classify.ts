@@ -68,6 +68,27 @@ function getAt(root: Json, path: Array<string | number>): Json | undefined {
 }
 
 /**
+ * The whole `enum` list when every entry of the merged list carries the same api-smart-diff action: "add" means
+ * the schema had no `enum` before (introduced), "remove" means it has none now (dropped). Undefined when the list
+ * existed on both sides (some entries unchanged or replaced).
+ */
+function enumWholesale(
+  merged: Json,
+  schemaPath: Array<string | number>,
+  action: "add" | "remove",
+): Json[] | undefined {
+  const schema = getAt(merged, schemaPath);
+  if (!isObject(schema ?? null)) return undefined;
+  const node = schema as Record<string, Json>;
+  const values = node.enum;
+  const meta = (node.$diff as Record<string, Json> | undefined)?.enum as Record<string, Json> | undefined;
+  const entries = isObject(meta?.array ?? null) ? Object.values(meta?.array as Record<string, Json>) : [];
+  if (!Array.isArray(values) || values.length === 0 || entries.length !== values.length) return undefined;
+  return entries.every((e) => isObject(e) && (e as Record<string, Json>).action === action)
+    ? values
+    : undefined;
+}
+/**
  * Follows a local `$ref` (and chains of them) to its target in the merged document. api-smart-diff
  * reports a whole added/removed object as written, so a `$ref` parameter, request body or response must
  * be resolved before its `required`, `name` or `in` can be read. Unresolvable refs are returned as is.
@@ -392,6 +413,62 @@ function classifySchema(ctx: Ctx, place: SchemaPlace, schemaPath: Array<string |
     if (removed.length && !added.length)
       return requiredChange(ctx, place, loc(field), names(removed), "removed");
     return requiredChange(ctx, place, loc(field), names([...added, ...removed]), "changed");
+  }
+
+  // An enum introduced where there was none (D-050, Orric #14). api-smart-diff reports it as one "add" per
+  // value, which would read as values added to an existing list. For a request, no `enum` means "any value",
+  // so introducing one restricts what callers may send: one potentially breaking change, not N compatible ones.
+  if (keyword === "enum" && typeof last === "number" && terminal.length === 2 && d.action === "add") {
+    const introduced = enumWholesale(ctx.merged, d.path.slice(0, -2), "add");
+    if (introduced) {
+      const list = JSON.stringify(introduced)?.slice(0, 120);
+      return {
+        ...make(ctx, {
+          kind: "enum_introduced",
+          compatibility: direction === "request" ? "potentially_breaking" : "compatible",
+          direction,
+          operation,
+          location: loc(field, "enum"),
+          reason:
+            direction === "request"
+              ? `${fieldLabel(field)} in ${subject} accepted any value and now accepts only ${list}. Callers sending other values may be rejected.`
+              : `${fieldLabel(field)} in ${subject} is now limited to ${list}; consumers receive a subset of what they could before.`,
+          action:
+            direction === "request"
+              ? `Check that callers of ${opName(operation)} only send ${list} for ${fieldLabel(field)}.`
+              : "No action required.",
+        }),
+        // One finding for the whole list: identical evidence from every value, so duplicates collapse.
+        evidence: { path: ctx.displayPath.slice(0, -1), before: null, after: introduced },
+      };
+    }
+  }
+
+  // The mirror case: the whole `enum` dropped. A request field then accepts any value (compatible); a response
+  // field may now return values outside the old list (potentially breaking for exhaustive consumers).
+  if (keyword === "enum" && typeof last === "number" && terminal.length === 2 && d.action === "remove") {
+    const dropped = enumWholesale(ctx.merged, d.path.slice(0, -2), "remove");
+    if (dropped) {
+      const list = JSON.stringify(dropped)?.slice(0, 120);
+      return {
+        ...make(ctx, {
+          kind: "enum_removed",
+          compatibility: direction === "request" ? "compatible" : "potentially_breaking",
+          direction,
+          operation,
+          location: loc(field, "enum"),
+          reason:
+            direction === "request"
+              ? `${fieldLabel(field)} in ${subject} was limited to ${list} and now accepts any value.`
+              : `${fieldLabel(field)} in ${subject} was limited to ${list} and may now return any value. Consumers with exhaustive handling may receive values they do not expect.`,
+          action:
+            direction === "request"
+              ? "No action required."
+              : `Handle values of ${fieldLabel(field)} outside ${list} in consumers of ${opName(operation)}.`,
+        }),
+        evidence: { path: ctx.displayPath.slice(0, -1), before: dropped, after: null },
+      };
+    }
   }
 
   // Enum values: [..., "enum", i]

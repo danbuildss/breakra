@@ -1,0 +1,55 @@
+{
+  "description": "Two OpenAPI 3.1.2 documents; one operation added.",
+  "why": "3.1.2 is a clarification-only patch with no new keywords, so the 3.1 rules apply (D-050).",
+  "before": {
+    "openapi": "3.1.2",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/a": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    }
+  },
+  "after": {
+    "openapi": "3.1.2",
+    "info": {
+      "title": "t",
+      "version": "1"
+    },
+    "paths": {
+      "/a": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      },
+      "/b": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "ok"
+            }
+          }
+        }
+      }
+    }
+  },
+  "expect": {
+    "verdict": "safe",
+    "rules": [
+      "operation.operation_added"
+    ]
+  }
+}
