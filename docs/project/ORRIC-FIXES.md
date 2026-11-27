@@ -13,4 +13,5 @@ comparisons to confirm.
 | 3 | OpenAI: values inside `x-*` vendor extensions (975 in one diff) | REVIEW (unknown) | SAFE: documentation only | #70 |
 | 4 | OpenAI: values inside `example` objects (62 in one diff) | REVIEW (unknown) | SAFE: documentation only | #70 |
 | 2 | OpenAI `POST /images/*` `output_format`: inline enum inside `anyOf` moved to a shared enum that adds `gif`/`svg` | REVIEW ("png, jpeg removed", "default changed") | SAFE: `enum_value_added` | #70 |
-| 16 | WorkOS `GET /events`: one path took 115 s to analyse (a 128 → 138-option `oneOf` whose options changed) | ~2 minutes, past the hosted 30 s cap | refused in under 0.1 s (`SPEC_TOO_COMPLEX`, "compare only the paths you use"); unions that only gain options, like GitHub's, still check normally | PR 3 |
+| 16 | WorkOS `GET /events`: one path took 115 s to analyse (a 128 → 138-option `oneOf` whose options changed) | ~2 minutes, past the hosted 30 s cap | refused in under 0.1 s (`SPEC_TOO_COMPLEX`, "compare only the paths you use"); unions that only gain options, like GitHub's, still check normally | #71 |
+| — | (found while releasing) GitHub 18→19 `GET /orgs/{org}/rulesets`: a `oneOf` of `$ref` options, listed in our benchmark as likely over-reporting | REVIEW: 8 "property removed" + 4 "became optional" | none: the options are compared as the schemas they point to | #70 |

@@ -26,7 +26,7 @@
 |---|---|---|---|
 | GitHub 20→21 | `operation_removed`: GET /users/{user_id}/projectsV2/{project_number}/fields/{field_id} | Absent from the **full** v21 spec? | ✅ Confirmed |
 | GitHub 22→23 | `operation_removed`: GET and PATCH /organizations/{org}/dependabot/repository-access | Absent from the full v23 spec? | ✅ Confirmed (both) |
-| GitHub 18→19 | `response.property_removed` inside `oneOf` branches 15/16 of GET /orgs/{org}/rulesets | Real removal, or reordered variants? | ⚠️ **Likely over-reporting.** The diff library compares `oneOf` variants by position, so a reorder or removal of variants shows up as removed properties. It errs toward "review", never toward "safe". |
+| GitHub 18→19 | `response.property_removed` inside `oneOf` branches 15/16 of GET /orgs/{org}/rulesets (engine 0.2.0) | Real removal, or reordered variants? | ✅ **Was over-reporting; fixed in engine 0.3.0.** The `oneOf` options are `$ref`s. Engine 0.3.0 compares a leaf `$ref` option as the schema it points to (D-050): 0.3.1 reported 8 removed and 4 newly optional properties on this operation, 0.4.0 reports none. |
 
 ## Known limitations surfaced
 - **Very large APIs (Stripe) are not assessed within the limits.** Every changed Stripe operation, even alone, expands past 75,000 nodes once `$ref`s are resolved. Breakra refuses such input (a free 422) rather than risk a timeout, and the benchmark reports these pairs as **not assessed**. Raising the local CLI's limits (it has no 30 s gateway cap) is a roadmap candidate.

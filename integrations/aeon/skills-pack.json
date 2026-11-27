@@ -1,6 +1,6 @@
 {
   "name": "Breakra",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Check whether an OpenAPI change may break API callers before it ships (free Breakra CLI, deterministic, no keys)",
   "author": "danbuildss",
   "license": "MIT",

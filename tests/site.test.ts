@@ -23,7 +23,7 @@ describe("site/index.html content", () => {
     expect(text).toContain("$0.02 USDC on Base, only on a 200");
     expect(LIMITS.maxBodyBytes).toBe(1024 * 1024);
     expect(text).toContain("≤ 1 MB");
-    expect(text).toContain("OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1");
+    expect(text).toContain("OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.2");
     expect(text).toContain(`Engine ${ENGINE_VERSION}`);
     expect(text).toContain("npx -y breakra check"); // the free local path (npm) is on the page
   });

@@ -24,7 +24,7 @@
 [![license](https://img.shields.io/badge/license-MIT-F4EFE1?style=flat-square&labelColor=0d0c0a)](LICENSE)
 [![price](https://img.shields.io/badge/price-%240.02%20USDC-F4EFE1?style=flat-square&labelColor=0d0c0a)](#how-payment-works)
 [![x402](https://img.shields.io/badge/x402-Base-F4EFE1?style=flat-square&labelColor=0d0c0a)](https://www.x402.org)
-[![engine](https://img.shields.io/badge/engine-0.2.0-F4EFE1?style=flat-square&labelColor=0d0c0a)](RULES.md)
+[![engine](https://img.shields.io/badge/engine-0.3.0-F4EFE1?style=flat-square&labelColor=0d0c0a)](RULES.md)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0%20%7C%203.1-F4EFE1?style=flat-square&labelColor=0d0c0a)](https://spec.openapis.org/oas/v3.0.3)
 
 </div>
@@ -65,7 +65,7 @@ npx -y breakra check old.yaml new.yaml --use "GET /orders/{id}" --fail-on review
 claude mcp add --scope user breakra -- npx -y breakra mcp                 # MCP tool: check_openapi_change
 ```
 
-Pin a version in CI or agent configs (`npx -y breakra@0.3.1 …`). From source instead: `git clone --branch v0.3.1 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install && bun src/cli.ts check old.yaml new.yaml`.
+Pin a version in CI or agent configs (`npx -y breakra@0.4.0 …`). From source instead: `git clone --branch v0.4.0 --depth 1 https://github.com/danbuildss/breakra && cd breakra && bun install && bun src/cli.ts check old.yaml new.yaml`.
 
 Exit codes: `0` below `--fail-on` (default `block`), `1` at or above it, `2` error. `--json` prints the hosted API's exact result.
 
@@ -146,9 +146,10 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 
 ## Limits and privacy
 
-- OpenAPI **3.0.0–3.0.4 and 3.1.0–3.1.1**, as JSON objects or JSON/YAML text, inline. Not supported: Swagger 2.0, OpenAPI 3.2, URL inputs.
+- OpenAPI **3.0.0–3.0.4 and 3.1.0–3.1.2**, as JSON objects or JSON/YAML text, inline. Not supported: Swagger 2.0, OpenAPI 3.2, URL inputs.
 - Hosted API: request body ≤ **1 MB**; nesting, operation and `$ref`-expansion limits apply. Over a limit → a free 413 or 422.
 - Free local CLI, MCP server and GitHub Action: up to **25 MB per file**, 20,000 operations and 5,000,000 nodes once `$ref`s are expanded, so whole GitHub-scale contracts work (GitHub's full REST description: about 8 s). Contracts whose shared schemas expand far beyond that (Stripe's) are refused with a hint to compare only the paths you use.
+- A `oneOf`/`anyOf` with more than 24 options (64 locally) whose options are both replaced and added is refused with `SPEC_TOO_COMPLEX`: comparing it option by option takes minutes. Unions that only gain or only lose options are checked normally.
 - For bodies over **500 KB**, use the direct Bankr URL above rather than `breakra.dev/api/analyze`: the forward adds a hop with its own proxy timeout.
 - External `$ref`s are **never fetched**; they're listed in `limitations`.
 - Submitted contracts are **not stored or logged**. Logs hold only outcome, size, change count, duration and the paying address.
@@ -164,7 +165,7 @@ Each finding carries a stable `rule` id, the `operation`, a `location` (paramete
 | [`SKILL.md`](SKILL.md) | Agent guide: when to call, payment terms, reading results |
 | [`docs/API.md`](docs/API.md) | Request, response and error reference |
 | [`openapi.json`](openapi.json) | Machine-readable contract of the endpoint |
-| [`RULES.md`](RULES.md) | Every classification rule (rule set 0.2.0) |
+| [`RULES.md`](RULES.md) | Every classification rule (rule set 0.3.0) |
 | [`examples/`](examples/) | Sample request and response, paying client, curl, [GitHub Actions](examples/github-actions/) (the official [breakra-action](https://github.com/danbuildss/breakra-action), or a plain workflow) |
 | [`demo/github-rest-api/`](demo/github-rest-api/) | Real-world run on GitHub's API description |
 | [`SECURITY.md`](SECURITY.md) | Reporting vulnerabilities privately |

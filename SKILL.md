@@ -17,7 +17,7 @@ Breakra compares two OpenAPI 3.0/3.1 contracts (JSON or YAML) and tells you whet
 6. **An error or an `unknown` finding is never proof of safety.** If the check fails (CLI exit code `2`, MCP `isError: true`, any non-200), the change is unchecked: say so and don't approve it.
 
 **Two ways to run it:**
-- **Free and local** (no wallet, nothing leaves your machine; Node.js 20+): `npx -y breakra@0.3.1 check before.yaml after.yaml` ([npm](https://www.npmjs.com/package/breakra), no dependencies; exit code `0` = below `--fail-on`, `1` = at or above it, `2` = error, never safe; errors name the file and the line, and end with a `→` next step; with `--json` an error is the hosted error body plus `error.hint`). As an MCP server: `claude mcp add --scope user breakra -- npx -y breakra@0.3.1 mcp` (tool: `check_openapi_change`). Source and release checksums: [github.com/danbuildss/breakra](https://github.com/danbuildss/breakra/releases).
+- **Free and local** (no wallet, nothing leaves your machine; Node.js 20+): `npx -y breakra@0.4.0 check before.yaml after.yaml` ([npm](https://www.npmjs.com/package/breakra), no dependencies; exit code `0` = below `--fail-on`, `1` = at or above it, `2` = error, never safe; errors name the file and the line, and end with a `→` next step; with `--json` an error is the hosted error body plus `error.hint`). As an MCP server: `claude mcp add --scope user breakra -- npx -y breakra@0.4.0 mcp` (tool: `check_openapi_change`). Source and release checksums: [github.com/danbuildss/breakra](https://github.com/danbuildss/breakra/releases).
 - **Hosted** (nothing to install, pay per call): the endpoint below.
 
 - **Endpoint:** `POST https://x402.bankr.bot/0xb98f0de777eea8c481b64e33d3e0066cea38fa91/breakra-analyze` (also `POST https://breakra.dev/api/analyze`, which forwards to it: same terms, same result). For a request body over **500 KB**, call the Bankr URL directly: the breakra.dev forward adds a network hop with its own proxy timeout, so a slow large call could be cut off after Bankr has already charged it.
@@ -40,10 +40,10 @@ Don't use it for: Swagger 2.0, OpenAPI 3.2, contracts given only as URLs (fetch 
   "uses":   [{ "method": "GET", "path": "/orders/{id}" }] }
 ```
 
-- `before` and `after`: each a whole inline OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.1 document, as a JSON object **or** as JSON/YAML text (a string).
+- `before` and `after`: each a whole inline OpenAPI 3.0.0–3.0.4 or 3.1.0–3.1.2 document, as a JSON object **or** as JSON/YAML text (a string).
 - `uses` (optional): the operations your code calls. The result then has an `impact` section: a verdict for **those operations** and the ids of the findings that touch them. This is usage-based filtering of contract changes: Breakra doesn't read your code, so it can't prove how your code behaves. Path parameter names don't need to match (`/orders/{id}` = `/orders/{orderId}`).
 - Local `$ref`s (`#/…`) are resolved, including circular ones. External `$ref`s are **never fetched**: they're listed in `limitations`. Inline them first if they matter.
-- Limits: 1 MB body (1,048,576 bytes for the whole JSON request), nesting 64, 5,000 operations, 75,000 nodes once `$ref`s are expanded. Over a limit → a free 413 or 422.
+- Limits: 1 MB body (1,048,576 bytes for the whole JSON request), nesting 64, 5,000 operations, 75,000 nodes once `$ref`s are expanded, and a `oneOf`/`anyOf` over 24 options whose options are both replaced and added. Over a limit → a free 413 or 422.
 
 ## Paying (x402)
 
@@ -124,8 +124,8 @@ A reference client that checks every term above, signs once and treats ambiguous
 | 405 | `METHOD_NOT_ALLOWED` | Use POST |
 | 413 | `PAYLOAD_TOO_LARGE` | Body over 1 MB: drop unrelated paths from both contracts and compare in parts |
 | 422 | `INVALID_SPECIFICATION` | Missing `openapi`/`info`/`paths`, a malformed path or operation, or a `$ref` that doesn't resolve |
-| 422 | `UNSUPPORTED_OPENAPI_VERSION` | Only OpenAPI 3.0.0–3.0.4 and 3.1.0–3.1.1 are supported (no Swagger 2.0) |
-| 422 | `SPEC_TOO_COMPLEX` | Too deep, too many operations, or `$ref`s expand too far: compare a subset of paths |
+| 422 | `UNSUPPORTED_OPENAPI_VERSION` | Only OpenAPI 3.0.0–3.0.4 and 3.1.0–3.1.2 are supported (no Swagger 2.0) |
+| 422 | `SPEC_TOO_COMPLEX` | Too deep, too many operations, `$ref`s expand too far, or a large `oneOf`/`anyOf` was rewritten: compare a subset of paths |
 | 500 | `ANALYSIS_FAILED` | Unexpected; retry once with the same input |
 
 Error bodies look like `{"status":"error","error":{"code":"…","message":"…","retryable":false}}` and never echo your input. Only a response in this shape proves nothing was charged.

@@ -464,6 +464,8 @@ Price hypothesis stays at $0.02 USDC per successful analysis (D-011). No scope e
 
 **Versioning:** these change classifications, so the rule set and engine go to **0.3.0**. The bump, the regenerated outputs (examples, demo, partner-kit ids, site demo, benchmark summary), the 3.1.2 doc updates, npm 0.4.0 and the Bankr redeploy happen **together in one release PR after PR 3**. Until then `main` carries the fixes under the 0.2.0 labels, so no published doc or hosted endpoint claims a version that isn't live. That release changes every `analysis_id`.
 
+*Release PR (after #71):* engine and rule set 0.3.0, package 0.4.0; examples, demo, partner-kit ids, site demo, demo card and benchmark regenerated; 3.1.2 and the changed-union limit stated in README, SKILL.md, docs/API.md, openapi.json and the site. Side effect found while regenerating: the documented GitHub 18→19 rulesets `oneOf` over-report is gone (0.3.1: 8 removed + 4 newly optional properties; 0.4.0: none), from PR 2's `$ref`-option change. Owner: publish npm 0.4.0, MCP Registry, tag v0.4.0, redeploy Bankr (v9), then bump the Action default; then Orric re-runs.
+
 **Then:** Orric re-runs its comparisons to confirm the fixes ("6 → 0").
 
 ## New decision template

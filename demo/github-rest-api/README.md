@@ -11,7 +11,7 @@ Paths: `/teams/{team_id}/discussions`, `/repos/{owner}/{repo}/tags/protection`, 
 
 ## Result
 
-`compatibility: "breaking"`, `verdict: "block"`, `suggested_version_bump: "major"`, `analysis_id: sha256:0e85c13d9114fc2dc547219abcb93c124c4cf9046520634d50883ab2c070e078` (engine 0.2.0, rule set 0.2.0). Full output: [`response.json`](response.json).
+`compatibility: "breaking"`, `verdict: "block"`, `suggested_version_bump: "major"`, `analysis_id: sha256:ac75418afca58d08f961bb2d27482769934c247e3394096e8a77bbccaf1a3477` (engine 0.3.0, rule set 0.3.0). Full output: [`response.json`](response.json).
 
 | Class | Count |
 |---|---|
@@ -50,6 +50,6 @@ A new optional `exclude` query parameter on the timeline; `consumed_amount` and 
 
 ## Limits shown here
 
-- Only six paths, so it fits the hosted API's 1 MB limit. The free local CLI compares the full description: `@octokit/openapi` 22.0.0 → 24.0.0 (about 7 MB each) takes about 8 s, with 3,178 changes (57 breaking).
+- Only six paths, so it fits the hosted API's 1 MB limit. The free local CLI compares the full description: `@octokit/openapi` 22.0.0 → 24.0.0 (about 7 MB each) takes about 8 s, with 3,390 changes (57 breaking, 849 documentation only; engine 0.3.0).
 - Findings are about the contract, not runtime behaviour.
 - GitHub's API description: © GitHub, distributed by [`github/rest-api-description`](https://github.com/github/rest-api-description) and `@octokit/openapi` under the MIT license.

@@ -115,8 +115,8 @@ Breakra is deterministic: the same contracts always give the same `analysis_id`,
 
 | Change | Verdict | Bump | Finding | `analysis_id` |
 |---|---|---|---|---|
-| 1. `POST /orders` removed | `block` | `major` | breaking: Operation POST /orders was removed. Callers of it will receive errors. Fix: Find and replace all calls to POST /orders. | `sha256:31f82ae74e79415f71c30fc6e0fa961c22a3ac16f941be5d6ddccd983909cb39` |
-| 2. `GET /customers` added | `safe` | `minor` | none that may break callers (New operation GET /customers.) | `sha256:f32d9a2fc36710002398255d53271d91cf6ccc7a208122d6afdab81058769d68` |
+| 1. `POST /orders` removed | `block` | `major` | breaking: Operation POST /orders was removed. Callers of it will receive errors. Fix: Find and replace all calls to POST /orders. | `sha256:fa72eedb24d6144a0111e2d61424d56d18c65aa51952aabe436d0ae16463c51f` |
+| 2. `GET /customers` added | `safe` | `minor` | none that may break callers (New operation GET /customers.) | `sha256:83254adf239de1a53f3afbd6408648aa70f25cfe4dd5c1cb52901db8983ffecc` |
 
 A matching `analysis_id` proves the answer came from a real Breakra call on exactly these contracts.
 
@@ -124,9 +124,9 @@ A matching `analysis_id` proves the answer came from a real Breakra call on exac
 
 ```bash
 git clone --depth 1 https://github.com/danbuildss/breakra && cd breakra/integrations/fixtures
-npx -y breakra@0.3.1 check breaking/before.yaml breaking/after.yaml   # verdict: block, exit 1
-npx -y breakra@0.3.1 check safe/before.yaml safe/after.yaml           # verdict: safe, exit 0
-npx -y breakra@0.3.1 check breaking/before.yaml breaking/after.yaml --json | grep analysis_id
+npx -y breakra@0.4.0 check breaking/before.yaml breaking/after.yaml   # verdict: block, exit 1
+npx -y breakra@0.4.0 check safe/before.yaml safe/after.yaml           # verdict: safe, exit 0
+npx -y breakra@0.4.0 check breaking/before.yaml breaking/after.yaml --json | grep analysis_id
 ```
 
 ## Files

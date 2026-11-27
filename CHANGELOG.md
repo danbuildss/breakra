@@ -2,7 +2,6 @@
 
 ## Unreleased
 
-- **Engine fixes from Orric** (D-050, ship together in 0.4.0 with rule set and engine 0.3.0): an `enum` introduced on a request field is now potentially breaking (it was a false SAFE), and a whole `enum` dropped from a request is compatible (it was a false REVIEW); OpenAPI 3.1.2 is accepted. Changes inside `example` objects and `x-*` extensions are documentation only (they were unknown), and an inline enum inside `anyOf`/`oneOf` moved to a shared component is compared by its values (it read as values removed). A large `oneOf`/`anyOf` whose options are replaced between the documents (more than 24 options hosted, 64 locally) is refused in under a second with `SPEC_TOO_COMPLEX` and a hint to compare only the paths you use; WorkOS `GET /events` (138 options) took about 2 minutes. Unions that only gain or only lose options are unaffected.
 - **GitHub Action v1.1.0:** `fail-on` defaults to `review`, so new required fields and removed response fields fail the check; `block` keeps the old behaviour. Breakra's own check and the site use it.
 - **GitHub Action** (D-047): [`danbuildss/breakra-action`](https://github.com/danbuildss/breakra-action) `v1.0.0` on the GitHub Marketplace. One step checks every pull request that changes your OpenAPI contract, keeps one comment with each change, its reason and fix, and fails the check at `block` or `review`. Breakra's own contract check uses it; the site and examples show it.
 - **Status page** (D-046): breakra.dev/status shows the health of the hosted API, the breakra.dev forward, the website, agent files, npm package and MCP Registry entry, checked every 15 minutes by GitHub Actions (unpaid checks; results stored on a `status` branch). Also npm downloads, a "What we build" section on About, and private, cookieless Vercel Web Analytics and Speed Insights.
@@ -13,6 +12,13 @@
 - **Partner proof kits** (`integrations/`): a Bankr kit (install the skill from GitHub, two-message hosted check) and an Aeon community skill pack (`breakra-check`, read-only, pinned to `breakra@0.2.2`), with shared fixtures and engine-generated expected results.
 - **GitHub Actions example** (`examples/github-actions/breakra.yml`): fail a pull request when its OpenAPI contract may break callers, using the free CLI. Tested end to end in a temporary git repository (`tests/examples.test.ts`); the same file is shown on breakra.dev/integrations.
 - **Benchmark** (`benchmark/`, `bun run benchmark`): 11 real version pairs of GitHub's and Stripe's API specs plus 15 curated scenarios with expected outcomes (15/15 pass). Hand-checked findings and known limits (Stripe-scale schemas exceed the limits; position-based `oneOf` comparison can over-report) are documented.
+
+## 0.4.0 (package; engine 0.3.0, rule set 0.3.0)
+
+- **Engine fixes from Orric** (D-050): an `enum` introduced on a request field is now potentially breaking (it was a false SAFE), and a whole `enum` dropped from a request is compatible (it was a false REVIEW); OpenAPI 3.1.2 is accepted. Changes inside `example` objects and `x-*` extensions are documentation only (they were unknown), and an inline enum inside `anyOf`/`oneOf` moved to a shared component is compared by its values (it read as values removed). A large `oneOf`/`anyOf` whose options are replaced between the documents (more than 24 options hosted, 64 locally) is refused in under a second with `SPEC_TOO_COMPLEX` and a hint to compare only the paths you use; WorkOS `GET /events` (138 options) took about 2 minutes. Unions that only gain or only lose options are unaffected.
+- Every `analysis_id` changes (engine and rule set versions are part of it). The GitHub demo gives the same 59 changes.
+- Reason strings quote the rule set version from one constant.
+- Benchmark: 21 curated scenarios (6 new for these fixes), 21/21 as expected.
 
 ## 0.3.1 (package; engine 0.2.0 and rule set 0.2.0 unchanged)
 
