@@ -5,7 +5,7 @@
 [`breakra-action.yml`](breakra-action.yml) uses [`danbuildss/breakra-action`](https://github.com/danbuildss/breakra-action): one step, one pull-request comment with every change, its reason and fix, updated on each push, and a pass/fail check.
 
 ```yaml
-- uses: danbuildss/breakra-action@v1.1.0
+- uses: danbuildss/breakra-action@v1.3.0
   with:
     spec: openapi.yaml
 ```
